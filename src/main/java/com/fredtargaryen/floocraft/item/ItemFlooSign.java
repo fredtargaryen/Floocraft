@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import com.fredtargaryen.floocraft.DataReference;
 
 public class ItemFlooSign extends Item
 {
@@ -33,7 +34,7 @@ public class ItemFlooSign extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister i)
 	{
-		this.itemIcon = i.registerIcon("ftfloocraft:"+this.getUnlocalizedName().substring(5));
+		this.itemIcon = i.registerIcon(DataReference.resPath(this.getUnlocalizedName()));
 	}
 	
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int x, int y, int z, int side, float par8, float par9, float par10)

@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import java.util.Random;
 
+import com.fredtargaryen.floocraft.DataReference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import com.fredtargaryen.floocraft.FloocraftBase;
@@ -23,7 +24,7 @@ public class BlockFlooTorch extends BlockTorch
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister i)
 	{
-		this.blockIcon = i.registerIcon(FloocraftBase.MODID+":"+this.getUnlocalizedName().substring(5));
+		this.blockIcon = i.registerIcon(DataReference.MODID+":"+this.getUnlocalizedName().substring(5));
 	}
 	
 	@SideOnly(Side.CLIENT)

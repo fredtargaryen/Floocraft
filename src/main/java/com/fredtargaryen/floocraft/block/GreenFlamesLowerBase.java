@@ -3,11 +3,14 @@ package com.fredtargaryen.floocraft.block;
 import java.util.Random;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.Minecraft;
@@ -25,6 +28,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEntityProvider
 {
+    protected TileEntityFireplace boundSign;
 	protected TileEntityFire fireTE;
 	private int[] chanceToEncourageFire = new int[0];
 	protected int speedCount;
@@ -88,16 +92,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 				{
 					this.fireTE = (TileEntityFire) createNewTileEntity(par1World, 0);
 				}
-				this.add((EntityPlayer)par5Entity);
 			}			
-		}
-	}
-		
-	public void add(EntityPlayer e)
-	{
-		if(e instanceof EntityPlayerMP)
-		{
-			this.fireTE.addEntity((EntityPlayerMP)e);
 		}
 	}
 		
@@ -124,7 +119,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 	
 	public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
-		if (findFireplaceSpeed(par1World, par2, par3, par4) == 0)
+		if (!isInFireplace(par1World, par2, par3, par4))
 		{
 			par1World.setBlock(par2, par3, par4, Blocks.fire);
 		}
@@ -133,13 +128,91 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 			par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
 		}
 	}
-	
+	/*
+	 * Use instead of getFireplaceSpeed where possible - faster process
+	 */
+    protected boolean isInFireplace(World w, int x, int y, int z)
+    {
+        if(!w.canBlockSeeTheSky(x, y, z))
+        {
+            Block blockAbove = w.getBlock(x, y + 1, z);
+            if(blockAbove instanceof GreenFlamesBusyHigher || blockAbove instanceof BlockAir)
+            {
+                int topBlock = y + 2;
+                while (w.getBlock(x, topBlock, z) instanceof BlockAir)
+                {
+                    topBlock++;
+                }
+                if(FloocraftBase.acceptedBlocks.contains(w.getBlock(x, topBlock, z)))
+                {
+                    int i0 = this.validColumn(w, x, y, topBlock, z - 1)?1:0;
+                    int i1 = this.validColumn(w, x, y, topBlock, z + 1)?1:0;
+                    int i2 = this.validColumn(w, x - 1, y, topBlock, z)?1:0;
+                    int i3 = this.validColumn(w, x + 1, y, topBlock, z)?1:0;
+                    switch(i0+i1+i2+i3)
+                    {
+                        case 3:
+                        {
+                            int bondX, bondZ;
+                            int bondY = topBlock;
+                            if (i0 == 0)
+                            {
+                                bondX = x;
+                                bondZ = z - 1;
+                            }
+                            else if (i1 == 0)
+                            {
+                                bondX = x;
+                                bondZ = z + 1;
+                            }
+                            else if (i2 == 0)
+                            {
+                                bondX = x - 1;
+                                bondZ = z;
+                            }
+                            else if (i3 == 0)
+                            {
+                                bondX = x + 1;
+                                bondZ = z;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            TileEntity t = w.getTileEntity(bondX, bondY, bondZ);
+                            if(t instanceof TileEntityFireplace)
+                            {
+                                this.boundSign = (TileEntityFireplace) t;
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    protected boolean validColumn(World w, int x, int bottomY, int topY, int z)
+    {
+        boolean valid = true;
+        while(valid && bottomY < topY)
+        {
+            if(!FloocraftBase.acceptedBlocks.contains(w.getBlock(x, bottomY, z)))
+            {
+                valid = false;
+            }
+            bottomY++;
+        }
+        return valid;
+    }
+
 	/**
 	 * After release I might add support for fireplaces made from bricks
 	 * from other mods, through the OreDictionary. They will probably
 	 * be the same tier as stone bricks.
 	 */
-	 protected int findFireplaceSpeed(World w, int x, int y, int z)
+	 protected int getFireplaceSpeed(World w, int x, int y, int z)
 	 {
 		 if(isNiceBlock(w, x, y + 2, z) > -1)
 		 {
@@ -207,15 +280,14 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 		 
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		int s = findFireplaceSpeed(par1World, par2, par3, par4);
-		if(s == 0)
+		//int s = getFireplaceSpeed(par1World, par2, par3, par4);
+		//if(s == 0)
+        if(!isInFireplace(par1World, par2, par3, par4))
 	    {
 		    par1World.setBlock(par2, par3, par4, Blocks.fire);
 		}
 	    else
 		{
-	    	this.fireTE
-	    	.setFireplaceSpeed(s);
 		    if(par1World.getBlock(par2, par3 + 1, par4) == Blocks.air)
 		    {
 		    	par1World.setBlock(par2, par3 + 1, par4, FloocraftBase.greenFlamesBusyHigher);

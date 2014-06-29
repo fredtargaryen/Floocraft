@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.tileentity;
 
+import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntitySign;
@@ -15,6 +16,7 @@ public class TileEntityFireplace extends TileEntitySign
 {
 	private EntityPlayer writer;
 	public String fullName;
+    private GreenFlamesLowerBase boundBlock;
 	
 	/**Sends packet containing:
 	 *--xcoord

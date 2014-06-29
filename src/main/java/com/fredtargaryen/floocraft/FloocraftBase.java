@@ -1,6 +1,6 @@
 /**
  * ===TO FIX BEFORE RELEASE===
- * TileEntityFire:SetFireplaceSpeed NPE
+ * Textures and Localization
  * Error testing
  */
 
@@ -149,12 +149,6 @@ public class FloocraftBase
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
-    	System.out.println("[FLOOCRAFT] WARNING! Floocraft has not been properly tested");
-    	System.out.println("[FLOOCRAFT] for multiplayer functionality. Any problems?");
-    	System.out.println("[FLOOCRAFT] Please let me know.");
-    	System.out.println("[FLOOCRAFT] Yours faithfully,");
-    	System.out.println("[FLOOCRAFT] FredTargaryen xxx");
-    	
     	//Register blocks with GameRegistry
     	GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
     	GameRegistry.registerBlock(flooTorch, "flootorch");

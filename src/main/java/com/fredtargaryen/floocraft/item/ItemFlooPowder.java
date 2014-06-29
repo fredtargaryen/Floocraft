@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.item;
 
+import com.fredtargaryen.floocraft.DataReference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -30,7 +31,7 @@ public class ItemFlooPowder extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister i)
 	{
-		this.itemIcon = i.registerIcon("ftfloocraft:"+this.getUnlocalizedName().substring(5));
+		this.itemIcon = i.registerIcon(DataReference.resPath(this.getUnlocalizedName()));
 	}
 	
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int X, int Y, int Z, int par7, float par8, float par9, float par10)
