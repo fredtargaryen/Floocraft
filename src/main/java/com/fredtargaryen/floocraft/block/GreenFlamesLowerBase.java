@@ -32,6 +32,8 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 	protected TileEntityFire fireTE;
 	private int[] chanceToEncourageFire = new int[0];
 	protected int speedCount;
+    @SideOnly(Side.CLIENT)
+    protected IIcon[] icons;
 	
 	public TileEntityFire getTileEntity()
 	{
@@ -40,26 +42,26 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void registerBlockIcons(IIconRegister par1IIconRegister)
-	{
-		this.blockIcon = par1IIconRegister.registerIcon(DataReference.MODID+":"+this.getUnlocalizedName().substring(5));
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-    public IIcon getFireIcon(int par1)
+    public IIcon getFireIcon(int i0)
     {
-        return this.blockIcon;
+        return this.icons[i0];
     }
- 
-	@SideOnly(Side.CLIENT)
-	/**
-	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-	 */
-	public IIcon getIcon(int par1, int par2)
-	{
-		return this.blockIcon;
-	}
+
+    /**
+     * Gets the block's texture. Args: side, meta
+     */
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
+    {
+        return this.icons[0];
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister i)
+    {
+        this.icons = new IIcon[] {i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_0"),
+                                    i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_1")};
+    }
 	
 	public boolean isFlammable(IBlockAccess world, int x, int y, int z, int metadata, ForgeDirection face)
 	{

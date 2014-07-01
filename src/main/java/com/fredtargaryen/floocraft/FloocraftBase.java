@@ -1,51 +1,32 @@
 /**
  * ===TO FIX BEFORE RELEASE===
- * Textures and Localization
+ * NullPointerException: Undefined message for discriminator 0 in channel ftfloocraft
  * Error testing
  */
-
 /**
  * ===COSMETICS & FANCY BITS===
- * 
  * Green Flames break in an interesting way.
  * I could fix this, but I like it.
  * Green Flames do not go lower when players are too far away/higher
  * when players are nearby
- * --The lower "busy" flames must be merged with the unseen "idle" flames,
- *   making a metadata block (0: busy; 1: idle) (FIXING)
  * Teleporting interface isn't very elegant; hoping to replace scroll buttons with
  * a smooth scrollbar
  * Villagers could be able to use the fireplaces as well...
- * Fireplaces are limited in width and height
+ * Fireplaces are limited in width
  * --Will try to fix in 1.7 version
  */
 /**
  * ===TELEPORTATION===
  * Teleportation is instant
- * Players can teleport to a fireplace with no fire (FIXING)
+ * Players can teleport to a fireplace with no fire (must test solution)
  * The blocks the fireplace is made of has no bearing on teleport speed
- * Green Flames do not turn into fire after a teleport (FIXING)
- * --Will be fixed after the block merging
+ * Green Flames do not turn into fire after a teleport (must test solution)
  * Fireplaces with the same name can be created
- * Floo Signs cannot be destroyed by explosions (FIXING)
+ * Floo Signs cannot be destroyed by explosions (must test solution)
  */
 /**
- * Also to remember:
- * TileEntitySign --> TileEntityFireplace
- * TileEntityFireplace is created by BlockFlooSign
- * TileEntityFire is created by GreenFlamesBusyLower
- * TileEntitySignRenderer --> TileEntityFlooSignRenderer
- * GuiEditSign --> GuiFlooSign
- * 
- * ItemFlooSign loads GuiFlooSign
- * GreenFlamesBusyLower loads GuiTeleport
- * 
- * Player Hierarchy:
- * EntityPlayer
- * --AbstractClientPlayer
- * ----EntityPlayerSP
- * ------EntityClientPlayerMP
- * --EntityPlayerMP
+ * ===LESS IMPORTANT THINGS FOR ME TO WORRY ABOUT===
+ * Client: Using missing texture, unable to load ftfloocraft:textures/blocks/greenflamesbusyhigher_layer_1.png
  */
 
 package com.fredtargaryen.floocraft;

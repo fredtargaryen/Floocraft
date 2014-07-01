@@ -51,10 +51,6 @@ public class ItemFlooSign extends Item
         {
             return false;
         }
-        else if (par3World.getBlock(x, y, z) != Blocks.brick_block)
-        {
-            return false;
-        }
         else
         {
         	//Translates the block's xyz to the sign's xyz
