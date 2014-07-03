@@ -1,18 +1,13 @@
 package com.fredtargaryen.floocraft.block;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.util.Random;
-
-import cpw.mods.fml.common.FMLCommonHandler;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSign;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -20,9 +15,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+
+import java.util.Random;
 
 public class BlockFlooSign extends BlockSign
 {
@@ -84,19 +78,19 @@ public class BlockFlooSign extends BlockSign
 	        int i1 = par1World.getBlockMetadata(par2, par3, par4);
 	        boolean flag = true;
 	
-	        if (i1 == 2 && par1World.getBlock(par2, par3, par4 + 1) == Blocks.brick_block)
+	        if (i1 == 2 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2, par3, par4 + 1)))
 	        {
 	            flag = false;
 	        }
-	        else if (i1 == 3 && par1World.getBlock(par2, par3, par4 - 1) == Blocks.brick_block)
+	        else if (i1 == 3 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2, par3, par4 - 1)))
 	        {
 	            flag = false;
 	        }
-	        else if (i1 == 4 && par1World.getBlock(par2 + 1, par3, par4) == Blocks.brick_block)
+	        else if (i1 == 4 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2 + 1, par3, par4)))
 	        {
 	            flag = false;
 	        }
-	        else if (i1 == 5 && par1World.getBlock(par2 - 1, par3, par4) == Blocks.brick_block)
+	        else if (i1 == 5 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2 - 1, par3, par4)))
 	        {
 	            flag = false;
 	        }
@@ -132,14 +126,14 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
     {
-    	this.removeLocation(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_);
+    	TileEntityFireplace.removeLocation(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_);
     	super.onBlockDestroyedByExplosion(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_, p_149723_5_);
     }
     
     @Override
 	public void onBlockDestroyedByPlayer(World par1World, int x, int y, int z, int m)
 	{
-    	this.removeLocation(par1World, x, y, z);
+    	TileEntityFireplace.removeLocation(par1World, x, y, z);
 		super.onBlockDestroyedByPlayer(par1World, x, y, z, m);
 	}
 	
@@ -157,31 +151,4 @@ public class BlockFlooSign extends BlockSign
     {
         return this.tileIcon;
     }
-	
-	private void removeLocation(World w, int x, int y, int z)
-	{
-		if(!w.isRemote)
-		{
-			int m = w.getBlockMetadata(x, y, z);
-			//Translates the sign's xyz to the fireplace's xyz.
-			if(m == 2)
-			{
-				--z;
-			}	
-			if(m == 3)
-			{
-				++z;
-			}
-			if(m == 4)
-			{
-				--x;
-			}
-			if(m == 5)
-			{
-				++x;
-			}
-	        y -= 2;
-	        FloocraftWorldData.forWorld(w).removeLocation(x, y, z);
-		}
-	}
 }

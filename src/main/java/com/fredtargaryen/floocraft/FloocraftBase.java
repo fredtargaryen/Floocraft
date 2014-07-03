@@ -1,6 +1,5 @@
 /**
  * ===TO FIX BEFORE RELEASE===
- * NullPointerException: Undefined message for discriminator 0 in channel ftfloocraft
  * Error testing
  */
 /**
@@ -31,6 +30,13 @@
 
 package com.fredtargaryen.floocraft;
 
+import com.fredtargaryen.floocraft.block.*;
+import com.fredtargaryen.floocraft.item.ItemFlooPowder;
+import com.fredtargaryen.floocraft.item.ItemFlooSign;
+import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.proxy.CommonProxy;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -40,18 +46,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import com.fredtargaryen.floocraft.item.ItemFlooPowder;
-import com.fredtargaryen.floocraft.item.ItemFlooSign;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import com.fredtargaryen.floocraft.block.*;
-import com.fredtargaryen.floocraft.proxy.CommonProxy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +92,9 @@ public class FloocraftBase
         
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
-    {	
+    {
+        PacketHandler.init();
+
     	flooTorch = new BlockFlooTorch()
     	.setBlockName("flootorch")
     	.setLightLevel(1.0F)
@@ -150,7 +153,6 @@ public class FloocraftBase
     			new ItemStack(Items.sign), new ItemStack(FloocraftBase.floopowder));
     	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.flooTorch,4),
     			new ItemStack(Items.stick), new ItemStack(FloocraftBase.floopowder));
-    	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	proxy.registerRenderers();
     	proxy.registerTickHandlers();
     }

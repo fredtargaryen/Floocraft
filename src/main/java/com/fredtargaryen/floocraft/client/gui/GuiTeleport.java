@@ -1,22 +1,21 @@
 package com.fredtargaryen.floocraft.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
 import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiTeleport extends GuiScreen
@@ -77,21 +76,18 @@ public class GuiTeleport extends GuiScreen
         if(receivedLists)
         {
         	refreshButton.enabled = true;
-	        if(this.placenamelist != null && this.zcoordlist != null && this.ycoordlist != null && this.zcoordlist != null)
+	        for(int i = firstButton; i < this.placenamelist.size() && i < lastButton; i++)
 	        {
-	        	for(int i = firstButton; i < this.placenamelist.size() && i < lastButton; i++)
-	        	{
-	        		GuiButton b = new GuiButton(i,this.width / 2 - 100, this.height / 4 + (24 * (i-firstButton)), this.placenamelist.get(i));
-	        		b.enabled = enabledlist.get(i);
-	        		this.buttonList.add(b);
-	        	}
-	        	GuiButton upB = new GuiScrollButton(-2, this.width / 2 + 104, this.height / 4, "^");
-	            GuiButton dnB = new GuiScrollButton(-3, this.width / 2 + 104, this.height / 4 + 96, "V");
-	            upB.enabled = this.placenamelist.size() > 5 && firstButton > 0;
-	            dnB.enabled = this.placenamelist.size() > 5 && lastButton < this.placenamelist.size();
-	            this.buttonList.add(upB);
-	            this.buttonList.add(dnB);
+	        	GuiButton b = new GuiButton(i,this.width / 2 - 100, this.height / 4 + (24 * (i-firstButton)), this.placenamelist.get(i));
+	        	b.enabled = enabledlist.get(i);
+	        	this.buttonList.add(b);
 	        }
+	        GuiButton upB = new GuiScrollButton(-2, this.width / 2 + 104, this.height / 4, "^");
+	        GuiButton dnB = new GuiScrollButton(-3, this.width / 2 + 104, this.height / 4 + 96, "V");
+	        upB.enabled = this.placenamelist.size() > 5 && firstButton > 0;
+	        dnB.enabled = this.placenamelist.size() > 5 && lastButton < this.placenamelist.size();
+	        this.buttonList.add(upB);
+	        this.buttonList.add(dnB);
         }
         this.buttonList.add(refreshButton);
     }

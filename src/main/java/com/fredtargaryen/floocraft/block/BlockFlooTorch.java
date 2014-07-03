@@ -1,18 +1,15 @@
 package com.fredtargaryen.floocraft.block;
 
-import java.util.Random;
-
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.entity.EntityGreenFlame;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.entity.EntityGreenFlame;
 import net.minecraft.block.BlockTorch;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFlooTorch extends BlockTorch
 {

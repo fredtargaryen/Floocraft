@@ -1,18 +1,14 @@
 package com.fredtargaryen.floocraft.network;
 
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.network.messages.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
-import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
-import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
-import com.fredtargaryen.floocraft.network.messages.MessageRemoveFireplace;
-import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 
 public class PacketHandler
 {
-	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("ftfloocraft");
+	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(DataReference.MODID);
 
 	public static void init()
 	{

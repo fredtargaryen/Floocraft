@@ -1,13 +1,13 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import com.fredtargaryen.floocraft.FloocraftBase;
 
 import java.util.Random;
 
