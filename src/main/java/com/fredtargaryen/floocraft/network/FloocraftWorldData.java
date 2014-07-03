@@ -1,10 +1,6 @@
 package com.fredtargaryen.floocraft.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import net.minecraft.block.Block;
@@ -15,6 +11,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.MapStorage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FloocraftWorldData extends WorldSavedData
 {	
 	public FloocraftWorldData(String par1Str)
@@ -22,10 +21,12 @@ public class FloocraftWorldData extends WorldSavedData
 		super(par1Str);
 	}
 
-	final static String key = "ftfloocraft";
+	final static String key = DataReference.MODID;
 	
 	public List<String>placenamelist = new ArrayList<String>();
-	public List<Integer>xcoordlist, ycoordlist, zcoordlist = new ArrayList<Integer>();
+	public List<Integer>xcoordlist = new ArrayList<Integer>();
+    public List<Integer>ycoordlist = new ArrayList<Integer>();
+    public List<Integer>zcoordlist = new ArrayList<Integer>();
 	
 	public static FloocraftWorldData forWorld(World world)
 	{
@@ -76,7 +77,7 @@ public class FloocraftWorldData extends WorldSavedData
 		}
 		else
 		{
-			System.out.println("[FLOOCRAFT-SERVER] Failed to remove a fireplace at ("+x+", "+y+", "+z+").");
+            System.out.println("[FLOOCRAFT-SERVER] Failed to remove a fireplace at ("+x+", "+y+", "+z+").");
 			System.out.println("[FLOOCRAFT-SERVER] The data can be manually removed with an NBT editor.");
 		}
 		markDirty();
@@ -123,7 +124,7 @@ public class FloocraftWorldData extends WorldSavedData
 		for(int x = 0; x < placenamelist.size(); x++)
 		{
 			Block b = w.getBlock(xcoordlist.get(x), ycoordlist.get(x), zcoordlist.get(x));
-			l.add(b instanceof BlockFire || b instanceof GreenFlamesLowerBase);
+			l.add(b instanceof BlockFire);
 		}
 		m.enabledlist = l;
 		return m;

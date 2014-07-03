@@ -1,11 +1,7 @@
 package com.fredtargaryen.floocraft.client.gui;
 
-import java.util.EnumSet;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class OverrideTicker
 {

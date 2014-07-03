@@ -1,14 +1,12 @@
 package com.fredtargaryen.floocraft.block;
 
-import java.util.Random;
-
 import com.fredtargaryen.floocraft.DataReference;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockFire;
@@ -18,13 +16,14 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
 
 public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEntityProvider
 {
@@ -156,7 +155,6 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
                         case 3:
                         {
                             int bondX, bondZ;
-                            int bondY = topBlock;
                             if (i0 == 0)
                             {
                                 bondX = x;
@@ -181,7 +179,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
                             {
                                 break;
                             }
-                            TileEntity t = w.getTileEntity(bondX, bondY, bondZ);
+                            TileEntity t = w.getTileEntity(bondX, topBlock, bondZ);
                             if(t instanceof TileEntityFireplace)
                             {
                                 this.boundSign = (TileEntityFireplace) t;

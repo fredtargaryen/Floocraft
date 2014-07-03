@@ -1,10 +1,10 @@
 package com.fredtargaryen.floocraft.proxy;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
+import com.fredtargaryen.floocraft.client.gui.OverrideTicker;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFlooSignRenderer;
-import com.fredtargaryen.floocraft.client.gui.OverrideTicker;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy
 {

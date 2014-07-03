@@ -1,16 +1,16 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.world.World;
-import io.netty.buffer.ByteBuf;
+import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFireplaceList, IMessage>
 {
@@ -23,11 +23,10 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 	@Override
 	public IMessage onMessage(MessageFireplaceList message, MessageContext ctx)
 	{
-		World w = ctx.getServerHandler().playerEntity.worldObj;
 		GuiScreen s = Minecraft.getMinecraft().currentScreen;
 		if(s instanceof GuiTeleport)
 		{
-			((GuiTeleport) s).onMessageReceived(this);
+			((GuiTeleport) s).onMessageReceived(message);
 		}
 		return null;
 	}

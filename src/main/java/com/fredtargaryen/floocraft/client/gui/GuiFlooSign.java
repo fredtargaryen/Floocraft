@@ -1,12 +1,9 @@
 package com.fredtargaryen.floocraft.client.gui;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +11,8 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.network.play.client.C12PacketUpdateSign;
 import net.minecraft.util.ChatAllowedCharacters;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiFlooSign extends GuiScreen
@@ -91,7 +90,7 @@ public class GuiFlooSign extends GuiScreen
             if (par1GuiButton == this.doneBtn)
             {
             	this.fireplaceTE.markDirty();
-            	this.uniqueName = this.fireplaceTE.connect(this.fireplaceTE.xCoord, this.fireplaceTE.yCoord, this.fireplaceTE.zCoord, this.fireplaceTE.signText, this.fireplaceTE.getWorldObj(), this.fireplaceTE.func_145911_b());
+            	this.uniqueName = this.fireplaceTE.addLocation(this.fireplaceTE.xCoord, this.fireplaceTE.yCoord, this.fireplaceTE.zCoord, this.fireplaceTE.signText, this.fireplaceTE.getWorldObj(), this.fireplaceTE.func_145911_b());
             	if(this.uniqueName)
             	{
             		this.mc.displayGuiScreen((GuiScreen)null);
@@ -155,7 +154,6 @@ public class GuiFlooSign extends GuiScreen
         float f1 = 93.75F;
         GL11.glScalef(-f1, -f1, -f1);
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-        Block block = this.fireplaceTE.getBlockType();
 
             int k = this.fireplaceTE.getBlockMetadata();
             float f3 = 0.0F;

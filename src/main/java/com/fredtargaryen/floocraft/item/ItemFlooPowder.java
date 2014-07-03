@@ -1,25 +1,18 @@
 package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 
 public class ItemFlooPowder extends Item
 {
@@ -50,14 +43,7 @@ public class ItemFlooPowder extends Item
 			--par1ItemStack.stackSize;
 			return true;
 		}
-		if(par3World.getBlock(X, Y + 1, Z) == FloocraftBase.greenFlamesBusyLower)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return par3World.getBlock(X, Y + 1, Z) == FloocraftBase.greenFlamesBusyLower;
 	}
 	
 	/**

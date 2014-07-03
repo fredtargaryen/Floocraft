@@ -1,20 +1,11 @@
 package com.fredtargaryen.floocraft.entity;
 
-import java.util.Iterator;
-
 import com.fredtargaryen.floocraft.FloocraftBase;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.item.ItemExpireEvent;
 
 public class EntityDroppedFlooPowder extends EntityItem
 {

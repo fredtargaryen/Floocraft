@@ -1,11 +1,8 @@
 package com.fredtargaryen.floocraft.block;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import com.fredtargaryen.floocraft.FloocraftBase;
 
 public class GreenFlamesBusyLower extends GreenFlamesLowerBase
 {	

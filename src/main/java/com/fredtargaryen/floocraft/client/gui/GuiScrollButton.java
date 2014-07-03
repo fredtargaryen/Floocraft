@@ -4,8 +4,8 @@
 
 package com.fredtargaryen.floocraft.client.gui;
 
-import cpw.mods.fml.relauncher.SideOnly;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 
 @SideOnly(Side.CLIENT)

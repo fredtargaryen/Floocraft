@@ -1,19 +1,18 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.block.GreenFlamesIdle;
+import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
+import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import io.netty.buffer.ByteBuf;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import com.fredtargaryen.floocraft.block.GreenFlamesIdle;
-import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
-import com.fredtargaryen.floocraft.network.PacketHandler;
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 
 public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageTeleportEntity, IMessage>
 {
@@ -21,24 +20,23 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 	@Override
 	public IMessage onMessage(MessageTeleportEntity message, MessageContext ctx)
 	{
+        int X = message.destX;
+        int Y = message.destY;
+        int Z = message.destZ;
 		boolean tpApproved;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
-		Block destBlock = world.getBlock(destX, destY, destZ);
+		Block destBlock = world.getBlock(X, Y, Z);
 		if(destBlock instanceof BlockFire && !(destBlock instanceof GreenFlamesLowerBase))
 		{
-			world.setBlock(destX, destY, destZ, new GreenFlamesIdle());
-			GreenFlamesIdle g = (GreenFlamesIdle) world.getBlock(destX, destY, destZ);
-			tpApproved = g.approveOrDenyTeleport(world, destX, destY, destZ);
-			world.setBlock(destX, destY, destZ, destBlock);
-		}
-		else if(destBlock instanceof GreenFlamesLowerBase)
-		{
-			tpApproved = true;
+			world.setBlock(X, Y, Z, new GreenFlamesIdle());
+			GreenFlamesIdle g = (GreenFlamesIdle) world.getBlock(X, Y, Z);
+			tpApproved = g.approveOrDenyTeleport(world, X, Y, Z);
+			world.setBlock(X, Y, Z, destBlock);
 		}
 		else
 		{
-			tpApproved = false;
+			tpApproved = destBlock instanceof GreenFlamesLowerBase;
 		}
 		
 		if(tpApproved)
@@ -50,9 +48,9 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 			{
 				player.mountEntity((Entity)null);
 			}
-			player.playerNetServerHandler.setPlayerLocation(destX, destY, destZ, player.rotationYaw, player.rotationPitch);
+			player.playerNetServerHandler.setPlayerLocation(X, Y, Z, player.rotationYaw, player.rotationPitch);
     		player.fallDistance = 0.0F;
-    		world.setBlock(x, y, z, Blocks.fire);
+    		world.setBlock(x, y, z, Blocks.fire); //Must change this line if I ever want green flames to last more than one tp
     		return null;
 		}
 		return FloocraftWorldData.forWorld(world).assembleNewFireplaceList(world);
