@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
 import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
+import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -97,8 +98,9 @@ public class GuiTeleport extends GuiScreen
      */
     public void onGuiClosed()
     {
+        ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
         Keyboard.enableRepeatEvents(false);
-        FloocraftBase.proxy.ticker.start();
+        proxy.ticker.start();
     }
 
     /**

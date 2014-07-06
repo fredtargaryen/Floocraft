@@ -48,7 +48,7 @@ public class FloocraftWorldData extends WorldSavedData
 		xcoordlist.add(x);
 		ycoordlist.add(y);
 		zcoordlist.add(z);
-		System.out.println("[FLOOCRAFT-SERVER] Adding fireplace at ("+x+", "+y+", "+z+"). Name: "+name);
+		System.out.println("[FLOOCRAFT-SERVER] Added fireplace at ("+x+", "+y+", "+z+"). Name: "+name);
 		markDirty();
 	}
 	
@@ -69,7 +69,7 @@ public class FloocraftWorldData extends WorldSavedData
 		}
 		if(j > -1)
 		{
-			System.out.println("[FLOOCRAFT-SERVER] Removing fireplace at ("+x+", "+y+", "+z+"). Name: "+placenamelist.get(j));
+			System.out.println("[FLOOCRAFT-SERVER] Removed fireplace at ("+x+", "+y+", "+z+"). Name: "+placenamelist.get(j));
 			placenamelist.remove(j);
 			xcoordlist.remove(j);
 			ycoordlist.remove(j);
@@ -77,8 +77,8 @@ public class FloocraftWorldData extends WorldSavedData
 		}
 		else
 		{
-            System.out.println("[FLOOCRAFT-SERVER] Failed to remove a fireplace at ("+x+", "+y+", "+z+").");
-			System.out.println("[FLOOCRAFT-SERVER] The data can be manually removed with an NBT editor.");
+            System.out.println("[FLOOCRAFT-SERVER] Failed to remove fireplace at ("+x+", "+y+", "+z+").");
+			System.out.println("[FLOOCRAFT-SERVER] Data can be manually removed with an NBT editor.");
 		}
 		markDirty();
 	}

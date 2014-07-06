@@ -5,8 +5,10 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockSign;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,9 +22,8 @@ import java.util.Random;
 
 public class BlockFlooSign extends BlockSign
 {
-	public Class fireplaceTE = TileEntityFireplace.class;
 	public IIcon tileIcon;
-	public BlockFlooSign(Class par2Class, boolean par3)
+	public BlockFlooSign()
 	{
 		super(TileEntityFireplace.class, false);
 		setHardness(2.0F);
@@ -58,12 +59,13 @@ public class BlockFlooSign extends BlockSign
             this.setBlockBounds(0.0F, f, f2, f4, f1, f3);
         }        
     }
-	
-	public TileEntity createNewTileEntity(World par1World)
+
+    @Override
+	public TileEntity createNewTileEntity(World par1World, int par2)
     {
         try
         {
-            return (TileEntity)new TileEntityFireplace();
+            return new TileEntityFireplace();
         }
         catch (Exception exception)
         {
@@ -124,16 +126,17 @@ public class BlockFlooSign extends BlockSign
      * Called upon the block being destroyed by an explosion
      */
     @Override
-    public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
+    public void onBlockDestroyedByExplosion(World w, int x, int y, int z, Explosion p_149723_5_)
     {
-    	TileEntityFireplace.removeLocation(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_);
-    	super.onBlockDestroyedByExplosion(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_, p_149723_5_);
+        int m = w.getBlockMetadata(x, y, z);
+    	TileEntityFireplace.removeLocation(w, x, y, z, m);
+    	super.onBlockDestroyedByExplosion(w, x, y, z, p_149723_5_);
     }
     
     @Override
 	public void onBlockDestroyedByPlayer(World par1World, int x, int y, int z, int m)
 	{
-    	TileEntityFireplace.removeLocation(par1World, x, y, z);
+    	TileEntityFireplace.removeLocation(par1World, x, y, z, m);
 		super.onBlockDestroyedByPlayer(par1World, x, y, z, m);
 	}
 	

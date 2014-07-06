@@ -4,9 +4,12 @@ import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
 import com.fredtargaryen.floocraft.network.messages.MessageRemoveFireplace;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFireplace extends TileEntitySign
 {
@@ -26,12 +29,38 @@ public class TileEntityFireplace extends TileEntitySign
         if(par5World.isRemote)
         {
          	// We are on the client side.
-            y = this.iterateDownFromSign(par5World, x, y, z);
+            int newX = x;
+            int newZ = z;
+            int md = par5World.getBlockMetadata(x, y, z);
+            switch(md)
+            {
+                case 2:
+                {
+                    newZ++;
+                    break;
+                }
+                case 3:
+                {
+                    newZ--;
+                    break;
+                }
+                case 4:
+                {
+                    newX++;
+                    break;
+                }
+                case 5:
+                {
+                    newX--;
+                    break;
+                }
+            }
+            int newY = iterateDownFromTop(par5World, newX, y, newZ);
         	MessageAddFireplace m = new MessageAddFireplace();
         	m.name = fullName;
-        	m.x = x;
-        	m.y = y;
-        	m.z = z;
+        	m.x = newX;
+        	m.y = newY;
+        	m.z = newZ;
         	PacketHandler.INSTANCE.sendToServer(m);
         }
         else
@@ -41,15 +70,41 @@ public class TileEntityFireplace extends TileEntitySign
         return true; //Change this when disallowing fireplaces with the same name.
    	}
    
-	public static void removeLocation(World w, int x, int y, int z)
+	public static void removeLocation(World w, int x, int y, int z, int metadata)
 	{
 		if(w.isRemote)
 		{
-            y = iterateDownFromSign(w, x, y, z);
+            // We are on the client side.
+            int newX = x;
+            int newZ = z;
+            switch(metadata)
+            {
+                case 2:
+                {
+                    newZ++;
+                    break;
+                }
+                case 3:
+                {
+                    newZ--;
+                    break;
+                }
+                case 4:
+                {
+                    newX++;
+                    break;
+                }
+                case 5:
+                {
+                    newX--;
+                    break;
+                }
+            }
+            int newY = iterateDownFromTop(w, newX, y, newZ);
 			MessageRemoveFireplace m = new MessageRemoveFireplace();
-			m.x = x;
-			m.y = y;
-			m.z = z;
+			m.x = newX;
+			m.y = newY;
+			m.z = newZ;
 			PacketHandler.INSTANCE.sendToServer(m);
 		}
 	}
@@ -70,12 +125,13 @@ public class TileEntityFireplace extends TileEntitySign
     }
 
     //Only call if world is remote
-    private static int iterateDownFromSign(World w, int x, int y, int z)
+    private static int iterateDownFromTop(World w, int x, int y, int z)
     {
-        while(w.getBlock(x, y, z).isCollidable() && y > -1)
+        y--;
+        while((w.isAirBlock(x, y, z) || w.getBlock(x, y, z) instanceof BlockFire) && y > -1)
         {
             y--;
         }
-        return y;
+        return y + 1;
     }
 }

@@ -6,7 +6,8 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 public class OverrideTicker
 {
 	public int override;
-	
+	private byte ticksPassed;
+
 	public OverrideTicker()
 	{
 		this.override = -1;
@@ -21,18 +22,16 @@ public class OverrideTicker
 	{
 	    if (event.phase == TickEvent.Phase.START)
 	    {
-			if(this.override == 0)
-			{
-				this.override++;
-			}
-			else if(this.override == 1)
-			{
-				this.override++;
-			}
-			else
-			{
-				this.override = -1;
-			}
+            ticksPassed++;
+            if(ticksPassed % 30 == 0) {
+                if (this.override == 0) {
+                    this.override++;
+                } else if (this.override == 1) {
+                    this.override++;
+                } else {
+                    this.override = -1;
+                }
+            }
 	    }
 	}
 }

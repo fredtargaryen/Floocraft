@@ -2,11 +2,11 @@ package com.fredtargaryen.floocraft;
 
 /**
  * ===DESCRIPTION OF CHANNELS===
- * !MessageFireplaceListRequest: sends empty packet. When this is received, server sends back MessageFireplaceList
- * !MessageTeleportEntity: teleports player that sent this to (destX, destY, destZ)
- * !MessageAddFireplace: sends position and name of fireplace to be added to server
- * !MessageRemoveFireplace: sends position of fireplace to be removed to server
- * !MessageFireplaceList: sends lists (place names, xcoords, ycoords and zcoords) to client that sent MessageFireplaceListRequest
+ * MessageFireplaceListRequest: sends empty packet. When this is received, server sends back MessageFireplaceList
+ * MessageTeleportEntity: teleports player that sent this to (destX, destY, destZ)
+ * MessageAddFireplace: sends position and name of fireplace to be added to server
+ * MessageRemoveFireplace: sends position of fireplace to be removed to server
+ * MessageFireplaceList: sends lists (place names, xcoords, ycoords and zcoords) to client that sent MessageFireplaceListRequest
  *
  * ===FLOOQUIVALENT CLASSES===
  * TileEntitySign --> TileEntityFireplace

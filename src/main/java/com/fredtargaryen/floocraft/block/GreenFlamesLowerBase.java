@@ -3,6 +3,7 @@ package com.fredtargaryen.floocraft.block;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
@@ -100,10 +101,11 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 	@SideOnly(Side.CLIENT)
 	public void doClientGuiTings(EntityPlayer e, int x, int y, int z)
 	{
-		if(Minecraft.getMinecraft().currentScreen == null && FloocraftBase.proxy.ticker.override == -1)
+        ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
+		if(Minecraft.getMinecraft().currentScreen == null && proxy.ticker.override == -1)
 		{
 			Minecraft.getMinecraft().displayGuiScreen(new GuiTeleport((EntityClientPlayerMP)e, this.fireTE, x, y, z));
-			FloocraftBase.proxy.ticker.start();
+			proxy.ticker.start();
 		}
 	}
 

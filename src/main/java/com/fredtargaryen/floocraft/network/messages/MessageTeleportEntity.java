@@ -9,7 +9,6 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -29,10 +28,10 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		Block destBlock = world.getBlock(X, Y, Z);
 		if(destBlock instanceof BlockFire && !(destBlock instanceof GreenFlamesLowerBase))
 		{
-			world.setBlock(X, Y, Z, new GreenFlamesIdle());
-			GreenFlamesIdle g = (GreenFlamesIdle) world.getBlock(X, Y, Z);
-			tpApproved = g.approveOrDenyTeleport(world, X, Y, Z);
-			world.setBlock(X, Y, Z, destBlock);
+            GreenFlamesIdle g = new GreenFlamesIdle((BlockFire) destBlock);
+            world.extinguishFire(player, X, Y, Z, 0);
+            world.setBlock(X, Y, Z, g);
+            tpApproved = g.approveOrDenyTeleport(world, X, Y, Z);
 		}
 		else
 		{
@@ -46,7 +45,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 			int z = player.serverPosZ;
 			if(player.isRiding())
 			{
-				player.mountEntity((Entity)null);
+				player.mountEntity(null);
 			}
 			player.playerNetServerHandler.setPlayerLocation(X, Y, Z, player.rotationYaw, player.rotationPitch);
     		player.fallDistance = 0.0F;

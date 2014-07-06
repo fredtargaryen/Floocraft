@@ -1,6 +1,10 @@
 /**
  * ===TO FIX BEFORE RELEASE===
- * Error testing
+ * Fires don't change
+ * Teleporting to a fireplace with normal fire will set players on fire (duh!)
+ * Teleporting doesn't always work. Aaaaaargh.
+ *
+ * Error checking
  */
 /**
  * ===COSMETICS & FANCY BITS===
@@ -11,13 +15,12 @@
  * Teleporting interface isn't very elegant; hoping to replace scroll buttons with
  * a smooth scrollbar
  * Villagers could be able to use the fireplaces as well...
- * Fireplaces are limited in width
- * --Will try to fix in 1.7 version
+ * Fireplaces can only be one block wide
+ * Floo Signs will do the fireplace thing wherever they're placed
  */
 /**
  * ===TELEPORTATION===
  * Teleportation is instant
- * Players can teleport to a fireplace with no fire (must test solution)
  * The blocks the fireplace is made of has no bearing on teleport speed
  * Green Flames do not turn into fire after a teleport (must test solution)
  * Fireplaces with the same name can be created
@@ -37,7 +40,6 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -45,7 +47,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -81,9 +82,6 @@ public class FloocraftBase
      */
     public static Item floopowder;
     public static Item itemFlooSign;
-    
-    public static Class TileEntityFireplace;
-    public static Class TileEntityFire;
     /**   
      * Says where the client and server 'proxy' code is loaded.
      */
@@ -112,7 +110,7 @@ public class FloocraftBase
     	.setBlockName("greenflamesidle")
     	.setLightLevel(0.875F);
     	
-    	blockFlooSign = new BlockFlooSign(TileEntityFireplace.class, false)
+    	blockFlooSign = new BlockFlooSign()
     	.setBlockName("blockfloosign");
     	
     	floopowder = new ItemFlooPowder()
