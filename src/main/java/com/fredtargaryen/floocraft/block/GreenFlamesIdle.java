@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.block;
 
-import net.minecraft.block.BlockFire;
 import net.minecraft.world.World;
 
 import java.util.Random;
