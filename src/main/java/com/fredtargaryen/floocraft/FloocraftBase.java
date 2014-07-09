@@ -1,28 +1,28 @@
 /**
  * ===TO FIX BEFORE RELEASE===
- * Teleporting to a fireplace with normal fire will set players on fire (duh!)
+ * Teleporting to a fireplace with normal fire will set players on fire (duh!); should make it a bit safer
+ * Green Flames do not go lower when players are too far away/higher when players are nearby (check)
+ * --arePlayersNearby doesn't seem to get called (CHECK)
+ * When a Floo Sign explodes:
+ * -An extra Floo Sign drops (check)
+ * -The wrong location is removed (check)
+ * Should look at onNeighborBlockChange in BlockFlooSign again
  *
  * Error checking
  */
 /**
  * ===COSMETICS & FANCY BITS===
- * Green Flames break in an interesting way.
- * I could fix this, but I like it.
- * Green Flames do not go lower when players are too far away/higher
- * when players are nearby
- * Teleporting interface isn't very elegant; hoping to replace scroll buttons with
- * a smooth scrollbar
+ * Green Flames break in an interesting way. I could fix this, but I like it.
+ * Teleporting interface isn't very elegant; hoping to replace scroll buttons with a smooth scrollbar
  * Villagers could be able to use the fireplaces as well...
  * Fireplaces can only be one block wide
- * Floo Signs will do the fireplace thing wherever they're placed
+ * Floo Signs should only add a location if they are connected to an appropriate block which is more than 2 blocks above ground
  */
 /**
  * ===TELEPORTATION===
  * Teleportation is instant
  * The blocks the fireplace is made of has no bearing on teleport speed
- * Green Flames do not turn into fire after a teleport (must test solution)
  * Fireplaces with the same name can be created
- * Floo Signs cannot be destroyed by explosions (must test solution)
  */
 /**
  * ===LESS IMPORTANT THINGS FOR ME TO WORRY ABOUT===

@@ -93,7 +93,7 @@ public class GuiFlooSign extends GuiScreen
             	this.uniqueName = this.fireplaceTE.addLocation(this.fireplaceTE.xCoord, this.fireplaceTE.yCoord, this.fireplaceTE.zCoord, this.fireplaceTE.signText, this.fireplaceTE.getWorldObj(), this.fireplaceTE.func_145911_b());
             	if(this.uniqueName)
             	{
-            		this.mc.displayGuiScreen((GuiScreen)null);
+            		this.mc.displayGuiScreen(null);
             	}
             }
         }

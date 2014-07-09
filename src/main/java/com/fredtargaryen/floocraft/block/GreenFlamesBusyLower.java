@@ -4,6 +4,8 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class GreenFlamesBusyLower extends GreenFlamesLowerBase
 {	
 	public GreenFlamesBusyLower()
@@ -12,12 +14,11 @@ public class GreenFlamesBusyLower extends GreenFlamesLowerBase
     }
 	
 	@Override
-	public void onBlockAdded(World par1World, int x, int y, int z)
-	{
-		if(par1World.getBlock(x, y + 1, z) == Blocks.air)
-		{
-			par1World.setBlock(x, y + 1, z, FloocraftBase.greenFlamesBusyHigher);
-    	}
-		super.onBlockAdded(par1World, x, y, z);
-	}
+    public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    {
+        if(par1World.getBlock(par2, par3 + 1, par4) == Blocks.air)
+        {
+            par1World.setBlock(par2, par3 + 1, par4, FloocraftBase.greenFlamesBusyHigher);
+        }
+    }
 }

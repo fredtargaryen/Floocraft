@@ -37,6 +37,8 @@ public class DataReference
     public static final String CLIENTPROXYPATH = "com.fredtargaryen.floocraft.proxy.ClientProxy";
     public static final String SERVERPROXYPATH = "com.fredtargaryen.floocraft.proxy.ServerProxy";
 
+    public static final int FLOO_FIRE_DETECTION_RANGE = 6;
+
     public static String resPath(String un)
     {
         return MODID+":"+un.substring(5);

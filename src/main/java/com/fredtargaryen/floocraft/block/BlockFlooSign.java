@@ -5,10 +5,8 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockSign;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -72,37 +70,11 @@ public class BlockFlooSign extends BlockSign
             throw new RuntimeException(exception);
         }
     }
-	
+
+    @Override
 	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5)
     {
-		if(!par1World.isRemote)
-		{
-	        int i1 = par1World.getBlockMetadata(par2, par3, par4);
-	        boolean flag = true;
-	
-	        if (i1 == 2 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2, par3, par4 + 1)))
-	        {
-	            flag = false;
-	        }
-	        else if (i1 == 3 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2, par3, par4 - 1)))
-	        {
-	            flag = false;
-	        }
-	        else if (i1 == 4 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2 + 1, par3, par4)))
-	        {
-	            flag = false;
-	        }
-	        else if (i1 == 5 && FloocraftBase.acceptedBlocks.contains(par1World.getBlock(par2 - 1, par3, par4)))
-	        {
-	            flag = false;
-	        }
-	        if (flag)
-	        {
-	        	super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
-	    		this.onBlockDestroyedByPlayer(par1World, par2, par3, par4, i1);
-	        }
-		}
-		super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
+	    this.onBlockDestroyedByPlayer(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4));
     }
 	
 	@Override
@@ -128,9 +100,7 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onBlockDestroyedByExplosion(World w, int x, int y, int z, Explosion p_149723_5_)
     {
-        int m = w.getBlockMetadata(x, y, z);
-    	TileEntityFireplace.removeLocation(w, x, y, z, m);
-    	super.onBlockDestroyedByExplosion(w, x, y, z, p_149723_5_);
+    	this.onBlockDestroyedByPlayer(w, x, y, z, w.getBlockMetadata(x, y, z));
     }
     
     @Override

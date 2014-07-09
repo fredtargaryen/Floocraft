@@ -132,7 +132,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 		}
 	}
 	/*
-	 * Use instead of getFireplaceSpeed where possible - faster process
+	 * Use instead of getFireplaceSpeed when necessary - faster process
 	 */
     protected boolean isInFireplace(World w, int x, int y, int z)
     {
@@ -282,19 +282,14 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 		 
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-		//int s = getFireplaceSpeed(par1World, par2, par3, par4);
-		//if(s == 0)
         if(!isInFireplace(par1World, par2, par3, par4))
 	    {
 		    par1World.setBlock(par2, par3, par4, Blocks.fire);
 		}
 	    else
 		{
-		    if(par1World.getBlock(par2, par3 + 1, par4) == Blocks.air)
-		    {
-		    	par1World.setBlock(par2, par3 + 1, par4, FloocraftBase.greenFlamesBusyHigher);
-		    }
 		    par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+            this.fireTE.arePlayersNearby(par2, par3, par4);
 		}
 	}
 }
