@@ -137,7 +137,7 @@ public class GuiTeleport extends GuiScreen
         {
             if (par1GuiButton.id == -1)
             {
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
             }
             else if(par1GuiButton.id == -2)
             {
@@ -160,6 +160,9 @@ public class GuiTeleport extends GuiScreen
             	try
             	{
             		MessageTeleportEntity m = new MessageTeleportEntity();
+                    m.initX = this.initX;
+                    m.initY = this.initY;
+                    m.initZ = this.initZ;
             		m.destX = xcoordlist.get(par1GuiButton.id);
             		m.destY = ycoordlist.get(par1GuiButton.id);
             		m.destZ = zcoordlist.get(par1GuiButton.id);
@@ -169,7 +172,7 @@ public class GuiTeleport extends GuiScreen
             	{
             		e.printStackTrace();
             	}
-            	this.mc.displayGuiScreen((GuiScreen)null);
+            	this.mc.displayGuiScreen(null);
             }
         }
     }
@@ -241,11 +244,6 @@ public class GuiTeleport extends GuiScreen
 			ex.printStackTrace();
 		}
         this.initGui();
-    }
-    
-    public boolean gotLists()
-    {
-    	return this.receivedLists;
     }
     
     /**

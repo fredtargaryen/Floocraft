@@ -15,23 +15,26 @@ import net.minecraft.world.World;
 
 public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageTeleportEntity, IMessage>
 {
-	public int destX, destY, destZ;
+	public int initX, initY, initZ, destX, destY, destZ;
 	@Override
 	public IMessage onMessage(MessageTeleportEntity message, MessageContext ctx)
 	{
-        int X = message.destX;
-        int Y = message.destY;
-        int Z = message.destZ;
+        int initX = message.initX;
+        int initY = message.initY;
+        int initZ = message.initZ;
+        int destX = message.destX;
+        int destY = message.destY;
+        int destZ = message.destZ;
 		boolean tpApproved;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
-		Block destBlock = world.getBlock(X, Y, Z);
+		Block destBlock = world.getBlock(destX, destY, destZ);
 		if(destBlock instanceof BlockFire && !(destBlock instanceof GreenFlamesLowerBase))
 		{
             GreenFlamesIdle g = new GreenFlamesIdle((BlockFire) destBlock);
-            world.extinguishFire(player, X, Y, Z, 0);
-            world.setBlock(X, Y, Z, g);
-            tpApproved = g.approveOrDenyTeleport(world, X, Y, Z);
+            //world.extinguishFire(player, destX, destY, destZ, 0);
+            world.setBlock(destX, destY, destZ, g);
+            tpApproved = g.approveOrDenyTeleport(world, destX, destY, destZ);
 		}
 		else
 		{
@@ -40,17 +43,15 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		
 		if(tpApproved)
 		{
-			int x = player.serverPosX;
-			int y = player.serverPosY;
-			int z = player.serverPosZ;
 			if(player.isRiding())
 			{
 				player.mountEntity(null);
 			}
-			player.playerNetServerHandler.setPlayerLocation(X, Y, Z, player.rotationYaw, player.rotationPitch);
+			player.playerNetServerHandler.setPlayerLocation(destX, destY, destZ, player.rotationYaw, player.rotationPitch);
     		player.fallDistance = 0.0F;
-    		world.setBlock(x, y, z, Blocks.fire); //Must change this line if I ever want green flames to last more than one tp
-    		return null;
+            //world.extinguishFire(player, initX, initY, initZ, 0);
+    		world.setBlock(initX, initY, initZ, Blocks.fire); //Must change this line if I ever want green flames to last more than one tp
+            return null;
 		}
 		return FloocraftWorldData.forWorld(world).assembleNewFireplaceList(world);
 	}
@@ -58,14 +59,20 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		destX = buf.readInt();
-		destY = buf.readInt();
-		destZ = buf.readInt();
+        this.initX = buf.readInt();
+        this.initY = buf.readInt();
+        this.initZ = buf.readInt();
+		this.destX = buf.readInt();
+		this.destY = buf.readInt();
+		this.destZ = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
+        buf.writeInt(initX);
+        buf.writeInt(initY);
+        buf.writeInt(initZ);
 		buf.writeInt(destX);
 		buf.writeInt(destY);
 		buf.writeInt(destZ);

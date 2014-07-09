@@ -1,8 +1,6 @@
 /**
  * ===TO FIX BEFORE RELEASE===
- * Fires don't change
  * Teleporting to a fireplace with normal fire will set players on fire (duh!)
- * Teleporting doesn't always work. Aaaaaargh.
  *
  * Error checking
  */
