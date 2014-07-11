@@ -6,7 +6,6 @@ import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
 import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -24,9 +23,6 @@ public class GuiTeleport extends GuiScreen
     /** The title string that is displayed in the top-centre of the screen. */
     protected String screenTitle = "===Choose a destination===";
     private String status;
-
-    /** Reference to the flames object. */
-    private TileEntityFire fireTE;
 
     /** Counts the number of screen updates. */
     private int updateCounter;
@@ -52,13 +48,12 @@ public class GuiTeleport extends GuiScreen
 	private int initY;
 	private int initZ;
 	
-    public GuiTeleport(EntityClientPlayerMP e, TileEntityFire f, int x, int y, int z)
+    public GuiTeleport(EntityClientPlayerMP e, int x, int y, int z)
     {
     	this.initX = x;
     	this.initY = y;
     	this.initZ = z;
     	this.client = e;
-    	this.fireTE = f;
         this.firstButton = 0;
         this.lastButton = 5;
         this.refresh();
@@ -211,7 +206,6 @@ public class GuiTeleport extends GuiScreen
         float f1 = 93.75F;
         GL11.glScalef(-f1, -f1, -f1);
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-        //TileEntityRenderer.instance.renderTileEntityAt(this.fireTE, -0.5D, -0.75D, -0.5D, 0.0F);
         GL11.glPopMatrix();
         super.drawScreen(par1, par2, par3);
     }

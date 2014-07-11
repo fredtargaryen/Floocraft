@@ -1,14 +1,8 @@
 /**
- * ===TO FIX BEFORE RELEASE===
+ * ===MOST URGENT PROBLEMS===
  * Teleporting to a fireplace with normal fire will set players on fire (duh!); should make it a bit safer
- * Green Flames do not go lower when players are too far away/higher when players are nearby (check)
- * --arePlayersNearby doesn't seem to get called (CHECK)
- * When a Floo Sign explodes:
- * -An extra Floo Sign drops (check)
- * -The wrong location is removed (check)
- * Should look at onNeighborBlockChange in BlockFlooSign again
- *
- * Error checking
+ * When a Floo Sign explodes, the wrong location is removed and an extra sign can occasionally drop
+ * When no players are near busy flames, the busy flames stop ticking and the idle flames aren't set, afaik
  */
 /**
  * ===COSMETICS & FANCY BITS===
@@ -36,7 +30,6 @@ import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -141,7 +134,7 @@ public class FloocraftBase
 
     	//Register (Tile) Entities with GameRegistry
     	GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
-    	GameRegistry.registerTileEntity(TileEntityFire.class, "fireTE");
+
     	//Add recipes with GameRegistry
     	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floopowder,8),
     			new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));

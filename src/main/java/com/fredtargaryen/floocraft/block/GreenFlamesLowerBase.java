@@ -4,14 +4,12 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockFire;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -20,25 +18,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
-public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEntityProvider
+public abstract class GreenFlamesLowerBase extends BlockFire
 {
     protected TileEntityFireplace boundSign;
-	protected TileEntityFire fireTE;
 	private int[] chanceToEncourageFire = new int[0];
 	protected int speedCount;
     @SideOnly(Side.CLIENT)
     protected IIcon[] icons;
-	
-	public TileEntityFire getTileEntity()
-	{
-		return this.fireTE;
-	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -62,20 +52,10 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
         this.icons = new IIcon[] {i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_0"),
                                     i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_1")};
     }
-	
-	public boolean isFlammable(IBlockAccess world, int x, int y, int z, int metadata, ForgeDirection face)
-	{
-		return true;
-	}
-	 
+
 	public boolean isCollidable()
 	{
 		return true;
-	}
-
-	private boolean canNeighborBurn(World par1World, int par2, int par3, int par4)
-	{
-		return false;
 	}
 
 	@Override
@@ -87,14 +67,6 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 			{
 				doClientGuiTings((EntityPlayer)par5Entity, par2, par3, par4);
 			}
-			else
-			{
-				this.fireTE = (TileEntityFire)par1World.getTileEntity(par2, par3, par4);
-				if(this.fireTE == null)
-				{
-					this.fireTE = (TileEntityFire) createNewTileEntity(par1World, 0);
-				}
-			}			
 		}
 	}
 		
@@ -104,16 +76,16 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
 		if(Minecraft.getMinecraft().currentScreen == null && proxy.ticker.override == -1)
 		{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiTeleport((EntityClientPlayerMP)e, this.fireTE, x, y, z));
+			Minecraft.getMinecraft().displayGuiScreen(new GuiTeleport((EntityClientPlayerMP)e, x, y, z));
 			proxy.ticker.start();
 		}
 	}
 
-	@Override
-	public TileEntity createNewTileEntity(World var1, int var2)
-	{
-		return new TileEntityFire();
-	}
+	//@Override
+	//public TileEntity createNewTileEntity(World var1, int var2)
+	//{
+		//return new TileEntityFire();
+	//}
 	 
 	public int tickRate(World par1World)
 	{
@@ -282,14 +254,36 @@ public abstract class GreenFlamesLowerBase extends BlockFire implements ITileEnt
 		 
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
+        this.arePlayersNearby(par1World, par2, par3, par4);
         if(!isInFireplace(par1World, par2, par3, par4))
 	    {
 		    par1World.setBlock(par2, par3, par4, Blocks.fire);
 		}
-	    else
-		{
-		    par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
-            this.fireTE.arePlayersNearby(par2, par3, par4);
-		}
+	    par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
 	}
+
+    public void arePlayersNearby(World w, int x, int y, int z)
+    {
+        EntityPlayer ep = w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE);
+        System.out.println(ep);
+        //if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
+        if(ep == null)
+        {
+            if(w.getBlock(x, y, z) instanceof GreenFlamesBusyLower)
+            {
+                w.setBlock(x, y, z, new GreenFlamesIdle());
+            }
+        }
+        else
+        {
+            if(w.getBlock(x, y, z) instanceof GreenFlamesIdle)
+            {
+                w.setBlock(x, y, z, new GreenFlamesBusyLower());
+                if(w.getBlock(x, y + 1, z) instanceof BlockAir)
+                {
+                    w.setBlock(x, y + 1, z, new GreenFlamesBusyHigher());
+                }
+            }
+        }
+    }
 }

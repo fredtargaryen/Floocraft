@@ -20,5 +20,6 @@ public class GreenFlamesBusyLower extends GreenFlamesLowerBase
         {
             par1World.setBlock(par2, par3 + 1, par4, FloocraftBase.greenFlamesBusyHigher);
         }
+        super.updateTick(par1World, par2, par3, par4, par5Random);
     }
 }

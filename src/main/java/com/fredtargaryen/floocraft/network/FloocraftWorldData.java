@@ -3,6 +3,7 @@ package com.fredtargaryen.floocraft.network;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,7 +36,7 @@ public class FloocraftWorldData extends WorldSavedData
 		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, key);
 		if (data == null)
 		{
-			System.out.println("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
+            FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
 			data = new FloocraftWorldData(key);
 			storage.setData(key, data);
 		}
@@ -48,7 +49,7 @@ public class FloocraftWorldData extends WorldSavedData
 		xcoordlist.add(x);
 		ycoordlist.add(y);
 		zcoordlist.add(z);
-		System.out.println("[FLOOCRAFT-SERVER] Added fireplace at ("+x+", "+y+", "+z+"). Name: "+name);
+		FMLLog.info("[FLOOCRAFT-SERVER] Added fireplace at (" + x + ", " + y + ", " + z + "). Name: " + name);
 		markDirty();
 	}
 	
@@ -69,7 +70,7 @@ public class FloocraftWorldData extends WorldSavedData
 		}
 		if(j > -1)
 		{
-			System.out.println("[FLOOCRAFT-SERVER] Removed fireplace at ("+x+", "+y+", "+z+"). Name: "+placenamelist.get(j));
+			FMLLog.info("[FLOOCRAFT-SERVER] Removed fireplace at (" + x + ", " + y + ", " + z + "). Name: " + placenamelist.get(j));
 			placenamelist.remove(j);
 			xcoordlist.remove(j);
 			ycoordlist.remove(j);
@@ -77,8 +78,8 @@ public class FloocraftWorldData extends WorldSavedData
 		}
 		else
 		{
-            System.out.println("[FLOOCRAFT-SERVER] Failed to remove fireplace at ("+x+", "+y+", "+z+").");
-			System.out.println("[FLOOCRAFT-SERVER] Data can be manually removed with an NBT editor.");
+            FMLLog.warning("[FLOOCRAFT-SERVER] Failed to remove fireplace at (" + x + ", " + y + ", " + z + ").");
+			FMLLog.warning("[FLOOCRAFT-SERVER] Data can be manually removed with an NBT editor.");
 		}
 		markDirty();
 	}

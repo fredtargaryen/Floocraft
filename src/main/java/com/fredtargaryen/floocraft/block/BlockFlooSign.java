@@ -72,9 +72,32 @@ public class BlockFlooSign extends BlockSign
     }
 
     @Override
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5)
+    public void onNeighborBlockChange(World w, int x, int y, int z, Block b)
     {
-	    this.onBlockDestroyedByPlayer(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4));
+        boolean dropDaBlock = true;
+        int l = w.getBlockMetadata(x, y, z);
+        if(l == 2 && w.getBlock(x, y, z + 1).getMaterial().isSolid())
+        {
+            dropDaBlock = false;
+        }
+        else if (l == 3 && w.getBlock(x, y, z - 1).getMaterial().isSolid())
+        {
+            dropDaBlock = false;
+        }
+        else if (l == 4 && w.getBlock(x + 1, y, z).getMaterial().isSolid())
+        {
+            dropDaBlock = false;
+        }
+        else if(l == 5 && w.getBlock(x - 1, y, z).getMaterial().isSolid())
+        {
+            dropDaBlock = false;
+        }
+
+        if (dropDaBlock)
+        {
+            this.dropBlockAsItem(w, x, y, z, l, 0);
+            w.setBlockToAir(x, y, z);
+        }
     }
 	
 	@Override
@@ -100,14 +123,16 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onBlockDestroyedByExplosion(World w, int x, int y, int z, Explosion p_149723_5_)
     {
-    	this.onBlockDestroyedByPlayer(w, x, y, z, w.getBlockMetadata(x, y, z));
+        int m = w.getBlockMetadata(x, y, z);
+        TileEntityFireplace.removeLocation(w, x, y, z, m);
+        this.dropBlockAsItem(w, x, y, z, m, 0);
+        w.setBlockToAir(x, y, z);
     }
     
     @Override
 	public void onBlockDestroyedByPlayer(World par1World, int x, int y, int z, int m)
 	{
     	TileEntityFireplace.removeLocation(par1World, x, y, z, m);
-		super.onBlockDestroyedByPlayer(par1World, x, y, z, m);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -123,5 +148,13 @@ public class BlockFlooSign extends BlockSign
     public IIcon getIcon(int par1, int par2)
     {
         return this.tileIcon;
+    }
+
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(Random p_149745_1_)
+    {
+        return 1;
     }
 }
