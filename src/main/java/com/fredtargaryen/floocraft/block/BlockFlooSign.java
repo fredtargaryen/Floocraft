@@ -21,6 +21,7 @@ import java.util.Random;
 public class BlockFlooSign extends BlockSign
 {
 	public IIcon tileIcon;
+
 	public BlockFlooSign()
 	{
 		super(TileEntityFireplace.class, false);

@@ -18,14 +18,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
 public abstract class GreenFlamesLowerBase extends BlockFire
 {
     protected TileEntityFireplace boundSign;
-	private int[] chanceToEncourageFire = new int[0];
 	protected int speedCount;
     @SideOnly(Side.CLIENT)
     protected IIcon[] icons;
@@ -285,5 +286,11 @@ public abstract class GreenFlamesLowerBase extends BlockFire
                 }
             }
         }
+    }
+
+    @Override
+    public int getChanceToEncourageFire(IBlockAccess world, int x, int y, int z, int oldChance, ForgeDirection face)
+    {
+        return 0;
     }
 }

@@ -4,7 +4,6 @@ import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -17,11 +16,6 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class GuiFlooSign extends GuiScreen
 {
-	/**
-     * This String is just a local copy of the characters allowed in text rendering of minecraft.
-     */
-    private static final char[] allowedCharacters = ChatAllowedCharacters.allowedCharacters;
-
     /** The title string that is displayed in the top-centre of the screen. */
     protected String screenTitle = "===Floo Network Setup Wizard===";
     
@@ -38,8 +32,6 @@ public class GuiFlooSign extends GuiScreen
 
     /** "Done" button for the GUI. */
     private GuiButton doneBtn;
-    
-    private FloocraftWorldData data;
     
     //If this is false, a player is attempting to create a fireplace with the same name.
     private boolean uniqueName;

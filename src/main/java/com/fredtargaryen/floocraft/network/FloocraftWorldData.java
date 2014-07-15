@@ -1,7 +1,6 @@
 package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
-import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;

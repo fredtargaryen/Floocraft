@@ -63,10 +63,8 @@ public class TileEntityFireplace extends TileEntitySign
         	m.z = newZ;
         	PacketHandler.INSTANCE.sendToServer(m);
         }
-        else
-        {
-         	// We are on the Bukkit or server side.
-        }
+        //else, we are on the Bukkit or server side.
+
         return true; //Change this when disallowing fireplaces with the same name.
    	}
    
