@@ -87,12 +87,14 @@ public abstract class GreenFlamesLowerBase extends BlockFire
 	//{
 		//return new TileEntityFire();
 	//}
-	 
+
+    @Override
 	public int tickRate(World par1World)
 	{
 		return 20;
 	}
-	
+
+    @Override
 	public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
 		if (!isInFireplace(par1World, par2, par3, par4))
@@ -252,41 +254,16 @@ public abstract class GreenFlamesLowerBase extends BlockFire
 		 }
 		 return i;
 	 }
-		 
+
+    @Override
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
-        this.arePlayersNearby(par1World, par2, par3, par4);
         if(!isInFireplace(par1World, par2, par3, par4))
 	    {
 		    par1World.setBlock(par2, par3, par4, Blocks.fire);
 		}
-	    par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+	    par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World) + par5Random.nextInt(10));
 	}
-
-    public void arePlayersNearby(World w, int x, int y, int z)
-    {
-        EntityPlayer ep = w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE);
-        System.out.println(ep);
-        //if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
-        if(ep == null)
-        {
-            if(w.getBlock(x, y, z) instanceof GreenFlamesBusyLower)
-            {
-                w.setBlock(x, y, z, new GreenFlamesIdle());
-            }
-        }
-        else
-        {
-            if(w.getBlock(x, y, z) instanceof GreenFlamesIdle)
-            {
-                w.setBlock(x, y, z, new GreenFlamesBusyLower());
-                if(w.getBlock(x, y + 1, z) instanceof BlockAir)
-                {
-                    w.setBlock(x, y + 1, z, new GreenFlamesBusyHigher());
-                }
-            }
-        }
-    }
 
     @Override
     public int getChanceToEncourageFire(IBlockAccess world, int x, int y, int z, int oldChance, ForgeDirection face)

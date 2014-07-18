@@ -34,6 +34,7 @@ public class GreenFlamesBusyHigher extends BlockFire
                 i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_0")};
     }
 
+    @Override
 	public void onBlockAdded(World par1World, int par2, int par3, int par4)
 	{
 		 if (par1World.getBlock(par2, par3 - 1, par4) == FloocraftBase.greenFlamesBusyLower)

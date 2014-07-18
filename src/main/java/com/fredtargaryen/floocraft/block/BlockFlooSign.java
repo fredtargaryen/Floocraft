@@ -75,30 +75,8 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onNeighborBlockChange(World w, int x, int y, int z, Block b)
     {
-        boolean dropDaBlock = true;
-        int l = w.getBlockMetadata(x, y, z);
-        if(l == 2 && w.getBlock(x, y, z + 1).getMaterial().isSolid())
-        {
-            dropDaBlock = false;
-        }
-        else if (l == 3 && w.getBlock(x, y, z - 1).getMaterial().isSolid())
-        {
-            dropDaBlock = false;
-        }
-        else if (l == 4 && w.getBlock(x + 1, y, z).getMaterial().isSolid())
-        {
-            dropDaBlock = false;
-        }
-        else if(l == 5 && w.getBlock(x - 1, y, z).getMaterial().isSolid())
-        {
-            dropDaBlock = false;
-        }
-
-        if (dropDaBlock)
-        {
-            this.dropBlockAsItem(w, x, y, z, l, 0);
-            w.setBlockToAir(x, y, z);
-        }
+        TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+        super.onNeighborBlockChange(w, x, y, z, b);
     }
 	
 	@Override
@@ -124,16 +102,15 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onBlockDestroyedByExplosion(World w, int x, int y, int z, Explosion p_149723_5_)
     {
-        int m = w.getBlockMetadata(x, y, z);
-        TileEntityFireplace.removeLocation(w, x, y, z, m);
-        this.dropBlockAsItem(w, x, y, z, m, 0);
-        w.setBlockToAir(x, y, z);
+        TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+        super.onBlockDestroyedByExplosion(w, x, y, z, p_149723_5_);
     }
     
     @Override
 	public void onBlockDestroyedByPlayer(World par1World, int x, int y, int z, int m)
 	{
     	TileEntityFireplace.removeLocation(par1World, x, y, z, m);
+        super.onBlockDestroyedByPlayer(par1World, x, y, z, m);
 	}
 	
 	@SideOnly(Side.CLIENT)

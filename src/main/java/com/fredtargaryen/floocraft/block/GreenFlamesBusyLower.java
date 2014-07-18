@@ -1,6 +1,8 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
@@ -14,12 +16,17 @@ public class GreenFlamesBusyLower extends GreenFlamesLowerBase
     }
 	
 	@Override
-    public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    public void updateTick(World w, int x, int y, int z, Random par5Random)
     {
-        if(par1World.getBlock(par2, par3 + 1, par4) == Blocks.air)
+        if(w.getBlock(x, y + 1, z) == Blocks.air)
         {
-            par1World.setBlock(par2, par3 + 1, par4, FloocraftBase.greenFlamesBusyHigher);
+            w.setBlock(x, y + 1, z, FloocraftBase.greenFlamesBusyHigher);
         }
-        super.updateTick(par1World, par2, par3, par4, par5Random);
+
+        if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
+        {
+            w.setBlock(x, y, z, FloocraftBase.greenFlamesIdle);
+        }
+        super.updateTick(w, x, y, z, par5Random);
     }
 }

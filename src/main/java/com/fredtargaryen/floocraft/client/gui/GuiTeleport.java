@@ -161,13 +161,16 @@ public class GuiTeleport extends GuiScreen
             		m.destX = xcoordlist.get(par1GuiButton.id);
             		m.destY = ycoordlist.get(par1GuiButton.id);
             		m.destZ = zcoordlist.get(par1GuiButton.id);
-            		PacketHandler.INSTANCE.sendToServer(m);
+                    if(!(m.initX == m.destX && m.initY == m.destY && m.initZ == m.destZ))
+                    {
+                        PacketHandler.INSTANCE.sendToServer(m);
+                    }
             	}
             	catch(Exception e)
             	{
             		e.printStackTrace();
             	}
-            	this.mc.displayGuiScreen(null);
+            	this.actionPerformed(this.doneBtn);
             }
         }
     }

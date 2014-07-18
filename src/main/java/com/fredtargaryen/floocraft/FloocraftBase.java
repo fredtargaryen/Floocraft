@@ -1,12 +1,5 @@
 /**
- * ===MOST URGENT PROBLEMS===
- * Teleporting to a fireplace with normal fire will set players on fire (duh!); should make it a bit safer
- * When a Floo Sign explodes, the wrong location is removed and an extra sign can occasionally drop
- * When no players are near busy flames, the busy flames stop ticking and the idle flames aren't set, afaik
- */
-/**
  * ===COSMETICS & FANCY BITS===
- * Green Flames break in an interesting way. I could fix this, but I like it.
  * Teleporting interface isn't very elegant; hoping to replace scroll buttons with a smooth scrollbar
  * Villagers could be able to use the fireplaces as well...
  * Fireplaces can only be one block wide
@@ -67,6 +60,7 @@ public class FloocraftBase
     public static Block greenFlamesBusyLower;
     public static Block greenFlamesBusyHigher;
     public static Block greenFlamesIdle;
+    public static Block greenFlamesTemp;
     public static Block blockFlooSign;
     /**
      * Declare all items here
@@ -100,6 +94,10 @@ public class FloocraftBase
     	greenFlamesIdle = new GreenFlamesIdle()
     	.setBlockName("greenflamesidle")
     	.setLightLevel(0.875F);
+
+        greenFlamesTemp = new GreenFlamesIdleTemp(3)
+        .setBlockName("greenflamesidletemp")
+        .setLightLevel(0.875F);
     	
     	blockFlooSign = new BlockFlooSign()
     	.setBlockName("blockfloosign");
@@ -128,6 +126,7 @@ public class FloocraftBase
     	GameRegistry.registerBlock(greenFlamesBusyLower, "greenflamesbusylower");
     	GameRegistry.registerBlock(greenFlamesBusyHigher, "greenflamesbusyhigher");
     	GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
+        GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
     	
     	GameRegistry.registerItem(floopowder, "floopowder");
     	GameRegistry.registerItem(itemFlooSign, "itemfloosign");

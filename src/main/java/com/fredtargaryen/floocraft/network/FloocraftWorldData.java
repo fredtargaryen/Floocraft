@@ -1,10 +1,14 @@
 package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
+import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
@@ -123,8 +127,23 @@ public class FloocraftWorldData extends WorldSavedData
 		List<Boolean> l = new ArrayList<Boolean>();
 		for(int x = 0; x < placenamelist.size(); x++)
 		{
-			Block b = w.getBlock(xcoordlist.get(x), ycoordlist.get(x), zcoordlist.get(x));
-			l.add(b instanceof BlockFire);
+            int dx = xcoordlist.get(x);
+            int dy = ycoordlist.get(x);
+            int dz = zcoordlist.get(x);
+			Block b = w.getBlock(dx, dy, dz);
+            boolean ok = true;
+            if(!(b instanceof GreenFlamesLowerBase) && b instanceof BlockFire)
+            {
+                w.setBlock(dx, dy, dz, FloocraftBase.greenFlamesTemp);
+                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) w.getBlock(dx, dy, dz);
+                ok = gfit.approveOrDenyTeleport(w, dx, dy, dz);
+                w.setBlock(dx, dy, dz, Blocks.fire);
+            }
+            else if(!(b instanceof GreenFlamesLowerBase))
+            {
+                ok = false;
+            }
+            l.add(ok);
 		}
 		m.enabledlist = l;
 		return m;

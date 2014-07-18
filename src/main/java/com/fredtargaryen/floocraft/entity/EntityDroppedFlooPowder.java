@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusyHigher;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusyLower;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockTorch;
@@ -42,7 +43,7 @@ public class EntityDroppedFlooPowder extends EntityItem
 			this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusyLower);
             if(this.worldObj.getBlock(intX, intY + 1, intZ) instanceof BlockAir)
             {
-                this.worldObj.setBlock(intX, intY + 1, intZ, new GreenFlamesBusyHigher());
+                this.worldObj.setBlock(intX, intY + 1, intZ, FloocraftBase.greenFlamesBusyHigher);
             }
 			this.setDead();
 		}
