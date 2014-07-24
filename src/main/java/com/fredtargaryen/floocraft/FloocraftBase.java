@@ -1,19 +1,15 @@
 /**
  * ===COSMETICS & FANCY BITS===
- * Teleporting interface isn't very elegant; hoping to replace scroll buttons with a smooth scrollbar
- * Villagers could be able to use the fireplaces as well...
  * Fireplaces can only be one block wide
- * Floo Signs should only add a location if they are connected to an appropriate block which is more than 2 blocks above ground
  */
 /**
  * ===TELEPORTATION===
  * Teleportation is instant
  * The blocks the fireplace is made of has no bearing on teleport speed
- * Fireplaces with the same name can be created
  */
 /**
- * ===LESS IMPORTANT THINGS FOR ME TO WORRY ABOUT===
- * Client: Using missing texture, unable to load ftfloocraft:textures/blocks/greenflamesbusyhigher_layer_1.png
+ * ===HIGH-PRIORITY===
+ * When destroying a block, getTileEntity does not return correct TileEntity
  */
 
 package com.fredtargaryen.floocraft;

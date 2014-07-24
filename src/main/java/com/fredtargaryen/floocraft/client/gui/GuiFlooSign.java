@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.client.gui;
 
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,21 +18,18 @@ import org.lwjgl.opengl.GL11;
 public class GuiFlooSign extends GuiScreen
 {
     /** The title string that is displayed in the top-centre of the screen. */
-    protected String screenTitle = "===Floo Network Setup Wizard===";
+    private String screenTitle = "===Floo Network Setup Wizard===";
     
-    protected String sameNameError = "There is already a fireplace with this name";
+    private String sameNameError = "";
 
     /** Reference to the sign object. */
-    private TileEntityFireplace fireplaceTE;
+    public TileEntityFireplace fireplaceTE;
 
     /** Counts the number of screen updates. */
     private int updateCounter;
 
     /** The number of the line that is being edited. */
     private int editLine;
-
-    /** "Done" button for the GUI. */
-    private GuiButton doneBtn;
     
     //If this is false, a player is attempting to create a fireplace with the same name.
     private boolean uniqueName;
@@ -49,7 +47,8 @@ public class GuiFlooSign extends GuiScreen
     {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, "Done"));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration"));
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network"));
     }
 
     /**
@@ -79,14 +78,23 @@ public class GuiFlooSign extends GuiScreen
     {
         if (par1GuiButton.enabled)
         {
-            if (par1GuiButton == this.doneBtn)
+            switch(par1GuiButton.id)
             {
-            	this.fireplaceTE.markDirty();
-            	this.uniqueName = this.fireplaceTE.addLocation(this.fireplaceTE.xCoord, this.fireplaceTE.yCoord, this.fireplaceTE.zCoord, this.fireplaceTE.signText, this.fireplaceTE.getWorldObj(), this.fireplaceTE.func_145911_b());
-            	if(this.uniqueName)
-            	{
-            		this.mc.displayGuiScreen(null);
-            	}
+                case 0:
+                {
+                    this.fireplaceTE.setDecorative(true);
+                    this.mc.displayGuiScreen(null);
+                    break;
+                }
+                case 1:
+                {
+                    this.fireplaceTE.setDecorative(false);
+                    this.fireplaceTE.markDirty();
+                    MessageApproveName man = new MessageApproveName();
+                    man.name = nameAsLine(this.fireplaceTE.signText);
+                    PacketHandler.INSTANCE.sendToServer(man);
+                    break;
+                }
             }
         }
     }
@@ -114,11 +122,6 @@ public class GuiFlooSign extends GuiScreen
         {
             this.fireplaceTE.signText[this.editLine] = this.fireplaceTE.signText[this.editLine] + par1;
         }
-
-        if (par2 == 1)
-        {
-            this.actionPerformed(this.doneBtn);
-        }
     }
 
     /**
@@ -133,14 +136,11 @@ public class GuiFlooSign extends GuiScreen
         		this.width / 2,
         		40,
         		16777215);
-        if(!this.uniqueName)
-        {
-        	this.drawCenteredString(this.fontRendererObj,
-            		this.sameNameError,
-            		this.width / 2,
-            		this.height / 4 + 100,
-            		16777215);
-        }
+        this.drawCenteredString(this.fontRendererObj,
+            	this.sameNameError,
+            	this.width / 2,
+            	this.height / 4 + 100,
+            	16777215);
         GL11.glPushMatrix();
         GL11.glTranslatef((float)(this.width / 2), 0.0F, 50.0F);
         float f1 = 93.75F;
@@ -177,5 +177,37 @@ public class GuiFlooSign extends GuiScreen
         this.fireplaceTE.lineBeingEdited = -1;
         GL11.glPopMatrix();
         super.drawScreen(par1, par2, par3);
+    }
+
+    private static String nameAsLine(String[] original)
+    {
+        return original[0]+" "+original[1]+" "+original[2]+" "+original[3];
+    }
+
+    public void dealWithAnswer(boolean answer)
+    {
+        if(answer)
+        {
+            this.sameNameError = "";
+            this.fireplaceTE.addLocation(this.fireplaceTE.xCoord,
+                    this.fireplaceTE.yCoord,
+                    this.fireplaceTE.zCoord,
+                    nameAsLine(this.fireplaceTE.signText),
+                    this.fireplaceTE.getWorldObj());
+            this.mc.displayGuiScreen(null);
+        }
+        else
+        {
+            this.sameNameError = "There is already a fireplace with this name";
+        }
+    }
+
+    /**
+     * Returns true if this GUI should pause the game when it is displayed in single-player
+     */
+    @Override
+    public boolean doesGuiPauseGame()
+    {
+        return false;
     }
 }

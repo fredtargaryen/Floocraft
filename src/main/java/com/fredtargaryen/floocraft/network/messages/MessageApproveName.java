@@ -6,16 +6,16 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAddFireplace, IMessage>
+public class MessageApproveName implements IMessage, IMessageHandler<MessageApproveName, IMessage>
 {
 	public String name;
-	public int x, y, z;
 	
 	@Override
-	public IMessage onMessage(MessageAddFireplace message, MessageContext ctx)
+	public IMessage onMessage(MessageApproveName message, MessageContext ctx)
 	{
-		FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).addLocation(message.name, message.x, message.y, message.z);
-		return null;
+        MessageApproval m = new MessageApproval();
+        m.answer = !FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).placenamelist.contains(message.name);
+		return m;
 	}
 
 	@Override
@@ -23,9 +23,6 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	{
 		int nameLength = buf.readInt();
         this.name = new String(buf.readBytes(nameLength).array());
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
 	}
 
 	@Override
@@ -33,8 +30,5 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	{
 		buf.writeInt(name.length());
         buf.writeBytes(name.getBytes());
-		buf.writeInt(x);
-		buf.writeInt(y);
-		buf.writeInt(z);
 	}
 }

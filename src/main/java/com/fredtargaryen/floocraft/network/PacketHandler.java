@@ -17,5 +17,7 @@ public class PacketHandler
 		INSTANCE.registerMessage(MessageAddFireplace.class, MessageAddFireplace.class, 2, Side.SERVER);
 		INSTANCE.registerMessage(MessageRemoveFireplace.class, MessageRemoveFireplace.class, 3, Side.SERVER);
 		INSTANCE.registerMessage(MessageFireplaceList.class, MessageFireplaceList.class, 4, Side.CLIENT);
+        INSTANCE.registerMessage(MessageApproveName.class, MessageApproveName.class, 5, Side.SERVER);
+        INSTANCE.registerMessage(MessageApproval.class, MessageApproval.class, 6, Side.CLIENT);
 	}
 }

@@ -14,18 +14,19 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityFireplace extends TileEntitySign
 {
 	private EntityPlayer writer;
-	public String fullName;
     private GreenFlamesLowerBase boundBlock;
-	
+    private boolean isDecorative;
+
+    public TileEntityFireplace(){}
+
 	/**Sends packet containing:
 	 *--xcoord
 	 *--ycoord
 	 *--zcoord
 	 *--placename
 	 */
-	public boolean addLocation(int x,int y, int z, String[] name, World par5World, EntityPlayer ep)
+	public void addLocation(int x,int y, int z, String name, World par5World)
    	{
-		fullName = name[0]+" "+name[1]+" "+name[2]+" "+name[3];
         if(par5World.isRemote)
         {
          	// We are on the client side.
@@ -57,15 +58,13 @@ public class TileEntityFireplace extends TileEntitySign
             }
             int newY = iterateDownFromTop(par5World, newX, y, newZ);
         	MessageAddFireplace m = new MessageAddFireplace();
-        	m.name = fullName;
+        	m.name = name;
         	m.x = newX;
         	m.y = newY;
         	m.z = newZ;
         	PacketHandler.INSTANCE.sendToServer(m);
         }
         //else, we are on the Bukkit or server side.
-
-        return true; //Change this when disallowing fireplaces with the same name.
    	}
    
 	public static void removeLocation(World w, int x, int y, int z, int metadata)
@@ -131,5 +130,15 @@ public class TileEntityFireplace extends TileEntitySign
             y--;
         }
         return y + 1;
+    }
+
+    public void setDecorative(boolean b)
+    {
+        this.isDecorative = b;
+    }
+
+    public boolean getDecorative()
+    {
+        return this.isDecorative;
     }
 }

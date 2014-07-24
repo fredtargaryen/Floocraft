@@ -75,7 +75,12 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onNeighborBlockChange(World w, int x, int y, int z, Block b)
     {
-        TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+        if(w.isRemote)
+        {
+            TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
+        if(!t.getDecorative()) {
+            TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+        }}
         super.onNeighborBlockChange(w, x, y, z, b);
     }
 	
@@ -102,14 +107,27 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onBlockDestroyedByExplosion(World w, int x, int y, int z, Explosion p_149723_5_)
     {
-        TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+        if(w.isRemote)
+        {
+        TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
+        if(!t.getDecorative()) {
+            TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+        }}
         super.onBlockDestroyedByExplosion(w, x, y, z, p_149723_5_);
     }
     
     @Override
 	public void onBlockDestroyedByPlayer(World par1World, int x, int y, int z, int m)
 	{
-    	TileEntityFireplace.removeLocation(par1World, x, y, z, m);
+        TileEntity t = par1World.getTileEntity(x, y, z);
+        if(t instanceof TileEntityFireplace)
+        {
+            TileEntityFireplace tef = (TileEntityFireplace) t;
+            if(!tef.getDecorative())
+            {
+                TileEntityFireplace.removeLocation(par1World, x, y, z, m);
+            }
+        }
         super.onBlockDestroyedByPlayer(par1World, x, y, z, m);
 	}
 	
