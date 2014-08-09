@@ -1,6 +1,5 @@
 /**
- * ===COSMETICS & FANCY BITS===
- * Fireplaces can only be one block wide
+ *
  */
 /**
  * ===TELEPORTATION===
@@ -9,6 +8,7 @@
 /**
  * ===IDEAS FOR WHEN NOT WIP===
  * Floower Pot
+ * Support for brick blocks from other mods
  */
 
 package com.fredtargaryen.floocraft;
