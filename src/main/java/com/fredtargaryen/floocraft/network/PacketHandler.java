@@ -15,9 +15,9 @@ public class PacketHandler
 		INSTANCE.registerMessage(MessageFireplaceListRequest.class, MessageFireplaceListRequest.class, 0, Side.SERVER);
 		INSTANCE.registerMessage(MessageTeleportEntity.class, MessageTeleportEntity.class, 1, Side.SERVER);
 		INSTANCE.registerMessage(MessageAddFireplace.class, MessageAddFireplace.class, 2, Side.SERVER);
-		INSTANCE.registerMessage(MessageRemoveFireplace.class, MessageRemoveFireplace.class, 3, Side.SERVER);
-		INSTANCE.registerMessage(MessageFireplaceList.class, MessageFireplaceList.class, 4, Side.CLIENT);
-        INSTANCE.registerMessage(MessageApproveName.class, MessageApproveName.class, 5, Side.SERVER);
-        INSTANCE.registerMessage(MessageApproval.class, MessageApproval.class, 6, Side.CLIENT);
+		INSTANCE.registerMessage(MessageFireplaceList.class, MessageFireplaceList.class, 3, Side.CLIENT);
+        INSTANCE.registerMessage(MessageApproveName.class, MessageApproveName.class, 4, Side.SERVER);
+        INSTANCE.registerMessage(MessageApproval.class, MessageApproval.class, 5, Side.CLIENT);
+        INSTANCE.registerMessage(MessageTileEntityFireplaceFunction.class, MessageTileEntityFireplaceFunction.class, 6, Side.SERVER);
 	}
 }

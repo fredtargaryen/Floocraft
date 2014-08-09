@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
+import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -82,13 +83,23 @@ public class GuiFlooSign extends GuiScreen
             {
                 case 0:
                 {
-                    this.fireplaceTE.setDecorative(true);
+                    MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
+                    m.x = this.fireplaceTE.xCoord;
+                    m.y = this.fireplaceTE.yCoord;
+                    m.z = this.fireplaceTE.zCoord;
+                    m.function = true;
+                    PacketHandler.INSTANCE.sendToServer(m);
                     this.mc.displayGuiScreen(null);
                     break;
                 }
                 case 1:
                 {
-                    this.fireplaceTE.setDecorative(false);
+                    MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
+                    m.x = this.fireplaceTE.xCoord;
+                    m.y = this.fireplaceTE.yCoord;
+                    m.z = this.fireplaceTE.zCoord;
+                    m.function = false;
+                    PacketHandler.INSTANCE.sendToServer(m);
                     this.fireplaceTE.markDirty();
                     MessageApproveName man = new MessageApproveName();
                     man.name = nameAsLine(this.fireplaceTE.signText);

@@ -5,11 +5,10 @@
 /**
  * ===TELEPORTATION===
  * Teleportation is instant
- * The blocks the fireplace is made of has no bearing on teleport speed
  */
 /**
- * ===HIGH-PRIORITY===
- * When destroying a block, getTileEntity does not return correct TileEntity
+ * ===IDEAS FOR WHEN NOT WIP===
+ * Floower Pot
  */
 
 package com.fredtargaryen.floocraft;

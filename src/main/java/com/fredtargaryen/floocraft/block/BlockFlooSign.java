@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -101,36 +100,6 @@ public class BlockFlooSign extends BlockSign
         return new ItemStack(FloocraftBase.itemFlooSign, 1);
     }
 	
-    /**
-     * Called upon the block being destroyed by an explosion
-     */
-    @Override
-    public void onBlockDestroyedByExplosion(World w, int x, int y, int z, Explosion p_149723_5_)
-    {
-        if(w.isRemote)
-        {
-        TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
-        if(!t.getDecorative()) {
-            TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
-        }}
-        super.onBlockDestroyedByExplosion(w, x, y, z, p_149723_5_);
-    }
-    
-    @Override
-	public void onBlockDestroyedByPlayer(World par1World, int x, int y, int z, int m)
-	{
-        TileEntity t = par1World.getTileEntity(x, y, z);
-        if(t instanceof TileEntityFireplace)
-        {
-            TileEntityFireplace tef = (TileEntityFireplace) t;
-            if(!tef.getDecorative())
-            {
-                TileEntityFireplace.removeLocation(par1World, x, y, z, m);
-            }
-        }
-        super.onBlockDestroyedByPlayer(par1World, x, y, z, m);
-	}
-	
 	@SideOnly(Side.CLIENT)
 	 public void registerBlockIcons(IIconRegister par1IIconRegister)
 	 {
@@ -152,5 +121,18 @@ public class BlockFlooSign extends BlockSign
     public int quantityDropped(Random p_149745_1_)
     {
         return 1;
+    }
+
+    public void breakBlock(World w, int x, int y, int z, Block b, int m)
+    {
+        if(!w.isRemote)
+        {
+            TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(x, y, z);
+            if (!tef.getDecorative())
+            {
+                TileEntityFireplace.removeLocation(w, x, y, z, m);
+            }
+        }
+        w.removeTileEntity(x, y, z);
     }
 }

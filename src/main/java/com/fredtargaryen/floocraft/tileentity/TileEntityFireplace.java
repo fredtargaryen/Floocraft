@@ -1,20 +1,16 @@
 package com.fredtargaryen.floocraft.tileentity;
 
-import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
+import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
-import com.fredtargaryen.floocraft.network.messages.MessageRemoveFireplace;
-import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityFireplace extends TileEntitySign
 {
 	private EntityPlayer writer;
-    private GreenFlamesLowerBase boundBlock;
     private boolean isDecorative;
 
     public TileEntityFireplace(){}
@@ -69,9 +65,8 @@ public class TileEntityFireplace extends TileEntitySign
    
 	public static void removeLocation(World w, int x, int y, int z, int metadata)
 	{
-		if(w.isRemote)
-		{
-            // We are on the client side.
+        if(!w.isRemote)
+        {
             int newX = x;
             int newZ = z;
             switch(metadata)
@@ -98,12 +93,8 @@ public class TileEntityFireplace extends TileEntitySign
                 }
             }
             int newY = iterateDownFromTop(w, newX, y, newZ);
-			MessageRemoveFireplace m = new MessageRemoveFireplace();
-			m.x = newX;
-			m.y = newY;
-			m.z = newZ;
-			PacketHandler.INSTANCE.sendToServer(m);
-		}
+            FloocraftWorldData.forWorld(w).removeLocation(newX, newY, newZ);
+        }
 	}
 	
 	@Override
