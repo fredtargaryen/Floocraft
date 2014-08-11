@@ -95,7 +95,7 @@ public class GuiTeleport extends GuiScreen
     {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
         Keyboard.enableRepeatEvents(false);
-        proxy.ticker.start();
+        proxy.overrideTicker.start();
     }
 
     /**
@@ -165,6 +165,9 @@ public class GuiTeleport extends GuiScreen
                     {
                         PacketHandler.INSTANCE.sendToServer(m);
                     }
+                    ClientProxy p = (ClientProxy)FloocraftBase.proxy;
+                    p.teleportTicker.start();
+                    this.actionPerformed(this.doneBtn);
             	}
             	catch(Exception e)
             	{

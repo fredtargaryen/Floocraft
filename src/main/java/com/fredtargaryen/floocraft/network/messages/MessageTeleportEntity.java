@@ -4,6 +4,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
 import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import com.fredtargaryen.floocraft.network.PacketHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -30,7 +31,6 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
 		Block destBlock = world.getBlock(destX, destY, destZ);
-
 		if(destBlock instanceof BlockFire && !(destBlock instanceof GreenFlamesLowerBase))
 		{
             world.setBlock(destX, destY, destZ, FloocraftBase.greenFlamesTemp);
@@ -44,6 +44,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 
 		if(tpApproved)
 		{
+
             player.setVelocity(0.0D, 0.0D, 0.0D);
 			if(player.isRiding())
 			{
@@ -56,9 +57,8 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		}
         else
         {
-            world.setBlock(destX, destY, destZ, Blocks.fire);
         }
-		return FloocraftWorldData.forWorld(world).assembleNewFireplaceList(world);
+		return null;
 	}
 
 	@Override

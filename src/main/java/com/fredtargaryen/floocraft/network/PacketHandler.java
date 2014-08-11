@@ -19,5 +19,6 @@ public class PacketHandler
         INSTANCE.registerMessage(MessageApproveName.class, MessageApproveName.class, 4, Side.SERVER);
         INSTANCE.registerMessage(MessageApproval.class, MessageApproval.class, 5, Side.CLIENT);
         INSTANCE.registerMessage(MessageTileEntityFireplaceFunction.class, MessageTileEntityFireplaceFunction.class, 6, Side.SERVER);
+        INSTANCE.registerMessage(MessageDoGreenFlash.class, MessageDoGreenFlash.class, 7, Side.CLIENT);
 	}
 }

@@ -1,4 +1,4 @@
-package com.fredtargaryen.floocraft.client.gui;
+package com.fredtargaryen.floocraft.client.ticker;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;

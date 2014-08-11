@@ -1,6 +1,6 @@
 package com.fredtargaryen.floocraft.proxy;
 
-import com.fredtargaryen.floocraft.client.gui.OverrideTicker;
+import com.fredtargaryen.floocraft.client.ticker.*;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFlooSignRenderer;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -8,7 +8,8 @@ import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ClientProxy extends CommonProxy
 {
-    public OverrideTicker ticker;
+    public OverrideTicker overrideTicker;
+    public TeleportTicker teleportTicker;
 
     @Override
     public void registerRenderers()
@@ -19,7 +20,9 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerTickHandlers()
     {
-        this.ticker = new OverrideTicker();
-        FMLCommonHandler.instance().bus().register(this.ticker);
+        this.overrideTicker = new OverrideTicker();
+        this.teleportTicker = new TeleportTicker();
+        FMLCommonHandler.instance().bus().register(this.overrideTicker);
+        FMLCommonHandler.instance().bus().register(this.teleportTicker);
     }
 }

@@ -82,7 +82,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
     @Override
 	public int tickRate(World par1World)
 	{
-		return 20;
+		return 30;
 	}
 
     @Override

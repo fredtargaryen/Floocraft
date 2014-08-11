@@ -1,14 +1,13 @@
 /**
- *
- */
-/**
- * ===TELEPORTATION===
- * Teleportation is instant
+ * Create texture to display when teleporting
+ * Create "promotional material"
+ * Test teleporting
  */
 /**
  * ===IDEAS FOR WHEN NOT WIP===
  * Floower Pot
  * Support for brick blocks from other mods
+ * Improved teleport effects
  */
 
 package com.fredtargaryen.floocraft;
