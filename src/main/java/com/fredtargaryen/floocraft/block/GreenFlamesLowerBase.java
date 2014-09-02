@@ -152,22 +152,27 @@ public abstract class GreenFlamesLowerBase extends BlockFire
 
     protected List<Integer> getWalls(World w, int x, int bottomY, int topY, int z)
     {
-        List<Integer> walls = new ArrayList<Integer>();
+        byte walls = 0;
+        //List<Integer> walls = new ArrayList<Integer>();
         if(this.isWallColumn(w, x, bottomY, topY, z + 1))
         {
-            walls.add(2);
+            //walls.add(2);
+            walls += 8;
         }
         if(this.isWallColumn(w, x - 1, bottomY, topY, z))
         {
-            walls.add(4);
+            //walls.add(4);
+            walls += 1;
         }
         if(this.isWallColumn(w, x + 1, bottomY, topY, z))
         {
-            walls.add(6);
+            //walls.add(6);
+            walls += 4;
         }
         if(this.isWallColumn(w, x, bottomY, topY, z - 1))
         {
-            walls.add(8);
+            //walls.add(8);
+            walls += 2;
         }
         return walls;
     }

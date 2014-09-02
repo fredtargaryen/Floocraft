@@ -143,5 +143,8 @@ public class FloocraftBase
     public void postInit(FMLPostInitializationEvent event)
     {
     	// Stub Method
+        MinecraftForge.EVENT_BUS.register(new GGuiFlashuiBuffBar(Minecraft.getMinecraft()));
+
+
     }
 }
