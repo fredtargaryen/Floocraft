@@ -1,5 +1,4 @@
 /**
- * Create texture to display when teleporting
  * Create "promotional material"
  * Test teleporting
  */
@@ -8,16 +7,17 @@
  * Floower Pot
  * Support for brick blocks from other mods
  * Improved teleport effects
+ * Sound!
  */
 
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
-import com.fredtargaryen.floocraft.item.ItemFlooPowder;
-import com.fredtargaryen.floocraft.item.ItemFlooSign;
+import com.fredtargaryen.floocraft.item.*;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -142,9 +142,6 @@ public class FloocraftBase
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    	// Stub Method
-        MinecraftForge.EVENT_BUS.register(new GGuiFlashuiBuffBar(Minecraft.getMinecraft()));
-
-
+        MinecraftForge.EVENT_BUS.register(new GuiFlash(Minecraft.getMinecraft()));
     }
 }
