@@ -21,9 +21,9 @@ public class MessageDoGreenFlash implements IMessage, IMessageHandler<MessageDoG
 	@Override
 	public IMessage onMessage(MessageDoGreenFlash message, MessageContext ctx)
 	{
-        ClientProxy p = (ClientProxy)FloocraftBase.proxy;
-        p.teleportTicker.start();
-    }
+        
+FloocraftBase.proxy.flash.start();
+     }
 
 	@Override
 	public void fromBytes(ByteBuf buf)

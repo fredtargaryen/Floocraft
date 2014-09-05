@@ -5,8 +5,8 @@
 /**
  * ===IDEAS FOR WHEN NOT WIP===
  * Floower Pot
- * Support for brick blocks from other mods
  * Improved teleport effects
+ * Improved teleport GUI
  * Sound!
  */
 
@@ -32,9 +32,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
 public class FloocraftBase
 {
@@ -43,9 +40,6 @@ public class FloocraftBase
 	 */
     @Mod.Instance(DataReference.MODID)
     public static FloocraftBase instance;
-    
-    //All vanilla blocks which can be used to build a fireplace. 
-    public static List<Block> acceptedBlocks = new ArrayList<Block>();
     
     /**
      * Declare all blocks here
@@ -89,7 +83,7 @@ public class FloocraftBase
     	.setBlockName("greenflamesidle")
     	.setLightLevel(0.875F);
 
-        greenFlamesTemp = new GreenFlamesIdleTemp(3)
+        greenFlamesTemp = new GreenFlamesIdleTemp()
         .setBlockName("greenflamesidletemp")
         .setLightLevel(0.875F);
     	
@@ -105,10 +99,6 @@ public class FloocraftBase
     	.setMaxStackSize(16)
     	.setUnlocalizedName("itemfloosign")
     	.setCreativeTab(CreativeTabs.tabDecorations);
-    	
-    	acceptedBlocks.add(Blocks.stonebrick);
-    	acceptedBlocks.add(Blocks.brick_block);
-    	acceptedBlocks.add(Blocks.nether_brick);
     }
         
     @EventHandler
@@ -142,6 +132,5 @@ public class FloocraftBase
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        MinecraftForge.EVENT_BUS.register(new GuiFlash(Minecraft.getMinecraft()));
     }
 }

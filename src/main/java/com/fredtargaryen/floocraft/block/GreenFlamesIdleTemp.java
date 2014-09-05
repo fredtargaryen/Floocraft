@@ -9,14 +9,12 @@ public class GreenFlamesIdleTemp extends GreenFlamesIdle
     @Override
     public int tickRate(World par1World)
     {
-        return 20;
+        return 60;
     }
 
-    private int lifetime;
-
-    public GreenFlamesIdleTemp(int seconds)
+    public GreenFlamesIdleTemp()
     {
-        this.lifetime = seconds;
+        super();
     }
 
     public boolean approveOrDenyTeleport(World par1World, int par2, int par3, int par4)
@@ -33,11 +31,6 @@ public class GreenFlamesIdleTemp extends GreenFlamesIdle
     @Override
     public void updateTick(World w, int x, int y, int z, Random par5Random)
     {
-        this.lifetime--;
-        if(this.lifetime < 1)
-        {
-            w.setBlock(x, y, z, Blocks.fire);
-        }
-        w.scheduleBlockUpdate(x, y, z, this, this.tickRate(w));
+        w.setBlock(x, y, z, Blocks.fire);
     }
 }

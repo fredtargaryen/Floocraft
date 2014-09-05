@@ -126,7 +126,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
             while (w.getBlock(x, y, z) == Blocks.air) {
                 y++;
             }
-            if (FloocraftBase.acceptedBlocks.contains(w.getBlock(x, y, z))) {
+            if (w.getBlock(x, y, z).isNormalCube(w, x, y, z) {
                 return y;
             }
         }
@@ -139,7 +139,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         } else {
             boolean valid = true;
             while (valid && bottomY < topY) {
-                if (FloocraftBase.acceptedBlocks.contains(w.getBlock(x, bottomY, z))) {
+                if(w.getBlock(x, bottomY, z).isNormalCube(w, x, y, z) {
                     bottomY++;
                 }
                 else {
