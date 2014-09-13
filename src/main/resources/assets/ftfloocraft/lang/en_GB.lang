@@ -4,6 +4,7 @@ tile.flootorch.name=Floo Torch
 tile.greenflamesbusylower.name=Green Flames
 tile.greenflamesbusyhigher.name=Green Flames
 tile.greenflamesidle.name=Green Flames
+tile.greenflamesidletemp.name=Green Flames
 
 /ITEMS
 item.floopowder.name=Floo Powder

@@ -132,6 +132,7 @@ public class GuiTeleport extends GuiScreen
         {
             if (par1GuiButton.id == -1)
             {
+                ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
                 this.mc.displayGuiScreen(null);
             }
             else if(par1GuiButton.id == -2)
@@ -165,8 +166,6 @@ public class GuiTeleport extends GuiScreen
                     {
                         PacketHandler.INSTANCE.sendToServer(m);
                     }
-                    ClientProxy p = (ClientProxy)FloocraftBase.proxy;
-                    p.teleportTicker.start();
                     this.actionPerformed(this.doneBtn);
             	}
             	catch(Exception e)

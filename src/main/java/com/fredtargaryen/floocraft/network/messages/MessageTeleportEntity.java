@@ -3,7 +3,6 @@ package com.fredtargaryen.floocraft.network.messages;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
 import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -44,13 +43,13 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 
 		if(tpApproved)
 		{
-
+            PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
             player.setVelocity(0.0D, 0.0D, 0.0D);
 			if(player.isRiding())
 			{
 				player.mountEntity(null);
 			}
-			player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.rotationYaw, player.rotationPitch);
+            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.rotationYaw, player.rotationPitch);
     		player.fallDistance = 0.0F;
     		world.setBlock(initX, initY, initZ, Blocks.fire); //Must change this line if I ever want green flames to last more than one tp
             return null;

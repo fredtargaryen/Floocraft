@@ -1,8 +1,6 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.client.gui.GuiFlooSign;
-import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

@@ -5,13 +5,11 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -31,17 +29,17 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int X, int Y, int Z, int par7, float par8, float par9, float par10)
 	{
-		if (par3World.getBlock(X, Y, Z) instanceof BlockTorch)
+		if (par3World.getBlock(X, Y, Z) == Blocks.torch)
 		{
 			par3World.setBlock(X, Y, Z, FloocraftBase.flooTorch);
 			--par1ItemStack.stackSize;
 			return true;
 		}
-		else if (par3World.getBlock(X, Y + 1, Z) instanceof BlockFire)
+		else if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
 		{
 			par3World.extinguishFire(par2EntityPlayer, X, Y, Z, BlockDirectional.getDirection(par3World.getBlockMetadata(X, Y, Z)));
 			par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusyLower);
-            if(par3World.getBlock(X, Y + 2, Z) instanceof BlockAir)
+            if(par3World.getBlock(X, Y + 2, Z) == Blocks.air)
             {
                 par3World.setBlock(X, Y + 2, Z, FloocraftBase.greenFlamesBusyHigher);
             }
