@@ -18,6 +18,7 @@ import com.fredtargaryen.floocraft.item.*;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;

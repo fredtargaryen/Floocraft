@@ -14,7 +14,7 @@ public class MessageDoGreenFlash implements IMessage, IMessageHandler<MessageDoG
 	{
         ((ClientProxy) FloocraftBase.proxy).flash.start();
         return null;
-    }
+     }
 
 	@Override
 	public void fromBytes(ByteBuf buf)
