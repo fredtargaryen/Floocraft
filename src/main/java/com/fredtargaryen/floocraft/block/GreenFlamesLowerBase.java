@@ -9,7 +9,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,7 +73,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
 		if(Minecraft.getMinecraft().currentScreen == null && !proxy.overrideTicker.isOverriding())
 		{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiTeleport((EntityClientPlayerMP)e, x, y, z));
+			Minecraft.getMinecraft().displayGuiScreen(new GuiTeleport(x, y, z));
 			proxy.overrideTicker.start();
 		}
 	}

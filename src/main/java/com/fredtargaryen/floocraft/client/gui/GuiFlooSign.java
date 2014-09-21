@@ -18,9 +18,6 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class GuiFlooSign extends GuiScreen
 {
-    /** The title string that is displayed in the top-centre of the screen. */
-    private String screenTitle = "===Floo Network Setup Wizard===";
-    
     private String sameNameError = "";
 
     /** Reference to the sign object. */
@@ -31,14 +28,10 @@ public class GuiFlooSign extends GuiScreen
 
     /** The number of the line that is being edited. */
     private int editLine;
-    
-    //If this is false, a player is attempting to create a fireplace with the same name.
-    private boolean uniqueName;
 
     public GuiFlooSign(TileEntityFireplace par1TileEntityFireplace)
     {
         this.fireplaceTE = par1TileEntityFireplace;
-        this.uniqueName = true;
     }
 
     /**
@@ -87,7 +80,7 @@ public class GuiFlooSign extends GuiScreen
                     m.x = this.fireplaceTE.xCoord;
                     m.y = this.fireplaceTE.yCoord;
                     m.z = this.fireplaceTE.zCoord;
-                    m.function = true;
+                    m.function = false;
                     PacketHandler.INSTANCE.sendToServer(m);
                     this.mc.displayGuiScreen(null);
                     break;
@@ -98,7 +91,7 @@ public class GuiFlooSign extends GuiScreen
                     m.x = this.fireplaceTE.xCoord;
                     m.y = this.fireplaceTE.yCoord;
                     m.z = this.fireplaceTE.zCoord;
-                    m.function = false;
+                    m.function = true;
                     PacketHandler.INSTANCE.sendToServer(m);
                     this.fireplaceTE.markDirty();
                     MessageApproveName man = new MessageApproveName();
@@ -143,7 +136,7 @@ public class GuiFlooSign extends GuiScreen
     {
     	super.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj,
-        		this.screenTitle,
+                "===Floo Network Setup Wizard===",
         		this.width / 2,
         		40,
         		16777215);

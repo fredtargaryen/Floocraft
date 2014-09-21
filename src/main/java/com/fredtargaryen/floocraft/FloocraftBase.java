@@ -1,12 +1,10 @@
 /**
- * Create "promotional material"
- */
-/**
  * ===IDEAS FOR WHEN NOT WIP===
  * Floower Pot
  * Improved teleport effects
  * Improved teleport GUI
  * Improved fire texture
+ * Improved powder icon
  * Localization
  * Sound!
  */
@@ -18,7 +16,6 @@ import com.fredtargaryen.floocraft.item.*;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;

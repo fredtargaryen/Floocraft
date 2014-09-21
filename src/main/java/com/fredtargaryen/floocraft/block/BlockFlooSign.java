@@ -77,7 +77,7 @@ public class BlockFlooSign extends BlockSign
         if(w.isRemote)
         {
             TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
-        if(!t.getDecorative()) {
+        if(t.getConnected()) {
             TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
         }}
         super.onNeighborBlockChange(w, x, y, z, b);
@@ -128,7 +128,7 @@ public class BlockFlooSign extends BlockSign
         if(!w.isRemote)
         {
             TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(x, y, z);
-            if (!tef.getDecorative())
+            if (tef.getConnected())
             {
                 TileEntityFireplace.removeLocation(w, x, y, z, m);
             }

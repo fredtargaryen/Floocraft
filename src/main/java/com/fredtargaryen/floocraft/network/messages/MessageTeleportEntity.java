@@ -9,7 +9,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -26,22 +25,29 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
         int destX = message.destX;
         int destY = message.destY;
         int destZ = message.destZ;
-		boolean tpApproved = true;
+		boolean tpApproved = false;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
 		Block destBlock = world.getBlock(destX, destY, destZ);
-		if(destBlock instanceof BlockFire && !(destBlock instanceof GreenFlamesLowerBase))
+		if(destBlock == Blocks.fire)
 		{
             world.setBlock(destX, destY, destZ, FloocraftBase.greenFlamesTemp);
             GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) world.getBlock(destX, destY, destZ);
-            tpApproved = gfit.approveOrDenyTeleport(world, destX, destY, destZ);
+            if(gfit.approveOrDenyTeleport(world, destX, destY, destZ))
+            {
+                tpApproved = true;
+            }
+            else
+            {
+                world.setBlock(destX, destY, destZ, Blocks.fire);
+                return null;
+            }
 		}
-		else if(!(destBlock instanceof GreenFlamesLowerBase))
-		{
-			tpApproved = false;
-		}
-
-		if(tpApproved)
+        if(destBlock instanceof GreenFlamesLowerBase)
+        {
+            tpApproved = true;
+        }
+        if(tpApproved)
 		{
             PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
             player.setVelocity(0.0D, 0.0D, 0.0D);
@@ -51,12 +57,8 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 			}
             player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.rotationYaw, player.rotationPitch);
     		player.fallDistance = 0.0F;
-    		world.setBlock(initX, initY, initZ, Blocks.fire); //Must change this line if I ever want green flames to last more than one tp
-            return null;
+    		world.setBlock(initX, initY, initZ, Blocks.fire);
 		}
-        else
-        {
-        }
 		return null;
 	}
 

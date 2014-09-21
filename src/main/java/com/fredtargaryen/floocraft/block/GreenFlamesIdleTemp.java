@@ -9,7 +9,7 @@ public class GreenFlamesIdleTemp extends GreenFlamesIdle
     @Override
     public int tickRate(World par1World)
     {
-        return 60;
+        return 100;
     }
 
     public GreenFlamesIdleTemp()

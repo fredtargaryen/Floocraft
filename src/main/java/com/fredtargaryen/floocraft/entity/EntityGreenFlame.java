@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class EntityGreenFlame extends EntityFX
 {
 	/** the scale of the flame FX */
-    private float flameScale;
+    private final float flameScale;
     
 	private static final ResourceLocation texture = new ResourceLocation("ftfloocraft", "textures/particle/torchflame.png");
 	

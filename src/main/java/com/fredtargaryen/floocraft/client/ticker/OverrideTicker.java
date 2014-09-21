@@ -29,7 +29,7 @@ public class OverrideTicker
 			{
 				this.ticks++;
             }
-			if (this.ticks > 60)
+			if (this.ticks > 126)
 			{
                 this.ticks = -1;
 			}

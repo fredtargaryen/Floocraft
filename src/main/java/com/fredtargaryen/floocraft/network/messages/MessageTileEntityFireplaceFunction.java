@@ -17,7 +17,7 @@ public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHan
 	{
         World w = ctx.getServerHandler().playerEntity.worldObj;
 		TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(message.x, message.y, message.z);
-        tef.setDecorative(message.function);
+        tef.setConnected(message.function);
         return null;
 	}
 

@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class TileEntityFireplace extends TileEntitySign
 {
 	private EntityPlayer writer;
-    private boolean isDecorative;
+    private boolean isConnected;
 
     public TileEntityFireplace(){}
 
@@ -123,13 +123,13 @@ public class TileEntityFireplace extends TileEntitySign
         return y + 1;
     }
 
-    public void setDecorative(boolean b)
+    public void setConnected(boolean b)
     {
-        this.isDecorative = b;
+        this.isConnected = b;
     }
 
-    public boolean getDecorative()
+    public boolean getConnected()
     {
-        return this.isDecorative;
+        return this.isConnected;
     }
 }

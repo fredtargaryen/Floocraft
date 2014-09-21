@@ -8,7 +8,6 @@ import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
@@ -24,14 +23,8 @@ public class GuiTeleport extends GuiScreen
     protected String screenTitle = "===Choose a destination===";
     private String status;
 
-    /** Counts the number of screen updates. */
-    private int updateCounter;
-
     /** "Done" button for the GUI. */
     private GuiButton doneBtn;
-    
-    /** The player that opened the GUI. */
-    private EntityClientPlayerMP client;
     
     private int firstButton;
     private int lastButton;
@@ -48,12 +41,11 @@ public class GuiTeleport extends GuiScreen
 	private int initY;
 	private int initZ;
 	
-    public GuiTeleport(EntityClientPlayerMP e, int x, int y, int z)
+    public GuiTeleport(int x, int y, int z)
     {
     	this.initX = x;
     	this.initY = y;
     	this.initZ = z;
-    	this.client = e;
         this.firstButton = 0;
         this.lastButton = 5;
         this.refresh();
@@ -120,7 +112,6 @@ public class GuiTeleport extends GuiScreen
         		this.status = "";
         	}
         }
-    	++this.updateCounter;
     }
 
     /**
