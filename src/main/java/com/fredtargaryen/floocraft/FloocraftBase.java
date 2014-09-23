@@ -5,6 +5,7 @@
  * Improved teleport GUI
  * Improved fire texture
  * Improved powder icon
+ * Mod integration
  * Localization
  * Sound!
  */

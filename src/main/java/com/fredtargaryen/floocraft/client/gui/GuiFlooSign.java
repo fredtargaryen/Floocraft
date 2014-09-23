@@ -72,28 +72,21 @@ public class GuiFlooSign extends GuiScreen
     {
         if (par1GuiButton.enabled)
         {
+            MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
+            m.x = this.fireplaceTE.xCoord;
+            m.y = this.fireplaceTE.yCoord;
+            m.z = this.fireplaceTE.zCoord;
+            m.isConnected = false;
+            PacketHandler.INSTANCE.sendToServer(m);
             switch(par1GuiButton.id)
             {
                 case 0:
                 {
-                    MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
-                    m.x = this.fireplaceTE.xCoord;
-                    m.y = this.fireplaceTE.yCoord;
-                    m.z = this.fireplaceTE.zCoord;
-                    m.function = false;
-                    PacketHandler.INSTANCE.sendToServer(m);
                     this.mc.displayGuiScreen(null);
                     break;
                 }
                 case 1:
                 {
-                    MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
-                    m.x = this.fireplaceTE.xCoord;
-                    m.y = this.fireplaceTE.yCoord;
-                    m.z = this.fireplaceTE.zCoord;
-                    m.function = true;
-                    PacketHandler.INSTANCE.sendToServer(m);
-                    this.fireplaceTE.markDirty();
                     MessageApproveName man = new MessageApproveName();
                     man.name = nameAsLine(this.fireplaceTE.signText);
                     PacketHandler.INSTANCE.sendToServer(man);
@@ -193,6 +186,13 @@ public class GuiFlooSign extends GuiScreen
         if(answer)
         {
             this.sameNameError = "";
+            MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
+            m.x = this.fireplaceTE.xCoord;
+            m.y = this.fireplaceTE.yCoord;
+            m.z = this.fireplaceTE.zCoord;
+            m.isConnected = true;
+            PacketHandler.INSTANCE.sendToServer(m);
+            this.fireplaceTE.markDirty();
             this.fireplaceTE.addLocation(this.fireplaceTE.xCoord,
                     this.fireplaceTE.yCoord,
                     this.fireplaceTE.zCoord,

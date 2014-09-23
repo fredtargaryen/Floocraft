@@ -10,14 +10,14 @@ import net.minecraft.world.World;
 public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHandler<MessageTileEntityFireplaceFunction, IMessage>
 {
 	public int x, y, z;
-    public boolean function;
+    public boolean isConnected;
 
 	@Override
 	public IMessage onMessage(MessageTileEntityFireplaceFunction message, MessageContext ctx)
 	{
         World w = ctx.getServerHandler().playerEntity.worldObj;
 		TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(message.x, message.y, message.z);
-        tef.setConnected(message.function);
+        tef.setConnected(message.isConnected);
         return null;
 	}
 
@@ -27,7 +27,7 @@ public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHan
         this.x = buf.readInt();
         this.y = buf.readInt();
         this.z = buf.readInt();
-		this.function = buf.readBoolean();
+		this.isConnected = buf.readBoolean();
 	}
 
 	@Override
@@ -36,6 +36,6 @@ public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHan
         buf.writeInt(this.x);
         buf.writeInt(this.y);
         buf.writeInt(this.z);
-        buf.writeBoolean(this.function);
+        buf.writeBoolean(this.isConnected);
 	}
 }
