@@ -13,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageTeleportEntity, IMessage>
 {
 	public int initX, initY, initZ, destX, destY, destZ;
@@ -50,12 +52,12 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
         if(tpApproved)
 		{
             PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
-            player.setVelocity(0.0D, 0.0D, 0.0D);
 			if(player.isRiding())
 			{
 				player.mountEntity(null);
 			}
-            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.rotationYaw, player.rotationPitch);
+            Random rand = new Random();
+            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, rand.nextFloat() * 360, player.rotationPitch);
     		player.fallDistance = 0.0F;
     		world.setBlock(initX, initY, initZ, Blocks.fire);
 		}

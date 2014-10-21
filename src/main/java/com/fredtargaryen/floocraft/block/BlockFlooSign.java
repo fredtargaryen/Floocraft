@@ -74,12 +74,14 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onNeighborBlockChange(World w, int x, int y, int z, Block b)
     {
-        if(w.isRemote)
+        if(!w.isRemote)
         {
             TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
-        if(t.getConnected()) {
-            TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
-        }}
+            if(t.getConnected())
+            {
+                TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+            }
+        }
         super.onNeighborBlockChange(w, x, y, z, b);
     }
 	

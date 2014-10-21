@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
 
@@ -131,5 +132,17 @@ public class TileEntityFireplace extends TileEntitySign
     public boolean getConnected()
     {
         return this.isConnected;
+    }
+
+    public void writeToNBT(NBTTagCompound par1)
+    {
+        super.writeToNBT(par1);
+        par1.setBoolean("Connected",this.isConnected);
+    }
+
+    public void readFromNBT(NBTTagCompound par1)
+    {
+        super.readFromNBT(par1);
+        this.isConnected = par1.getBoolean("Connected");
     }
 }
