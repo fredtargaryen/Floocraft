@@ -1,0 +1,122 @@
+[17:16:21] [Server thread/INFO]: Starting minecraft server version 1.7.10
+[17:17:00] [Server thread/INFO]: Loading properties
+[17:17:00] [Server thread/INFO]: Default game type: SURVIVAL
+[17:17:00] [Server thread/INFO]: Generating keypair
+[17:17:01] [Server thread/INFO]: Starting Minecraft server on *:25565
+[17:17:06] [Server thread/WARN]: Failed to load user banlist: 
+java.io.FileNotFoundException: banned-players.json (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_25]
+	at java.io.FileInputStream.<init>(FileInputStream.java:138) ~[?:1.7.0_25]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[guava-17.0.jar:?]
+	at net.minecraft.server.management.UserList.func_152679_g(UserList.java:195) ~[UserList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.func_152620_y(DedicatedPlayerList.java:124) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.<init>(DedicatedPlayerList.java:31) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedServer.startServer(DedicatedServer.java:214) [DedicatedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:445) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer$2.run(MinecraftServer.java:752) [MinecraftServer$2.class:?]
+[17:17:06] [Server thread/WARN]: Failed to load ip banlist: 
+java.io.FileNotFoundException: banned-ips.json (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_25]
+	at java.io.FileInputStream.<init>(FileInputStream.java:138) ~[?:1.7.0_25]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[guava-17.0.jar:?]
+	at net.minecraft.server.management.UserList.func_152679_g(UserList.java:195) ~[UserList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.func_152619_x(DedicatedPlayerList.java:112) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.<init>(DedicatedPlayerList.java:33) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedServer.startServer(DedicatedServer.java:214) [DedicatedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:445) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer$2.run(MinecraftServer.java:752) [MinecraftServer$2.class:?]
+[17:17:06] [Server thread/WARN]: Failed to load operators list: 
+java.io.FileNotFoundException: ops.json (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_25]
+	at java.io.FileInputStream.<init>(FileInputStream.java:138) ~[?:1.7.0_25]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[guava-17.0.jar:?]
+	at net.minecraft.server.management.UserList.func_152679_g(UserList.java:195) ~[UserList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.loadOpsList(DedicatedPlayerList.java:136) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.<init>(DedicatedPlayerList.java:35) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedServer.startServer(DedicatedServer.java:214) [DedicatedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:445) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer$2.run(MinecraftServer.java:752) [MinecraftServer$2.class:?]
+[17:17:06] [Server thread/WARN]: Failed to load white-list: 
+java.io.FileNotFoundException: whitelist.json (The system cannot find the file specified)
+	at java.io.FileInputStream.open(Native Method) ~[?:1.7.0_25]
+	at java.io.FileInputStream.<init>(FileInputStream.java:138) ~[?:1.7.0_25]
+	at com.google.common.io.Files.newReader(Files.java:86) ~[guava-17.0.jar:?]
+	at net.minecraft.server.management.UserList.func_152679_g(UserList.java:195) ~[UserList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.readWhiteList(DedicatedPlayerList.java:160) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedPlayerList.<init>(DedicatedPlayerList.java:36) [DedicatedPlayerList.class:?]
+	at net.minecraft.server.dedicated.DedicatedServer.startServer(DedicatedServer.java:214) [DedicatedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:445) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer$2.run(MinecraftServer.java:752) [MinecraftServer$2.class:?]
+[17:17:07] [Server thread/INFO]: Preparing level "world"
+[17:17:15] [Server thread/INFO]: Preparing start region for level 0
+[17:17:17] [Server thread/INFO]: Preparing spawn area: 0%
+[17:17:18] [Server thread/INFO]: Preparing spawn area: 1%
+[17:17:19] [Server thread/INFO]: Preparing spawn area: 3%
+[17:17:20] [Server thread/INFO]: Preparing spawn area: 4%
+[17:17:22] [Server thread/INFO]: Preparing spawn area: 5%
+[17:17:24] [Server thread/INFO]: Preparing spawn area: 6%
+[17:17:25] [Server thread/INFO]: Preparing spawn area: 6%
+[17:17:26] [Server thread/INFO]: Preparing spawn area: 8%
+[17:17:27] [Server thread/INFO]: Preparing spawn area: 9%
+[17:17:28] [Server thread/INFO]: Preparing spawn area: 11%
+[17:17:30] [Server thread/INFO]: Preparing spawn area: 13%
+[17:17:31] [Server thread/INFO]: Preparing spawn area: 15%
+[17:17:32] [Server thread/INFO]: Preparing spawn area: 17%
+[17:17:33] [Server thread/INFO]: Preparing spawn area: 19%
+[17:17:34] [Server thread/INFO]: Preparing spawn area: 20%
+[17:17:35] [Server thread/INFO]: Preparing spawn area: 21%
+[17:17:36] [Server thread/INFO]: Preparing spawn area: 23%
+[17:17:37] [Server thread/INFO]: Preparing spawn area: 26%
+[17:17:38] [Server thread/INFO]: Preparing spawn area: 27%
+[17:17:39] [Server thread/INFO]: Preparing spawn area: 28%
+[17:17:40] [Server thread/INFO]: Preparing spawn area: 32%
+[17:17:42] [Server thread/INFO]: Preparing spawn area: 33%
+[17:17:43] [Server thread/INFO]: Preparing spawn area: 35%
+[17:17:44] [Server thread/INFO]: Preparing spawn area: 36%
+[17:17:45] [Server thread/INFO]: Preparing spawn area: 38%
+[17:17:46] [Server thread/INFO]: Preparing spawn area: 39%
+[17:17:47] [Server thread/INFO]: Preparing spawn area: 41%
+[17:17:48] [Server thread/INFO]: Preparing spawn area: 43%
+[17:17:50] [Server thread/INFO]: Preparing spawn area: 44%
+[17:17:51] [Server thread/INFO]: Preparing spawn area: 46%
+[17:17:52] [Server thread/INFO]: Preparing spawn area: 48%
+[17:17:53] [Server thread/INFO]: Preparing spawn area: 49%
+[17:17:54] [Server thread/INFO]: Preparing spawn area: 51%
+[17:17:55] [Server thread/INFO]: Preparing spawn area: 54%
+[17:17:56] [Server thread/INFO]: Preparing spawn area: 56%
+[17:17:57] [Server thread/INFO]: Preparing spawn area: 58%
+[17:17:58] [Server thread/INFO]: Preparing spawn area: 61%
+[17:17:59] [Server thread/INFO]: Preparing spawn area: 62%
+[17:18:00] [Server thread/INFO]: Preparing spawn area: 64%
+[17:18:01] [Server thread/INFO]: Preparing spawn area: 67%
+[17:18:02] [Server thread/INFO]: Preparing spawn area: 70%
+[17:18:03] [Server thread/INFO]: Preparing spawn area: 72%
+[17:18:05] [Server thread/INFO]: Preparing spawn area: 76%
+[17:18:06] [Server thread/INFO]: Preparing spawn area: 78%
+[17:18:07] [Server thread/INFO]: Preparing spawn area: 79%
+[17:18:08] [Server thread/INFO]: Preparing spawn area: 80%
+[17:18:09] [Server thread/INFO]: Preparing spawn area: 84%
+[17:18:10] [Server thread/INFO]: Preparing spawn area: 85%
+[17:18:12] [Server thread/INFO]: Preparing spawn area: 86%
+[17:18:13] [Server thread/INFO]: Preparing spawn area: 86%
+[17:18:14] [Server thread/INFO]: Preparing spawn area: 88%
+[17:18:15] [Server thread/INFO]: Preparing spawn area: 91%
+[17:18:16] [Server thread/INFO]: Preparing spawn area: 92%
+[17:18:17] [Server thread/INFO]: Preparing spawn area: 96%
+[17:18:17] [Server thread/INFO]: Done (70.840s)! For help, type "help" or "?"
+[17:18:24] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 5500ms behind, skipping 110 tick(s)
+[17:18:37] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3527ms behind, skipping 70 tick(s)
+[17:19:14] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 6821ms behind, skipping 136 tick(s)
+[17:22:43] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2003ms behind, skipping 40 tick(s)
+[17:25:23] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2859ms behind, skipping 57 tick(s)
+[17:26:15] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded?[17:26:56] [Client thread/INFO]: Reloading Reso[17:29:00] [Server thread/INFO]: com.mojang.authlib.GameProfile@1805fc6a[id=<null>,name=Player279,properties={},legacy=false] (/127.0.0.1:51045) lost connection: Disconnected
+[17:32:18] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 4633ms behind, skipping 92 tick(s)
+[17:32:45] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2075ms behind, skipping 41 tick(s)
+[17:33:35] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2104ms behind, skipping 42 tick(s)
+ 512x256 textures/blocks-atlas
+[17:27:42] [Sound Library Loader/INFO]: Sound engine started
+[17:27:49] [Client thread/ERROR]: ########## GL ERROR ##########
+[17:27:49] [Client thread/ERROR]: @ Post startup
+[17:27:49] [Client thread/ERROR]: 1281: Invalid value
+[17:28:50] [Client thread/INFO]: Connecting to localhost, 25565
+[17:34:43] [Client thread/INFO]: Stopping!

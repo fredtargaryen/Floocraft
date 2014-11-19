@@ -1,0 +1,12 @@
+/BLOCKS
+tile.blockfloosign.name=Traveller's Plank
+tile.flootorch.name=Rod o' Green Flames
+tile.greenflamesbusylower.name=St. Elmo's Fire
+tile.greenflamesbusyhigher.name=St. Elmo's Fire
+tile.greenflamesidle.name=St. Elmo's Fire
+tile.greenflamesidletemp.name=St. Elmo's Fire
+tile.floowerpot.name=Pot o' Traveller's Snuff
+
+/ITEMS
+item.floopowder.name=Traveller's Snuff
+item.itemfloosign.name=Traveller's Plank

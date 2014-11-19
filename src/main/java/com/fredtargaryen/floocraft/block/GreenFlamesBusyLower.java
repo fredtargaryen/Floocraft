@@ -24,7 +24,7 @@ public class GreenFlamesBusyLower extends GreenFlamesLowerBase
 
         if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
         {
-            w.setBlock(x, y, z, FloocraftBase.greenFlamesIdle);
+            w.setBlock(x, y, z, FloocraftBase.greenFlamesIdle, w.getBlockMetadata(x, y, z), 2);
         }
         super.updateTick(w, x, y, z, par5Random);
     }

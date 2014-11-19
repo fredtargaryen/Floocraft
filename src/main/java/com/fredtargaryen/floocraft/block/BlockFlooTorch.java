@@ -21,7 +21,7 @@ public class BlockFlooTorch extends BlockTorch
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister i)
 	{
-		this.blockIcon = i.registerIcon(DataReference.MODID+":"+this.getUnlocalizedName().substring(5));
+		this.blockIcon = i.registerIcon(DataReference.resPath(this.getUnlocalizedName()));
 	}
 	
 	@SideOnly(Side.CLIENT)

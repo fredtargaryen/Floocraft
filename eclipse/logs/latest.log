@@ -1,0 +1,68 @@
+[15:24:41] [Server thread/INFO]: Starting minecraft server version 1.7.10
+[15:30:11] [Server thread/INFO]: Loading properties
+[15:30:12] [Server thread/INFO]: Default game type: SURVIVAL
+[15:30:12] [Server thread/INFO]: Generating keypair
+[15:30:13] [Server thread/INFO]: Starting Minecraft server on *:25565
+[15:30:15] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[15:30:15] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[15:30:15] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[15:30:15] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[15:30:20] [Server thread/INFO]: Preparing level "world"
+[15:30:30] [Server thread/INFO]: Preparing start region for level 0
+[15:30:33] [Server thread/INFO]: Preparing spawn area: 0%
+[15:30:37] [Server thread/INFO]: Preparing spawn area: 1%
+[15:30:39] [Server thread/INFO]: Preparing spawn area: 19%
+[15:30:40] [Server thread/INFO]: Preparing spawn area: 28%
+[15:30:41] [Server thread/INFO]: Preparing spawn area: 35%
+[15:30:42] [Server thread/INFO]: Preparing spawn area: 46%
+[15:30:43] [Server thread/INFO]: Preparing spawn area: 61%
+[15:30:45] [Server thread/INFO]: Preparing spawn area: 74%
+[15:30:46] [Server thread/INFO]: Preparing spawn area: 76%
+[15:30:47] [Server thread/INFO]: Preparing spawn area: 80%
+[15:30:48] [Server thread/INFO]: Preparing spawn area: 86%
+[15:30:49] [Server thread/INFO]: Done (28.892s)! For help, type "help" or "?"
+[15:30:54] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3795ms behind, skipping 75 tick(s)
+[15:36:32] [Server thread/INFO]: Player334[/127.0.0.1:49639] logged in with entity id 435 at (-156.5, 66.0, 239.5)
+[15:36:32] [Server thread/INFO]: Player334 joined the game
+[15:36:39] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 6513ms behind, skipping 130 tick(s)
+[15:36:58] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 7394ms behind, skipping 147 tick(s)
+[15:37:22] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 8460ms behind, skipping 169 tick(s)
+[15:37:31] [Server thread/INFO]: Opped Player334
+[15:37:37] [Server thread/INFO]: 'Player334' is not a valid number
+[15:37:57] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 4466ms behind, skipping 89 tick(s)
+[15:38:13] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2393ms behind, skipping 47 tick(s)
+[15:38:16] [Server thread/INFO]: <Player334> thx lel
+[15:38:20] [Server thread/INFO]: Player334 has just earned the achievement [Taking Inventory]
+[15:38:28] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2692ms behind, skipping 53 tick(s)
+[15:39:18] [Server thread/INFO]: Player334 lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null}}
+[15:39:18] [Server thread/INFO]: Player334 left the game
+[15:3[15:41:44] [Client thread/INFO]: [CHAT] Set the time to 0
+[15:42:12] [Client thread/INFO]: [CHAT] Your game mode has been updated
+[15:42:30] [Client thread/INFO]: [CHAT] Your game mode has been updated
+[15:42:42] [Client thread/INFO]: Stopping!
+ the system time change, or is the server overloaded? Running 36980ms behind, skipping 739 tick(s)
+[15:39:46] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2200ms behind, skipping 44 tick(s)
+[15:40:12] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 10294ms behind, skipping 205 tick(s)
+[15:40:21] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3348ms behind, skipping 66 tick(s)
+[15:40:36] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2616ms behind, skipping 52 tick(s)
+[15:40:55] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3609ms behind, skipping 72 tick(s)
+[15:41:12] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 4079ms behind, skipping 81 tick(s)
+[15:41:33] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2048ms behind, skipping 40 tick(s)
+[15:41:44] [Server thread/INFO]: [Player334: Set the time to 0]
+[15:41:55] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 4427ms behind, skipping 88 tick(s)
+[15:42:09] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2168ms behind, skipping 43 tick(s)
+[15:42:12] [Server thread/INFO]: [Player334: Set own game mode to Survival Mode]
+[15:42:28] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 5961ms behind, skipping 119 tick(s)
+[15:42:30] [Server thread/INFO]: [Player334: Set own game mode to Creative Mode]
+[15:42:40] [Server thread/INFO]: Player334 lost connection: TextComponent{text='Disconnected', siblings=[], style=Style{hasParent=false, color=null, bold=null, italic=null, underlined=null, obfuscated=null, clickEvent=null, hoverEvent=null}}
+[15:42:40] [Server thread/INFO]: Player334 left the game
+[15:42:42] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2320ms behind, skipping 46 tick(s)
+[15:43:09] [Server thread/INFO]: Saving...
+[15:43:09] [Server thread/INFO]: Saved the world
+[15:43:12] [Server thread/INFO]: Stopping the server
+[15:43:12] [Server thread/INFO]: Stopping server
+[15:43:12] [Server thread/INFO]: Saving players
+[15:43:12] [Server thread/INFO]: Saving worlds
+[15:43:12] [Server thread/INFO]: Saving chunks for level 'world'/Overworld
+[15:43:12] [Server thread/INFO]: Saving chunks for level 'world'/Nether
+[15:43:12] [Server thread/INFO]: Saving chunks for level 'world'/The End

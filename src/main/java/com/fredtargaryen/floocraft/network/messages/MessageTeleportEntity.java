@@ -59,7 +59,8 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
             Random rand = new Random();
             player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, rand.nextFloat() * 360, player.rotationPitch);
     		player.fallDistance = 0.0F;
-    		world.setBlock(initX, initY, initZ, Blocks.fire);
+			int m = world.getBlockMetadata(initX, initY, initZ);
+    		world.setBlockMetadataWithNotify(initX, initY, initZ, m == 9 ? m : m - 1, 2);
 		}
 		return null;
 	}

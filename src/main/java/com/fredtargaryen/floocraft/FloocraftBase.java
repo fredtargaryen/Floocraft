@@ -1,11 +1,9 @@
 /**
- * ===IDEAS FOR WHEN NOT WIP===
- * Floower Pot
- * Improved teleport effects
- * Improved teleport GUI
+ * ===AESTHETICS===
  * Improved fire texture
  * Improved powder icon
- * Mod integration
+ * Improved teleport GUI
+ * Better pot effects
  * Localization
  * Sound!
  */
@@ -13,16 +11,19 @@
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
+import com.fredtargaryen.floocraft.client.gui.GuiHandler;
 import com.fredtargaryen.floocraft.item.*;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -48,10 +49,15 @@ public class FloocraftBase
     public static Block greenFlamesIdle;
     public static Block greenFlamesTemp;
     public static Block blockFlooSign;
+    public static Block floowerPot;
     /**
      * Declare all items here
      */
-    public static Item floopowder;
+    public static Item floopowder1t;
+    public static Item floopowder2t;
+    public static Item floopowder4t;
+    public static Item floopowder8t;
+    public static Item floopowderc;
     public static Item itemFlooSign;
     /**   
      * Says where the client and server 'proxy' code is loaded.
@@ -87,11 +93,35 @@ public class FloocraftBase
     	
     	blockFlooSign = new BlockFlooSign()
     	.setBlockName("blockfloosign");
+
+        floowerPot = new BlockFloowerPot()
+        .setBlockName("floowerpot")
+        .setCreativeTab(CreativeTabs.tabMisc);
     	
-    	floopowder = new ItemFlooPowder()
+    	floopowder1t = new ItemFlooPowder((byte)1)
     	.setMaxStackSize(64)
     	.setUnlocalizedName("floopowder")
     	.setCreativeTab(CreativeTabs.tabMisc);
+
+        floopowder2t = new ItemFlooPowder((byte)2)
+                .setMaxStackSize(64)
+                .setUnlocalizedName("floopowder")
+                .setCreativeTab(CreativeTabs.tabMisc);
+
+        floopowder4t = new ItemFlooPowder((byte)4)
+                .setMaxStackSize(64)
+                .setUnlocalizedName("floopowder")
+                .setCreativeTab(CreativeTabs.tabMisc);
+
+        floopowder8t = new ItemFlooPowder((byte)8)
+                .setMaxStackSize(64)
+                .setUnlocalizedName("floopowder")
+                .setCreativeTab(CreativeTabs.tabMisc);
+
+        floopowderc = new ItemFlooPowder((byte)9)
+                .setMaxStackSize(64)
+                .setUnlocalizedName("floopowder")
+                .setCreativeTab(CreativeTabs.tabMisc);
 
     	itemFlooSign = new ItemFlooSign()
     	.setMaxStackSize(16)
@@ -109,20 +139,41 @@ public class FloocraftBase
     	GameRegistry.registerBlock(greenFlamesBusyHigher, "greenflamesbusyhigher");
     	GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
         GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
+        GameRegistry.registerBlock(floowerPot, "floowerpot");
     	
-    	GameRegistry.registerItem(floopowder, "floopowder");
+    	GameRegistry.registerItem(floopowder1t, "floopowder1");
+        GameRegistry.registerItem(floopowder2t, "floopowder2");
+        GameRegistry.registerItem(floopowder4t, "floopowder4");
+        GameRegistry.registerItem(floopowder8t, "floopowder8");
+        GameRegistry.registerItem(floopowderc, "floopowder9");
     	GameRegistry.registerItem(itemFlooSign, "itemfloosign");
 
     	//Register (Tile) Entities with GameRegistry
     	GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
 
     	//Add recipes with GameRegistry
-    	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floopowder,8),
+    	GameRegistry.addShapelessRecipe(new ItemStack(floopowder1t,8),
     			new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+        GameRegistry.addShapelessRecipe(new ItemStack(floopowder2t,8),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+        GameRegistry.addShapelessRecipe(new ItemStack(floopowder4t,8),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+        GameRegistry.addShapelessRecipe(new ItemStack(floopowder8t,8),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+
     	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.itemFlooSign,1),
-    			new ItemStack(Items.sign), new ItemStack(FloocraftBase.floopowder));
+    			new ItemStack(Items.sign), new ItemStack(floopowder1t,8));
     	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.flooTorch,4),
-    			new ItemStack(Items.stick), new ItemStack(FloocraftBase.floopowder));
+    			new ItemStack(Items.stick), new ItemStack(FloocraftBase.floopowder1t));
+        GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floowerPot),
+                new ItemStack(Items.flower_pot), new ItemStack(FloocraftBase.floopowder1t));
+
+        //More registering
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     	proxy.registerRenderers();
     	proxy.registerTickHandlers();
     }

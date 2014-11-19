@@ -62,13 +62,13 @@ public abstract class GreenFlamesLowerBase extends BlockFire
 		{
 			if(par1World.isRemote)
 			{
-				doClientGuiTings((EntityPlayer)par5Entity, par2, par3, par4);
+				doClientGuiTings(par2, par3, par4);
 			}
 		}
 	}
 		
 	@SideOnly(Side.CLIENT)
-	public void doClientGuiTings(EntityPlayer e, int x, int y, int z)
+	public void doClientGuiTings(int x, int y, int z)
 	{
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
 		if(Minecraft.getMinecraft().currentScreen == null && !proxy.overrideTicker.isOverriding())
@@ -106,7 +106,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
     @Override
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        if(!isInFireplace(par1World, par2, par3, par4))
+        if(!isInFireplace(par1World, par2, par3, par4) || par1World.getBlockMetadata(par2, par3, par4) == 0)
         {
             par1World.setBlock(par2, par3, par4, Blocks.fire);
         }
@@ -116,9 +116,8 @@ public abstract class GreenFlamesLowerBase extends BlockFire
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
-
     protected int getTopBlockY(World w, int x, int y, int z) {
-        y++;
+            y++;
         Block b0 = w.getBlock(x, y, z);
         if (b0 == FloocraftBase.greenFlamesBusyHigher || b0 == Blocks.air) {
             y++;

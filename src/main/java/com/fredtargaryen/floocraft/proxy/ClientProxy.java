@@ -3,7 +3,9 @@ package com.fredtargaryen.floocraft.proxy;
 import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import com.fredtargaryen.floocraft.client.ticker.*;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFlooSignRenderer;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
+import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityPotRenderer;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
@@ -17,6 +19,7 @@ public class ClientProxy extends CommonProxy
     public void registerRenderers()
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
     }
 
     @Override
