@@ -1,11 +1,12 @@
 /**
- * ===AESTHETICS===
- * Improved fire texture
- * Improved powder icon
- * Improved teleport GUI
- * Better pot effects
+ * ===NEXT UP===
+ * Improve fire texture
+ * Improve powder icon
+ * Improve teleport GUI
+ * Improve pot effects; rendering
  * Localization
  * Sound!
+ * Bug fixes
  */
 
 package com.fredtargaryen.floocraft;

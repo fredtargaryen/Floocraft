@@ -2,7 +2,6 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import cpw.mods.fml.relauncher.Side;

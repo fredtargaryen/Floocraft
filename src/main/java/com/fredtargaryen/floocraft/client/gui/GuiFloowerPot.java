@@ -24,7 +24,7 @@ public class GuiFloowerPot extends GuiContainer {
     {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
-        this.fontRendererObj.drawString("Floower Pot", 8, 6, 4210752);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.floowerpot.name"), 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
         this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
     }
@@ -35,7 +35,7 @@ public class GuiFloowerPot extends GuiContainer {
         //draw your Gui here, only thing you need to change is the path
         //May need to do getTexture first if this method causes trouble
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(new ResourceLocation("ftfloocraft","textures/gui/floowerpot.png"));
+        this.mc.renderEngine.bindTexture(new ResourceLocation("ftfloocraft","textures/gui/guifloowerpot.png"));
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
