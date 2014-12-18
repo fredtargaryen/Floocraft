@@ -1,7 +1,5 @@
 /**
  * ===NEXT UP===
- * Improve fire texture
- * Improve powder icon
  * Improve teleport GUI
  * Improve pot effects; rendering
  * Localization
