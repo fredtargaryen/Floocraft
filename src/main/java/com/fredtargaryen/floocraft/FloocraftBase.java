@@ -2,9 +2,11 @@
  * ===NEXT UP===
  * Improve teleport GUI
  * Improve pot effects; rendering
- * Localization
  * Sound!
- * Bug fixes
+ * That unusable fire thing
+ *
+ * ===Teleport GUI===
+ * Needs to show rectange when selected
  */
 
 package com.fredtargaryen.floocraft;

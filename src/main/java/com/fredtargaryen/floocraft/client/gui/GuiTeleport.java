@@ -6,10 +6,14 @@ import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
 import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
+import com.fredtargaryen.floocraft.DataReference;
+import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSlot;
+import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -23,31 +27,28 @@ public class GuiTeleport extends GuiScreen
     protected String screenTitle = "===Choose a destination===";
     private String status;
 
-    /** "Done" button for the GUI. */
-    private GuiButton doneBtn;
+    //"Go!" button for the GUI.
+    private GuiButton goBtn;
+    //"Cancel"
+    private GuiButton cancelBtn;
     
-    private int firstButton;
-    private int lastButton;
-    
-    private List<String>placenamelist = new ArrayList<String>();
-	private List<Integer>xcoordlist = new ArrayList<Integer>();
-	private List<Integer>ycoordlist = new ArrayList<Integer>();
-	private List<Integer>zcoordlist = new ArrayList<Integer>();
-	private List<Boolean>enabledlist = new ArrayList<Boolean>();
+    private List<String> placenamelist = new ArrayList<String>();
+	private List<Integer> xcoordlist = new ArrayList<Integer>();
+	private List<Integer> ycoordlist = new ArrayList<Integer>();
+	private List<Integer> zcoordlist = new ArrayList<Integer>();
+	private List<Boolean> enabledlist = new ArrayList<Boolean>();
 	
 	private boolean receivedLists;
+
+    private PlaceList scrollWindow;
     
-	private int initX;
-	private int initY;
-	private int initZ;
+	private int initX, initY, initZ, idSelected;
 	
     public GuiTeleport(int x, int y, int z)
     {
     	this.initX = x;
     	this.initY = y;
     	this.initZ = z;
-        this.firstButton = 0;
-        this.lastButton = 5;
         this.refresh();
     }
     
@@ -58,24 +59,18 @@ public class GuiTeleport extends GuiScreen
     {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
-        GuiButton refreshButton = new GuiButton(-4, this.width - 100, 0, 98, 20, "Refresh");
+        GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
         refreshButton.enabled = false;
-        this.buttonList.add(this.doneBtn = new GuiButton(-1, this.width / 2 - 100, this.height / 4 + 144, "Done"));
+        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 100, this.height / 4 + 144, 98, 20, "Go!"));
+        this.goBtn.enabled = false;
+        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height / 4 + 144, 98, 20, "Cancel"));
         if(receivedLists)
         {
         	refreshButton.enabled = true;
-	        for(int i = firstButton; i < this.placenamelist.size() && i < lastButton; i++)
-	        {
-	        	GuiButton b = new GuiButton(i,this.width / 2 - 100, this.height / 4 + (24 * (i-firstButton)), this.placenamelist.get(i));
-	        	b.enabled = enabledlist.get(i);
-	        	this.buttonList.add(b);
-	        }
-	        GuiButton upB = new GuiScrollButton(-2, this.width / 2 + 104, this.height / 4, "^");
-	        GuiButton dnB = new GuiScrollButton(-3, this.width / 2 + 104, this.height / 4 + 96, "V");
-	        upB.enabled = this.placenamelist.size() > 5 && firstButton > 0;
-	        dnB.enabled = this.placenamelist.size() > 5 && lastButton < this.placenamelist.size();
-	        this.buttonList.add(upB);
-	        this.buttonList.add(dnB);
+            if(this.placenamelist.size() > 0)
+            {
+                this.scrollWindow = new PlaceList();
+            }
         }
         this.buttonList.add(refreshButton);
     }
@@ -121,49 +116,45 @@ public class GuiTeleport extends GuiScreen
     {
         if (par1GuiButton.enabled)
         {
+            //Cancel
             if (par1GuiButton.id == -1)
             {
                 ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
                 this.mc.displayGuiScreen(null);
             }
+            //Refresh
             else if(par1GuiButton.id == -2)
-            {
-            	this.firstButton--;
-            	this.lastButton--;
-            	initGui();
-            }
-            else if(par1GuiButton.id == -3)
-            {
-            	this.firstButton++;
-            	this.lastButton++;
-            	initGui();
-            }
-            else if(par1GuiButton.id == -4)
             {
             	this.refresh();
             }
+            //Go! (id -3)
             else
             {
-            	try
-            	{
-            		MessageTeleportEntity m = new MessageTeleportEntity();
-                    m.initX = this.initX;
-                    m.initY = this.initY;
-                    m.initZ = this.initZ;
-            		m.destX = xcoordlist.get(par1GuiButton.id);
-            		m.destY = ycoordlist.get(par1GuiButton.id);
-            		m.destZ = zcoordlist.get(par1GuiButton.id);
-                    if(!(m.initX == m.destX && m.initY == m.destY && m.initZ == m.destZ))
+                int initX = this.initX;
+                int initY = this.initY;
+                int initZ = this.initZ;
+                int destX = xcoordlist.get(this.idSelected);
+                int destY = ycoordlist.get(this.idSelected);
+                int destZ = zcoordlist.get(this.idSelected);
+                try
+                {
+                    if(!(initX == destX && initY == destY && initZ == destZ))
                     {
+                        MessageTeleportEntity m = new MessageTeleportEntity();
+                        m.initX = initX;
+                        m.initY = initY;
+                        m.initZ = initZ;
+                        m.destX = destX;
+                        m.destY = destY;
+                        m.destZ = destZ;
                         PacketHandler.INSTANCE.sendToServer(m);
                     }
-                    this.actionPerformed(this.doneBtn);
-            	}
-            	catch(Exception e)
-            	{
-            		e.printStackTrace();
-            	}
-            	this.actionPerformed(this.doneBtn);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+                this.actionPerformed(GuiTeleport.this.cancelBtn);
             }
         }
     }
@@ -175,7 +166,7 @@ public class GuiTeleport extends GuiScreen
     {
         if (par2 == 1)
         {
-            this.actionPerformed(this.doneBtn);
+            this.actionPerformed(this.cancelBtn);
         }
     }
 
@@ -203,6 +194,9 @@ public class GuiTeleport extends GuiScreen
         GL11.glScalef(-f1, -f1, -f1);
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
         GL11.glPopMatrix();
+        if(this.scrollWindow != null) {
+            this.scrollWindow.drawScreen(par1, par2, par3);
+        }
         super.drawScreen(par1, par2, par3);
     }
     
@@ -243,5 +237,55 @@ public class GuiTeleport extends GuiScreen
     public boolean doesGuiPauseGame()
     {
         return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    class PlaceList extends GuiSlot
+    {
+        private final java.util.List l = Lists.newArrayList();
+        private static final String __OBFID = "CL_00000699";
+
+        public PlaceList()
+        {
+            super(GuiTeleport.this.mc, GuiTeleport.this.width, GuiTeleport.this.height, 32, GuiTeleport.this.height - 65 + 4, 18);
+            this.setShowSelectionBox(true);
+        }
+
+        protected int getSize()
+        {
+            return GuiTeleport.this.placenamelist.size();
+        }
+
+        /**
+         * The element in the slot that was clicked, boolean for whether it was double clicked or not
+         */
+        protected void elementClicked(int id, boolean p_148144_2_, int p_148144_3_, int p_148144_4_)
+        {
+            GuiTeleport.this.idSelected = id;
+            GuiTeleport.this.goBtn.enabled = true;
+        }
+
+        /**
+         * Returns true if the element passed in is currently selected
+         */
+        protected boolean isSelected(int p_148131_1_)
+        {
+            return false;
+        }
+
+        /**
+         * Return the height of the content being scrolled
+         */
+        protected int getContentHeight()
+        {
+            return this.getSize() * 18;
+        }
+
+        protected void drawBackground(){}
+
+        protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
+        {
+            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, GuiTeleport.this.placenamelist.get(id), this.width / 2, p_148126_3_ + 1, 16777215);
+        }
     }
 }

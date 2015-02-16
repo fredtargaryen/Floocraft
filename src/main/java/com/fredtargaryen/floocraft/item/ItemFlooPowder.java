@@ -72,13 +72,17 @@ public class ItemFlooPowder extends Item
      */
     public Entity createEntity(World world, Entity location, ItemStack itemstack)
     {
-    	EntityDroppedFlooPowder flp = new EntityDroppedFlooPowder(world, location.posX, location.posY, location.posZ, itemstack, this.concentration);
-    	flp.setImmunity();
-    	flp.setPickupDelay(40);
-    	flp.motionX = location.motionX;
-    	flp.motionY = location.motionY;
-    	flp.motionZ = location.motionZ;
-    	return flp;
+        if(!world.isRemote)
+        {
+            EntityDroppedFlooPowder flp = new EntityDroppedFlooPowder(world, location.posX, location.posY, location.posZ, itemstack, this.concentration);
+            flp.setImmunity();
+            flp.setPickupDelay(40);
+            flp.motionX = location.motionX;
+            flp.motionY = location.motionY;
+            flp.motionZ = location.motionZ;
+            return flp;
+        }
+        return null;
     }
     
     public boolean hasCustomEntity(ItemStack stack)

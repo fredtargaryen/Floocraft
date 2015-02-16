@@ -1,5 +1,7 @@
 package com.fredtargaryen.floocraft;
 
+import net.minecraft.util.ResourceLocation;
+
 /**
  * ===DESCRIPTION OF CHANNELS===
  * MessageAddFireplace: sends position and  unique name of fireplace to be added to server
@@ -24,6 +26,8 @@ public class DataReference
     public static final String SERVERPROXYPATH = "com.fredtargaryen.floocraft.proxy.ServerProxy";
 
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
+
+    public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID+":textures/gui/tp_background.png");
 
     public static String resPath(String un)
     {
