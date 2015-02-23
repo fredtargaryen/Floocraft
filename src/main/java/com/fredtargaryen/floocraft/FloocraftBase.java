@@ -1,12 +1,10 @@
 /**
  * ===NEXT UP===
- * Improve teleport GUI
- * Improve pot effects; rendering
+ * Pot icon
  * Sound!
+ * Fire texture
  * That unusable fire thing
- *
- * ===Teleport GUI===
- * Needs to show rectange when selected
+ * Calling
  */
 
 package com.fredtargaryen.floocraft;
@@ -18,6 +16,7 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
@@ -70,6 +69,7 @@ public class FloocraftBase
     public void preInit(FMLPreInitializationEvent event)
     {
         PacketHandler.init();
+        int potRenderID = RenderingRegistry.getNextAvailableRenderId();
 
     	flooTorch = new BlockFlooTorch()
     	.setBlockName("flootorch")
@@ -128,31 +128,32 @@ public class FloocraftBase
     	.setMaxStackSize(16)
     	.setUnlocalizedName("itemfloosign")
     	.setCreativeTab(CreativeTabs.tabDecorations);
+
+        //Register blocks with GameRegistry
+        GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
+        GameRegistry.registerBlock(flooTorch, "flootorch");
+        GameRegistry.registerBlock(greenFlamesBusyLower, "greenflamesbusylower");
+        GameRegistry.registerBlock(greenFlamesBusyHigher, "greenflamesbusyhigher");
+        GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
+        GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
+        GameRegistry.registerBlock(floowerPot, "floowerpot");
+
+        //Register items with GameRegistry
+        GameRegistry.registerItem(floopowder1t, "floopowder1");
+        GameRegistry.registerItem(floopowder2t, "floopowder2");
+        GameRegistry.registerItem(floopowder4t, "floopowder4");
+        GameRegistry.registerItem(floopowder8t, "floopowder8");
+        GameRegistry.registerItem(floopowderc, "floopowder9");
+        GameRegistry.registerItem(itemFlooSign, "itemfloosign");
+
+        //Register (Tile) Entities with GameRegistry
+        GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
     }
         
     @EventHandler
     public void load(FMLInitializationEvent event)
     {
-    	//Register blocks with GameRegistry
-    	GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
-    	GameRegistry.registerBlock(flooTorch, "flootorch");
-    	GameRegistry.registerBlock(greenFlamesBusyLower, "greenflamesbusylower");
-    	GameRegistry.registerBlock(greenFlamesBusyHigher, "greenflamesbusyhigher");
-    	GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
-        GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
-        GameRegistry.registerBlock(floowerPot, "floowerpot");
-    	
-    	GameRegistry.registerItem(floopowder1t, "floopowder1");
-        GameRegistry.registerItem(floopowder2t, "floopowder2");
-        GameRegistry.registerItem(floopowder4t, "floopowder4");
-        GameRegistry.registerItem(floopowder8t, "floopowder8");
-        GameRegistry.registerItem(floopowderc, "floopowder9");
-    	GameRegistry.registerItem(itemFlooSign, "itemfloosign");
-
-    	//Register (Tile) Entities with GameRegistry
-    	GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
-        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-
     	//Add recipes with GameRegistry
     	GameRegistry.addShapelessRecipe(new ItemStack(floopowder1t,8),
     			new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));

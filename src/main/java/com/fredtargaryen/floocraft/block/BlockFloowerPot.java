@@ -18,6 +18,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -27,7 +31,7 @@ public class BlockFloowerPot extends BlockContainer
     public BlockFloowerPot()
     {
         super(Material.circuits);
-        this.setBlockBoundsForItemRender();
+        this.setBlockBounds(0.3125F, 0.0F, 0.3125F, 0.6875F, 0.375F, 0.6875F);
     }
 
     @SideOnly(Side.CLIENT)
@@ -40,16 +44,6 @@ public class BlockFloowerPot extends BlockContainer
     public TileEntity createNewTileEntity(World var1, int var2)
     {
         return new TileEntityFloowerPot();
-    }
-
-    /**
-     * Sets the block's bounds for rendering it as an item
-     */
-    public void setBlockBoundsForItemRender()
-    {
-        float f = 0.375F;
-        float f1 = f / 2.0F;
-        this.setBlockBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
     }
 
     public boolean isOpaqueCube()
@@ -166,5 +160,32 @@ public class BlockFloowerPot extends BlockContainer
     public void onBlockAdded(World par1World, int par2, int par3, int par4)
     {
         par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+    }
+
+    @Override
+    public int getRenderType()
+    {
+        return -1;
+    }
+
+    /**
+     * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
+     */
+    public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
+    {
+        return super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) && World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_);
+    }
+
+    /**
+     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
+     * their own) Args: x, y, z, neighbor Block
+     */
+    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+    {
+        if (!World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_, p_149695_3_ - 1, p_149695_4_))
+        {
+            this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_), 0);
+            p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
+        }
     }
 }

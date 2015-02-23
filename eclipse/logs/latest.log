@@ -1,36 +1,34 @@
-[22:22:21] [main/INFO]: Setting user: Player699
-[22:22:29] [Client thread/INFO]: LWJGL Version: 2.9.1
-[22:22:54] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
-[22:22:57] [Sound Library Loader/INFO]: Sound engine started
-[22:23:11] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:23:12] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:23:13] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
-[22:23:14] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:23:15] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:23:17] [Sound Library Loader/INFO]: Sound engine started
-[22:23:35] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[22:23:35] [Server thread/INFO]: Generating keypair
-[22:23:38] [Server thread/INFO]: Preparing start region for level 0
-[22:23:39] [Server thread/INFO]: Preparing spawn area: 0%
-[22:23:40] [Server thread/INFO]: Preparing spawn area: 20%
-[22:23:41] [Server thread/INFO]: Preparing spawn area: 78%
-[22:23:42] [Server thread/INFO]: Changing view distance to 4, from 10
-[22:23:46] [Server thread/INFO]: Player699[local:E:c27fa7b3] logged in with entity id 94 at (-1423.9121772313208, 4.0, 66.60527741631151)
-[22:23:46] [Server thread/INFO]: Player699 joined the game
-[22:23:46] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3532ms behind, skipping 70 tick(s)
-[22:24:09] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3964ms behind, skipping 79 tick(s)
-[22:24:18] [Server thread/INFO]: Saving and pausing game...
-[22:24:18] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[22:24:18] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[22:24:18] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[22:24:40] [Server thread/INFO]: Saving and pausing game...
-[22:24:40] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[22:24:40] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[22:24:40] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[22:26:29] [Server thread/INFO]: Stopping server
-[22:26:29] [Server thread/INFO]: Saving players
-[22:26:29] [Server thread/INFO]: Saving worlds
-[22:26:29] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[22:26:29] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[22:26:29] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[22:26:31] [Client thread/INFO]: Stopping!
+[17:09:44] [main/INFO]: Setting user: Player760
+[17:09:54] [Client thread/INFO]: LWJGL Version: 2.9.1
+[17:10:17] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
+[17:10:22] [Sound Library Loader/INFO]: Sound engine started
+[17:10:33] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[17:10:34] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[17:10:36] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
+[17:10:36] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[17:10:37] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[17:10:39] [Sound Library Loader/INFO]: Sound engine started
+[17:10:57] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[17:10:57] [Server thread/INFO]: Generating keypair
+[17:11:02] [Server thread/INFO]: Preparing start region for level 0
+[17:11:03] [Server thread/INFO]: Preparing spawn area: 0%
+[17:11:04] [Server thread/INFO]: Preparing spawn area: 17%
+[17:11:05] [Server thread/INFO]: Preparing spawn area: 63%
+[17:11:07] [Server thread/INFO]: Changing view distance to 4, from 10
+[17:11:10] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3305ms behind, skipping 66 tick(s)
+[17:11:11] [Server thread/INFO]: Player760[local:E:4dad2b2f] logged in with entity id 92 at (-1427.171388091627, 4.0, 67.4141176152926)
+[17:11:11] [Server thread/INFO]: Player760 joined the game
+[17:11:28] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3270ms behind, skipping 65 tick(s)
+[17:11:49] [Server thread/INFO]: Player760 has just earned the achievement [Taking Inventory]
+[17:11:49] [Client thread/INFO]: [CHAT] Player760 has just earned the achievement [Taking Inventory]
+[17:12:25] [Server thread/INFO]: Saving and pausing game...
+[17:12:25] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[17:12:25] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[17:12:25] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[17:12:26] [Server thread/INFO]: Stopping server
+[17:12:26] [Server thread/INFO]: Saving players
+[17:12:26] [Server thread/INFO]: Saving worlds
+[17:12:26] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[17:12:26] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[17:12:26] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[17:12:28] [Client thread/INFO]: Stopping!

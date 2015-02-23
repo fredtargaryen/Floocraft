@@ -13,6 +13,10 @@ import net.minecraft.util.ResourceLocation;
  * MessageTileEntityFireplaceFunction: lets the server know whether the sign at those coordinates is decorative or practical
  *
  * When changing version number, change in: DataReference, build.gradle, mcmod.info
+ *
+ * Recent update quotes:
+ * "...Mrs. Weasley took a flowerpot off the mantelpiece and peered inside.
+ * 'We're running low, Arthur,' she sighed..."
  */
 
 public class DataReference
@@ -27,7 +31,10 @@ public class DataReference
 
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 
-    public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID+":textures/gui/tp_background.png");
+    public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID+":textures/blocks/tp_background.png");
+
+    public static final ResourceLocation potRes = new ResourceLocation(DataReference.MODID+":textures/blocks/floowerpottex.png");
+    public static final ResourceLocation powderRes = new ResourceLocation(DataReference.MODID+":textures/blocks/tp_background.png");
 
     public static String resPath(String un)
     {

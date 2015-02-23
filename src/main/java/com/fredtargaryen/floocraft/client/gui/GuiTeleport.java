@@ -6,7 +6,6 @@ import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
 import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import com.fredtargaryen.floocraft.DataReference;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,6 +48,7 @@ public class GuiTeleport extends GuiScreen
     	this.initX = x;
     	this.initY = y;
     	this.initZ = z;
+        this.idSelected = -4;
         this.refresh();
     }
     
@@ -270,7 +270,7 @@ public class GuiTeleport extends GuiScreen
          */
         protected boolean isSelected(int p_148131_1_)
         {
-            return false;
+            return p_148131_1_ == GuiTeleport.this.idSelected;
         }
 
         /**
@@ -283,6 +283,7 @@ public class GuiTeleport extends GuiScreen
 
         protected void drawBackground(){}
 
+        @Override
         protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
         {
             GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, GuiTeleport.this.placenamelist.get(id), this.width / 2, p_148126_3_ + 1, 16777215);
