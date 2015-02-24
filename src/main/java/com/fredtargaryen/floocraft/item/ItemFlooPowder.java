@@ -55,6 +55,7 @@ public class ItemFlooPowder extends Item
                 par3World.setBlock(X, Y + 2, Z, FloocraftBase.greenFlamesBusyHigher);
             }
 			--par1ItemStack.stackSize;
+            par3World.playSound((double)X, (double)Y, (double)Z, "ftfloocraft:greened", 1.0F, 1.0F, true);
 			return true;
 		}
 		return false;

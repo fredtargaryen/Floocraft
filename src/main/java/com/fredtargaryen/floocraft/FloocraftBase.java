@@ -1,10 +1,8 @@
 /**
  * ===NEXT UP===
- * Pot icon
- * Sound!
  * Fire texture
  * That unusable fire thing
- * Calling
+ * Wait for orientCamera hook
  */
 
 package com.fredtargaryen.floocraft;

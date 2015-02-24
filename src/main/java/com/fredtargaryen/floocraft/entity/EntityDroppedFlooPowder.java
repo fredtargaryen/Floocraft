@@ -45,6 +45,7 @@ public class EntityDroppedFlooPowder extends EntityItem
             {
                 this.worldObj.setBlock(intX, intY + 1, intZ, FloocraftBase.greenFlamesBusyHigher);
             }
+            this.worldObj.playSound((double)intX, (double)intY, (double)intZ, "ftfloocraft:greened", 1.0F, 1.0F, true);
 			this.setDead();
 		}
 		else if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.torch)
