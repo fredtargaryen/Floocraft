@@ -40,10 +40,9 @@ public class EntityDroppedFlooPowder extends EntityItem
         int intZ = MathHelper.floor_double(this.posZ);
 		if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.fire)
 		{
-			this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
             if(this.worldObj.getBlock(intX, intY + 1, intZ) == Blocks.air)
             {
-                this.worldObj.setBlock(intX, intY + 1, intZ, FloocraftBase.greenFlamesBusyHigher);
+			    this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
             }
             this.worldObj.playSound((double)intX, (double)intY, (double)intZ, "ftfloocraft:greened", 1.0F, 1.0F, true);
 			this.setDead();

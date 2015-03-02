@@ -5,7 +5,7 @@ gamma:0.0
 saturation:0.0
 renderDistance:4
 guiScale:0
-particles:0
+particles:2
 bobView:true
 anaglyph3d:false
 advancedOpengl:false

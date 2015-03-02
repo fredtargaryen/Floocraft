@@ -119,7 +119,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
     protected int getTopBlockY(World w, int x, int y, int z) {
             y++;
         Block b0 = w.getBlock(x, y, z);
-        if (b0 == FloocraftBase.greenFlamesBusyHigher || b0 == Blocks.air) {
+        if (b0 == Blocks.air) {
             y++;
             while (w.getBlock(x, y, z) == Blocks.air) {
                 y++;

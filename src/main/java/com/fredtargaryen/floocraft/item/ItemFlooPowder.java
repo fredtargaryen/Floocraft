@@ -48,11 +48,10 @@ public class ItemFlooPowder extends Item
 		}
 		else if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
 		{
-			par3World.extinguishFire(par2EntityPlayer, X, Y, Z, BlockDirectional.getDirection(par3World.getBlockMetadata(X, Y, Z)));
-            par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
             if(par3World.getBlock(X, Y + 2, Z) == Blocks.air)
             {
-                par3World.setBlock(X, Y + 2, Z, FloocraftBase.greenFlamesBusyHigher);
+                par3World.extinguishFire(par2EntityPlayer, X, Y, Z, BlockDirectional.getDirection(par3World.getBlockMetadata(X, Y, Z)));
+                par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
             }
 			--par1ItemStack.stackSize;
             par3World.playSound((double)X, (double)Y, (double)Z, "ftfloocraft:greened", 1.0F, 1.0F, true);

@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.client.gui;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
@@ -9,6 +10,7 @@ import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
@@ -26,7 +28,9 @@ public class GuiTeleport extends GuiScreen
     protected String screenTitle = "===Choose a destination===";
     private String status;
 
-    //"Go!" button for the GUI.
+    //Peek
+    private GuiButton peekBtn;
+    //"Go!".
     private GuiButton goBtn;
     //"Cancel"
     private GuiButton cancelBtn;
@@ -61,9 +65,11 @@ public class GuiTeleport extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
         refreshButton.enabled = false;
-        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 100, this.height / 4 + 144, 98, 20, "Go!"));
+        this.buttonList.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 100, this.height / 4 + 144, 64, 20, "Peek"));
+        this.peekBtn.enabled = false;
+        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 32, this.height / 4 + 144, 64, 20, "Go!"));
         this.goBtn.enabled = false;
-        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height / 4 + 144, 98, 20, "Cancel"));
+        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 36, this.height / 4 + 144, 64, 20, "Cancel"));
         if(receivedLists)
         {
         	refreshButton.enabled = true;
@@ -127,8 +133,8 @@ public class GuiTeleport extends GuiScreen
             {
             	this.refresh();
             }
-            //Go! (id -3)
-            else
+            //Go!
+            else if(par1GuiButton.id == -3)
             {
                 int initX = this.initX;
                 int initY = this.initY;
@@ -156,6 +162,20 @@ public class GuiTeleport extends GuiScreen
                 }
                 this.actionPerformed(GuiTeleport.this.cancelBtn);
             }
+            //Peek (id -4)
+            else
+            {
+                int initX = this.initX;
+                int initY = this.initY;
+                int initZ = this.initZ;
+                int destX = xcoordlist.get(this.idSelected);
+                int destY = ycoordlist.get(this.idSelected);
+                int destZ = zcoordlist.get(this.idSelected);
+                if(!(initX == destX && initY == destY && initZ == destZ))
+                {
+                    this.mc.displayGuiScreen(new GuiPeek(initX, initY, initZ, destX, destY, destZ));
+                }
+            }
         }
     }
 
@@ -179,11 +199,6 @@ public class GuiTeleport extends GuiScreen
     {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj,
-        		this.screenTitle,
-        		this.width / 2,
-        		40,
-        		16777215);
-        this.drawCenteredString(this.fontRendererObj,
         		this.status,
         		this.width / 2,
         		this.height / 4 + 48,
@@ -197,6 +212,11 @@ public class GuiTeleport extends GuiScreen
         if(this.scrollWindow != null) {
             this.scrollWindow.drawScreen(par1, par2, par3);
         }
+        this.drawCenteredString(this.fontRendererObj,
+                this.screenTitle,
+                this.width / 2,
+                15,
+                16777215);
         super.drawScreen(par1, par2, par3);
     }
     
@@ -262,7 +282,7 @@ public class GuiTeleport extends GuiScreen
         protected void elementClicked(int id, boolean p_148144_2_, int p_148144_3_, int p_148144_4_)
         {
             GuiTeleport.this.idSelected = id;
-            GuiTeleport.this.goBtn.enabled = true;
+            GuiTeleport.this.goBtn.enabled = GuiTeleport.this.peekBtn.enabled = GuiTeleport.this.enabledlist.get(GuiTeleport.this.idSelected);
         }
 
         /**
@@ -270,23 +290,56 @@ public class GuiTeleport extends GuiScreen
          */
         protected boolean isSelected(int p_148131_1_)
         {
-            return p_148131_1_ == GuiTeleport.this.idSelected;
+            return p_148131_1_ == GuiTeleport.this.idSelected && GuiTeleport.this.enabledlist.get(idSelected);
         }
 
         /**
          * Return the height of the content being scrolled
          */
+        @Override
         protected int getContentHeight()
         {
             return this.getSize() * 18;
         }
 
+        @Override
         protected void drawBackground(){}
 
         @Override
         protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, Tessellator p_148126_5_, int p_148126_6_, int p_148126_7_)
         {
-            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, GuiTeleport.this.placenamelist.get(id), this.width / 2, p_148126_3_ + 1, 16777215);
+            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, GuiTeleport.this.placenamelist.get(id), this.width / 2, p_148126_3_ + 1, GuiTeleport.this.enabledlist.get(id) ? 65280 : 16711680);
+        }
+
+        @Override
+        public void drawScreen(int i, int j, float f)
+        {
+            super.drawScreen(i, j, f);
+            this.flooverlayBackground(0, this.top, 255, 255);
+            this.flooverlayBackground(this.bottom, this.height, 255, 255);
+        }
+        /**
+         * Overlays the background to hide scrolled items
+         */
+        private void flooverlayBackground(int p_148136_1_, int p_148136_2_, int p_148136_3_, int p_148136_4_)
+        {
+            Tessellator tessellator = Tessellator.instance;
+            GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            float f = 32.0F;
+            tessellator.startDrawingQuads();
+            tessellator.setColorRGBA_I(4210752, p_148136_4_);
+            tessellator.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
+            tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
+            tessellator.setColorRGBA_I(4210752, p_148136_3_);
+            tessellator.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_1_ / f));
+            tessellator.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / f));
+            tessellator.draw();
+        }
+
+        @Override
+        protected void drawContainerBackground(Tessellator tessellator)
+        {
         }
     }
 }

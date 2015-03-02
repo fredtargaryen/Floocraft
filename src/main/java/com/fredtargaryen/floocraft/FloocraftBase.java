@@ -1,6 +1,5 @@
 /**
  * ===NEXT UP===
- * Fire texture
  * That unusable fire thing
  * Wait for orientCamera hook
  */
@@ -9,6 +8,7 @@ package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
+import com.fredtargaryen.floocraft.client.renderer.FireRenderer;
 import com.fredtargaryen.floocraft.item.*;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
@@ -43,7 +43,6 @@ public class FloocraftBase
      */
     public static Block flooTorch;
     public static Block greenFlamesBusyLower;
-    public static Block greenFlamesBusyHigher;
     public static Block greenFlamesIdle;
     public static Block greenFlamesTemp;
     public static Block blockFlooSign;
@@ -67,20 +66,16 @@ public class FloocraftBase
     public void preInit(FMLPreInitializationEvent event)
     {
         PacketHandler.init();
-        int potRenderID = RenderingRegistry.getNextAvailableRenderId();
+        int fireRenderID = RenderingRegistry.getNextAvailableRenderId();
 
     	flooTorch = new BlockFlooTorch()
     	.setBlockName("flootorch")
     	.setLightLevel(1.0F)
     	.setCreativeTab(CreativeTabs.tabDecorations);
     	
-    	greenFlamesBusyLower = new GreenFlamesBusyLower()        
+    	greenFlamesBusyLower = new GreenFlamesBusyLower(fireRenderID)
     	.setBlockName("greenflamesbusylower")
     	.setLightLevel(1.0F);
-    	
-    	greenFlamesBusyHigher = new GreenFlamesBusyHigher()
-        .setBlockName("greenflamesbusyhigher")
-        .setLightLevel(1.0F);
     	
     	greenFlamesIdle = new GreenFlamesIdle()
     	.setBlockName("greenflamesidle")
@@ -131,7 +126,6 @@ public class FloocraftBase
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
         GameRegistry.registerBlock(flooTorch, "flootorch");
         GameRegistry.registerBlock(greenFlamesBusyLower, "greenflamesbusylower");
-        GameRegistry.registerBlock(greenFlamesBusyHigher, "greenflamesbusyhigher");
         GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
         GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
         GameRegistry.registerBlock(floowerPot, "floowerpot");
@@ -147,6 +141,8 @@ public class FloocraftBase
         //Register (Tile) Entities with GameRegistry
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
+
+        RenderingRegistry.registerBlockHandler(new FireRenderer(fireRenderID));
     }
         
     @EventHandler

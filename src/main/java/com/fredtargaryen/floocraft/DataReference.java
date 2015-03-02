@@ -13,10 +13,6 @@ import net.minecraft.util.ResourceLocation;
  * MessageTileEntityFireplaceFunction: lets the server know whether the sign at those coordinates is decorative or practical
  *
  * When changing version number, change in: DataReference, build.gradle, mcmod.info
- *
- * Recent update quotes:
- * "...Mrs. Weasley took a flowerpot off the mantelpiece and peered inside.
- * 'We're running low, Arthur,' she sighed..."
  */
 
 public class DataReference
