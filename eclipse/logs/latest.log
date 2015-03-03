@@ -1,51 +1,120 @@
-[21:26:51] [main/INFO]: Setting user: Player794
-[21:26:57] [Client thread/INFO]: LWJGL Version: 2.9.1
-[21:27:19] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
-[21:27:23] [Sound Library Loader/INFO]: Sound engine started
-[21:27:36] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[21:27:36] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[21:27:38] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
-[21:27:39] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[21:27:40] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[21:27:42] [Sound Library Loader/INFO]: Sound engine started
-[21:28:04] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
-[21:28:04] [Server thread/INFO]: Generating keypair
-[21:28:07] [Server thread/INFO]: Preparing start region for level 0
-[21:28:08] [Server thread/INFO]: Preparing spawn area: 0%
-[21:28:09] [Server thread/INFO]: Preparing spawn area: 16%
-[21:28:10] [Server thread/INFO]: Preparing spawn area: 57%
-[21:28:11] [Server thread/INFO]: Changing view distance to 4, from 10
-[21:28:14] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2355ms behind, skipping 47 tick(s)
-[21:28:14] [Server thread/INFO]: Player794[local:E:ca461dfd] logged in with entity id 93 at (-1427.50050873198, 4.0, 73.0602010068159)
-[21:28:14] [Server thread/INFO]: Player794 joined the game
-[21:28:37] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3240ms behind, skipping 64 tick(s)
-[21:29:06] [Server thread/INFO]: Stopping server
-[21:29:06] [Server thread/INFO]: Saving players
-[21:29:06] [Server thread/INFO]: Saving worlds
-[21:29:06] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
-[21:29:07] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
-[21:29:07] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[21:29:08] [Client thread/FATAL]: Reported exception thrown!
-net.minecraft.util.ReportedException: Rendering screen
-	at net.minecraft.client.renderer.EntityRenderer.updateCameraAndRender(EntityRenderer.java:1168) ~[EntityRenderer.class:?]
-	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1056) ~[Minecraft.class:?]
-	at net.minecraft.client.Minecraft.run(Minecraft.java:951) [Minecraft.class:?]
-	at net.minecraft.client.main.Main.main(Main.java:164) [Main.class:?]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.7.0_72]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[?:1.7.0_72]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.7.0_72]
-	at java.lang.reflect.Method.invoke(Method.java:606) ~[?:1.7.0_72]
-	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) [launchwrapper-1.11.jar:?]
-	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.11.jar:?]
-	at net.minecraftforge.gradle.GradleStartCommon.launch(GradleStartCommon.java:78) [start/:?]
-	at GradleStart.main(GradleStart.java:45) [start/:?]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.7.0_72]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[?:1.7.0_72]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.7.0_72]
-	at java.lang.reflect.Method.invoke(Method.java:606) ~[?:1.7.0_72]
-	at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134) [idea_rt.jar:?]
-Caused by: java.lang.NullPointerException
-	at com.fredtargaryen.floocraft.client.renderer.ViooRenderer.updateCameraAndRender(ViooRenderer.java:64) ~[ViooRenderer.class:?]
-	at com.fredtargaryen.floocraft.client.gui.GuiPeek.drawScreen(GuiPeek.java:79) ~[GuiPeek.class:?]
-	at net.minecraft.client.renderer.EntityRenderer.updateCameraAndRender(EntityRenderer.java:1137) ~[EntityRenderer.class:?]
-	... 16 more
+[19:14:45] [main/INFO]: Extra: []
+[19:14:45] [main/INFO]: Running with arguments: [--userProperties, {}, --accessToken, {REDACTED}, --assetIndex, 1.7.10, --assetsDir, C:/Users/user/.gradle/caches/minecraft/assets, --version, 1.7.10, --tweakClass, cpw.mods.fml.common.launcher.FMLTweaker, --tweakClass, net.minecraftforge.gradle.GradleStartCommon$GradleStartTweaker]
+[19:14:46] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.FMLTweaker
+[19:14:46] [main/INFO]: Using primary tweak class name cpw.mods.fml.common.launcher.FMLTweaker
+[19:14:46] [main/INFO]: Loading tweak class name net.minecraftforge.gradle.GradleStartCommon$GradleStartTweaker
+[19:14:46] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLTweaker
+[19:14:46] [main/INFO]: Forge Mod Loader version 7.10.85.1291 for Minecraft 1.7.10 loading
+[19:14:46] [main/INFO]: Java is Java HotSpot(TM) 64-Bit Server VM, version 1.7.0_72, running on Windows 7:amd64:6.1, installed at C:\Program Files\Java\jdk1.7.0_72\jre
+[19:14:46] [main/INFO]: Managed to load a deobfuscated Minecraft name- we are in a deobfuscated environment. Skipping runtime deobfuscation
+[19:14:46] [main/INFO]: Calling tweak class net.minecraftforge.gradle.GradleStartCommon$GradleStartTweaker
+[19:14:46] [main/INFO]: Injecting location in coremod cpw.mods.fml.relauncher.FMLCorePlugin
+[19:14:46] [main/INFO]: Injecting location in coremod net.minecraftforge.classloading.FMLForgePlugin
+[19:14:46] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:14:46] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[19:14:46] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:14:46] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLInjectionAndSortingTweaker
+[19:14:46] [main/INFO]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[19:14:47] [main/ERROR]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[19:15:00] [main/ERROR]: FML appears to be missing any signature data. This is not a good thing
+[19:15:00] [main/INFO]: Calling tweak class cpw.mods.fml.relauncher.CoreModManager$FMLPluginWrapper
+[19:15:00] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.FMLDeobfTweaker
+[19:15:04] [main/INFO]: Loading tweak class name cpw.mods.fml.common.launcher.TerminalTweaker
+[19:15:04] [main/INFO]: Calling tweak class cpw.mods.fml.common.launcher.TerminalTweaker
+[19:15:04] [main/INFO]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[19:15:15] [main/INFO]: Setting user: Player705
+[19:15:23] [Client thread/INFO]: LWJGL Version: 2.9.1
+[19:15:26] [Client thread/INFO]: Attempting early MinecraftForge initialization
+[19:15:26] [Client thread/INFO]: MinecraftForge v10.13.2.1291 Initialized
+[19:15:26] [Client thread/INFO]: Replaced 183 ore recipies
+[19:15:26] [Client thread/INFO]: Completed early MinecraftForge initialization
+[19:15:27] [Client thread/INFO]: Searching C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.7.10\eclipse\mods for mods
+[19:15:42] [Client thread/INFO]: Forge Mod Loader has identified 4 mods to load
+[19:15:44] [Client thread/INFO]: Attempting connection with missing mods [mcp, FML, Forge, ftfloocraft] at CLIENT
+[19:15:44] [Client thread/INFO]: Attempting connection with missing mods [mcp, FML, Forge, ftfloocraft] at SERVER
+[19:15:45] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
+[19:15:45] [Client thread/INFO]: Processing ObjectHolder annotations
+[19:15:45] [Client thread/INFO]: Found 341 ObjectHolder annotations
+[19:15:46] [Client thread/INFO]: Configured a dormant chunk cache size of 0
+[19:15:46] [Client thread/INFO]: Applying holder lookups
+[19:15:46] [Client thread/INFO]: Holder lookups applied
+[19:15:47] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:15:47] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Starting up SoundSystem...
+[19:15:48] [Thread-6/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Initializing LWJGL OpenAL
+[19:15:48] [Thread-6/INFO]: [paulscode.sound.SoundSystemLogger:message:69]:     (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[19:15:49] [Thread-6/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: OpenAL initialized.
+[19:15:49] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:15:49] [Sound Library Loader/INFO]: Sound engine started
+[19:16:03] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[19:16:04] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[19:16:04] [Client thread/INFO]: Forge Mod Loader has successfully loaded 4 mods
+[19:16:04] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
+[19:16:05] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[19:16:06] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[19:16:06] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:16:06] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: SoundSystem shutting down...
+[19:16:07] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:importantMessage:90]:     Author: Paul Lamb, www.paulscode.com
+[19:16:07] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:16:07] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:16:07] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Starting up SoundSystem...
+[19:16:07] [Thread-8/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: Initializing LWJGL OpenAL
+[19:16:07] [Thread-8/INFO]: [paulscode.sound.SoundSystemLogger:message:69]:     (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[19:16:07] [Thread-8/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: OpenAL initialized.
+[19:16:07] [Sound Library Loader/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:16:07] [Sound Library Loader/INFO]: Sound engine started
+[19:17:21] [Server thread/INFO]: Starting integrated minecraft server version 1.7.10
+[19:17:21] [Server thread/INFO]: Generating keypair
+[19:17:22] [Server thread/INFO]: Injecting existing block and item data into this server instance
+[19:17:22] [Server thread/INFO]: Applying holder lookups
+[19:17:22] [Server thread/INFO]: Holder lookups applied
+[19:17:23] [Server thread/INFO]: Loading dimension 0 (New World) (net.minecraft.server.integrated.IntegratedServer@8c8e6f0)
+[19:17:23] [Server thread/INFO]: Loading dimension 1 (New World) (net.minecraft.server.integrated.IntegratedServer@8c8e6f0)
+[19:17:24] [Server thread/INFO]: Loading dimension -1 (New World) (net.minecraft.server.integrated.IntegratedServer@8c8e6f0)
+[19:17:24] [Server thread/INFO]: Preparing start region for level 0
+[19:17:26] [Server thread/INFO]: Preparing spawn area: 0%
+[19:17:28] [Server thread/INFO]: Preparing spawn area: 11%
+[19:17:29] [Server thread/INFO]: Preparing spawn area: 48%
+[19:17:31] [Server thread/INFO]: Preparing spawn area: 68%
+[19:17:33] [Server thread/INFO]: Preparing spawn area: 70%
+[19:17:35] [Server thread/INFO]: Changing view distance to 12, from 10
+[19:17:36] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2376ms behind, skipping 47 tick(s)
+[19:17:46] [Netty Client IO #0/INFO]: Server protocol version 1
+[19:17:46] [Netty IO #1/INFO]: Client protocol version 1
+[19:17:46] [Netty IO #1/INFO]: Client attempting to join with 4 mods : mcp@9.05,FML@7.10.85.1291,ftfloocraft@1.7.10-1.3,Forge@10.13.2.1291
+[19:17:47] [Netty IO #1/INFO]: Attempting connection with missing mods [] at CLIENT
+[19:17:47] [Netty Client IO #0/INFO]: Attempting connection with missing mods [] at SERVER
+[19:17:47] [Client thread/INFO]: [Client thread] Client side modded connection established
+[19:17:47] [Server thread/INFO]: [Server thread] Server side modded connection established
+[19:17:47] [Server thread/INFO]: Player705[local:E:dff248cc] logged in with entity id 249 at (-1101.5, 4.0, 484.5)
+[19:17:47] [Server thread/INFO]: Player705 joined the game
+[19:18:08] [Server thread/INFO]: Saving and pausing game...
+[19:18:08] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[19:18:08] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[19:18:08] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[19:18:08] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 13079ms behind, skipping 261 tick(s)
+[19:19:53] [Server thread/INFO]: Player705 has just earned the achievement [Taking Inventory]
+[19:19:53] [Client thread/INFO]: [CHAT] Player705 has just earned the achievement [Taking Inventory]
+[19:20:00] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2857ms behind, skipping 57 tick(s)
+[19:20:14] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2133ms behind, skipping 42 tick(s)
+[19:20:40] [Server thread/WARN]: [FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.
+[19:21:18] [Server thread/INFO]: [FLOOCRAFT-SERVER] Added fireplace at (-1102, 4, 485). Name: rrrrr   
+[19:21:32] [Server thread/INFO]: Saving and pausing game...
+[19:21:32] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[19:21:33] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[19:21:33] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[19:21:33] [Server thread/INFO]: Stopping server
+[19:21:33] [Server thread/INFO]: Saving players
+[19:21:33] [Server thread/INFO]: Saving worlds
+[19:21:33] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
+[19:21:33] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
+[19:21:33] [Server thread/INFO]: Saving chunks for level 'New World'/The End
+[19:21:34] [Server thread/INFO]: Unloading dimension 0
+[19:21:34] [Server thread/INFO]: Unloading dimension -1
+[19:21:34] [Server thread/INFO]: Unloading dimension 1
+[19:21:34] [Server thread/INFO]: Applying holder lookups
+[19:21:35] [Server thread/INFO]: Holder lookups applied
+[19:21:35] [Client thread/INFO]: Stopping!
+[19:21:35] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[19:21:35] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: SoundSystem shutting down...
+[19:21:35] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:importantMessage:90]:     Author: Paul Lamb, www.paulscode.com
+[19:21:35] [Client thread/INFO]: [paulscode.sound.SoundSystemLogger:message:69]: 

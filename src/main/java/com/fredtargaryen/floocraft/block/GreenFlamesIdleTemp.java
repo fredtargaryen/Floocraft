@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
 import java.util.Random;
 
 public class GreenFlamesIdleTemp extends GreenFlamesIdle

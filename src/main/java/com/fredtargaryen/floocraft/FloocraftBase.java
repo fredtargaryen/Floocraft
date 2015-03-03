@@ -1,11 +1,10 @@
 /**
  * ===NEXT UP===
- * That unusable fire thing
- * Wait for orientCamera hook
+ * Unusable fire bug
+ * Peeking
  */
 
 package com.fredtargaryen.floocraft;
-
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
 import com.fredtargaryen.floocraft.client.renderer.FireRenderer;
