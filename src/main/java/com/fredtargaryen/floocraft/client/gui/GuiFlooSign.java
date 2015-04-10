@@ -4,8 +4,11 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -54,7 +57,7 @@ public class GuiFlooSign extends GuiScreen
         NetHandlerPlayClient netclienthandler = this.mc.getNetHandler();
         if (netclienthandler != null)
         {
-            netclienthandler.addToSendQueue(new C12PacketUpdateSign(this.fireplaceTE.xCoord, this.fireplaceTE.yCoord, this.fireplaceTE.zCoord, this.fireplaceTE.signText));
+            netclienthandler.addToSendQueue(new C12PacketUpdateSign(this.fireplaceTE.getPos(), this.fireplaceTE.signText));
         }
     }
 
@@ -73,9 +76,10 @@ public class GuiFlooSign extends GuiScreen
         if (par1GuiButton.enabled)
         {
             MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
-            m.x = this.fireplaceTE.xCoord;
-            m.y = this.fireplaceTE.yCoord;
-            m.z = this.fireplaceTE.zCoord;
+            BlockPos pos = this.fireplaceTE.getPos();
+            m.x = pos.getX();
+            m.y = pos.getY();
+            m.z = pos.getZ();
             m.isConnected = false;
             PacketHandler.INSTANCE.sendToServer(m);
             switch(par1GuiButton.id)
@@ -110,14 +114,15 @@ public class GuiFlooSign extends GuiScreen
         {
             this.editLine = this.editLine + 1 & 3;
         }
-        if (par2 == 14 && this.fireplaceTE.signText[this.editLine].length() > 0)
+        String text = this.fireplaceTE.signText[this.editLine].getUnformattedText();
+        if (par2 == 14 && text.length() > 0)
         {
-            this.fireplaceTE.signText[this.editLine] = this.fireplaceTE.signText[this.editLine].substring(0, this.fireplaceTE.signText[this.editLine].length() - 1);
+            this.fireplaceTE.signText[this.editLine] = new ChatComponentText(text.substring(0, text.length() - 1));
         }
 
-        if (ChatAllowedCharacters.isAllowedCharacter(par1) && this.fireplaceTE.signText[this.editLine].length() < 15)
+        if (ChatAllowedCharacters.isAllowedCharacter(par1) && text.length() < 15)
         {
-            this.fireplaceTE.signText[this.editLine] = this.fireplaceTE.signText[this.editLine] + par1;
+            this.fireplaceTE.signText[this.editLine] = new ChatComponentText(text + par1);
         }
     }
 
@@ -176,9 +181,12 @@ public class GuiFlooSign extends GuiScreen
         super.drawScreen(par1, par2, par3);
     }
 
-    private static String nameAsLine(String[] original)
+    private static String nameAsLine(IChatComponent[] original)
     {
-        return original[0]+" "+original[1]+" "+original[2]+" "+original[3];
+        return original[0].getUnformattedTextForChat()+" "
+                +original[1].getUnformattedTextForChat()+" "
+                +original[2].getUnformattedTextForChat()+" "
+                +original[3].getUnformattedTextForChat();
     }
 
     public void dealWithAnswer(boolean answer)
@@ -187,17 +195,14 @@ public class GuiFlooSign extends GuiScreen
         {
             this.sameNameError = "";
             MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
-            m.x = this.fireplaceTE.xCoord;
-            m.y = this.fireplaceTE.yCoord;
-            m.z = this.fireplaceTE.zCoord;
+            BlockPos pos = this.fireplaceTE.getPos();
+            m.x = pos.getX();
+            m.y = pos.getY();
+            m.z = pos.getZ();
             m.isConnected = true;
             PacketHandler.INSTANCE.sendToServer(m);
             this.fireplaceTE.markDirty();
-            this.fireplaceTE.addLocation(this.fireplaceTE.xCoord,
-                    this.fireplaceTE.yCoord,
-                    this.fireplaceTE.zCoord,
-                    nameAsLine(this.fireplaceTE.signText),
-                    this.fireplaceTE.getWorldObj());
+            this.fireplaceTE.addLocation(m.x, m.y, m.z, nameAsLine(this.fireplaceTE.signText), this.fireplaceTE.getWorld());
             this.mc.displayGuiScreen(null);
         }
         else

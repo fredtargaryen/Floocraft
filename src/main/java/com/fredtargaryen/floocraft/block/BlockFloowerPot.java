@@ -1,15 +1,12 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,6 +15,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -28,12 +27,6 @@ public class BlockFloowerPot extends BlockContainer
     {
         super(Material.circuits);
         this.setBlockBounds(0.3125F, 0.0F, 0.3125F, 0.6875F, 0.375F, 0.6875F);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister par1IIconRegister)
-    {
-        this.blockIcon = par1IIconRegister.registerIcon(DataReference.resPath(this.getUnlocalizedName()));
     }
 
     @Override
@@ -47,37 +40,32 @@ public class BlockFloowerPot extends BlockContainer
         return false;
     }
 
-    public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
-
     @Override
     /**
      * Called upon block activation (right click on the block.)
      */
-    public boolean onBlockActivated(World w, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        TileEntity tileEntity = w.getTileEntity(x, y, z);
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity == null || player.isSneaking())
         {
             return false;
         }
-        player.openGui(FloocraftBase.instance, 0, w, x, y, z);
+        player.openGui(FloocraftBase.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block par5, int par6)
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        this.dropItems(world, x, y, z);
-        super.breakBlock(world, x, y, z, par5, par6);
+        this.dropItems(worldIn, pos);
+        super.breakBlock(worldIn, pos, state);
     }
 
-    private void dropItems(World world, int x, int y, int z){
+    private void dropItems(World world, BlockPos pos){
         Random rand = new Random();
 
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(pos);
         if (!(tileEntity instanceof IInventory)) {
             return;
         }
@@ -92,7 +80,7 @@ public class BlockFloowerPot extends BlockContainer
                 float rz = rand.nextFloat() * 0.8F + 0.1F;
 
                 EntityItem entityItem = new EntityItem(world,
-                        x + rx, y + ry, z + rz,
+                        pos.getX() + rx, pos.getY() + ry, pos.getZ() + rz,
                         new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
 
                 if (item.hasTagCompound()) {
@@ -112,34 +100,37 @@ public class BlockFloowerPot extends BlockContainer
     @Override
     public int tickRate(World par1World)
     {
-        return 60;
+        return 50;
     }
 
     @Override
-    public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if(!par1World.isRemote)
+        if(!worldIn.isRemote)
         {
-            TileEntityFloowerPot pot = (TileEntityFloowerPot) par1World.getTileEntity(par2, par3, par4);
+            TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
             if (stack != null && stack.stackSize > 0)
             {
+                int par2 = pos.getX();
+                int par3 = pos.getY();
+                int par4 = pos.getZ();
                 for (int x = par2 - 5; x < par2 + 6; x++)
                 {
                     for (int y = par3 - 5; y < par3 + 6; y++)
                     {
                         for (int z = par4 - 5; z < par4 + 6; z++)
                         {
-                            if (par1World.getBlock(x, y, z) == Blocks.fire)
+                            if (state.getBlock() == Blocks.fire)
                             {
-                                par1World.setBlock(x, y, z, FloocraftBase.greenFlamesTemp);
-                                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) par1World.getBlock(x, y, z);
-                                boolean shouldPut = gfit.approveOrDenyTeleport(par1World, x, y, z);
-                                par1World.setBlock(x, y, z, Blocks.fire);
+                                worldIn.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState());
+                                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) worldIn.getBlockState(pos).getBlock();
+                                boolean shouldPut = gfit.approveOrDenyTeleport(worldIn, x, y, z);
+                                worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
                                 if (shouldPut)
                                 {
                                     Item i = stack.getItem();
-                                    par1World.setBlock(x, y, z, FloocraftBase.greenFlamesBusyLower, ((ItemFlooPowder)i).getConcentration(), 2);
+                                    worldIn.setBlockState(pos, FloocraftBase.greenFlamesBusyLower.getDefaultState().withProperty(GreenFlamesLowerBase.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
                                     stack.stackSize--;
                                     pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                 }
@@ -149,13 +140,13 @@ public class BlockFloowerPot extends BlockContainer
                 }
             }
         }
-        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World) + par5Random.nextInt(20));
+        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn) + rand.nextInt(100));
     }
 
     @Override
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
     }
 
     @Override
@@ -165,23 +156,24 @@ public class BlockFloowerPot extends BlockContainer
     }
 
     /**
-     * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z
+     * Checks to see if its valid to put this block at the specified coordinates. Args: world, pos
      */
-    public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return super.canPlaceBlockAt(p_149742_1_, p_149742_2_, p_149742_3_, p_149742_4_) && World.doesBlockHaveSolidTopSurface(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_);
+        return super.canPlaceBlockAt(worldIn, pos) && World.doesBlockHaveSolidTopSurface(worldIn, new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ()));
     }
 
     /**
-     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
-     * their own) Args: x, y, z, neighbor Block
+     * Called when a neighboring block changes.
      */
-    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        if (!World.doesBlockHaveSolidTopSurface(p_149695_1_, p_149695_2_, p_149695_3_ - 1, p_149695_4_))
+        if (!World.doesBlockHaveSolidTopSurface(worldIn, new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ())))
         {
-            this.dropBlockAsItem(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_1_.getBlockMetadata(p_149695_2_, p_149695_3_, p_149695_4_), 0);
-            p_149695_1_.setBlockToAir(p_149695_2_, p_149695_3_, p_149695_4_);
+            this.dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockToAir(pos);
         }
     }
 }

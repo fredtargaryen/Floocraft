@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
@@ -20,12 +21,13 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f)
+    public void renderTileEntityAt(TileEntity te, double x, double z, double something, float somethingElse, int somethingElser)
     {
+        BlockPos pos = te.getPos();
         GL11.glPushMatrix();
-        GL11.glTranslated(x, y, z);
+        GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
         TileEntityFloowerPot tefp = (TileEntityFloowerPot)te;
-        this.renderPot(tefp, tefp.getWorldObj(), tefp.xCoord, tefp.yCoord, tefp.zCoord, FloocraftBase.floowerPot);
+        this.renderPot(tefp, tefp.getWorld(), pos.getX(), pos.getY(), pos.getZ(), FloocraftBase.floowerPot);
         GL11.glPopMatrix();
     }
     public void renderPot(TileEntityFloowerPot tefp, World world, int x, int y, int z, Block block)

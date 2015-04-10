@@ -1,8 +1,8 @@
 package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.DataReference;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
@@ -22,7 +22,7 @@ public class GuiFlash extends Gui
         if(this.ticks == -1)
         {
             this.ticks = 0;
-            this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("ftfloocraft:tp"), 1.0F));
+            this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("ftfloocraft:tp"), 1.0F));
         }
     }
 

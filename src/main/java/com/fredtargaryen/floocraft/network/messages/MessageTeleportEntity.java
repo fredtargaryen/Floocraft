@@ -1,12 +1,16 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusyLower;
 import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
 import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -30,18 +34,18 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		boolean tpApproved = false;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
-		Block destBlock = world.getBlock(destX, destY, destZ);
+		Block destBlock = world.getBlockState(new BlockPos(destX, destY, destZ)).getBlock();
 		if(destBlock == Blocks.fire)
 		{
-            world.setBlock(destX, destY, destZ, FloocraftBase.greenFlamesTemp);
-            GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) world.getBlock(destX, destY, destZ);
+            world.setBlockState(new BlockPos(destX, destY, destZ), FloocraftBase.greenFlamesTemp.getDefaultState());
+            GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) world.getBlockState(new BlockPos(destX, destY, destZ));
             if(gfit.approveOrDenyTeleport(world, destX, destY, destZ))
             {
                 tpApproved = true;
             }
             else
             {
-                world.setBlock(destX, destY, destZ, Blocks.fire);
+                world.setBlockState(new BlockPos(destX, destY, destZ), Blocks.fire.getDefaultState());
                 return null;
             }
 		}
@@ -59,8 +63,9 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
             Random rand = new Random();
             player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, rand.nextFloat() * 360, player.rotationPitch);
     		player.fallDistance = 0.0F;
-			int m = world.getBlockMetadata(initX, initY, initZ);
-    		world.setBlockMetadataWithNotify(initX, initY, initZ, m == 9 ? m : m - 1, 2);
+            BlockPos pos = new BlockPos(initX, initY, initZ);
+            int m = (Integer)world.getBlockState(pos).getValue(GreenFlamesLowerBase.AGE);
+    		world.setBlockState(pos, FloocraftBase.greenFlamesBusyLower.getDefaultState().withProperty(GreenFlamesBusyLower.AGE, m == 9 ? m : m - 1), 2);
 		}
 		return null;
 	}

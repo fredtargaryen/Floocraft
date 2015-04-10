@@ -1,22 +1,20 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,45 +22,21 @@ import java.util.Random;
 
 public abstract class GreenFlamesLowerBase extends BlockFire
 {
-    @SideOnly(Side.CLIENT)
-    protected IIcon[] icons;
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-    public IIcon getFireIcon(int i0)
-    {
-        return this.icons[i0];
-    }
-
-    /**
-     * Gets the block's texture. Args: side, meta
-     */
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-    {
-        return this.icons[0];
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister i)
-    {
-        this.icons = new IIcon[] {i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_0"),
-                                    i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_1")};
-    }
-
 	public boolean isCollidable()
 	{
 		return true;
 	}
 
+    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
+
 	@Override
-	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
+	public void onEntityCollidedWithBlock(World w, BlockPos pos, IBlockState state, Entity e)
 	{
-		if(par5Entity instanceof EntityPlayer)
+		if(e instanceof EntityPlayer)
 		{
-			if(par1World.isRemote)
+			if(w.isRemote)
 			{
-				doClientGuiTings(par2, par3, par4);
+				doClientGuiTings(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 	}
@@ -85,60 +59,65 @@ public abstract class GreenFlamesLowerBase extends BlockFire
 	}
 
     @Override
-    public int getChanceToEncourageFire(IBlockAccess world, int x, int y, int z, int oldChance, ForgeDirection face)
-    {
-        return 0;
-    }
-
-    @Override
-	public void onBlockAdded(World par1World, int par2, int par3, int par4)
+	public void onBlockAdded(World w, BlockPos pos, IBlockState state)
 	{
-		if (!isInFireplace(par1World, par2, par3, par4))
+		if (!isInFireplace(w, pos))
 		{
-			par1World.setBlock(par2, par3, par4, Blocks.fire);
+			w.setBlockState(pos, Blocks.fire.getDefaultState());
 		}
 		else
 		{
-			par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+			w.scheduleUpdate(pos, this, this.tickRate(w));
 		}
 	}
 
     @Override
-    public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    public void updateTick(World par1World, BlockPos pos, IBlockState state, Random par5Random)
     {
-        if(!isInFireplace(par1World, par2, par3, par4) || par1World.getBlockMetadata(par2, par3, par4) == 0)
+        if(!isInFireplace(par1World, pos) || state.getValue(AGE).equals(0))
         {
-            par1World.setBlock(par2, par3, par4, Blocks.fire);
+            par1World.setBlockState(pos, Blocks.fire.getDefaultState());
         }
-        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World) + par5Random.nextInt(10));
+        par1World.scheduleUpdate(pos, this, this.tickRate(par1World) + par5Random.nextInt(10));
     }
 
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
-    protected int getTopBlockY(World w, int x, int y, int z) {
-            y++;
-        Block b0 = w.getBlock(x, y, z);
-        if (b0 == Blocks.air) {
-            y++;
-            while (w.getBlock(x, y, z) == Blocks.air) {
-                y++;
+    protected int getTopBlockY(World w, BlockPos oldpos)
+    {
+        BlockPos pos = oldpos;
+        pos.up();
+        Block b0 = w.getBlockState(pos).getBlock();
+        if (b0 == Blocks.air)
+        {
+            pos.up();
+            while (w.getBlockState(pos).getBlock() == Blocks.air)
+            {
+                pos.up();
             }
-            if (w.getBlock(x, y, z).isNormalCube(w, x, y, z)) {
-                return y;
+            if (w.getBlockState(pos).getBlock().isNormalCube(w, pos))
+            {
+                return pos.getY();
             }
         }
         return 0;
     }
 
-    protected boolean isWallColumn(World w, int x, int bottomY, int topY, int z) {
-        if (topY == 0) {
+    protected boolean isWallColumn(World w, BlockPos oldbottom, int topY)
+    {
+        BlockPos bottom = oldbottom;
+        if (topY == 0)
+        {
             return false;
-        } else {
+        }
+        else
+        {
             boolean valid = true;
-            while (valid && bottomY < topY) {
-                if(w.getBlock(x, bottomY, z).isNormalCube(w, x, bottomY, z)) {
-                    bottomY++;
+            while (valid && bottom.getY() < topY) {
+                if(w.getBlockState(bottom).getBlock().isNormalCube(w, bottom))
+                {
+                    bottom.up();
                 }
                 else {
                     valid = false;
@@ -148,33 +127,45 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         }
     }
 
-    protected List<Integer> getWalls(World w, int x, int bottomY, int topY, int z)
+    protected List<Integer> getWalls(World w, BlockPos oldbottom, int topY)
     {
+        BlockPos bottom = oldbottom;
         List<Integer> walls = new ArrayList<Integer>();
-        if(this.isWallColumn(w, x, bottomY, topY, z + 1))
+        //z + 1
+        bottom.add(0.0D, 0.0D, 1.0D);
+        if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(2);
         }
-        if(this.isWallColumn(w, x - 1, bottomY, topY, z))
+        //x - 1
+        bottom.add(-1.0D, 0.0D, -1.0D);
+        if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(4);
         }
-        if(this.isWallColumn(w, x + 1, bottomY, topY, z))
+        //x + 1
+        bottom.add(2.0D, 0.0D, 0.0D);
+        if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(6);
         }
-        if(this.isWallColumn(w, x, bottomY, topY, z - 1))
+        //z - 1
+        bottom.add(0.0D, 0.0D, -1.0D);
+        if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(8);
         }
         return walls;
     }
 
-    protected boolean canLoopToCorner(World w, int x, int y, int z, int backWall, int oldSideWall, int top)
+    protected boolean canLoopToCorner(World w, BlockPos pos, int backWall, int oldSideWall, int top)
     {
         int sideWall;
-        int oldX = x;
-        int oldZ = z;
+        int oldX = pos.getX();
+        int x = oldX;
+        int oldZ = pos.getZ();
+        int z = oldZ;
+        int y = pos.getY();
         switch(oldSideWall)
         {
             case 2:
@@ -205,8 +196,8 @@ public abstract class GreenFlamesLowerBase extends BlockFire
                 if(sideWall == 2){z++;}
                 else{z--;}
             }
-            int newTop = this.getTopBlockY(w, x, y, z);
-            List<Integer> walls = this.getWalls(w, x, y, newTop, z);
+            int newTop = this.getTopBlockY(w, pos);
+            List<Integer> walls = this.getWalls(w, new BlockPos(x, y, z), newTop);
             switch(walls.size())
             {
                 case 1:
@@ -218,14 +209,14 @@ public abstract class GreenFlamesLowerBase extends BlockFire
                     {
                         if(newTop > top++)
                         {
-                            if(!this.isWallColumn(w, oldX, top, newTop, oldZ))
+                            if(!this.isWallColumn(w, new BlockPos(oldX, top, oldZ), newTop))
                             {
                                 return false;
                             }
                         }
                         else if(newTop < top--)
                         {
-                            if(!this.isWallColumn(w, x, newTop, top, z))
+                            if(!this.isWallColumn(w, new BlockPos(x, newTop, z), top))
                             {
                                 return false;
                             }
@@ -247,14 +238,14 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         return true;
     }
 
-    protected boolean isInFireplace(World w, int x, int y, int z)
+    protected boolean isInFireplace(World w, BlockPos pos)
     {
-        if(!w.canBlockSeeTheSky(x, y, z))
+        if(!w.canBlockSeeSky(pos))
         {
-            if(y < 254 && x < 30000000 && x > -30000000 && z < 30000000 && z > -30000000)
+            if(pos.getY() < 254 && pos.getX() < 30000000 && pos.getX() > -30000000 && pos.getZ() < 30000000 && pos.getZ() > -30000000)
             {
-                int t = this.getTopBlockY(w, x, y, z);
-                List<Integer> walls = this.getWalls(w, x, y, t, z);
+                int t = this.getTopBlockY(w, pos);
+                List<Integer> walls = this.getWalls(w, pos, t);
                 switch(walls.size())
                 {
                     case 3:
@@ -263,21 +254,21 @@ public abstract class GreenFlamesLowerBase extends BlockFire
                         if((walls.contains(2) && (walls.contains(4) || walls.contains(6))
                         || (walls.contains(8) && (walls.contains(4) || walls.contains(6)))))
                         {
-                            return this.canLoopToCorner(w, x, y, z, walls.get(0), walls.get(1), t)
-                                    || this.canLoopToCorner(w, x, y, z, walls.get(1), walls.get(0), t);
+                            return this.canLoopToCorner(w, pos, walls.get(0), walls.get(1), t)
+                                    || this.canLoopToCorner(w, pos, walls.get(1), walls.get(0), t);
                         }
                     break;
                     case 1:
                         switch(walls.get(0))
                         {
                             case 2:
-                                return this.canLoopToCorner(w, x, y, z, 2, 4, t) && this.canLoopToCorner(w, x, y, z, 2, 6, t);
+                                return this.canLoopToCorner(w, pos, 2, 4, t) && this.canLoopToCorner(w, pos, 2, 6, t);
                             case 4:
-                                return this.canLoopToCorner(w, x, y, z, 4, 8, t) && this.canLoopToCorner(w, x, y, z, 4, 2, t);
+                                return this.canLoopToCorner(w, pos, 4, 8, t) && this.canLoopToCorner(w, pos, 4, 2, t);
                             case 6:
-                                return this.canLoopToCorner(w, x, y, z, 6, 8, t) && this.canLoopToCorner(w, x, y, z, 6, 2, t);
+                                return this.canLoopToCorner(w, pos, 6, 8, t) && this.canLoopToCorner(w, pos, 6, 2, t);
                             case 8:
-                                return this.canLoopToCorner(w, x, y, z, 8, 4, t) && this.canLoopToCorner(w, x, y, z, 8, 6, t);
+                                return this.canLoopToCorner(w, pos, 8, 4, t) && this.canLoopToCorner(w, pos, 8, 6, t);
                             default:break;
                         }
                     break;

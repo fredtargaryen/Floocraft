@@ -5,7 +5,8 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
 import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
-import cpw.mods.fml.common.FMLLog;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.init.Blocks;
@@ -35,7 +36,7 @@ public class FloocraftWorldData extends WorldSavedData
 	public static FloocraftWorldData forWorld(World world)
 	{
         //Retrieves the FloocraftWorldData instance for the given world, creating it if necessary
-		MapStorage storage = world.perWorldStorage;
+		MapStorage storage = world.getPerWorldStorage();
 		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, key);
 		if (data == null)
 		{
@@ -127,17 +128,15 @@ public class FloocraftWorldData extends WorldSavedData
 		List<Boolean> l = new ArrayList<Boolean>();
 		for(int x = 0; x < placenamelist.size(); x++)
 		{
-            int dx = xcoordlist.get(x);
-            int dy = ycoordlist.get(x);
-            int dz = zcoordlist.get(x);
-			Block b = w.getBlock(dx, dy, dz);
+            BlockPos dest = new BlockPos(xcoordlist.get(x), ycoordlist.get(x), zcoordlist.get(x));
+			Block b = w.getBlockState(dest).getBlock();
             boolean ok = true;
             if(!(b instanceof GreenFlamesLowerBase) && b instanceof BlockFire)
             {
-                w.setBlock(dx, dy, dz, FloocraftBase.greenFlamesTemp);
-                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) w.getBlock(dx, dy, dz);
-                ok = gfit.approveOrDenyTeleport(w, dx, dy, dz);
-                w.setBlock(dx, dy, dz, Blocks.fire);
+                w.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) w.getBlockState(dest).getBlock();
+                ok = gfit.approveOrDenyTeleport(w, dest);
+                w.setBlockState(dest, Blocks.fire.getDefaultState());
             }
             else if(!(b instanceof GreenFlamesLowerBase))
             {

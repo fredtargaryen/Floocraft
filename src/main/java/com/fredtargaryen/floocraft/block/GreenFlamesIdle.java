@@ -2,24 +2,29 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
 public class GreenFlamesIdle extends GreenFlamesLowerBase
 {
+    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
+
 	public GreenFlamesIdle()
     {
 		super();
     }
 
     @Override
-    public void updateTick(World w, int x, int y, int z, Random par5Random)
+    public void updateTick(World w, BlockPos pos, IBlockState state, Random par5Random)
     {
-        if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) != null)
+        if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) != null)
         {
-            w.setBlock(x, y, z, FloocraftBase.greenFlamesBusyLower, w.getBlockMetadata(x, y, z), 2);
+            w.setBlockState(pos, FloocraftBase.greenFlamesBusyLower.getDefaultState().withProperty(AGE, w.getBlockState(pos).getValue(AGE)), 2);
         }
-        super.updateTick(w, x, y, z, par5Random);
+        super.updateTick(w, pos, state, par5Random);
     }
 }

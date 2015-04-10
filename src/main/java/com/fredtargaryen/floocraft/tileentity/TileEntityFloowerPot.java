@@ -1,8 +1,10 @@
 package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -79,36 +81,51 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public String getInventoryName() {
-        return "Floower Pot";
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return true;
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return 64;
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this &&
-                player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
+    public boolean isUseableByPlayer(EntityPlayer player)
+    {
+        return worldObj.getTileEntity(this.pos) == this &&
+                player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) < 64;
     }
 
     @Override
-    public void openInventory() {}
+    public void openInventory(EntityPlayer player) {
+
+    }
 
     @Override
-    public void closeInventory(){}
+    public void closeInventory(EntityPlayer player) {
+
+    }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return stack.getItem() instanceof ItemFlooPowder;
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
     }
 
     @Override
@@ -146,7 +163,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     public Packet getDescriptionPacket() {
         NBTTagCompound nbtTag = new NBTTagCompound();
         this.writeToNBT(nbtTag);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
+        return new S35PacketUpdateTileEntity(this.pos, 1, nbtTag);
     }
 
     /**
@@ -163,5 +180,20 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
         readFromNBT(pkt.func_148857_g());
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return true;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return new ChatComponentText("Floower Pot");
     }
 }

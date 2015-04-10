@@ -1,7 +1,7 @@
 package com.fredtargaryen.floocraft.client.renderer;
 
 import com.fredtargaryen.floocraft.block.GreenFlamesBusyLower;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;

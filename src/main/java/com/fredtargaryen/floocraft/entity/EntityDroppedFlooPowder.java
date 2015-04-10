@@ -1,10 +1,12 @@
 package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusyLower;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -16,11 +18,6 @@ public class EntityDroppedFlooPowder extends EntityItem
 	{
 		super(world, x, y, z, stack);
         this.concentration = conc;
-	}
-	
-	public void setPickupDelay(int time)
-	{
-		super.delayBeforeCanPickup = time;
 	}
 	
 	public void setImmunity()
@@ -38,18 +35,20 @@ public class EntityDroppedFlooPowder extends EntityItem
 		int intX = MathHelper.floor_double(this.posX);
         int intY = MathHelper.floor_double(this.posY - 0.20000000298023224D - (double)this.yOffset) + 1;
         int intZ = MathHelper.floor_double(this.posZ);
-		if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.fire)
+        BlockPos pos = new BlockPos(intX, intY, intZ);
+		if(this.worldObj.getBlockState(pos).getBlock() == Blocks.fire)
 		{
-            if(this.worldObj.getBlock(intX, intY + 1, intZ) == Blocks.air)
+            BlockPos oneAbove = pos.up();
+            if(this.worldObj.getBlockState(oneAbove).getBlock() == Blocks.air)
             {
-			    this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
+			    this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesBusyLower.getDefaultState().withProperty(GreenFlamesBusyLower.AGE, this.concentration), 2);
             }
-            this.worldObj.playSound((double)intX, (double)intY, (double)intZ, "ftfloocraft:greened", 1.0F, 1.0F, true);
+            this.worldObj.playSound((double) intX, (double) intY, (double) intZ, "ftfloocraft:greened", 1.0F, 1.0F, true);
 			this.setDead();
 		}
-		else if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.torch)
+		else if(this.worldObj.getBlockState(pos) == Blocks.torch)
 		{
-			this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.flooTorch);
+			this.worldObj.setBlockState(pos, FloocraftBase.flooTorch.getDefaultState());
 			this.setDead();
 		}
     }

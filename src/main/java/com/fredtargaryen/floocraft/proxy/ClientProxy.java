@@ -6,8 +6,8 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityPotRenderer;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 
 public class ClientProxy extends CommonProxy

@@ -1,6 +1,8 @@
 package com.fredtargaryen.floocraft.block;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -18,20 +20,20 @@ public class GreenFlamesIdleTemp extends GreenFlamesIdle
         super();
     }
 
-    public boolean approveOrDenyTeleport(World par1World, int par2, int par3, int par4)
+    public boolean approveOrDenyTeleport(World par1World, BlockPos pos)
     {
-        return this.isInFireplace(par1World, par2, par3, par4);
+        return this.isInFireplace(par1World, pos);
     }
 
     @Override
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
+    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state)
     {
-        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+        par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
     }
 
     @Override
-    public void updateTick(World w, int x, int y, int z, Random par5Random)
+    public void updateTick(World w, BlockPos pos, IBlockState state, Random par5Random)
     {
-        w.setBlock(x, y, z, Blocks.fire);
+        w.setBlockState(pos, Blocks.fire.getDefaultState());
     }
 }

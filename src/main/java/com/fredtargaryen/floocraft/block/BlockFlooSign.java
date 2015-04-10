@@ -2,62 +2,29 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.BlockWallSign;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSign;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockFlooSign extends BlockSign
+public class BlockFlooSign extends BlockWallSign
 {
-	public IIcon tileIcon;
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	public BlockFlooSign()
 	{
-		super(TileEntityFireplace.class, false);
+		super();
 		setHardness(2.0F);
 	}
-	
-	public void setBlockBoundsBasedOnState(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
-    {
-		int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
-        float f = 0.28125F;
-        float f1 = 0.78125F;
-        float f2 = 0.0F;
-        float f3 = 1.0F;
-        float f4 = 0.125F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-
-        if (l == 2)
-        {
-            this.setBlockBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
-        }
-
-        if (l == 3)
-        {
-            this.setBlockBounds(f2, f, 0.0F, f3, f1, f4);
-        }
-
-        if (l == 4)
-        {
-            this.setBlockBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
-        }
-        
-        if (l == 5)
-        {
-            this.setBlockBounds(0.0F, f, f2, f4, f1, f3);
-        }        
-    }
 
     @Override
 	public TileEntity createNewTileEntity(World par1World, int par2)
@@ -73,21 +40,26 @@ public class BlockFlooSign extends BlockSign
     }
 
     @Override
-    public void onNeighborBlockChange(World w, int x, int y, int z, Block b)
+    public void onNeighborBlockChange(World w, BlockPos pos, IBlockState state, Block neighbourBlock)
     {
         if(!w.isRemote)
         {
-            TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
+            TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(pos);
             if(t.getConnected())
             {
-                TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+                TileEntityFireplace.removeLocation(w, pos.getX(), pos.getY(), pos.getZ(), (EnumFacing)w.getBlockState(pos).getValue(FACING));
             }
         }
-        super.onNeighborBlockChange(w, x, y, z, b);
+        super.onNeighborBlockChange(w, pos, state, neighbourBlock);
     }
-	
-	@Override
-	public Item getItemDropped(int par1, Random par2Random, int par3)
+
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return FloocraftBase.itemFlooSign;
     }
@@ -98,44 +70,32 @@ public class BlockFlooSign extends BlockSign
      * @param target The full target the player is looking at
      * @return A ItemStack to add to the player's inventory, Null if nothing should be added.
      */
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player)
+    @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos)
     {
         return new ItemStack(FloocraftBase.itemFlooSign, 1);
-    }
-	
-	@SideOnly(Side.CLIENT)
-	 public void registerBlockIcons(IIconRegister par1IIconRegister)
-	 {
-		 this.tileIcon = par1IIconRegister.registerIcon("ftfloocraft:"+this.getUnlocalizedName().substring(5));
-	 }
-	
-	@SideOnly(Side.CLIENT)
-	/**
-     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-     */
-    public IIcon getIcon(int par1, int par2)
-    {
-        return this.tileIcon;
     }
 
     /**
      * Returns the quantity of items to drop on block destruction.
      */
+    @Override
     public int quantityDropped(Random p_149745_1_)
     {
         return 1;
     }
 
-    public void breakBlock(World w, int x, int y, int z, Block b, int m)
+    @Override
+    public void breakBlock(World w, BlockPos pos, IBlockState state)
     {
         if(!w.isRemote)
         {
-            TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(x, y, z);
+            TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(pos);
             if (tef.getConnected())
             {
-                TileEntityFireplace.removeLocation(w, x, y, z, m);
+                TileEntityFireplace.removeLocation(w, pos.getX(), pos.getY(), pos.getZ(), (EnumFacing)w.getBlockState(pos).getValue(FACING));
             }
         }
-        w.removeTileEntity(x, y, z);
+        super.breakBlock(w, pos, state);
     }
 }

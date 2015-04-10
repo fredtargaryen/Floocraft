@@ -2,8 +2,8 @@ package com.fredtargaryen.floocraft.tileentity.specialrenderer;
 
 import com.fredtargaryen.floocraft.model.ModelFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -51,7 +51,7 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
         GL11.glScalef(f1, -f1, -f1);
         modelFlooSign.renderSign();
         GL11.glPopMatrix();
-        FontRenderer fontrenderer = this.func_147498_b();
+        FontRenderer fontrenderer = this.getFontRenderer();
         f2 = 0.016666668F * f1;
         GL11.glTranslatef(0.0F, 0.5F * f1, 0.07F * f1);
         GL11.glScalef(f2, -f2, f2);
@@ -61,7 +61,7 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
 
         for (int j = 0; j < par1TileEntityFireplace.signText.length; ++j)
         {
-            String s = par1TileEntityFireplace.signText[j];
+            String s = par1TileEntityFireplace.signText[j].getUnformattedText();
 
             if (j == par1TileEntityFireplace.lineBeingEdited)
             {

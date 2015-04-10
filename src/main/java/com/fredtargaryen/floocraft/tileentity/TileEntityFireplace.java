@@ -7,6 +7,7 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class TileEntityFireplace extends TileEntitySign
@@ -64,30 +65,30 @@ public class TileEntityFireplace extends TileEntitySign
         //else, we are on the Bukkit or server side.
    	}
    
-	public static void removeLocation(World w, int x, int y, int z, int metadata)
+	public static void removeLocation(World w, int x, int y, int z, EnumFacing facing)
 	{
         if(!w.isRemote)
         {
             int newX = x;
             int newZ = z;
-            switch(metadata)
+            switch(facing)
             {
-                case 2:
+                case NORTH:
                 {
                     newZ++;
                     break;
                 }
-                case 3:
+                case SOUTH:
                 {
                     newZ--;
                     break;
                 }
-                case 4:
+                case WEST:
                 {
                     newX++;
                     break;
                 }
-                case 5:
+                case EAST:
                 {
                     newX--;
                     break;

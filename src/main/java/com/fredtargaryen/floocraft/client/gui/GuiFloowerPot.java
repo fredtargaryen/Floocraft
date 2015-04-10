@@ -2,8 +2,8 @@ package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
