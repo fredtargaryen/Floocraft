@@ -1,0 +1,17 @@
+{
+
+    "variants": {
+
+        "facing=up": { "model": "ftfloocraft:flootorch" },
+
+        "facing=east": { "model": "ftfloocraft:flootorch_wall" },
+
+        "facing=south": { "model": "ftfloocraft:flootorch_wall", "y": 90 },
+
+        "facing=west": { "model": "ftfloocraft:flootorch_wall", "y": 180 },
+
+        "facing=north": { "model": "ftfloocraft:flootorch_wall", "y": 270 }
+
+    }
+
+}

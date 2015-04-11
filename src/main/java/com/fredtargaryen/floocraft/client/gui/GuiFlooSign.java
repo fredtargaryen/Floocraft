@@ -201,8 +201,8 @@ public class GuiFlooSign extends GuiScreen
             m.z = pos.getZ();
             m.isConnected = true;
             PacketHandler.INSTANCE.sendToServer(m);
+            this.fireplaceTE.addLocation(pos, nameAsLine(this.fireplaceTE.signText), this.fireplaceTE.getWorld());
             this.fireplaceTE.markDirty();
-            this.fireplaceTE.addLocation(m.x, m.y, m.z, nameAsLine(this.fireplaceTE.signText), this.fireplaceTE.getWorld());
             this.mc.displayGuiScreen(null);
         }
         else

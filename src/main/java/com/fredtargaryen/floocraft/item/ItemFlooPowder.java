@@ -1,18 +1,18 @@
 package com.fredtargaryen.floocraft.item;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlames;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -31,30 +31,24 @@ public class ItemFlooPowder extends Item
 		super();
         this.concentration = conc;
 	}
-
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister i)
-	{
-		this.itemIcon = i.registerIcon(DataReference.resPath("item.floopowder"));
-	}
 	
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int X, int Y, int Z, int par7, float par8, float par9, float par10)
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if (par3World.getBlock(X, Y, Z) == Blocks.torch)
+		if (worldIn.getBlockState(pos) == Blocks.torch)
 		{
-			par3World.setBlock(X, Y, Z, FloocraftBase.flooTorch);
-			--par1ItemStack.stackSize;
+			worldIn.setBlockState(pos, FloocraftBase.flooTorch.getDefaultState());
+			--stack.stackSize;
 			return true;
 		}
-		else if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
+		else if (worldIn.getBlockState(pos.up(1)) == Blocks.fire)
 		{
-            if(par3World.getBlock(X, Y + 2, Z) == Blocks.air)
+            if(worldIn.getBlockState(pos.up(2)).getBlock() == Blocks.air)
             {
-                par3World.extinguishFire(par2EntityPlayer, X, Y, Z, BlockDirectional.getDirection(par3World.getBlockMetadata(X, Y, Z)));
-                par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
+                worldIn.extinguishFire(playerIn, pos, side);
+                worldIn.setBlockState(pos.up(1), FloocraftBase.greenFlames.getDefaultState().withProperty(GreenFlames.AGE, this.concentration), 2);
             }
-			--par1ItemStack.stackSize;
-            par3World.playSound((double)X, (double)Y, (double)Z, "ftfloocraft:greened", 1.0F, 1.0F, true);
+			--stack.stackSize;
+            worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);
 			return true;
 		}
 		return false;

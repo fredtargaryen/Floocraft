@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -16,7 +17,7 @@ public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHan
 	public IMessage onMessage(MessageTileEntityFireplaceFunction message, MessageContext ctx)
 	{
         World w = ctx.getServerHandler().playerEntity.worldObj;
-		TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(message.x, message.y, message.z);
+		TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(new BlockPos(message.x, message.y, message.z));
         tef.setConnected(message.isConnected);
         return null;
 	}

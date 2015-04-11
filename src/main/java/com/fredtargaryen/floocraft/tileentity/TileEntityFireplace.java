@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.tileentity;
 
+import com.fredtargaryen.floocraft.block.BlockFlooSign;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
@@ -7,6 +8,7 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -23,90 +25,39 @@ public class TileEntityFireplace extends TileEntitySign
 	 *--zcoord
 	 *--placename
 	 */
-	public void addLocation(int x,int y, int z, String name, World par5World)
+	public void addLocation(BlockPos pos, String name, World par5World)
    	{
         if(par5World.isRemote)
         {
          	// We are on the client side.
-            int newX = x;
-            int newZ = z;
-            int md = par5World.getBlockMetadata(x, y, z);
-            switch(md)
-            {
-                case 2:
-                {
-                    newZ++;
-                    break;
-                }
-                case 3:
-                {
-                    newZ--;
-                    break;
-                }
-                case 4:
-                {
-                    newX++;
-                    break;
-                }
-                case 5:
-                {
-                    newX--;
-                    break;
-                }
-            }
-            int newY = iterateDownFromTop(par5World, newX, y, newZ);
+            BlockPos finalpos = iterateDownFromTop(par5World, pos.offset(((EnumFacing)par5World.getBlockState(pos).getValue(BlockFlooSign.FACING)).getOpposite()));
         	MessageAddFireplace m = new MessageAddFireplace();
         	m.name = name;
-        	m.x = newX;
-        	m.y = newY;
-        	m.z = newZ;
+        	m.x = finalpos.getX();
+        	m.y = finalpos.getY();
+        	m.z = finalpos.getZ();
         	PacketHandler.INSTANCE.sendToServer(m);
         }
         //else, we are on the Bukkit or server side.
    	}
    
-	public static void removeLocation(World w, int x, int y, int z, EnumFacing facing)
+	public static void removeLocation(World w, BlockPos pos, EnumFacing facing)
 	{
         if(!w.isRemote)
         {
-            int newX = x;
-            int newZ = z;
-            switch(facing)
-            {
-                case NORTH:
-                {
-                    newZ++;
-                    break;
-                }
-                case SOUTH:
-                {
-                    newZ--;
-                    break;
-                }
-                case WEST:
-                {
-                    newX++;
-                    break;
-                }
-                case EAST:
-                {
-                    newX--;
-                    break;
-                }
-            }
-            int newY = iterateDownFromTop(w, newX, y, newZ);
-            FloocraftWorldData.forWorld(w).removeLocation(newX, newY, newZ);
+            BlockPos finalPos = iterateDownFromTop(w, pos.offset((EnumFacing)w.getBlockState(pos).getValue(BlockFlooSign.FACING)));
+            FloocraftWorldData.forWorld(w).removeLocation(finalPos.getX(), finalPos.getY(), finalPos.getZ());
         }
 	}
 	
 	@Override
-	public EntityPlayer func_145911_b()
+	public EntityPlayer getPlayer()
     {
 		return this.writer;
     }
 	
 	@Override
-	public void func_145912_a(EntityPlayer par1EntityPlayer)
+	public void setPlayer(EntityPlayer par1EntityPlayer)
     {
 		if(this.writer == null)
 		{
@@ -115,14 +66,14 @@ public class TileEntityFireplace extends TileEntitySign
     }
 
     //Only call if world is remote
-    private static int iterateDownFromTop(World w, int x, int y, int z)
+    private static BlockPos iterateDownFromTop(World w, BlockPos pos)
     {
-        y--;
-        while((w.isAirBlock(x, y, z) || w.getBlock(x, y, z) instanceof BlockFire) && y > -1)
+        pos.down(1);
+        while((w.isAirBlock(pos) || w.getBlockState(pos) instanceof BlockFire) && pos.getY() > -1)
         {
-            y--;
+            pos.down(1);
         }
-        return y + 1;
+        return pos.up(1);
     }
 
     public void setConnected(boolean b)

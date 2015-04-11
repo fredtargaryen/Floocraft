@@ -7,13 +7,11 @@
 package com.fredtargaryen.floocraft;
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
-import com.fredtargaryen.floocraft.client.renderer.FireRenderer;
 import com.fredtargaryen.floocraft.item.*;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -41,8 +39,10 @@ public class FloocraftBase
      * Declare all blocks here
      */
     public static Block flooTorch;
-    public static Block greenFlamesBusyLower;
-    public static Block greenFlamesIdle;
+    public static Block greenFlames;
+    //Temporary green flames which "usher you in" to the new fireplace. Disappear after 100 ticks.
+    //Also used to check if a fireplace is valid at that time - if using it for this purpose, make
+    //sure to immediately set it back to whatever block it was before.
     public static Block greenFlamesTemp;
     public static Block blockFlooSign;
     public static Block floowerPot;
@@ -65,19 +65,15 @@ public class FloocraftBase
     public void preInit(FMLPreInitializationEvent event)
     {
         PacketHandler.init();
-        int fireRenderID = RenderingRegistry.getNextAvailableRenderId();
 
     	flooTorch = new BlockFlooTorch()
     	.setLightLevel(1.0F)
     	.setCreativeTab(CreativeTabs.tabDecorations);
     	
-    	greenFlamesBusyLower = new GreenFlamesBusyLower(fireRenderID)
-    	.setLightLevel(1.0F);
-    	
-    	greenFlamesIdle = new GreenFlamesIdle()
-    	.setLightLevel(0.875F);
+    	greenFlames = new GreenFlames()
+        .setLightLevel(1.0F);
 
-        greenFlamesTemp = new GreenFlamesIdleTemp()
+        greenFlamesTemp = new GreenFlamesTemp()
         .setLightLevel(0.875F);
     	
     	blockFlooSign = new BlockFlooSign();
@@ -118,9 +114,8 @@ public class FloocraftBase
         //Register blocks with GameRegistry
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
         GameRegistry.registerBlock(flooTorch, "flootorch");
-        GameRegistry.registerBlock(greenFlamesBusyLower, "greenflamesbusylower");
-        GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
-        GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
+        GameRegistry.registerBlock(greenFlames, "greenflames");
+        GameRegistry.registerBlock(greenFlamesTemp, "greenflamestemp");
         GameRegistry.registerBlock(floowerPot, "floowerpot");
 
         //Register items with GameRegistry
@@ -134,8 +129,6 @@ public class FloocraftBase
         //Register (Tile) Entities with GameRegistry
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-
-        RenderingRegistry.registerBlockHandler(new FireRenderer(fireRenderID));
     }
         
     @EventHandler

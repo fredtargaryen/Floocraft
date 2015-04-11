@@ -47,7 +47,7 @@ public class BlockFlooSign extends BlockWallSign
             TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(pos);
             if(t.getConnected())
             {
-                TileEntityFireplace.removeLocation(w, pos.getX(), pos.getY(), pos.getZ(), (EnumFacing)w.getBlockState(pos).getValue(FACING));
+                TileEntityFireplace.removeLocation(w, pos, (EnumFacing)w.getBlockState(pos).getValue(FACING));
             }
         }
         super.onNeighborBlockChange(w, pos, state, neighbourBlock);
@@ -93,7 +93,7 @@ public class BlockFlooSign extends BlockWallSign
             TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(pos);
             if (tef.getConnected())
             {
-                TileEntityFireplace.removeLocation(w, pos.getX(), pos.getY(), pos.getZ(), (EnumFacing)w.getBlockState(pos).getValue(FACING));
+                TileEntityFireplace.removeLocation(w, pos, (EnumFacing)w.getBlockState(pos).getValue(FACING));
             }
         }
         super.breakBlock(w, pos, state);

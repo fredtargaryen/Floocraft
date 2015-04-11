@@ -124,13 +124,13 @@ public class BlockFloowerPot extends BlockContainer
                             if (state.getBlock() == Blocks.fire)
                             {
                                 worldIn.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState());
-                                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) worldIn.getBlockState(pos).getBlock();
-                                boolean shouldPut = gfit.approveOrDenyTeleport(worldIn, x, y, z);
+                                GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(pos).getBlock();
+                                boolean shouldPut = gfit.approveOrDenyTeleport(worldIn, pos);
                                 worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
                                 if (shouldPut)
                                 {
                                     Item i = stack.getItem();
-                                    worldIn.setBlockState(pos, FloocraftBase.greenFlamesBusyLower.getDefaultState().withProperty(GreenFlamesLowerBase.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
+                                    worldIn.setBlockState(pos, FloocraftBase.greenFlames.getDefaultState().withProperty(GreenFlames.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
                                     stack.stackSize--;
                                     pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                 }
