@@ -1,5 +1,6 @@
 {
     "variants": {
-        "normal": { "model": "ftfloocraft:floowerpot" }
+        "normal": { "model": "ftfloocraft:floowerpot" },
+        "inventory": { "model": "ftfloocraft/models/item/floowerpot" }
     }
 }

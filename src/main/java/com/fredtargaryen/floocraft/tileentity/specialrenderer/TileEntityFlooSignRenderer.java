@@ -79,8 +79,8 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
         GL11.glPopMatrix();
     }
     
-    public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
+    public void renderTileEntityAt(TileEntity te, double posX, double posZ, double pos, float unknown1, int unknown2)
     {
-        this.renderTileEntitySignAt((TileEntityFireplace)par1TileEntity, par2, par4, par6, par8);
+        this.renderTileEntitySignAt((TileEntityFireplace)te, posX, posZ, pos, unknown1);
     }
 }

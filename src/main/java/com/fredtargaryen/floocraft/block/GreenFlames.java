@@ -6,6 +6,7 @@ import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
@@ -22,14 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GreenFlames extends BlockFire
+public class GreenFlames extends Block
 {
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
     public static final PropertyBool ACTIVE = PropertyBool.create("active");
 
     public GreenFlames()
     {
-        super();
+        super(Material.air);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
     }
 

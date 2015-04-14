@@ -37,14 +37,14 @@ public class EntityDroppedFlooPowder extends EntityItem
             BlockPos oneAbove = pos.up();
             if(this.worldObj.getBlockState(oneAbove).getBlock() == Blocks.air)
             {
-			    this.worldObj.setBlockState(pos, FloocraftBase.greenFlames.getDefaultState().withProperty(GreenFlames.AGE, this.concentration), 2);
+			    this.worldObj.setBlockState(pos, this.worldObj.getBlockState(pos).withProperty(GreenFlames.AGE, this.concentration), 2);
             }
             this.worldObj.playSound((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);
 			this.setDead();
 		}
 		else if(this.worldObj.getBlockState(pos) == Blocks.torch)
 		{
-			this.worldObj.setBlockState(pos, FloocraftBase.flooTorch.getDefaultState());
+			this.worldObj.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState());
 			this.setDead();
 		}
     }

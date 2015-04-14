@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "blocks/floowerpot",
-        "floowerpot": "blocks/floowerpot"
+        "particle": "ftfloocraft:blocks/floowerpot",
+        "floowerpot": "ftfloocraft:blocks/floowerpot"
     },
     "elements": [
         {   "from": [ 5, 0, 5 ],

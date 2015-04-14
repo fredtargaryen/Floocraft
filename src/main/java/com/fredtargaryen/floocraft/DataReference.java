@@ -6,7 +6,8 @@ import net.minecraft.util.ResourceLocation;
  * ===DESCRIPTION OF CHANNELS===
  * MessageAddFireplace: sends position and  unique name of fireplace to be added to server
  * MessageApproval: sends to client whether proposed fireplace name is unique
- * MessageApprovalName: sends proposed fireplace name to be approved by server
+ * MessageApproveName: sends proposed fireplace name to be approved by server
+ * MessageDoGreenFlash: Causes the green flash effect to appear on the client when you teleport
  * MessageFireplaceList: the lists of fireplace attributes: names; x coordinates; y coordinates; z coordinates; whether they can be teleported to
  * MessageFireplaceListRequest: empty packet. When this is received, server sends back MessageFireplaceList
  * MessageTeleportEntity: teleports player that sent this to (destX, destY, destZ) if possible

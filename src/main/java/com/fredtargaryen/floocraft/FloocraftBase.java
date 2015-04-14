@@ -12,6 +12,11 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -38,7 +43,7 @@ public class FloocraftBase
     /**
      * Declare all blocks here
      */
-    public static Block flooTorch;
+    public static Block blockFlooTorch;
     public static Block greenFlames;
     //Temporary green flames which "usher you in" to the new fireplace. Disappear after 100 ticks.
     //Also used to check if a fireplace is valid at that time - if using it for this purpose, make
@@ -64,9 +69,11 @@ public class FloocraftBase
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        //Makes all packets to be used
         PacketHandler.init();
 
-    	flooTorch = new BlockFlooTorch()
+        //Makes all blocks and items to be used
+    	blockFlooTorch = new BlockFlooTorch()
     	.setLightLevel(1.0F)
     	.setCreativeTab(CreativeTabs.tabDecorations);
     	
@@ -111,32 +118,40 @@ public class FloocraftBase
     	.setUnlocalizedName("itemfloosign")
     	.setCreativeTab(CreativeTabs.tabDecorations);
 
-        //Register blocks with GameRegistry
+        //Registering blocks
+        //UNFINISHED
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
-        GameRegistry.registerBlock(flooTorch, "flootorch");
+        //WORKING ON THIS
+        GameRegistry.registerBlock(blockFlooTorch, "flootorch");
+        //UNFINISHED
         GameRegistry.registerBlock(greenFlames, "greenflames");
+        //UNFINISHED
         GameRegistry.registerBlock(greenFlamesTemp, "greenflamestemp");
+        //UNFINISHED
         GameRegistry.registerBlock(floowerPot, "floowerpot");
 
-        //Register items with GameRegistry
-        GameRegistry.registerItem(floopowder1t, "floopowder1");
-        GameRegistry.registerItem(floopowder2t, "floopowder2");
-        GameRegistry.registerItem(floopowder4t, "floopowder4");
-        GameRegistry.registerItem(floopowder8t, "floopowder8");
-        GameRegistry.registerItem(floopowderc, "floopowder9");
+        //Registering items
+        //UNFINISHED
+        GameRegistry.registerItem(floopowder1t, "floopowder_one");
+        //UNFINISHED
+        GameRegistry.registerItem(floopowder2t, "floopowder_two");
+        //UNFINISHED
+        GameRegistry.registerItem(floopowder4t, "floopowder_four");
+        //UNFINISHED
+        GameRegistry.registerItem(floopowder8t, "floopowder_eight");
+        //UNFINISHED
+        GameRegistry.registerItem(floopowderc, "floopowder_infinite");
+        //UNFINISHED
         GameRegistry.registerItem(itemFlooSign, "itemfloosign");
 
-        //Register (Tile) Entities with GameRegistry
+        //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-    }
-        
-    @EventHandler
-    public void load(FMLInitializationEvent event)
-    {
-    	//Add recipes with GameRegistry
-    	GameRegistry.addShapelessRecipe(new ItemStack(floopowder1t,8),
-    			new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+
+        //Adding recipes
+        //Infinite powder is creative only so no recipe
+        GameRegistry.addShapelessRecipe(new ItemStack(floopowder1t,8),
+                new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
         GameRegistry.addShapelessRecipe(new ItemStack(floopowder2t,8),
                 new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
         GameRegistry.addShapelessRecipe(new ItemStack(floopowder4t,8),
@@ -147,16 +162,20 @@ public class FloocraftBase
                 new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
                 new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
 
-    	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.itemFlooSign,1),
-    			new ItemStack(Items.sign), new ItemStack(floopowder1t,8));
-    	GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.flooTorch,4),
-    			new ItemStack(Items.stick), new ItemStack(FloocraftBase.floopowder1t));
+        GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.itemFlooSign,1),
+                new ItemStack(Items.sign), new ItemStack(floopowder1t,8));
+        GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.blockFlooTorch,4),
+                new ItemStack(Items.stick), new ItemStack(FloocraftBase.floopowder1t));
         GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floowerPot),
                 new ItemStack(Items.flower_pot), new ItemStack(FloocraftBase.floopowder1t));
-
-        //More registering
+    }
+        
+    @EventHandler
+    public void load(FMLInitializationEvent event)
+    {
+        //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-    	proxy.registerRenderers();
+        proxy.registerRenderers();
     	proxy.registerTickHandlers();
     }
         

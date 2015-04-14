@@ -1,11 +1,15 @@
 package com.fredtargaryen.floocraft.proxy;
 
+import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import com.fredtargaryen.floocraft.client.ticker.*;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityPotRenderer;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
@@ -20,6 +24,15 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
+
+        //Describes how some blocks should look in the inventory
+        ItemModelMesher m = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+        m.register(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID + ":itemfloosign", "inventory"));
+    }
+
+    @Override
+    public void registerModels()
+    {
     }
 
     @Override

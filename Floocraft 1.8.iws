@@ -2,39 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="453e5dd7-1658-4f6e-88c1-09d7d6e92248" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflamestemp.json" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\java\com\fredtargaryen\floocraft\block\GreenFlamesBusyLower.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\java\com\fredtargaryen\floocraft\block\GreenFlamesIdle.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\java\com\fredtargaryen\floocraft\block\GreenFlamesIdleTemp.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\java\com\fredtargaryen\floocraft\block\GreenFlamesLowerBase.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\java\com\fredtargaryen\floocraft\client\renderer\FireRenderer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesbusyhigher.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesbusyhigher.png.mcmeta" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesbusylower.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesbusylower.png.mcmeta" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidle_layer_0.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidle_layer_0.png.mcmeta" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidle_layer_1.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidle_layer_1.png.mcmeta" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidletemp_layer_0.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidletemp_layer_0.png.mcmeta" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidletemp_layer_1.png" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\textures\blocks\greenflamesidletemp_layer_1.png.mcmeta" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooSign.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooSign.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFloowerPot.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFloowerPot.java" />
+      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\models\item\floopowder.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\models\item\floosign.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ClientProxy.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ClientProxy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/DataReference.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/DataReference.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityDroppedFlooPowder.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityDroppedFlooPowder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityGreenFlame.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityGreenFlame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Floocraft 1.8.iws" afterPath="$PROJECT_DIR$/Floocraft 1.8.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/FloocraftBase.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/FloocraftBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/FloocraftWorldData.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/FloocraftWorldData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/gui/GuiFlooSign.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/gui/GuiFlooSign.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlames.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlames.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/IProxy.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/IProxy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooPowder.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooPowder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooSign.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooSign.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTeleportEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTeleportEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTileEntityFireplaceFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTileEntityFireplaceFunction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFireplace.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFireplace.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFloowerPot.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFloowerPot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityPotRenderer.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityPotRenderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ServerProxy.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ServerProxy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityFlooSignRenderer.java" afterPath="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityFlooSignRenderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch.json" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch_wall.json" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch_wall.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/floowerpot.json" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/floowerpot.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/floowerpot.json" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/floowerpot.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflames.json" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflames.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflamestemp.json" afterPath="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflamestemp.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eclipse/logs/latest.log" afterPath="$PROJECT_DIR$/eclipse/logs/latest.log" />
     </list>
     <ignored path="Floocraft 1.7.10.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -86,8 +72,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -95,15 +81,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TileEntityFloowerPot.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFloowerPot.java">
+      <file leaf-file-name="ClientProxy.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ClientProxy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="5.735437" vertical-offset="0" max-vertical-offset="2856">
-              <caret line="170" column="38" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
-              <folding>
-                <element signature="e#4857#4858#0" expanded="true" />
-                <element signature="e#4906#4907#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.6286408" vertical-offset="64" max-vertical-offset="697">
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -671,16 +654,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/resources/mcmod.info" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/DataReference.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/PacketHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageAddFireplace.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageApproval.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageApproveName.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageDoGreenFlash.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageFireplaceList.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageFireplaceListRequest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooTorch.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesIdle.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesLowerBase.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/gui/GuiFlash.java" />
@@ -690,38 +663,48 @@
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/renderer/FireRenderer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/ticker/OverrideTicker.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesIdleTemp.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ClientProxy.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityFlooSignRenderer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityGreenFlame.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floopowder.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floosign.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch_wall.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/floowerpot.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/flootorch.json" />
         <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/blockfloosign.json" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/floowerpot.json" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesBusyLower.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesBase.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlames.java" />
         <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/gf_idle.json" />
         <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/gf_busy.json" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooPowder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/gui/GuiFlooSign.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooSign.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFireplace.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/FloocraftWorldData.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityDroppedFlooPowder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesTemp.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/FloocraftBase.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTeleportEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooSign.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFloowerPot.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTileEntityFireplaceFunction.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityPotRenderer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFloowerPot.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflames.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlames.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/floowerpot.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch_wall.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/IProxy.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/floowerpot.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floosign.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floopowder.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floowerpot.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floopowder2.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ServerProxy.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floopowder_two.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/itemfloosign.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/itemflootorch.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/blockflootorch.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/blockfloosign.json" />
         <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflamestemp.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/DataReference.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflames.json" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityFlooSignRenderer.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/flootorch.json" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooPowder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityDroppedFlooPowder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/FloocraftBase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ClientProxy.java" />
       </list>
     </option>
   </component>
@@ -766,6 +749,328 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="net" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="net" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minecraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minecraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minecraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="item" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minecraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fredtargaryen" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="floocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fredtargaryen" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="floocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="proxy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftfloocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftfloocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="item" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftfloocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftfloocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lang" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Floocraft 1.8" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ftfloocraft" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blockstates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -895,210 +1200,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="minecraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="minecraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="blockstates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fredtargaryen" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="floocraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftfloocraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftfloocraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftfloocraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="block" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Floocraft 1.8" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ftfloocraft" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="blockstates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageElementNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1125,9 +1226,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\blockstates" />
       <recent name="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\models\block" />
       <recent name="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\models\item" />
+      <recent name="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.8\src\main\resources\assets\ftfloocraft\blockstates" />
       <recent name="C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft 1.7.10\src\main\resources\assets\ftfloocraft\textures\blocks\oldflamepics" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -1180,6 +1281,19 @@
       </ExternalSystemSettings>
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension enabled="false" merge="false" name="coverage" runner="idea" sample_coverage="true" />
       <module name="" />
@@ -1206,19 +1320,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1290,7 +1391,13 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="Floocraft 1.8" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -1342,7 +1449,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39792898" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39663094" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3254717" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -1353,30 +1460,30 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1785174" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21633889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32618684" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39816234" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3254717" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329429" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1785174" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988167" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1389,8 +1496,8 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32692307" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39816234" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
@@ -1416,7 +1523,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="35" />
+      <option name="time" value="40" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1424,428 +1531,367 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/block/BlockFlowerPot.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floopowder_two.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="9758">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraftforge/fml/client/registry/RenderingRegistry.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooSign.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2448" vertical-offset="0" max-vertical-offset="867">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.68" vertical-offset="816" max-vertical-offset="1462">
+          <caret line="93" column="35" selection-start-line="93" selection-start-column="35" selection-end-line="93" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/flower_pot.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/blockstates/acacia_slab.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6192" vertical-offset="446" max-vertical-offset="1071">
-          <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch_wall.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/acacia_door_bottom.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2992" vertical-offset="0" max-vertical-offset="680">
-          <caret line="11" column="81" selection-start-line="11" selection-start-column="81" selection-end-line="11" selection-end-column="81" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/blockstates/cactus.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/blockstates/jungle_slab.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/floowerpot.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/acacia_leaves.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.272" vertical-offset="0" max-vertical-offset="1037">
-          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/floowerpot.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/leaves.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/block/state/IBlockState.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/jungle_stairs.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="186" max-vertical-offset="680">
-          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/stairs.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/textures/blocks/blockfloosign.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/resources/model/ModelBakery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1822" max-vertical-offset="13600">
+          <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlames.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1122" max-vertical-offset="5049">
+          <caret line="81" column="5" selection-start-line="81" selection-start-column="5" selection-end-line="81" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflamestemp.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="578">
+          <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/util/IRegistry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3251366" vertical-offset="0" max-vertical-offset="366">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/mcmod.info">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="625">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraftforge/client/model/ModelLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2777778" vertical-offset="6324" max-vertical-offset="7395">
+          <caret line="503" column="34" selection-start-line="503" selection-start-column="34" selection-end-line="503" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/Minecraft.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.392857" vertical-offset="1186" max-vertical-offset="52173">
+          <caret line="77" column="54" selection-start-line="77" selection-start-column="44" selection-end-line="77" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/renderer/entity/RenderItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.392857" vertical-offset="353" max-vertical-offset="19057">
+          <caret line="28" column="42" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/renderer/BlockModelRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-28.333334" vertical-offset="11390" max-vertical-offset="12274">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/resources/model/ModelResourceLocation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.4830097" vertical-offset="284" max-vertical-offset="1292">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/item/dandelion.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/item/acacia_door.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/block/Block.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33153638" vertical-offset="12015" max-vertical-offset="39202">
+          <caret line="853" column="76" selection-start-line="853" selection-start-column="71" selection-end-line="853" selection-end-column="76" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/block/state/BlockState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2077" max-vertical-offset="3672">
-          <caret line="177" column="31" selection-start-line="177" selection-start-column="31" selection-end-line="177" selection-end-column="31" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2145" max-vertical-offset="3672">
+          <caret line="181" column="0" selection-start-line="181" selection-start-column="0" selection-end-line="181" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/block/Block.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflames.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8814016" vertical-offset="17523" max-vertical-offset="39202">
-          <caret line="1294" column="40" selection-start-line="1294" selection-start-column="33" selection-end-line="1294" selection-end-column="40" />
-          <folding />
+        <state vertical-scroll-proportion="0.041262135" vertical-offset="0" max-vertical-offset="595">
+          <caret line="1" column="34" selection-start-line="1" selection-start-column="34" selection-end-line="1" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/block/BlockFire.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.2681704" vertical-offset="3777" max-vertical-offset="8534">
-          <caret line="157" column="16" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="16" />
-          <folding />
-        </state>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/textures/blocks/flootorch.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_72/src.zip!/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.1529126" vertical-offset="2600" max-vertical-offset="9027">
-          <caret line="148" column="19" selection-start-line="148" selection-start-column="19" selection-end-line="148" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlames.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34085214" vertical-offset="510" max-vertical-offset="5032">
-          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/flootorch.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/fire_n.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/cube.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/fire_n_alt.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/fire_floor.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="251" max-vertical-offset="935">
-          <caret line="38" column="36" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/fire_floor_main.json">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floowerpot.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.123786405" vertical-offset="0" max-vertical-offset="412">
-          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
-          <folding />
+          <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/floopowder.json">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/floowerpot.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28883496" vertical-offset="0" max-vertical-offset="412">
-          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-          <folding />
+        <state vertical-scroll-proportion="0.123786405" vertical-offset="0" max-vertical-offset="412">
+          <caret line="3" column="70" selection-start-line="3" selection-start-column="70" selection-end-line="3" selection-end-column="70" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/item/ItemEgg.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/floowerpot.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.4854369" vertical-offset="268" max-vertical-offset="680">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.28883496" vertical-offset="0" max-vertical-offset="1037">
+          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/item/Item.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/renderer/block/statemap/StateMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.392857" vertical-offset="1169" max-vertical-offset="25109">
-          <caret line="131" column="149" selection-start-line="131" selection-start-column="29" selection-end-line="131" selection-end-column="149" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1130" max-vertical-offset="1615">
+          <caret line="67" column="24" selection-start-line="67" selection-start-column="24" selection-end-line="67" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/world/World.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/model/ModelFlooSign.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="38627" max-vertical-offset="65807">
-          <caret line="2424" column="19" selection-start-line="2424" selection-start-column="19" selection-end-line="2424" selection-end-column="19" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/util/Vec3i.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/renderer/tileentity/TileEntitySignRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33153638" vertical-offset="812" max-vertical-offset="2057">
-          <caret line="58" column="19" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="19" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2108">
+          <caret line="127" column="16" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/util/BlockPos.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/itemfloosign.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="2196" max-vertical-offset="6205">
-          <caret line="195" column="20" selection-start-line="195" selection-start-column="20" selection-end-line="195" selection-end-column="20" />
-          <folding />
+        <state vertical-scroll-proportion="0.61893207" vertical-offset="0" max-vertical-offset="412">
+          <caret line="15" column="9" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageApproval.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityFlooSignRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.40350878" vertical-offset="1029" max-vertical-offset="1428">
+          <caret line="78" column="27" selection-start-line="78" selection-start-column="27" selection-end-line="78" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageAddFireplace.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/block/torch.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20631067" vertical-offset="102" max-vertical-offset="714">
-          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageApproveName.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/models/item/torch.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.08252427" vertical-offset="102" max-vertical-offset="612">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
+          <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooSign.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/lang/en_US.lang">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46359223" vertical-offset="1050" max-vertical-offset="1462">
-          <caret line="93" column="35" selection-start-line="93" selection-start-column="35" selection-end-line="93" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooPowder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.050125312" vertical-offset="343" max-vertical-offset="1751">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/client/gui/GuiFlooSign.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7014563" vertical-offset="2788" max-vertical-offset="3434">
-          <caret line="203" column="44" selection-start-line="203" selection-start-column="44" selection-end-line="203" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/entity/player/EntityPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-557.9643" vertical-offset="357" max-vertical-offset="43656">
-          <caret line="1068" column="50" selection-start-line="1068" selection-start-column="45" selection-end-line="1068" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFireplace.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46867168" vertical-offset="561" max-vertical-offset="1479">
-          <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/FloocraftWorldData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9830097" vertical-offset="1856" max-vertical-offset="2584">
-          <caret line="136" column="72" selection-start-line="136" selection-start-column="72" selection-end-line="136" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/tileentity/TileEntitySign.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.3908355" vertical-offset="3012" max-vertical-offset="3383">
-          <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/entity/EntityDroppedFlooPowder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="757" max-vertical-offset="1156">
-          <caret line="39" column="109" selection-start-line="39" selection-start-column="109" selection-end-line="39" selection-end-column="109" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.46867168" vertical-offset="544" max-vertical-offset="1156">
+          <caret line="46" column="65" selection-start-line="46" selection-start-column="65" selection-end-line="46" selection-end-column="65" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/GreenFlamesTemp.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooPowder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0315534" vertical-offset="0" max-vertical-offset="629">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.7593985" vertical-offset="207" max-vertical-offset="1496">
+          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTeleportEntity.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/lang/en_GB.lang">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26566416" vertical-offset="880" max-vertical-offset="1649">
-          <caret line="58" column="37" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="412">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFloowerPot.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/DataReference.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46115288" vertical-offset="1550" max-vertical-offset="2601">
-          <caret line="130" column="33" selection-start-line="130" selection-start-column="33" selection-end-line="130" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/item/ItemFlooSign.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="615" max-vertical-offset="1139">
-          <caret line="44" column="42" selection-start-line="44" selection-start-column="42" selection-end-line="44" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/renderer/WorldRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.392857" vertical-offset="7986" max-vertical-offset="9741">
-          <caret line="513" column="24" selection-start-line="513" selection-start-column="20" selection-end-line="513" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/specialrenderer/TileEntityPotRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7111651" vertical-offset="370" max-vertical-offset="833">
-          <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/network/messages/MessageTileEntityFireplaceFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33252427" vertical-offset="84" max-vertical-offset="697">
-          <caret line="19" column="81" selection-start-line="19" selection-start-column="81" selection-end-line="19" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/nbt/NBTTagList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16504854" vertical-offset="0" max-vertical-offset="4386">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/network/play/server/S35PacketUpdateTileEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3932039" vertical-offset="642" max-vertical-offset="1054">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.25" vertical-offset="0" max-vertical-offset="731">
+          <caret line="9" column="95" selection-start-line="9" selection-start-column="95" selection-end-line="9" selection-end-column="95" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/FloocraftBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0533981" vertical-offset="1683" max-vertical-offset="2856">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/gf_idle.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="969">
-          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+        <state vertical-scroll-proportion="4.713592" vertical-offset="574" max-vertical-offset="2771">
+          <caret line="176" column="27" selection-start-line="176" selection-start-column="27" selection-end-line="176" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357.jar!/assets/minecraft/blockstates/fire.json">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar!/com/google/common/base/Predicate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53640777" vertical-offset="0" max-vertical-offset="3434">
-          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.4563107" vertical-offset="135" max-vertical-offset="935">
+          <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/gf_busy.json">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/block/BlockFlooTorch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37135923" vertical-offset="0" max-vertical-offset="969">
-          <caret line="9" column="27" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.20631067" vertical-offset="0" max-vertical-offset="952">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflames.json">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/flootorch.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94902915" vertical-offset="0" max-vertical-offset="527">
-          <caret line="23" column="64" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="64" />
+        <state vertical-scroll-proportion="0.66019416" vertical-offset="0" max-vertical-offset="412">
+          <caret line="16" column="1" selection-start-line="0" selection-start-column="0" selection-end-line="16" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/blockstates/greenflamestemp.json">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94902915" vertical-offset="0" max-vertical-offset="527">
-          <caret line="23" column="64" selection-start-line="23" selection-start-column="64" selection-end-line="23" selection-end-column="64" />
+        <state vertical-scroll-proportion="0.9174757" vertical-offset="183" max-vertical-offset="663">
+          <caret line="33" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/tileentity/TileEntityFloowerPot.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/block/flootorch_wall.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.735437" vertical-offset="0" max-vertical-offset="2856">
-          <caret line="170" column="38" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
-          <folding>
-            <element signature="e#4857#4858#0" expanded="true" />
-            <element signature="e#4906#4907#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.5873786" vertical-offset="217" max-vertical-offset="697">
+          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/assets/ftfloocraft/models/item/flootorch.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="17" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/minecraft/net/minecraftforge/forge/1.8-11.14.1.1357/snapshot/20141130/forgeSrc-1.8-11.14.1.1357-sources.jar!/net/minecraft/client/renderer/ItemModelMesher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6286408" vertical-offset="744" max-vertical-offset="1462">
+          <caret line="82" column="16" selection-start-line="82" selection-start-column="16" selection-end-line="82" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fredtargaryen/floocraft/proxy/ClientProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6286408" vertical-offset="64" max-vertical-offset="697">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

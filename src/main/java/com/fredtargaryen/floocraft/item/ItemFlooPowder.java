@@ -36,7 +36,7 @@ public class ItemFlooPowder extends Item
 	{
 		if (worldIn.getBlockState(pos) == Blocks.torch)
 		{
-			worldIn.setBlockState(pos, FloocraftBase.flooTorch.getDefaultState());
+			worldIn.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState());
 			--stack.stackSize;
 			return true;
 		}

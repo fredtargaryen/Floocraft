@@ -1,6 +1,9 @@
 {
     "variants": {
 
+        "normal": { "model": "" },
+        "inventory": { "model": "" },
+
         "active=true,age=0": { "model": "ftfloocraft:gf_idle" },
         "active=true,age=1": { "model": "ftfloocraft:gf_idle" },
         "active=true,age=2": { "model": "ftfloocraft:gf_idle" },
