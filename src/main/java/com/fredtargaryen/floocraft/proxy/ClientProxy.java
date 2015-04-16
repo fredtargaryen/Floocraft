@@ -13,6 +13,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.Item;
 
 public class ClientProxy extends CommonProxy
 {
@@ -24,15 +25,15 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
-
-        //Describes how some blocks should look in the inventory
-        ItemModelMesher m = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-        m.register(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID + ":itemfloosign", "inventory"));
     }
 
     @Override
     public void registerModels()
     {
+        //Describes how some blocks should look in the inventory
+        ItemModelMesher m = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+        m.register(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID + ":itemfloosign", "inventory"));
+        m.register(Item.getItemFromBlock(FloocraftBase.blockFlooTorch), 0, new ModelResourceLocation(DataReference.MODID + ":flootorch", "inventory"));
     }
 
     @Override

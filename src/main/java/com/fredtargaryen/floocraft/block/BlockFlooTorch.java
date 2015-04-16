@@ -34,37 +34,23 @@ public class BlockFlooTorch extends BlockTorch
 	{
 		super();
 	}
-	
-	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World par1World, BlockPos pos, IBlockState state, Random rand)
-    {
-        EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
-        double d0 = (double)((float)pos.getX() + 0.5F);
-        double d1 = (double)((float)pos.getY() + 0.7F);
-        double d2 = (double)((float)pos.getZ() + 0.5F);
-        double d3 = 0.2199999988079071D;
-        double d4 = 0.27000001072883606D;
-        switch(enumfacing) {
-            case UP:
-                par1World.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(par1World, d0 - d4, d1 + d3, d2));
-                break;
-            case NORTH:
-                par1World.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1 + d3, d2, 0.0D, 0.0D, 0.0D);
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(par1World, d0 + d4, d1 + d3, d2));
-                break;
-            case SOUTH:
-                par1World.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1 + d3, d2 - d4, 0.0D, 0.0D, 0.0D);
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(par1World, d0, d1 + d3, d2 - d4));
-                break;
-            case WEST:
-                par1World.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1 + d3, d2 + d4, 0.0D, 0.0D, 0.0D);
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(par1World, d0, d1 + d3, d2 + d4));
-                break;
-            case EAST:
-                par1World.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(par1World, d0, d1, d2));
-                break;
+
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+        EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
+        double d0 = (double) pos.getX() + 0.5D;
+        double d1 = (double) pos.getY() + 0.7D;
+        double d2 = (double) pos.getZ() + 0.5D;
+        double d3 = 0.22D;
+        double d4 = 0.27D;
+
+        if (enumfacing.getAxis().isHorizontal()) {
+            EnumFacing enumfacing1 = enumfacing.getOpposite();
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D, new int[0]);
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(worldIn, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ()));
+        } else {
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(worldIn, d0, d1, d2));
         }
     }
 	

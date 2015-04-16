@@ -1,12 +1,16 @@
 package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.BlockFlooTorch;
 import com.fredtargaryen.floocraft.block.GreenFlames;
+import net.minecraft.block.BlockTorch;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class EntityDroppedFlooPowder extends EntityItem
@@ -32,21 +36,25 @@ public class EntityDroppedFlooPowder extends EntityItem
     {
 		super.onUpdate();
         BlockPos pos = new BlockPos(this);
-		if(this.worldObj.getBlockState(pos).getBlock() == Blocks.fire)
+        IBlockState state = this.worldObj.getBlockState(pos);
+		if(state.getBlock() == Blocks.fire)
 		{
             BlockPos oneAbove = pos.up();
             if(this.worldObj.getBlockState(oneAbove).getBlock() == Blocks.air)
             {
-			    this.worldObj.setBlockState(pos, this.worldObj.getBlockState(pos).withProperty(GreenFlames.AGE, this.concentration), 2);
+			    this.worldObj.setBlockState(pos, FloocraftBase.greenFlames.getDefaultState()
+                        .withProperty(GreenFlames.AGE, this.concentration)
+                        .withProperty(GreenFlames.ACTIVE, true), 2);
             }
             this.worldObj.playSound((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);
 			this.setDead();
 		}
-		else if(this.worldObj.getBlockState(pos) == Blocks.torch)
-		{
-			this.worldObj.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState());
-			this.setDead();
-		}
+		else if(state.getBlock() == Blocks.torch)
+        {
+            EnumFacing e = (EnumFacing)state.getValue(BlockTorch.FACING);
+            this.worldObj.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState().withProperty(BlockFlooTorch.FACING, e));
+            this.setDead();
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.fredtargaryen.floocraft;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * ===DESCRIPTION OF CHANNELS===
+ * ===DESCRIPTION OF MESSAGE CHANNELS===
  * MessageAddFireplace: sends position and  unique name of fireplace to be added to server
  * MessageApproval: sends to client whether proposed fireplace name is unique
  * MessageApproveName: sends proposed fireplace name to be approved by server
@@ -32,9 +32,4 @@ public class DataReference
 
     public static final ResourceLocation potRes = new ResourceLocation(DataReference.MODID+":textures/blocks/floowerpottex.png");
     public static final ResourceLocation powderRes = new ResourceLocation(DataReference.MODID+":textures/blocks/tp_background.png");
-
-    public static String resPath(String un)
-    {
-        return MODID+":"+un.substring(5);
-    }
 }

@@ -1,5 +1,7 @@
 /**
  * ===NEXT UP===
+ * HOW TO FLAMES?!?!???!?!?!?
+ * Update to latest Forge 1.8 and make necessary changes
  * Unusable fire bug
  * Peeking
  */
@@ -74,24 +76,28 @@ public class FloocraftBase
 
         //Makes all blocks and items to be used
     	blockFlooTorch = new BlockFlooTorch()
-    	.setLightLevel(1.0F)
-    	.setCreativeTab(CreativeTabs.tabDecorations);
+                .setUnlocalizedName("flootorch")
+    	        .setLightLevel(1.0F)
+    	        .setCreativeTab(CreativeTabs.tabDecorations);
     	
     	greenFlames = new GreenFlames()
-        .setLightLevel(1.0F);
+                .setUnlocalizedName("greenflames")
+                .setLightLevel(1.0F);
 
         greenFlamesTemp = new GreenFlamesTemp()
-        .setLightLevel(0.875F);
+                .setUnlocalizedName("greenflamestemp")
+                .setLightLevel(0.875F);
     	
     	blockFlooSign = new BlockFlooSign();
 
         floowerPot = new BlockFloowerPot()
-        .setCreativeTab(CreativeTabs.tabMisc);
+                .setUnlocalizedName("floowerpot")
+                .setCreativeTab(CreativeTabs.tabMisc);
     	
     	floopowder1t = new ItemFlooPowder((byte)1)
-    	.setMaxStackSize(64)
-    	.setUnlocalizedName("floopowder")
-    	.setCreativeTab(CreativeTabs.tabMisc);
+    	        .setMaxStackSize(64)
+    	        .setUnlocalizedName("floopowder")
+    	        .setCreativeTab(CreativeTabs.tabMisc);
 
         floopowder2t = new ItemFlooPowder((byte)2)
                 .setMaxStackSize(64)
@@ -119,9 +125,7 @@ public class FloocraftBase
     	.setCreativeTab(CreativeTabs.tabDecorations);
 
         //Registering blocks
-        //UNFINISHED
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
-        //WORKING ON THIS
         GameRegistry.registerBlock(blockFlooTorch, "flootorch");
         //UNFINISHED
         GameRegistry.registerBlock(greenFlames, "greenflames");
@@ -176,6 +180,7 @@ public class FloocraftBase
         //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         proxy.registerRenderers();
+        proxy.registerModels();
     	proxy.registerTickHandlers();
     }
         

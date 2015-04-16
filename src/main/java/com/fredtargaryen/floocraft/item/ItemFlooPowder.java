@@ -1,8 +1,11 @@
 package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.BlockFlooTorch;
 import com.fredtargaryen.floocraft.block.GreenFlames;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
+import net.minecraft.block.BlockTorch;
+import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -34,9 +37,11 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if (worldIn.getBlockState(pos) == Blocks.torch)
+        IBlockState state = worldIn.getBlockState(pos);
+		if (state.getBlock() == Blocks.torch)
 		{
-			worldIn.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState());
+			worldIn.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState()
+                    .withProperty(BlockFlooTorch.FACING, state.getValue(BlockTorch.FACING)));
 			--stack.stackSize;
 			return true;
 		}
@@ -44,8 +49,9 @@ public class ItemFlooPowder extends Item
 		{
             if(worldIn.getBlockState(pos.up(2)).getBlock() == Blocks.air)
             {
-                worldIn.extinguishFire(playerIn, pos, side);
-                worldIn.setBlockState(pos.up(1), FloocraftBase.greenFlames.getDefaultState().withProperty(GreenFlames.AGE, this.concentration), 2);
+                worldIn.setBlockState(pos.up(1), FloocraftBase.greenFlames.getDefaultState()
+                        .withProperty(GreenFlames.AGE, this.concentration)
+                        .withProperty(GreenFlames.ACTIVE, true), 2);
             }
 			--stack.stackSize;
             worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);
