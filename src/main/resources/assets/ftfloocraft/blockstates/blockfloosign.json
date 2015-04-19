@@ -1,0 +1,17 @@
+{
+
+    "variants": {
+
+        "normal": { "model": "" },
+
+        "facing=east": { "model": "" },
+
+        "facing=south": { "model": "" },
+
+        "facing=west": { "model": "" },
+
+        "facing=north": { "model": "" }
+
+    }
+
+}

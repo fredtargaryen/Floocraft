@@ -3,7 +3,6 @@
     "variants": {
 
         "normal": { "model": "" },
-        "inventory": { "model": "" },
 
         "active=true,age=0": { "model": "ftfloocraft:gf_busy" },
         "active=true,age=1": { "model": "ftfloocraft:gf_busy" },

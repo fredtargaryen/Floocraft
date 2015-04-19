@@ -3,7 +3,9 @@ package com.fredtargaryen.floocraft.block;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.block.BlockWallSign;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -25,6 +27,11 @@ public class BlockFlooSign extends BlockWallSign
 		super();
 		setHardness(2.0F);
 	}
+
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[]{FACING});
+    }
 
     @Override
 	public TileEntity createNewTileEntity(World par1World, int par2)

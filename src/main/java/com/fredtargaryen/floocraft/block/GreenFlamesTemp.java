@@ -1,5 +1,7 @@
 package com.fredtargaryen.floocraft.block;
 
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -13,6 +15,11 @@ public class GreenFlamesTemp extends GreenFlames
     {
         super();
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+    }
+
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[]{AGE, ACTIVE});
     }
 
     @Override

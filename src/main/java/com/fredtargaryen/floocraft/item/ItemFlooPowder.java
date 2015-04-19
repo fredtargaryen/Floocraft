@@ -37,15 +37,7 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-        IBlockState state = worldIn.getBlockState(pos);
-		if (state.getBlock() == Blocks.torch)
-		{
-			worldIn.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState()
-                    .withProperty(BlockFlooTorch.FACING, state.getValue(BlockTorch.FACING)));
-			--stack.stackSize;
-			return true;
-		}
-		else if (worldIn.getBlockState(pos.up(1)) == Blocks.fire)
+		if (worldIn.getBlockState(pos.up(1)) == Blocks.fire)
 		{
             if(worldIn.getBlockState(pos.up(2)).getBlock() == Blocks.air)
             {

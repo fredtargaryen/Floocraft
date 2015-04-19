@@ -1,6 +1,8 @@
 /**
  * ===NEXT UP===
+ * Floower Pot has no item icon or texture
  * HOW TO FLAMES?!?!???!?!?!?
+ * Floo Powder does SOD ALL
  * Update to latest Forge 1.8 and make necessary changes
  * Unusable fire bug
  * Peeking
@@ -14,6 +16,7 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -126,6 +129,7 @@ public class FloocraftBase
 
         //Registering blocks
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
+        //UNFINISHED - Flame particle??!?!
         GameRegistry.registerBlock(blockFlooTorch, "flootorch");
         //UNFINISHED
         GameRegistry.registerBlock(greenFlames, "greenflames");

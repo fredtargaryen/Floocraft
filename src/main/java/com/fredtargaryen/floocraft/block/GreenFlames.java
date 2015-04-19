@@ -5,10 +5,11 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -32,6 +33,24 @@ public class GreenFlames extends Block
     {
         super(Material.air);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
+    }
+
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[]{AGE, ACTIVE});
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return (Integer)state.getValue(this.AGE) + ((Boolean)state.getValue(ACTIVE) ? 9 : 0);
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(AGE, meta % 10).withProperty(ACTIVE, meta > 9);
     }
 
     @Override

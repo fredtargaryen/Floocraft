@@ -2,7 +2,9 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.entity.EntityGreenFlame;
 import com.google.common.base.Predicate;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -34,6 +36,11 @@ public class BlockFlooTorch extends BlockTorch
 	{
 		super();
 	}
+
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[]{FACING});
+    }
 
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {

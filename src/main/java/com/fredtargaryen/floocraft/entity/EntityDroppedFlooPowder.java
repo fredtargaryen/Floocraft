@@ -43,18 +43,12 @@ public class EntityDroppedFlooPowder extends EntityItem
             if(this.worldObj.getBlockState(oneAbove).getBlock() == Blocks.air)
             {
 			    this.worldObj.setBlockState(pos, FloocraftBase.greenFlames.getDefaultState()
-                        .withProperty(GreenFlames.AGE, this.concentration)
-                        .withProperty(GreenFlames.ACTIVE, true), 2);
+                        .withProperty(GreenFlames.AGE, Integer.valueOf(this.concentration))
+                        .withProperty(GreenFlames.ACTIVE, Boolean.valueOf(true)), 2);
             }
             this.worldObj.playSound((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);
 			this.setDead();
 		}
-		else if(state.getBlock() == Blocks.torch)
-        {
-            EnumFacing e = (EnumFacing)state.getValue(BlockTorch.FACING);
-            this.worldObj.setBlockState(pos, FloocraftBase.blockFlooTorch.getDefaultState().withProperty(BlockFlooTorch.FACING, e));
-            this.setDead();
-        }
     }
 
     @Override

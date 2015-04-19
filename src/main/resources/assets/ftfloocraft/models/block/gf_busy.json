@@ -1,8 +1,9 @@
 {
     "ambientocclusion": false,
     "textures": {
-            "particle": "ftfloocraft:blocks/gf_busy",
-            "fire": "ftfloocraft:blocks/gf_busy"
+            "particle": "ftfloocraft:blocks/gf_idle",
+            "fire": "ftfloocraft:blocks/gf_idle"
+    },
     "elements": [
         {   "from": [ 0, 0, 8.8 ],
             "to": [ 16, 22.4, 8.8 ],
