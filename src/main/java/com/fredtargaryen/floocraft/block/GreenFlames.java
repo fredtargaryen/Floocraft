@@ -74,7 +74,7 @@ public class GreenFlames extends Block
     @Override
     public void onEntityCollidedWithBlock(World w, BlockPos pos, IBlockState state, Entity e)
     {
-        if(e instanceof EntityPlayer)
+        if(e instanceof EntityPlayer && isInFireplace(w, pos))
         {
             if(w.isRemote)
             {

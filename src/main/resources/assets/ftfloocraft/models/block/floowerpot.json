@@ -45,11 +45,10 @@
                 "south": { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" }
             }
         },
-        {   "from": [ 6, 0, 6 ],
+        {   "from": [ 6, 1, 6 ],
             "to": [ 10, 1, 10 ],
             "faces": {
-                "down": { "uv": [ 6, 6, 10, 10 ], "texture": "#floowerpot", "cullface": "down" },
-                "up":   { "uv": [ 6, 6, 10, 10 ], "texture": "#floowerpot" }
+                "up":   { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" }
             }
         }
     ]

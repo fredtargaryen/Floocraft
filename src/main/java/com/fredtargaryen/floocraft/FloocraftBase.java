@@ -1,7 +1,8 @@
 /**
  * ===NEXT UP===
- * Floower Pot has no item icon or texture
- * HOW TO FLAMES?!?!???!?!?!?
+ * Floo Sign block particle texture missing
+ * Powder doesn't render inside pot
+ * HOW TO TORCH FLAMES?!?!???!?!?!?
  * Floo Powder does SOD ALL
  * Update to latest Forge 1.8 and make necessary changes
  * Unusable fire bug
@@ -16,12 +17,6 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -129,27 +124,17 @@ public class FloocraftBase
 
         //Registering blocks
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
-        //UNFINISHED - Flame particle??!?!
         GameRegistry.registerBlock(blockFlooTorch, "flootorch");
-        //UNFINISHED
         GameRegistry.registerBlock(greenFlames, "greenflames");
-        //UNFINISHED
         GameRegistry.registerBlock(greenFlamesTemp, "greenflamestemp");
-        //UNFINISHED
         GameRegistry.registerBlock(floowerPot, "floowerpot");
 
         //Registering items
-        //UNFINISHED
         GameRegistry.registerItem(floopowder1t, "floopowder_one");
-        //UNFINISHED
         GameRegistry.registerItem(floopowder2t, "floopowder_two");
-        //UNFINISHED
         GameRegistry.registerItem(floopowder4t, "floopowder_four");
-        //UNFINISHED
         GameRegistry.registerItem(floopowder8t, "floopowder_eight");
-        //UNFINISHED
         GameRegistry.registerItem(floopowderc, "floopowder_infinite");
-        //UNFINISHED
         GameRegistry.registerItem(itemFlooSign, "itemfloosign");
 
         //Registering Tile Entities

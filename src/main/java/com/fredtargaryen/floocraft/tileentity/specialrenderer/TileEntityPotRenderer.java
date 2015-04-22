@@ -4,6 +4,7 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -27,23 +28,21 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
         BlockPos pos = te.getPos();
         GL11.glPushMatrix();
         GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
-        TileEntityFloowerPot tefp = (TileEntityFloowerPot)te;
-        this.renderPot(tefp, tefp.getWorld(), pos.getX(), pos.getY(), pos.getZ(), FloocraftBase.floowerPot);
+        this.renderPot((TileEntityFloowerPot)te, pos);
         GL11.glPopMatrix();
     }
-    public void renderPot(TileEntityFloowerPot tefp, World world, int x, int y, int z, Block block)
+
+    public void renderPot(TileEntityFloowerPot tefp, BlockPos pos)
     {
+        World world = tefp.getWorld();
         //This will make your block brightness dependent from surroundings lighting.
-        //float f = block.getLightValue(world, x, y, z);
-        //int l = world.getLightBrightnessForSkyBlocks(x, y, z, 0);
-        //int l1 = l % 65536;
-        //int l2 = l / 65536;
-        //t.setColorOpaque_F(f, f, f);
-        //OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) l1, (float) l2);
+        float f = world.getBlockState(pos).getBlock().getMixedBrightnessForBlock(world, pos);
+        WorldRenderer r = Tessellator.getInstance().getWorldRenderer();
+        r.setColorOpaque_F(f, f, f);
+
         ItemStack stack = tefp.getStackInSlot(0);
         if(stack != null && stack.stackSize > 0)
         {
-            WorldRenderer r = Tessellator.getInstance().getWorldRenderer();
             double level = (((float)stack.stackSize / 64) * 0.3125) + 0.0625;
             r.startDrawingQuads();
             //Inner y-positive face (when there's powder)

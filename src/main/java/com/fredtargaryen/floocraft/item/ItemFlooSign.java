@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.BlockFlooSign;
 import com.fredtargaryen.floocraft.client.gui.GuiFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -37,7 +38,7 @@ public class ItemFlooSign extends Item
             else
             {
                 BlockPos newpos = pos.offset(side);
-            	par3World.setBlockState(newpos, FloocraftBase.blockFlooSign.getDefaultState(), 3);
+            	par3World.setBlockState(newpos, FloocraftBase.blockFlooSign.getDefaultState().withProperty(BlockFlooSign.FACING, side), 3);
             	--par1ItemStack.stackSize;
             	TileEntityFireplace fireplaceTE = (TileEntityFireplace)par3World.getTileEntity(newpos);
             	if (fireplaceTE != null)
