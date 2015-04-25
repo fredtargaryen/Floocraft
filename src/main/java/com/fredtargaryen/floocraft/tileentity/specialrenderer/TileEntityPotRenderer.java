@@ -25,33 +25,25 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
     @Override
     public void renderTileEntityAt(TileEntity te, double x, double z, double something, float somethingElse, int somethingElser)
     {
-        BlockPos pos = te.getPos();
-        GL11.glPushMatrix();
-        GL11.glTranslated(pos.getX(), pos.getY(), pos.getZ());
-        this.renderPot((TileEntityFloowerPot)te, pos);
-        GL11.glPopMatrix();
-    }
-
-    public void renderPot(TileEntityFloowerPot tefp, BlockPos pos)
-    {
-        World world = tefp.getWorld();
-        //This will make your block brightness dependent from surroundings lighting.
-        float f = world.getBlockState(pos).getBlock().getMixedBrightnessForBlock(world, pos);
-        WorldRenderer r = Tessellator.getInstance().getWorldRenderer();
-        r.setColorOpaque_F(f, f, f);
-
+        TileEntityFloowerPot tefp = (TileEntityFloowerPot) te;
+        BlockPos pos = tefp.getPos();
         ItemStack stack = tefp.getStackInSlot(0);
         if(stack != null && stack.stackSize > 0)
         {
-            double level = (((float)stack.stackSize / 64) * 0.3125) + 0.0625;
+            WorldRenderer r = Tessellator.getInstance().getWorldRenderer();
+            GlStateManager.pushAttrib();
+            GlStateManager.pushMatrix();
+            r.setTranslation(pos.getX(), pos.getY() + (((float)stack.stackSize / 64) * 0.3125) + 0.0625, pos.getZ());
             r.startDrawingQuads();
             //Inner y-positive face (when there's powder)
             this.bindTexture(DataReference.powderRes);
-            r.addVertexWithUV(0.625, level, 0.625, 1.0, 1.0);
-            r.addVertexWithUV(0.625, level, 0.375, 1.0, 0.0);
-            r.addVertexWithUV(0.375, level, 0.375, 0.0, 0.0);
-            r.addVertexWithUV(0.375, level, 0.625, 0.0, 1.0);
+            r.addVertexWithUV(0.625, 0, 0.625, 1.0, 1.0);
+            r.addVertexWithUV(0.625, 0, 0.375, 1.0, 0.0);
+            r.addVertexWithUV(0.375, 0, 0.375, 0.0, 0.0);
+            r.addVertexWithUV(0.375, 0, 0.625, 0.0, 1.0);
             r.finishDrawing();
+            GlStateManager.popMatrix();
+            GlStateManager.popAttrib();
         }
     }
 }
