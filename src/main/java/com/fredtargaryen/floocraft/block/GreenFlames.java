@@ -16,6 +16,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,8 +34,9 @@ public class GreenFlames extends Block
 
     public GreenFlames()
     {
-        super(Material.air);
+        super(Material.fire);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 1).withProperty(ACTIVE, Boolean.valueOf(false)));
     }
 
     @Override
@@ -44,13 +48,22 @@ public class GreenFlames extends Block
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return (Integer)state.getValue(this.AGE) + ((Boolean)state.getValue(ACTIVE) ? 9 : 0);
+        return (Integer)state.getValue(this.AGE);
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, meta % 10).withProperty(ACTIVE, meta > 9);
+        return this.getDefaultState().withProperty(AGE, meta);
+    }
+
+    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        if(worldIn instanceof World)
+        {
+            return state.withProperty(ACTIVE, Boolean.valueOf(((World)worldIn).getClosestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null));
+        }
+        return state;
     }
 
     @Override
@@ -60,14 +73,14 @@ public class GreenFlames extends Block
         {
             w.setBlockState(pos, Blocks.fire.getDefaultState());
         }
-        if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
-        {
-            w.setBlockState(pos, state.withProperty(ACTIVE, false), 2);
-        }
-        else
-        {
-            w.setBlockState(pos, state.withProperty(ACTIVE, true), 2);
-        }
+        //if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
+        //{
+            //w.setBlockState(pos, state.withProperty(ACTIVE, Boolean.valueOf(false)), 2);
+        //}
+        //else
+        //{
+            //w.setBlockState(pos, state.withProperty(ACTIVE, Boolean.valueOf(true)), 2);
+        //}
         w.scheduleUpdate(pos, this, this.tickRate(w) + par5Random.nextInt(10));
     }
 
@@ -113,20 +126,55 @@ public class GreenFlames extends Block
         }
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public EnumWorldBlockLayer getBlockLayer()
+    {
+        return EnumWorldBlockLayer.CUTOUT;
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    {
+        if(!this.isInFireplace(worldIn, pos))
+        {
+            worldIn.playAuxSFX(1004, pos, 0);
+            worldIn.setBlockToAir(pos);
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube()
+    {
+        return false;
+    }
+
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
     protected int getTopBlockY(World w, BlockPos oldpos)
     {
-        BlockPos pos = oldpos;
-        pos.up();
+        BlockPos pos = oldpos.offset(EnumFacing.UP, 1);
         Block b0 = w.getBlockState(pos).getBlock();
         if (b0 == Blocks.air)
         {
-            pos.up();
+            pos = pos.offset(EnumFacing.UP, 1);
             while (w.getBlockState(pos).getBlock() == Blocks.air)
             {
-                pos.up();
+                pos.offset(EnumFacing.UP, 1);
             }
             if (w.getBlockState(pos).getBlock().isNormalCube(w, pos))
             {
@@ -146,12 +194,14 @@ public class GreenFlames extends Block
         else
         {
             boolean valid = true;
-            while (valid && bottom.getY() < topY) {
+            while (valid && bottom.getY() < topY)
+            {
                 if(w.getBlockState(bottom).getBlock().isNormalCube(w, bottom))
                 {
-                    bottom.up();
+                    bottom = bottom.offset(EnumFacing.UP, 1);
                 }
-                else {
+                else
+                {
                     valid = false;
                 }
             }
@@ -164,25 +214,25 @@ public class GreenFlames extends Block
         BlockPos bottom = oldbottom;
         List<Integer> walls = new ArrayList<Integer>();
         //z + 1
-        bottom.add(0.0D, 0.0D, 1.0D);
+        bottom = bottom.add(0.0D, 0.0D, 1.0D);
         if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(2);
         }
         //x - 1
-        bottom.add(-1.0D, 0.0D, -1.0D);
+        bottom = bottom.add(-1.0D, 0.0D, -1.0D);
         if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(4);
         }
         //x + 1
-        bottom.add(2.0D, 0.0D, 0.0D);
+        bottom = bottom.add(2.0D, 0.0D, 0.0D);
         if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(6);
         }
         //z - 1
-        bottom.add(0.0D, 0.0D, -1.0D);
+        bottom = bottom.add(-1.0D, 0.0D, -1.0D);
         if(this.isWallColumn(w, bottom, topY))
         {
             walls.add(8);
@@ -272,9 +322,9 @@ public class GreenFlames extends Block
 
     protected boolean isInFireplace(World w, BlockPos pos)
     {
-        if(!w.canBlockSeeSky(pos))
+        if(!w.canBlockSeeSky(pos) && w.getBlockState(pos.offset(EnumFacing.DOWN, 1)).getBlock().isFlammable(w, pos, EnumFacing.UP))
         {
-            if(pos.getY() < 254 && pos.getX() < 30000000 && pos.getX() > -30000000 && pos.getZ() < 30000000 && pos.getZ() > -30000000)
+            if(pos.getY() < 254)
             {
                 int t = this.getTopBlockY(w, pos);
                 List<Integer> walls = this.getWalls(w, pos, t);

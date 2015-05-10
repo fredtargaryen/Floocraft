@@ -17,7 +17,7 @@ public class EntityGreenFlame extends EntityFX
 {
     /** the scale of the flame FX */
     private float flameScale;
-    private static final ResourceLocation flame = new ResourceLocation(DataReference.MODID+":textures/particle/torchflame.png");
+    private static final ResourceLocation flame = new ResourceLocation(DataReference.MODID, "textures/particle/torchflame.png");
 
     public EntityGreenFlame(World w, double x, double y, double z)
     {
@@ -82,17 +82,6 @@ public class EntityGreenFlame extends EntityFX
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static class Factory implements IParticleFactory
-    {
-        private static final String __OBFID = "CL_00002602";
-
-        public EntityFX getEntityFX(int p_178902_1_, World worldIn, double p_178902_3_, double p_178902_5_, double p_178902_7_, double p_178902_9_, double p_178902_11_, double p_178902_13_, int ... p_178902_15_)
-        {
-            return new EntityGreenFlame(worldIn, p_178902_3_, p_178902_5_, p_178902_7_);
         }
     }
 

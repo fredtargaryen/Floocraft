@@ -29,7 +29,4 @@ public class DataReference
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 
     public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID+":textures/blocks/tp_background.png");
-
-    public static final ResourceLocation potRes = new ResourceLocation(DataReference.MODID+":textures/blocks/floowerpottex.png");
-    public static final ResourceLocation powderRes = new ResourceLocation(DataReference.MODID+":textures/blocks/tp_background.png");
 }

@@ -42,8 +42,8 @@ public class ItemFlooPowder extends Item
             if(worldIn.getBlockState(pos.up(2)).getBlock() == Blocks.air)
             {
                 worldIn.setBlockState(pos.up(1), FloocraftBase.greenFlames.getDefaultState()
-                        .withProperty(GreenFlames.AGE, this.concentration)
-                        .withProperty(GreenFlames.ACTIVE, true), 2);
+                        .withProperty(GreenFlames.AGE, (int)this.concentration)
+                        .withProperty(GreenFlames.ACTIVE, Boolean.valueOf(true)), 2);
             }
 			--stack.stackSize;
             worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);

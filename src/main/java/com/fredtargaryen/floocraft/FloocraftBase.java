@@ -1,9 +1,11 @@
 /**
  * ===NEXT UP===
- * Floo Sign block particle texture missing
- * Powder doesn't render inside pot
- * HOW TO TORCH FLAMES?!?!???!?!?!?
- * Floo Powder does SOD ALL
+ * Can't get into fire
+ * Fire doesn't change between active and idle(check)
+ * Floo Sign block particle texture missing (check)
+ * Floo sign model requires elements or parent (check)
+ * Some faces of pots don't render when a block is adjacent (No idea)
+ * HOW TO TORCH FLAMES?!?!???!?!?!? (No idea)
  * Update to latest Forge 1.8 and make necessary changes
  * Unusable fire bug
  * Peeking
@@ -45,7 +47,7 @@ public class FloocraftBase
      */
     public static Block blockFlooTorch;
     public static Block greenFlames;
-    //Temporary green flames which "usher you in" to the new fireplace. Disappear after 100 ticks.
+    //Temporary green flames which "usher you out" of the new fireplace. Disappear after 100 ticks.
     //Also used to check if a fireplace is valid at that time - if using it for this purpose, make
     //sure to immediately set it back to whatever block it was before.
     public static Block greenFlamesTemp;
