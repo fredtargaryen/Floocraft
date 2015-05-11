@@ -49,7 +49,7 @@ public class GuiTeleport extends GuiScreen
 	
 	private boolean receivedLists;
 
-    private EntityLivingBase prevCameraman;
+    //private EntityLivingBase prevCameraman;
 
     private PlaceList scrollWindow;
     
@@ -91,9 +91,7 @@ public class GuiTeleport extends GuiScreen
         this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height / 4 + 144, 98, 20, "Cancel"));
             if (receivedLists) {
                 refreshButton.enabled = true;
-                if (this.placenamelist.size() > 0) {
-                    this.scrollWindow = new PlaceList();
-                }
+                this.scrollWindow = new PlaceList();
             }
             this.buttonList.add(refreshButton);
         }

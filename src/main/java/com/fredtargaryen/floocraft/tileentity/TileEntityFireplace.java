@@ -68,10 +68,10 @@ public class TileEntityFireplace extends TileEntitySign
     //Only call if world is remote
     private static BlockPos iterateDownFromTop(World w, BlockPos pos)
     {
-        pos.down(1);
+        pos = pos.offset(EnumFacing.DOWN, 1);
         while((w.isAirBlock(pos) || w.getBlockState(pos) instanceof BlockFire) && pos.getY() > -1)
         {
-            pos.down(1);
+            pos = pos.offset(EnumFacing.DOWN, 1);
         }
         return pos.up(1);
     }

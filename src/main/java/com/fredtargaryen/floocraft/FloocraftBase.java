@@ -1,9 +1,6 @@
 /**
  * ===NEXT UP===
- * Can't get into fire
- * Fire doesn't change between active and idle(check)
- * Floo Sign block particle texture missing (check)
- * Floo sign model requires elements or parent (check)
+ * Fire model doesn't update when BlockState changes
  * Some faces of pots don't render when a block is adjacent (No idea)
  * HOW TO TORCH FLAMES?!?!???!?!?!? (No idea)
  * Update to latest Forge 1.8 and make necessary changes

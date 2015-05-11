@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
@@ -36,7 +37,7 @@ public class GreenFlames extends Block
     {
         super(Material.fire);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 1).withProperty(ACTIVE, Boolean.valueOf(false)));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 1).withProperty(ACTIVE, Boolean.valueOf(true)));
     }
 
     @Override
@@ -59,10 +60,7 @@ public class GreenFlames extends Block
 
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        if(worldIn instanceof World)
-        {
-            return state.withProperty(ACTIVE, Boolean.valueOf(((World)worldIn).getClosestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null));
-        }
+        System.out.println(state);
         return state;
     }
 
@@ -73,15 +71,15 @@ public class GreenFlames extends Block
         {
             w.setBlockState(pos, Blocks.fire.getDefaultState());
         }
-        //if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
-        //{
-            //w.setBlockState(pos, state.withProperty(ACTIVE, Boolean.valueOf(false)), 2);
-        //}
-        //else
-        //{
-            //w.setBlockState(pos, state.withProperty(ACTIVE, Boolean.valueOf(true)), 2);
-        //}
+        boolean playerNearby = w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) != null;
+        w.setBlockState(pos, state.withProperty(ACTIVE, Boolean.valueOf(playerNearby)), 2);
         w.scheduleUpdate(pos, this, this.tickRate(w) + par5Random.nextInt(10));
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {
+        return null;
     }
 
     @Override
