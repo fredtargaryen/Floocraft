@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.tileentity;
 
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
 import net.minecraft.block.BlockFire;
@@ -63,40 +62,6 @@ public class TileEntityFireplace extends TileEntitySign
         }
         //else, we are on the Bukkit or server side.
    	}
-   
-	public static void removeLocation(World w, int x, int y, int z, int metadata)
-	{
-        if(!w.isRemote)
-        {
-            int newX = x;
-            int newZ = z;
-            switch(metadata)
-            {
-                case 2:
-                {
-                    newZ++;
-                    break;
-                }
-                case 3:
-                {
-                    newZ--;
-                    break;
-                }
-                case 4:
-                {
-                    newX++;
-                    break;
-                }
-                case 5:
-                {
-                    newX--;
-                    break;
-                }
-            }
-            int newY = iterateDownFromTop(w, newX, y, newZ);
-            FloocraftWorldData.forWorld(w).removeLocation(newX, newY, newZ);
-        }
-	}
 	
 	@Override
 	public EntityPlayer func_145911_b()
@@ -113,8 +78,7 @@ public class TileEntityFireplace extends TileEntitySign
 		}
     }
 
-    //Only call if world is remote
-    private static int iterateDownFromTop(World w, int x, int y, int z)
+    public static int iterateDownFromTop(World w, int x, int y, int z)
     {
         y--;
         while((w.isAirBlock(x, y, z) || w.getBlock(x, y, z) instanceof BlockFire) && y > -1)

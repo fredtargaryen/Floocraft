@@ -28,7 +28,7 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
         this.renderPot(tefp, tefp.getWorldObj(), tefp.xCoord, tefp.yCoord, tefp.zCoord, FloocraftBase.floowerPot);
         GL11.glPopMatrix();
     }
-    public void renderPot(TileEntityFloowerPot tefp, World world, int x, int y, int z, Block block)
+    private void renderPot(TileEntityFloowerPot tefp, World world, int x, int y, int z, Block block)
     {
         Tessellator t = Tessellator.instance;
         //This will make your block brightness dependent from surroundings lighting.

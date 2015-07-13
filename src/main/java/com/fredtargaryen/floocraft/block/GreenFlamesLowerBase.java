@@ -25,7 +25,7 @@ import java.util.Random;
 public abstract class GreenFlamesLowerBase extends BlockFire
 {
     @SideOnly(Side.CLIENT)
-    protected IIcon[] icons;
+    private IIcon[] icons;
 	
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -46,8 +46,8 @@ public abstract class GreenFlamesLowerBase extends BlockFire
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister i)
     {
-        this.icons = new IIcon[] {i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_0"),
-                                    i.registerIcon(DataReference.resPath(this.getUnlocalizedName()) + "_layer_1")};
+        this.icons = new IIcon[] {i.registerIcon(DataReference.MODID+":fire_layer_0"),
+                                    i.registerIcon(DataReference.MODID+":fire_layer_1")};
     }
 
 	public boolean isCollidable()
@@ -68,7 +68,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
 	}
 		
 	@SideOnly(Side.CLIENT)
-	public void doClientGuiTings(int x, int y, int z)
+    private void doClientGuiTings(int x, int y, int z)
 	{
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
 		if(Minecraft.getMinecraft().currentScreen == null && !proxy.overrideTicker.isOverriding())
@@ -110,13 +110,15 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         {
             par1World.setBlock(par2, par3, par4, Blocks.fire);
         }
-        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World) + par5Random.nextInt(10));
+        else {
+            par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World) + par5Random.nextInt(10));
+        }
     }
 
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
-    protected int getTopBlockY(World w, int x, int y, int z) {
+    private int getTopBlockY(World w, int x, int y, int z) {
             y++;
         Block b0 = w.getBlock(x, y, z);
         if (b0 == Blocks.air) {
@@ -131,7 +133,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         return 0;
     }
 
-    protected boolean isWallColumn(World w, int x, int bottomY, int topY, int z) {
+    private boolean isWallColumn(World w, int x, int bottomY, int topY, int z) {
         if (topY == 0) {
             return false;
         } else {
@@ -148,7 +150,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         }
     }
 
-    protected List<Integer> getWalls(World w, int x, int bottomY, int topY, int z)
+    private List<Integer> getWalls(World w, int x, int bottomY, int topY, int z)
     {
         List<Integer> walls = new ArrayList<Integer>();
         if(this.isWallColumn(w, x, bottomY, topY, z + 1))
@@ -170,7 +172,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         return walls;
     }
 
-    protected boolean canLoopToCorner(World w, int x, int y, int z, int backWall, int oldSideWall, int top)
+    private boolean canLoopToCorner(World w, int x, int y, int z, int backWall, int oldSideWall, int top)
     {
         int sideWall;
         int oldX = x;
@@ -247,7 +249,7 @@ public abstract class GreenFlamesLowerBase extends BlockFire
         return true;
     }
 
-    protected boolean isInFireplace(World w, int x, int y, int z)
+    boolean isInFireplace(World w, int x, int y, int z)
     {
         if(!w.canBlockSeeTheSky(x, y, z))
         {

@@ -1,14 +1,10 @@
-/**
- * ===NEXT UP===
- * Unusable fire bug
- * Peeking
- */
-
 package com.fredtargaryen.floocraft;
+
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
 import com.fredtargaryen.floocraft.client.renderer.FireRenderer;
-import com.fredtargaryen.floocraft.item.*;
+import com.fredtargaryen.floocraft.item.ItemFlooPowder;
+import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
@@ -80,7 +76,7 @@ public class FloocraftBase
     	.setBlockName("greenflamesidle")
     	.setLightLevel(0.875F);
 
-        greenFlamesTemp = new GreenFlamesIdleTemp()
+        greenFlamesTemp = new GreenFlamesIdleTemp(fireRenderID)
         .setBlockName("greenflamesidletemp")
         .setLightLevel(0.875F);
     	

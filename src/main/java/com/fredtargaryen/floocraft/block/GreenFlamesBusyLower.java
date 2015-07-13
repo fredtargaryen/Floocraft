@@ -2,17 +2,13 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
 public class GreenFlamesBusyLower extends GreenFlamesLowerBase
 {
-    private int renderID;
+    private final int renderID;
 
 	public GreenFlamesBusyLower(int id)
     {
@@ -39,11 +35,4 @@ public class GreenFlamesBusyLower extends GreenFlamesLowerBase
 
     @Override
     public int getRenderType(){return this.renderID;}
-
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister i)
-    {
-        this.icons = new IIcon[] {i.registerIcon(DataReference.MODID + ":greenflamesbusylower"),
-                i.registerIcon(DataReference.MODID + ":greenflamesbusyhigher")};
-    }
 }

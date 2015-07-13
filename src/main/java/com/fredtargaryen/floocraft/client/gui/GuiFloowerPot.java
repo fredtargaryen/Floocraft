@@ -11,7 +11,7 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class GuiFloowerPot extends GuiContainer {
+class GuiFloowerPot extends GuiContainer {
 
     public GuiFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot tileEntity)
     {

@@ -15,7 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityFloowerPot extends TileEntity implements IInventory
 {
-    private ItemStack[] inv;
+    private final ItemStack[] inv;
 
     public TileEntityFloowerPot()
     {

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ItemFlooPowder extends Item
 {
-    private byte concentration;
+    private final byte concentration;
 
     public byte getConcentration()
     {
@@ -52,9 +52,9 @@ public class ItemFlooPowder extends Item
             {
                 par3World.extinguishFire(par2EntityPlayer, X, Y, Z, BlockDirectional.getDirection(par3World.getBlockMetadata(X, Y, Z)));
                 par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
+				par3World.playSound((double)X, (double)Y, (double)Z, DataReference.MODID+":greened", 1.0F, 1.0F, true);
             }
 			--par1ItemStack.stackSize;
-            par3World.playSound((double)X, (double)Y, (double)Z, "ftfloocraft:greened", 1.0F, 1.0F, true);
 			return true;
 		}
 		return false;

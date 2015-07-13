@@ -18,7 +18,7 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
 	/** The ModelFlooSign instance used by the TileEntityFlooSignRenderer */
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();
     
-    public void renderTileEntitySignAt(TileEntityFireplace par1TileEntityFireplace, double par2, double par4, double par6, float par8)
+    private void renderTileEntitySignAt(TileEntityFireplace par1TileEntityFireplace, double par2, double par4, double par6)
     {
         GL11.glPushMatrix();
         float f1 = 0.6666667F;
@@ -78,9 +78,10 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
     }
-    
+
+    //par8 is probably partial ticks
     public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
     {
-        this.renderTileEntitySignAt((TileEntityFireplace)par1TileEntity, par2, par4, par6, par8);
+        this.renderTileEntitySignAt((TileEntityFireplace)par1TileEntity, par2, par4, par6);
     }
 }

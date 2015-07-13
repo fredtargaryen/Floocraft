@@ -13,8 +13,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageTeleportEntity, IMessage>
 {
 	public int initX, initY, initZ, destX, destY, destZ;
@@ -30,6 +28,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		boolean tpApproved = false;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
+		//Makes sure the destination block is fire, busy or idle flames, in a valid fireplace
 		Block destBlock = world.getBlock(destX, destY, destZ);
 		if(destBlock == Blocks.fire)
 		{
@@ -49,6 +48,12 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
         {
             tpApproved = true;
         }
+		//Makes sure the player going is in busy or idle flames
+		Block initBlock = world.getBlock(initX, initY, initZ);
+		if(!(initBlock instanceof GreenFlamesLowerBase && initBlock != FloocraftBase.greenFlamesTemp))
+		{
+			tpApproved = false;
+		}
         if(tpApproved)
 		{
             PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
@@ -56,11 +61,17 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 			{
 				player.mountEntity(null);
 			}
-            Random rand = new Random();
-            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, rand.nextFloat() * 360, player.rotationPitch);
+            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
     		player.fallDistance = 0.0F;
 			int m = world.getBlockMetadata(initX, initY, initZ);
-    		world.setBlockMetadataWithNotify(initX, initY, initZ, m == 9 ? m : m - 1, 2);
+			if(m < 2)
+			{
+				world.setBlock(initX, initY, initZ, Blocks.fire);
+			}
+			else
+			{
+				world.setBlockMetadataWithNotify(initX, initY, initZ, m == 9 ? m : m - 1, 2);
+			}
 		}
 		return null;
 	}

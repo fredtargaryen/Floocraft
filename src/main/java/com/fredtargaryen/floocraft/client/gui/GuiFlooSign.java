@@ -21,7 +21,7 @@ public class GuiFlooSign extends GuiScreen
     private String sameNameError = "";
 
     /** Reference to the sign object. */
-    public TileEntityFireplace fireplaceTE;
+    private final TileEntityFireplace fireplaceTE;
 
     /** Counts the number of screen updates. */
     private int updateCounter;

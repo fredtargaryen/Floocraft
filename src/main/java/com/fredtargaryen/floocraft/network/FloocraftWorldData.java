@@ -20,28 +20,26 @@ import java.util.List;
 
 public class FloocraftWorldData extends WorldSavedData
 {	
-	public FloocraftWorldData(String par1Str)
+	public FloocraftWorldData(String key)
 	{
-		super(par1Str);
+		super(key);
 	}
-
-	final static String key = DataReference.MODID;
 	
-	public List<String>placenamelist = new ArrayList<String>();
-	public List<Integer>xcoordlist = new ArrayList<Integer>();
-    public List<Integer>ycoordlist = new ArrayList<Integer>();
-    public List<Integer>zcoordlist = new ArrayList<Integer>();
+	public final List<String>placenamelist = new ArrayList<String>();
+	public final List<Integer>xcoordlist = new ArrayList<Integer>();
+    public final List<Integer>ycoordlist = new ArrayList<Integer>();
+    public final List<Integer>zcoordlist = new ArrayList<Integer>();
 	
 	public static FloocraftWorldData forWorld(World world)
 	{
         //Retrieves the FloocraftWorldData instance for the given world, creating it if necessary
 		MapStorage storage = world.perWorldStorage;
-		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, key);
+		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, DataReference.MODID);
 		if (data == null)
 		{
             FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
-			data = new FloocraftWorldData(key);
-			storage.setData(key, data);
+			data = new FloocraftWorldData(DataReference.MODID);
+			storage.setData(DataReference.MODID, data);
 		}
 		return data;
 	}
@@ -90,7 +88,7 @@ public class FloocraftWorldData extends WorldSavedData
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		NBTTagList nbttaglist = nbt.getTagList(key, 10);
+		NBTTagList nbttaglist = nbt.getTagList(DataReference.MODID, 10);
 		for(int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbt1 = nbttaglist.getCompoundTagAt(i);
@@ -114,7 +112,7 @@ public class FloocraftWorldData extends WorldSavedData
 			nbt1.setInteger("Z", zcoordlist.get(i));
 			nbttaglist.appendTag(nbt1);
 		}
-		nbt.setTag(key, nbttaglist);
+		nbt.setTag(DataReference.MODID, nbttaglist);
 	}
 	
 	public MessageFireplaceList assembleNewFireplaceList(World w)

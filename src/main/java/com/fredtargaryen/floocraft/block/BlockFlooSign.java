@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,7 +21,7 @@ import java.util.Random;
 
 public class BlockFlooSign extends BlockSign
 {
-	public IIcon tileIcon;
+	private IIcon tileIcon;
 
 	public BlockFlooSign()
 	{
@@ -75,15 +76,37 @@ public class BlockFlooSign extends BlockSign
     @Override
     public void onNeighborBlockChange(World w, int x, int y, int z, Block b)
     {
-        if(!w.isRemote)
+        int backX = x;
+        int backZ = z;
+        int m = w.getBlockMetadata(x, y, z);
+        switch(m)
         {
-            TileEntityFireplace t = (TileEntityFireplace) w.getTileEntity(x, y, z);
-            if(t.getConnected())
+            case 2:
             {
-                TileEntityFireplace.removeLocation(w, x, y, z, w.getBlockMetadata(x, y, z));
+                backZ++;
+                break;
+            }
+            case 3:
+            {
+                backZ--;
+                break;
+            }
+            case 4:
+            {
+                backX++;
+                break;
+            }
+            case 5:
+            {
+                backX--;
+                break;
             }
         }
-        super.onNeighborBlockChange(w, x, y, z, b);
+        if (!w.getBlock(backX, y, backZ).isNormalCube())
+        {
+            this.dropBlockAsItem(w, x, y, z, m, 0);
+            w.setBlockToAir(x, y, z);
+        }
     }
 	
 	@Override
@@ -133,9 +156,37 @@ public class BlockFlooSign extends BlockSign
             TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(x, y, z);
             if (tef.getConnected())
             {
-                TileEntityFireplace.removeLocation(w, x, y, z, m);
+                //Finds the fireplace position from the sign position and rotation
+                //The block below the block at the top of the fireplace
+                int newX = x;
+                int newZ = z;
+                switch(m)
+                {
+                    case 2:
+                    {
+                        newZ++;
+                        break;
+                    }
+                    case 3:
+                    {
+                        newZ--;
+                        break;
+                    }
+                    case 4:
+                    {
+                        newX++;
+                        break;
+                    }
+                    case 5:
+                    {
+                        newX--;
+                        break;
+                    }
+                }
+                int newY = TileEntityFireplace.iterateDownFromTop(w, newX, y, newZ);
+                FloocraftWorldData.forWorld(w).removeLocation(newX, newY, newZ);
             }
         }
-        w.removeTileEntity(x, y, z);
+        super.breakBlock(w, x, y, z, b, m);
     }
 }

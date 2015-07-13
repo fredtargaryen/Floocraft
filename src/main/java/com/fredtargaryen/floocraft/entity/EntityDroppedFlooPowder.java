@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.entity;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -38,13 +39,11 @@ public class EntityDroppedFlooPowder extends EntityItem
 		int intX = MathHelper.floor_double(this.posX);
         int intY = MathHelper.floor_double(this.posY - 0.20000000298023224D - (double)this.yOffset) + 1;
         int intZ = MathHelper.floor_double(this.posZ);
-		if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.fire)
-		{
-            if(this.worldObj.getBlock(intX, intY + 1, intZ) == Blocks.air)
-            {
-			    this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
-            }
-            this.worldObj.playSound((double)intX, (double)intY, (double)intZ, "ftfloocraft:greened", 1.0F, 1.0F, true);
+		if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.fire) {
+			if (this.worldObj.getBlock(intX, intY + 1, intZ) == Blocks.air) {
+				this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
+				this.playSound(DataReference.MODID+":greened", 1.0F, 1.0F);
+			}
 			this.setDead();
 		}
 		else if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.torch)
