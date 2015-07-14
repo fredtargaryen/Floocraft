@@ -1,21 +1,25 @@
 /**
  * ===NEXT UP===
- * Fire model doesn't update when BlockState changes
- * Some faces of pots don't render when a block is adjacent (No idea)
- * HOW TO TORCH FLAMES?!?!???!?!?!? (No idea)
- * Update to latest Forge 1.8 and make necessary changes
- * Unusable fire bug
- * Peeking
+ * ConcurrentModificationException when teleporting
+ * Removed tp sound to check - doesn't seem to cause problems
+ * HOW TO TORCH FLAMES?!?!???!?!?!?!?!?!??!??!?!?!!??!?!!!?!?!?!!?
  */
-
 package com.fredtargaryen.floocraft;
+
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
-import com.fredtargaryen.floocraft.item.*;
+import com.fredtargaryen.floocraft.item.ItemFlooPowder;
+import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.TileEntityGreenFlames;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -24,11 +28,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 @Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
 public class FloocraftBase
@@ -43,7 +42,8 @@ public class FloocraftBase
      * Declare all blocks here
      */
     public static Block blockFlooTorch;
-    public static Block greenFlames;
+    public static Block greenFlamesBusy;
+    public static Block greenFlamesIdle;
     //Temporary green flames which "usher you out" of the new fireplace. Disappear after 100 ticks.
     //Also used to check if a fireplace is valid at that time - if using it for this purpose, make
     //sure to immediately set it back to whatever block it was before.
@@ -77,13 +77,17 @@ public class FloocraftBase
     	        .setLightLevel(1.0F)
     	        .setCreativeTab(CreativeTabs.tabDecorations);
     	
-    	greenFlames = new GreenFlames()
-                .setUnlocalizedName("greenflames")
+    	greenFlamesBusy = new GreenFlamesBusy()
+                .setUnlocalizedName("greenflamesbusy")
                 .setLightLevel(1.0F);
 
-        greenFlamesTemp = new GreenFlamesTemp()
-                .setUnlocalizedName("greenflamestemp")
+        greenFlamesIdle = new GreenFlamesIdle()
+                .setUnlocalizedName("greenflamesidle")
                 .setLightLevel(0.875F);
+
+        greenFlamesTemp = new GreenFlamesTemp()
+                .setUnlocalizedName("greenflamesbusy")
+                .setLightLevel(1.0F);
     	
     	blockFlooSign = new BlockFlooSign();
 
@@ -117,14 +121,15 @@ public class FloocraftBase
                 .setCreativeTab(CreativeTabs.tabMisc);
 
     	itemFlooSign = new ItemFlooSign()
-    	.setMaxStackSize(16)
-    	.setUnlocalizedName("itemfloosign")
-    	.setCreativeTab(CreativeTabs.tabDecorations);
+                .setMaxStackSize(16)
+                .setUnlocalizedName("itemfloosign")
+                .setCreativeTab(CreativeTabs.tabDecorations);
 
         //Registering blocks
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
         GameRegistry.registerBlock(blockFlooTorch, "flootorch");
-        GameRegistry.registerBlock(greenFlames, "greenflames");
+        GameRegistry.registerBlock(greenFlamesBusy, "greenflamesbusy");
+        GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
         GameRegistry.registerBlock(greenFlamesTemp, "greenflamestemp");
         GameRegistry.registerBlock(floowerPot, "floowerpot");
 
@@ -139,6 +144,7 @@ public class FloocraftBase
         //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
+        GameRegistry.registerTileEntity(TileEntityGreenFlames.class, "fireTE");
 
         //Adding recipes
         //Infinite powder is creative only so no recipe

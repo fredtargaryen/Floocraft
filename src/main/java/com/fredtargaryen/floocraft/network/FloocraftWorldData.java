@@ -2,31 +2,28 @@ package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlames;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.MapStorage;
+import net.minecraftforge.fml.common.FMLLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FloocraftWorldData extends WorldSavedData
 {	
-	public FloocraftWorldData(String par1Str)
+	public FloocraftWorldData(String key)
 	{
-		super(par1Str);
+		super(key);
 	}
-
-	final static String key = DataReference.MODID;
 	
 	public List<String>placenamelist = new ArrayList<String>();
 	public List<Integer>xcoordlist = new ArrayList<Integer>();
@@ -37,12 +34,12 @@ public class FloocraftWorldData extends WorldSavedData
 	{
         //Retrieves the FloocraftWorldData instance for the given world, creating it if necessary
 		MapStorage storage = world.getPerWorldStorage();
-		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, key);
+		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, DataReference.MODID);
 		if (data == null)
 		{
             FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
-			data = new FloocraftWorldData(key);
-			storage.setData(key, data);
+			data = new FloocraftWorldData(DataReference.MODID);
+			storage.setData(DataReference.MODID, data);
 		}
 		return data;
 	}
@@ -91,7 +88,7 @@ public class FloocraftWorldData extends WorldSavedData
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		NBTTagList nbttaglist = nbt.getTagList(key, 10);
+		NBTTagList nbttaglist = nbt.getTagList(DataReference.MODID, 10);
 		for(int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbt1 = nbttaglist.getCompoundTagAt(i);
@@ -115,7 +112,7 @@ public class FloocraftWorldData extends WorldSavedData
 			nbt1.setInteger("Z", zcoordlist.get(i));
 			nbttaglist.appendTag(nbt1);
 		}
-		nbt.setTag(key, nbttaglist);
+		nbt.setTag(DataReference.MODID, nbttaglist);
 	}
 	
 	public MessageFireplaceList assembleNewFireplaceList(World w)
@@ -131,14 +128,14 @@ public class FloocraftWorldData extends WorldSavedData
             BlockPos dest = new BlockPos(xcoordlist.get(x), ycoordlist.get(x), zcoordlist.get(x));
 			Block b = w.getBlockState(dest).getBlock();
             boolean ok = true;
-            if(!(b instanceof GreenFlames) && b instanceof BlockFire)
+            if(b == Blocks.fire)
             {
                 w.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
                 GreenFlamesTemp gfit = (GreenFlamesTemp) w.getBlockState(dest).getBlock();
                 ok = gfit.approveOrDenyTeleport(w, dest);
                 w.setBlockState(dest, Blocks.fire.getDefaultState());
             }
-            else if(!(b instanceof GreenFlames))
+            else if(!(b instanceof GreenFlamesBusy))
             {
                 ok = false;
             }

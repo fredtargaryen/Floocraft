@@ -2,18 +2,26 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import io.netty.buffer.ByteBuf;
 
 public class MessageDoGreenFlash implements IMessage, IMessageHandler<MessageDoGreenFlash, IMessage>
 {
 	@Override
 	public IMessage onMessage(MessageDoGreenFlash message, MessageContext ctx)
 	{
-        ((ClientProxy) FloocraftBase.proxy).flash.start();
-        return null;
+		IThreadListener mainThread = Minecraft.getMinecraft();
+		mainThread.addScheduledTask(new Runnable() {
+			@Override
+			public void run() {
+				((ClientProxy) FloocraftBase.proxy).flash.start();
+			}
+		});
+		return null;
      }
 
 	@Override

@@ -1,11 +1,11 @@
 package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.block.BlockFlooSign;
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
-import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.BlockPos;
@@ -30,7 +30,7 @@ public class TileEntityFireplace extends TileEntitySign
         if(par5World.isRemote)
         {
          	// We are on the client side.
-            BlockPos finalpos = iterateDownFromTop(par5World, pos.offset(((EnumFacing)par5World.getBlockState(pos).getValue(BlockFlooSign.FACING)).getOpposite()));
+            BlockPos finalpos = iterateDownFromSign(par5World, pos);
         	MessageAddFireplace m = new MessageAddFireplace();
         	m.name = name;
         	m.x = finalpos.getX();
@@ -38,17 +38,7 @@ public class TileEntityFireplace extends TileEntitySign
         	m.z = finalpos.getZ();
         	PacketHandler.INSTANCE.sendToServer(m);
         }
-        //else, we are on the Bukkit or server side.
    	}
-   
-	public static void removeLocation(World w, BlockPos pos, EnumFacing facing)
-	{
-        if(!w.isRemote)
-        {
-            BlockPos finalPos = iterateDownFromTop(w, pos.offset((EnumFacing)w.getBlockState(pos).getValue(BlockFlooSign.FACING)));
-            FloocraftWorldData.forWorld(w).removeLocation(finalPos.getX(), finalPos.getY(), finalPos.getZ());
-        }
-	}
 	
 	@Override
 	public EntityPlayer getPlayer()
@@ -66,14 +56,15 @@ public class TileEntityFireplace extends TileEntitySign
     }
 
     //Only call if world is remote
-    private static BlockPos iterateDownFromTop(World w, BlockPos pos)
+    private static BlockPos iterateDownFromSign(World w, BlockPos pos)
     {
-        pos = pos.offset(EnumFacing.DOWN, 1);
-        while((w.isAirBlock(pos) || w.getBlockState(pos) instanceof BlockFire) && pos.getY() > -1)
+        //The block below the block at the top of the fireplace
+        pos = pos.offset(((EnumFacing)w.getBlockState(pos).getValue(BlockFlooSign.FACING)).getOpposite()).offset(EnumFacing.DOWN, 1);
+        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.fire || w.getBlockState(pos).getBlock() instanceof GreenFlamesBusy) && pos.getY() > -1)
         {
             pos = pos.offset(EnumFacing.DOWN, 1);
         }
-        return pos.up(1);
+        return pos.offset(EnumFacing.UP, 1);
     }
 
     public void setConnected(boolean b)

@@ -11,13 +11,13 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerFloowerPot extends Container
 {
-    protected TileEntityFloowerPot potTE;
+    private final TileEntityFloowerPot potTE;
 
     private class PowderSlot extends Slot
     {
-        public PowderSlot(IInventory par1IInventory, int par2, int par3, int par4)
+        public PowderSlot(IInventory par1IInventory)
         {
-            super(par1IInventory, par2, par3, par4);
+            super(par1IInventory, 0, 80, 35);
         }
 
         /**
@@ -34,7 +34,7 @@ public class ContainerFloowerPot extends Container
         potTE = te;
         //the Slot constructor takes the IInventory and the slot number in that it binds to
         //and the x-y coordinates it resides on-screen
-        addSlotToContainer(new PowderSlot(potTE, 0, 80, 35));
+        addSlotToContainer(new PowderSlot(potTE));
         //commonly used vanilla code that adds the player's inventory
         bindPlayerInventory(inventoryPlayer);
     }
@@ -45,7 +45,7 @@ public class ContainerFloowerPot extends Container
         return potTE.isUseableByPlayer(player);
     }
 
-    protected void bindPlayerInventory(InventoryPlayer inventoryPlayer)
+    private void bindPlayerInventory(InventoryPlayer inventoryPlayer)
     {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {

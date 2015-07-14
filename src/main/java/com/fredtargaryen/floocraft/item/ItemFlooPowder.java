@@ -1,13 +1,9 @@
 package com.fredtargaryen.floocraft.item;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.BlockFlooTorch;
-import com.fredtargaryen.floocraft.block.GreenFlames;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
-import net.minecraft.block.BlockTorch;
-import net.minecraft.block.state.IBlockState;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -17,12 +13,14 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
 public class ItemFlooPowder extends Item
 {
-    private byte concentration;
+    private final byte concentration;
 
     public byte getConcentration()
     {
@@ -37,16 +35,14 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if (worldIn.getBlockState(pos.up(1)) == Blocks.fire)
+		if (worldIn.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() == Blocks.fire)
 		{
-            if(worldIn.getBlockState(pos.up(2)).getBlock() == Blocks.air)
+            if(worldIn.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() == Blocks.air)
             {
-                worldIn.setBlockState(pos.up(1), FloocraftBase.greenFlames.getDefaultState()
-                        .withProperty(GreenFlames.AGE, (int)this.concentration)
-                        .withProperty(GreenFlames.ACTIVE, Boolean.valueOf(true)), 2);
+                worldIn.setBlockState(pos.offset(EnumFacing.UP, 1), FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int)this.concentration), 2);
+                worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), DataReference.MODID + ":greened", 1.0F, 1.0F, true);
             }
 			--stack.stackSize;
-            worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), "ftfloocraft:greened", 1.0F, 1.0F, true);
 			return true;
 		}
 		return false;

@@ -1,20 +1,18 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlames;
+import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.network.PacketHandler;
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.Random;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageTeleportEntity, IMessage>
 {
@@ -31,26 +29,33 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		boolean tpApproved = false;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
+		//Makes sure the destination block is fire, busy or idle flames, in a valid fireplace
         BlockPos dest = new BlockPos(destX, destY, destZ);
-		Block destBlock = world.getBlockState(new BlockPos(destX, destY, destZ)).getBlock();
+		Block destBlock = world.getBlockState(dest).getBlock();
 		if(destBlock == Blocks.fire)
 		{
-            world.setBlockState(new BlockPos(destX, destY, destZ), FloocraftBase.greenFlamesTemp.getDefaultState());
-            GreenFlamesTemp gfit = (GreenFlamesTemp) world.getBlockState(new BlockPos(destX, destY, destZ));
-            if(gfit.approveOrDenyTeleport(world, dest))
+            world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+            GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
+            if(gft.approveOrDenyTeleport(world, dest))
             {
                 tpApproved = true;
             }
             else
             {
-                world.setBlockState(new BlockPos(destX, destY, destZ), Blocks.fire.getDefaultState());
+                world.setBlockState(dest, Blocks.fire.getDefaultState());
                 return null;
             }
 		}
-        if(destBlock instanceof GreenFlames)
+        if(destBlock instanceof GreenFlamesBusy)
         {
             tpApproved = true;
         }
+		//Makes sure the player going is in busy or idle flames
+		Block initBlock = world.getBlockState(new BlockPos(initX, initY, initZ)).getBlock();
+		if(!(initBlock instanceof GreenFlamesBusy && initBlock != FloocraftBase.greenFlamesTemp))
+		{
+			tpApproved = false;
+		}
         if(tpApproved)
 		{
             PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
@@ -58,12 +63,18 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 			{
 				player.mountEntity(null);
 			}
-            Random rand = new Random();
-            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, rand.nextFloat() * 360, player.rotationPitch);
+            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
     		player.fallDistance = 0.0F;
-            BlockPos pos = new BlockPos(initX, initY, initZ);
-            int m = (Integer)world.getBlockState(pos).getValue(GreenFlames.AGE);
-    		world.setBlockState(pos, FloocraftBase.greenFlames.getDefaultState().withProperty(GreenFlames.AGE, m == 9 ? m : m - 1), 2);
+            BlockPos init = new BlockPos(initX, initY, initZ);
+            int m = (Integer)world.getBlockState(init).getValue(GreenFlamesBusy.AGE);
+			if(m < 2)
+			{
+				world.setBlockState(init, Blocks.fire.getDefaultState());
+			}
+			else
+			{
+				world.setBlockState(init, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, m == 9 ? 9 : m - 1), 2);
+			}
 		}
 		return null;
 	}

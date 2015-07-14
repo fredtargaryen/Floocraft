@@ -3,17 +3,19 @@ package com.fredtargaryen.floocraft.proxy;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiFlash;
-import com.fredtargaryen.floocraft.client.ticker.*;
+import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.TileEntityGreenFlames;
+import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlamesRenderer;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityPotRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
 
 public class ClientProxy extends CommonProxy
 {
@@ -25,6 +27,7 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGreenFlames.class, new TileEntityFlamesRenderer());
     }
 
     @Override

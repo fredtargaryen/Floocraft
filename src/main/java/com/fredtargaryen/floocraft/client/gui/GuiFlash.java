@@ -1,18 +1,17 @@
 package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.DataReference;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
-import java.lang.Math;
 
 public class GuiFlash extends Gui
 {
-    private Minecraft mc;
+    private final Minecraft mc;
     private byte ticks;
 	
     public GuiFlash(Minecraft mc){this.mc = mc;this.ticks = -1;}
@@ -22,7 +21,7 @@ public class GuiFlash extends Gui
         if(this.ticks == -1)
         {
             this.ticks = 0;
-            this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("ftfloocraft:tp"), 1.0F));
+            this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation(DataReference.MODID+":tp"), 1.0F));
         }
     }
 

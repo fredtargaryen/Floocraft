@@ -7,18 +7,17 @@ import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
 import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,20 +25,13 @@ import java.util.List;
 public class GuiTeleport extends GuiScreen
 {
     /** The title string that is displayed in the top-centre of the screen. */
-    protected String screenTitle = "===Choose a destination===";
+    private static final String screenTitle = "===Choose a destination===";
     private String status;
-    //private boolean isPeeking;
-
-    //Peek
-    //private GuiButton peekBtn;
 
     //"Go!".
     private GuiButton goBtn;
     //"Cancel"
     private GuiButton cancelBtn;
-
-    //"Done" (when peeking)
-    //private GuiButton doneBtn;
     
     private List<String> placenamelist = new ArrayList<String>();
 	private List<Integer> xcoordlist = new ArrayList<Integer>();
@@ -49,19 +41,17 @@ public class GuiTeleport extends GuiScreen
 	
 	private boolean receivedLists;
 
-    //private EntityLivingBase prevCameraman;
-
     private PlaceList scrollWindow;
     
-	private int initX, initY, initZ, idSelected;
+	private final int initX;
+    private final int initY;
+    private final int initZ;
 	
     public GuiTeleport(int x, int y, int z)
     {
     	this.initX = x;
     	this.initY = y;
     	this.initZ = z;
-        this.idSelected = -4;
-        //this.isPeeking = false;
         this.refresh();
     }
     
@@ -70,32 +60,20 @@ public class GuiTeleport extends GuiScreen
      */
     public void initGui()
     {
-        //if(this.isPeeking)
-        //{
-            //this.buttonList.clear();
-            //Keyboard.enableRepeatEvents(true);
-            //this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 144, 200, 20, "Done");
-            //this.buttonList.add(doneBtn);
-        //}
-        //else {
-            this.buttonList.clear();
-            Keyboard.enableRepeatEvents(true);
-            GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
-            refreshButton.enabled = false;
-            //this.buttonList.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 100, this.height / 4 + 144, 64, 20, "Peek"));
-            //this.peekBtn.enabled = false;
-            //this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 32, this.height / 4 + 144, 64, 20, "Go!"));
+        this.buttonList.clear();
+        Keyboard.enableRepeatEvents(true);
+        GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
+        refreshButton.enabled = false;
         this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 100, this.height / 4 + 144, 98, 20, "Go!"));
-            this.goBtn.enabled = false;
-            //this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 36, this.height / 4 + 144, 64, 20, "Cancel"));
+        this.goBtn.enabled = false;
         this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height / 4 + 144, 98, 20, "Cancel"));
-            if (receivedLists) {
-                refreshButton.enabled = true;
-                this.scrollWindow = new PlaceList();
-            }
-            this.buttonList.add(refreshButton);
+        if (receivedLists)
+        {
+            refreshButton.enabled = true;
+            this.scrollWindow = new PlaceList();
         }
-    //}
+        this.buttonList.add(refreshButton);
+    }
 
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
@@ -110,40 +88,29 @@ public class GuiTeleport extends GuiScreen
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen() {
-        //if (this.isPeeking) {
-            //this.status = "";
-        //} else {
-            super.updateScreen();
-            if (!this.receivedLists) {
-                this.status = "Loading...";
-            } else //if the lists were received...
-            {
-                //if they are empty...
-                if (this.placenamelist.size() == 0) {
-                    this.status = "No places found";
-                } else {
-                    this.status = "";
-                }
+    public void updateScreen()
+    {
+        super.updateScreen();
+        if (!this.receivedLists)
+        {
+            this.status = "Loading...";
+        }
+        else //if the lists were received...
+        {
+            //if they are empty...
+            if (this.placenamelist.size() == 0) {
+                this.status = "No places found";
+            } else {
+                this.status = "";
             }
         }
-    //}
+    }
 
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
     protected void actionPerformed(GuiButton par1GuiButton)
     {
-       //if(this.isPeeking){
-           // if(par1GuiButton.enabled){
-                //if(par1GuiButton.id == 0)
-                //{
-                   //this.isPeeking = false;
-                   // this.mc.renderViewEntity = this.prevCameraman;
-                   // this.refresh();
-                //}
-            //}
-        //}else{
         if (par1GuiButton.enabled)
         {
             //Cancel
@@ -163,9 +130,9 @@ public class GuiTeleport extends GuiScreen
                 int initX = this.initX;
                 int initY = this.initY;
                 int initZ = this.initZ;
-                int destX = xcoordlist.get(this.idSelected);
-                int destY = ycoordlist.get(this.idSelected);
-                int destZ = zcoordlist.get(this.idSelected);
+                int destX = xcoordlist.get(this.scrollWindow.getSelectedElement());
+                int destY = ycoordlist.get(this.scrollWindow.getSelectedElement());
+                int destZ = zcoordlist.get(this.scrollWindow.getSelectedElement());
                 try
                 {
                     if(!(initX == destX && initY == destY && initZ == destZ))
@@ -186,33 +153,8 @@ public class GuiTeleport extends GuiScreen
                 }
                 this.actionPerformed(GuiTeleport.this.cancelBtn);
             }
-            //Peek (id -4)
-            //else
-            //{
-                //int initX = this.initX;
-//                int initY = this.initY;
-//                int initZ = this.initZ;
-//                int destX = xcoordlist.get(this.idSelected);
-//                int destY = ycoordlist.get(this.idSelected);
-//                int destZ = zcoordlist.get(this.idSelected);
-//                if(!(initX == destX && initY == destY && initZ == destZ))
-//                {
-//                    this.isPeeking = true;
-//                    this.prevCameraman = this.mc.thePlayer;
-//                    EntityFaceInFire efif = new EntityFaceInFire(this.mc.theWorld);
-//                    //Change these lines later
-//                    efif.prevRotationPitch = this.mc.thePlayer.prevRotationPitch;
-//                    efif.prevRotationYaw = this.mc.thePlayer.prevRotationYaw;
-//                    efif.rotationYawHead = this.mc.thePlayer.rotationYawHead;
-//
-//                    efif.prevPosX = destX;
-//                    efif.prevPosY = destY;
-//                    efif.prevPosZ = destZ;
-//                    efif.setPositionAndUpdate((double)destX + 0.5, (double)destY + 0.5, (double)destZ + 0.5);
-//                    this.mc.renderViewEntity = efif;
-//                }
-            }
         }
+    }
 
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
@@ -230,30 +172,28 @@ public class GuiTeleport extends GuiScreen
      */
     @Override
     @SideOnly(Side.CLIENT)
-    public void drawScreen(int par1, int par2, float par3)
+    public void drawScreen(int mousex, int mousey, float partialticks)
     {
-        //if(!this.isPeeking) {
-            this.drawCenteredString(this.fontRendererObj,
-                    this.status,
-                    this.width / 2,
-                    this.height / 4 + 48,
-                    13158600);
-            GL11.glPushMatrix();
-            GL11.glTranslatef((float) (this.width / 2), 0.0F, 50.0F);
-            float f1 = 93.75F;
-            GL11.glScalef(-f1, -f1, -f1);
-            GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glPopMatrix();
-            if (this.scrollWindow != null) {
-                this.scrollWindow.drawScreen(par1, par2, par3);
-            }
-            this.drawCenteredString(this.fontRendererObj,
-                    this.screenTitle,
-                    this.width / 2,
-                    15,
-                    16777215);
-        //}
-        super.drawScreen(par1, par2, par3);
+        this.drawCenteredString(this.fontRendererObj,
+                this.status,
+                this.width / 2,
+                this.height / 4 + 48,
+                13158600);
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float) (this.width / 2), 0.0F, 50.0F);
+        float f1 = 93.75F;
+        GL11.glScalef(-f1, -f1, -f1);
+        GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
+        GL11.glPopMatrix();
+        if (this.scrollWindow != null) {
+            this.scrollWindow.drawScreen(mousex, mousey, partialticks);
+        }
+        this.drawCenteredString(this.fontRendererObj,
+                screenTitle,
+                this.width / 2,
+                15,
+                16777215);
+        super.drawScreen(mousex, mousey, partialticks);
     }
     
     private void refresh()
@@ -295,16 +235,36 @@ public class GuiTeleport extends GuiScreen
         return false;
     }
 
+    @Override
+    public void handleMouseInput()
+    {
+        try
+        {
+            if(this.scrollWindow != null)
+            {
+                this.scrollWindow.handleMouseInput();
+            }
+            super.handleMouseInput();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     @SideOnly(Side.CLIENT)
     class PlaceList extends GuiSlot
     {
-        private final java.util.List l = Lists.newArrayList();
-        private static final String __OBFID = "CL_00000699";
-
         public PlaceList()
         {
             super(GuiTeleport.this.mc, GuiTeleport.this.width, GuiTeleport.this.height, 32, GuiTeleport.this.height - 65 + 4, 18);
             this.setShowSelectionBox(true);
+        }
+
+        @Override
+        public int getListWidth()
+        {
+            return 380;
         }
 
         protected int getSize()
@@ -315,19 +275,17 @@ public class GuiTeleport extends GuiScreen
         /**
          * The element in the slot that was clicked, boolean for whether it was double clicked or not
          */
-        protected void elementClicked(int id, boolean p_148144_2_, int p_148144_3_, int p_148144_4_)
+        protected void elementClicked(int id, boolean isDoubleClick, int mousex, int mousey)
         {
-            GuiTeleport.this.idSelected = id;
-            GuiTeleport.this.goBtn.enabled = GuiTeleport.this.enabledlist.get(GuiTeleport.this.idSelected);
-            //GuiTeleport.this.goBtn.enabled = GuiTeleport.this.peekBtn.enabled = GuiTeleport.this.enabledlist.get(GuiTeleport.this.idSelected);
+            GuiTeleport.this.goBtn.enabled = GuiTeleport.this.enabledlist.get(id);
         }
 
         /**
          * Returns true if the element passed in is currently selected
          */
-        protected boolean isSelected(int p_148131_1_)
+        protected boolean isSelected(int id)
         {
-            return p_148131_1_ == GuiTeleport.this.idSelected && GuiTeleport.this.enabledlist.get(idSelected);
+            return id == this.selectedElement;
         }
 
         /**
@@ -352,31 +310,34 @@ public class GuiTeleport extends GuiScreen
         public void drawScreen(int i, int j, float f)
         {
             super.drawScreen(i, j, f);
-            this.flooverlayBackground(0, this.top, 255, 255);
-            this.flooverlayBackground(this.bottom, this.height, 255, 255);
+            this.flooverlayBackground(0, this.top);
+            this.flooverlayBackground(this.bottom, this.height);
         }
         /**
          * Overlays the background to hide scrolled items
          */
-        private void flooverlayBackground(int p_148136_1_, int p_148136_2_, int p_148136_3_, int p_148136_4_)
+        private void flooverlayBackground(int p_148136_1_, int p_148136_2_)
         {
             WorldRenderer wr = Tessellator.getInstance().getWorldRenderer();
             GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             float f = 32.0F;
             wr.startDrawingQuads();
-            //wr.setColorRGBA_I(4210752, p_148136_4_);
             wr.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
             wr.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
-            //wr.setColorRGBA_I(4210752, p_148136_3_);
-            wr.addVertexWithUV((double)(this.left + this.width), (double)p_148136_1_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_1_ / f));
-            wr.addVertexWithUV((double)this.left, (double)p_148136_1_, 0.0D, 0.0D, (double)((float)p_148136_1_ / f));
+            wr.addVertexWithUV((double) (this.left + this.width), (double) p_148136_1_, 0.0D, (double) ((float) this.width / f), (double) ((float)p_148136_1_ / f));
+            wr.addVertexWithUV((double) this.left, (double) p_148136_1_, 0.0D, 0.0D, (double) ((float)p_148136_1_ / f));
             Tessellator.getInstance().draw();
         }
 
         @Override
         protected void drawContainerBackground(Tessellator tessellator)
         {
+        }
+
+        public int getSelectedElement()
+        {
+            return this.selectedElement;
         }
     }
 }

@@ -6,7 +6,7 @@ import net.minecraft.client.model.ModelSign;
 public class ModelFlooSign extends ModelSign
 {
 	/** The board on a sign that has the writing on it. */
-    public ModelRenderer signBoard = new ModelRenderer(this, 0, 0);
+    private final ModelRenderer signBoard = new ModelRenderer(this, 0, 0);
     
     public ModelFlooSign()
     {

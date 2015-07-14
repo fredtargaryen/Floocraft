@@ -17,12 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.8-1.0"
+version = "1.8-0.2"
 group= "com.fredtargaryen.floocraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Floocraft"
 
 minecraft {
-    version = "1.8-11.14.1.1357"
+    version = "1.8-11.14.3.1450"
     runDir = "eclipse"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -66,5 +66,12 @@ processResources
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+apply plugin: 'idea'
+idea {
+    module {
+        inheritOutputDirs = true
     }
 }

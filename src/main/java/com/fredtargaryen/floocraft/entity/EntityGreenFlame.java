@@ -3,21 +3,20 @@ package com.fredtargaryen.floocraft.entity;
 import com.fredtargaryen.floocraft.DataReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.world.World;
 
 @SideOnly(Side.CLIENT)
 public class EntityGreenFlame extends EntityFX
 {
     /** the scale of the flame FX */
-    private float flameScale;
-    private static final ResourceLocation flame = new ResourceLocation(DataReference.MODID, "textures/particle/torchflame.png");
+    private final float flameScale;
+    private static final ResourceLocation flame = new ResourceLocation(DataReference.MODID+":textures/particle/torchflame.png");
 
     public EntityGreenFlame(World w, double x, double y, double z)
     {
@@ -29,6 +28,8 @@ public class EntityGreenFlame extends EntityFX
         this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
         this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
         this.noClip = true;
+        //Spawns a white cube
+        //w.spawnEntityInWorld(this);
     }
 
     public int getBrightnessForRender(float p_70070_1_)

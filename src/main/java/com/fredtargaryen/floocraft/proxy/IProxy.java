@@ -2,9 +2,9 @@ package com.fredtargaryen.floocraft.proxy;
 
 public interface IProxy
 {
-    public void registerRenderers();
+    void registerRenderers();
 
-    public void registerModels();
+    void registerModels();
 
-    public void registerTickHandlers();
+    void registerTickHandlers();
 }

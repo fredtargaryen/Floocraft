@@ -2,7 +2,9 @@ package com.fredtargaryen.floocraft.tileentity.specialrenderer;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -10,11 +12,6 @@ import org.lwjgl.opengl.GL11;
 
 public class TileEntityPotRenderer extends TileEntitySpecialRenderer
 {
-    public TileEntityPotRenderer()
-    {
-        super();
-    }
-
     @Override
     //"Relative" means distance on this axis from block to player's eye
     public void renderTileEntityAt(TileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage)

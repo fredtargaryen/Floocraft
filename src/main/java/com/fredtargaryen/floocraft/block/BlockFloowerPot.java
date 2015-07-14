@@ -130,7 +130,7 @@ public class BlockFloowerPot extends BlockContainer
                                 if (shouldPut)
                                 {
                                     Item i = stack.getItem();
-                                    worldIn.setBlockState(pos, FloocraftBase.greenFlames.getDefaultState().withProperty(GreenFlames.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
+                                    worldIn.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
                                     stack.stackSize--;
                                     pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                 }

@@ -2,10 +2,9 @@
 /BLOCKS
 tile.blockfloosign.name=Floo Sign
 tile.flootorch.name=Floo Torch
-tile.greenflamesbusylower.name=Green Flames
-tile.greenflamesbusyhigher.name=Green Flames
+tile.greenflamesbusy.name=Green Flames
+tile.greenflamestemp.name=Green Flames
 tile.greenflamesidle.name=Green Flames
-tile.greenflamesidletemp.name=Green Flames
 tile.floowerpot.name=Floower Pot
 
 /ITEMS

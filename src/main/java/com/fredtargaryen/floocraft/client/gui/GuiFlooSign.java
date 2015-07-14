@@ -4,17 +4,17 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.network.play.client.C12PacketUpdateSign;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -24,7 +24,7 @@ public class GuiFlooSign extends GuiScreen
     private String sameNameError = "";
 
     /** Reference to the sign object. */
-    public TileEntityFireplace fireplaceTE;
+    private final TileEntityFireplace fireplaceTE;
 
     /** Counts the number of screen updates. */
     private int updateCounter;
@@ -194,6 +194,7 @@ public class GuiFlooSign extends GuiScreen
         if(answer)
         {
             this.sameNameError = "";
+            //Tells the server that this sign should be connected
             MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
             BlockPos pos = this.fireplaceTE.getPos();
             m.x = pos.getX();
@@ -201,6 +202,7 @@ public class GuiFlooSign extends GuiScreen
             m.z = pos.getZ();
             m.isConnected = true;
             PacketHandler.INSTANCE.sendToServer(m);
+            //Adds the location to the server
             this.fireplaceTE.addLocation(pos, nameAsLine(this.fireplaceTE.signText), this.fireplaceTE.getWorld());
             this.fireplaceTE.markDirty();
             this.mc.displayGuiScreen(null);

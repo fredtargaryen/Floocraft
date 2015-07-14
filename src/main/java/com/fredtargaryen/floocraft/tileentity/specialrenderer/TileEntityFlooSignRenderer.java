@@ -2,12 +2,12 @@ package com.fredtargaryen.floocraft.tileentity.specialrenderer;
 
 import com.fredtargaryen.floocraft.model.ModelFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -18,7 +18,7 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
 	/** The ModelFlooSign instance used by the TileEntityFlooSignRenderer */
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();
     
-    public void renderTileEntitySignAt(TileEntityFireplace par1TileEntityFireplace, double par2, double par4, double par6, float par8)
+    private void renderTileEntitySignAt(TileEntityFireplace par1TileEntityFireplace, double par2, double par4, double par6)
     {
         GL11.glPushMatrix();
         float f1 = 0.6666667F;
@@ -81,6 +81,6 @@ public class TileEntityFlooSignRenderer extends TileEntitySignRenderer
     
     public void renderTileEntityAt(TileEntity te, double posX, double posZ, double pos, float unknown1, int unknown2)
     {
-        this.renderTileEntitySignAt((TileEntityFireplace)te, posX, posZ, pos, unknown1);
+        this.renderTileEntitySignAt((TileEntityFireplace)te, posX, posZ, pos);
     }
 }

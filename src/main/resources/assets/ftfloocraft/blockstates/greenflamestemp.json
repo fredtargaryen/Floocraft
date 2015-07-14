@@ -1,29 +1,17 @@
 {
     "variants": {
 
-        "normal": { "model": "" },
-        "inventory": { "model": "" },
+        "normal": { "model": "ftfloocraft:gf_busy" },
 
-        "active=true,age=0": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=1": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=2": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=3": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=4": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=5": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=6": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=7": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=8": { "model": "ftfloocraft:gf_idle" },
-        "active=true,age=9": { "model": "ftfloocraft:gf_idle" },
-
-        "active=false,age=0": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=1": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=2": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=3": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=4": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=5": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=6": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=7": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=8": { "model": "ftfloocraft:gf_idle" },
-        "active=false,age=9": { "model": "ftfloocraft:gf_idle" }
+        "age=0": { "model": "ftfloocraft:gf_busy" },
+        "age=1": { "model": "ftfloocraft:gf_busy" },
+        "age=2": { "model": "ftfloocraft:gf_busy" },
+        "age=3": { "model": "ftfloocraft:gf_busy" },
+        "age=4": { "model": "ftfloocraft:gf_busy" },
+        "age=5": { "model": "ftfloocraft:gf_busy" },
+        "age=6": { "model": "ftfloocraft:gf_busy" },
+        "age=7": { "model": "ftfloocraft:gf_busy" },
+        "age=8": { "model": "ftfloocraft:gf_busy" },
+        "age=9": { "model": "ftfloocraft:gf_busy" }
     }
 }
