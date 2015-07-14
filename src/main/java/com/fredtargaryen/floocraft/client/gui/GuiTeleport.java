@@ -195,7 +195,7 @@ public class GuiTeleport extends GuiScreen
             this.scrollWindow.drawScreen(par1, par2, par3);
         }
         this.drawCenteredString(this.fontRendererObj,
-                this.screenTitle,
+                screenTitle,
                 this.width / 2,
                 15,
                 16777215);
