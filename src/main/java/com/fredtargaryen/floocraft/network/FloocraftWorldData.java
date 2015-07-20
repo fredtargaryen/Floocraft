@@ -2,8 +2,8 @@ package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
-import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
@@ -130,14 +130,14 @@ public class FloocraftWorldData extends WorldSavedData
             int dz = zcoordlist.get(x);
 			Block b = w.getBlock(dx, dy, dz);
             boolean ok = true;
-            if(!(b instanceof GreenFlamesLowerBase) && b instanceof BlockFire)
+            if(!(b instanceof GreenFlamesBase) && b instanceof BlockFire)
             {
                 w.setBlock(dx, dy, dz, FloocraftBase.greenFlamesTemp);
-                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) w.getBlock(dx, dy, dz);
+                GreenFlamesTemp gfit = (GreenFlamesTemp) w.getBlock(dx, dy, dz);
                 ok = gfit.approveOrDenyTeleport(w, dx, dy, dz);
                 w.setBlock(dx, dy, dz, Blocks.fire);
             }
-            else if(!(b instanceof GreenFlamesLowerBase))
+            else if(!(b instanceof GreenFlamesBase))
             {
                 ok = false;
             }

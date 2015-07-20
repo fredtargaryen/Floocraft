@@ -1,8 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesIdleTemp;
-import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -33,7 +33,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		if(destBlock == Blocks.fire)
 		{
             world.setBlock(destX, destY, destZ, FloocraftBase.greenFlamesTemp);
-            GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) world.getBlock(destX, destY, destZ);
+            GreenFlamesTemp gfit = (GreenFlamesTemp) world.getBlock(destX, destY, destZ);
             if(gfit.approveOrDenyTeleport(world, destX, destY, destZ))
             {
                 tpApproved = true;
@@ -44,13 +44,13 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
                 return null;
             }
 		}
-        if(destBlock instanceof GreenFlamesLowerBase)
+        if(destBlock instanceof GreenFlamesBase)
         {
             tpApproved = true;
         }
 		//Makes sure the player going is in busy or idle flames
 		Block initBlock = world.getBlock(initX, initY, initZ);
-		if(!(initBlock instanceof GreenFlamesLowerBase && initBlock != FloocraftBase.greenFlamesTemp))
+		if(!(initBlock instanceof GreenFlamesBase && initBlock != FloocraftBase.greenFlamesTemp))
 		{
 			tpApproved = false;
 		}

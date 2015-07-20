@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class GreenFlamesIdle extends GreenFlamesLowerBase
+public class GreenFlamesIdle extends GreenFlamesBase
 {
 	public GreenFlamesIdle()
     {

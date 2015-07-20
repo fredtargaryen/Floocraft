@@ -37,7 +37,7 @@ public class FloocraftBase
      * Declare all blocks here
      */
     public static Block flooTorch;
-    public static Block greenFlamesBusyLower;
+    public static Block greenFlamesBusy;
     public static Block greenFlamesIdle;
     public static Block greenFlamesTemp;
     public static Block blockFlooSign;
@@ -68,7 +68,7 @@ public class FloocraftBase
     	.setLightLevel(1.0F)
     	.setCreativeTab(CreativeTabs.tabDecorations);
     	
-    	greenFlamesBusyLower = new GreenFlamesBusyLower(fireRenderID)
+    	greenFlamesBusy = new GreenFlamesBusy(fireRenderID)
     	.setBlockName("greenflamesbusylower")
     	.setLightLevel(1.0F);
     	
@@ -76,7 +76,7 @@ public class FloocraftBase
     	.setBlockName("greenflamesidle")
     	.setLightLevel(0.875F);
 
-        greenFlamesTemp = new GreenFlamesIdleTemp(fireRenderID)
+        greenFlamesTemp = new GreenFlamesTemp(fireRenderID)
         .setBlockName("greenflamesidletemp")
         .setLightLevel(0.875F);
     	
@@ -120,7 +120,7 @@ public class FloocraftBase
         //Register blocks with GameRegistry
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
         GameRegistry.registerBlock(flooTorch, "flootorch");
-        GameRegistry.registerBlock(greenFlamesBusyLower, "greenflamesbusylower");
+        GameRegistry.registerBlock(greenFlamesBusy, "greenflamesbusylower");
         GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
         GameRegistry.registerBlock(greenFlamesTemp, "greenflamesidletemp");
         GameRegistry.registerBlock(floowerPot, "floowerpot");

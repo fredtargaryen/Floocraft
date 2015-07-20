@@ -1,6 +1,6 @@
 package com.fredtargaryen.floocraft.client.renderer;
 
-import com.fredtargaryen.floocraft.block.GreenFlamesLowerBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -25,7 +25,7 @@ public class FireRenderer implements ISimpleBlockRenderingHandler
     {
         Tessellator t = Tessellator.instance;
         t.addTranslation(x, y, z);
-        IIcon iicon = ((GreenFlamesLowerBase)block).getFireIcon(0);
+        IIcon iicon = ((GreenFlamesBase)block).getFireIcon(0);
 
         t.setColorOpaque_F(1.0F, 1.0F, 1.0F);
         t.setBrightness(block.getMixedBrightnessForBlock(renderer.blockAccess,x, y, z));

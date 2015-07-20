@@ -133,7 +133,7 @@ public class BlockFloowerPot extends BlockContainer
                             if (par1World.getBlock(x, y, z) == Blocks.fire)
                             {
                                 par1World.setBlock(x, y, z, FloocraftBase.greenFlamesTemp);
-                                GreenFlamesIdleTemp gfit = (GreenFlamesIdleTemp) par1World.getBlock(x, y, z);
+                                GreenFlamesTemp gfit = (GreenFlamesTemp) par1World.getBlock(x, y, z);
                                 boolean shouldPut = gfit.approveOrDenyTeleport(par1World, x, y, z);
                                 par1World.setBlock(x, y, z, Blocks.fire);
                                 if (shouldPut)

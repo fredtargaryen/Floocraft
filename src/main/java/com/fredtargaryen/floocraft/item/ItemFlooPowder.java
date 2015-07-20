@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,20 +41,18 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int X, int Y, int Z, int par7, float par8, float par9, float par10)
 	{
-		if (par3World.getBlock(X, Y, Z) == Blocks.torch)
+		if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
 		{
-			par3World.setBlock(X, Y, Z, FloocraftBase.flooTorch);
-			--par1ItemStack.stackSize;
-			return true;
-		}
-		else if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
-		{
-            if(par3World.getBlock(X, Y + 2, Z) == Blocks.air)
-            {
-                par3World.extinguishFire(par2EntityPlayer, X, Y, Z, BlockDirectional.getDirection(par3World.getBlockMetadata(X, Y, Z)));
-                par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusyLower, this.concentration, 2);
-				par3World.playSound((double)X, (double)Y, (double)Z, DataReference.MODID+":greened", 1.0F, 1.0F, true);
-            }
+			par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesTemp, this.concentration, 2);
+			if(((GreenFlamesTemp)par3World.getBlock(X, Y+1, Z)).isInFireplace(par3World, X, Y+1, Z))
+			{
+				par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusy);
+				par3World.playSound((double) X, (double) Y, (double) Z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
+			}
+			else
+			{
+				par3World.setBlock(X, Y + 1, Z, Blocks.fire);
+			}
 			--par1ItemStack.stackSize;
 			return true;
 		}
