@@ -34,11 +34,6 @@ public class GreenFlamesTemp extends GreenFlamesBusy
         return 100;
     }
 
-    public boolean approveOrDenyTeleport(World par1World, BlockPos pos)
-    {
-        return this.isInFireplace(par1World, pos);
-    }
-
     @Override
     public void onBlockAdded(World par1World, BlockPos pos, IBlockState state)
     {

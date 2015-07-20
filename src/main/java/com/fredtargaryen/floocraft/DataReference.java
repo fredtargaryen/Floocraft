@@ -16,10 +16,13 @@ import net.minecraft.util.ResourceLocation;
  * When changing version number, change in: DataReference, build.gradle, mcmod.info
  *
  * Guide to the numbers in fireplace algs:
- *  _ _ _
- * |_|2|_|
- * |4|_|6|
- * |_|8|_|
+ *        N
+ *      _ _ _
+ *     |_|2|_|
+ *  W  |4|_|6|  E
+ *     |_|8|_|
+ *
+ *        S
  */
 
 public class DataReference
@@ -27,7 +30,7 @@ public class DataReference
     //MAIN MOD DETAILS
     public static final String MODID = "ftfloocraft";
     public static final String MODNAME = "Floocraft";
-    public static final String VERSION = "1.8-0.2";
+    public static final String VERSION = "1.8-0.3";
     //PROXY PATHS
     public static final String CLIENTPROXYPATH = "com.fredtargaryen.floocraft.proxy.ClientProxy";
     public static final String SERVERPROXYPATH = "com.fredtargaryen.floocraft.proxy.ServerProxy";
@@ -35,5 +38,4 @@ public class DataReference
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 
     public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID+":textures/blocks/tp_background.png");
-    public static final ResourceLocation FIRE_TEXTURE = new ResourceLocation(MODID+":textures/blocks/gf.png");
 }

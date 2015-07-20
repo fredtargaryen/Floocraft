@@ -36,7 +36,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		{
             world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
             GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
-            if(gft.approveOrDenyTeleport(world, dest))
+            if(gft.isInFireplace(world, dest))
             {
                 tpApproved = true;
             }

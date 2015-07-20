@@ -1,7 +1,7 @@
 /**
  * ===NEXT UP===
  * ConcurrentModificationException when teleporting
- * Removed tp sound to check - doesn't seem to cause problems
+ * --Removed tp sound to check - doesn't seem to cause problems
  * HOW TO TORCH FLAMES?!?!???!?!?!?!?!?!??!??!?!?!!??!?!!!?!?!?!!?
  */
 package com.fredtargaryen.floocraft;
@@ -14,7 +14,6 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import com.fredtargaryen.floocraft.tileentity.TileEntityGreenFlames;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -144,7 +143,6 @@ public class FloocraftBase
         //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-        GameRegistry.registerTileEntity(TileEntityGreenFlames.class, "fireTE");
 
         //Adding recipes
         //Infinite powder is creative only so no recipe

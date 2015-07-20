@@ -3,6 +3,7 @@ package com.fredtargaryen.floocraft.item;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
+import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,14 +36,20 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if (worldIn.getBlockState(pos.offset(EnumFacing.UP, 1)).getBlock() == Blocks.fire)
+        BlockPos firePos = pos.offset(EnumFacing.UP, 1);
+		if (worldIn.getBlockState(firePos).getBlock() == Blocks.fire)
 		{
-            if(worldIn.getBlockState(pos.offset(EnumFacing.UP, 2)).getBlock() == Blocks.air)
+            worldIn.setBlockState(firePos, FloocraftBase.greenFlamesTemp.getDefaultState(), 2);
+            if(((GreenFlamesTemp)worldIn.getBlockState(firePos).getBlock()).isInFireplace(worldIn, firePos))
             {
-                worldIn.setBlockState(pos.offset(EnumFacing.UP, 1), FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int)this.concentration), 2);
-                worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), DataReference.MODID + ":greened", 1.0F, 1.0F, true);
+                worldIn.setBlockState(firePos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
+                worldIn.playSound((double) firePos.getX(), (double) firePos.getY(), (double) firePos.getZ(), DataReference.MODID + ":greened", 1.0F, 1.0F, true);
             }
-			--stack.stackSize;
+            else
+            {
+                worldIn.setBlockState(firePos, Blocks.fire.getDefaultState(), 2);
+            }
+            --stack.stackSize;
 			return true;
 		}
 		return false;
