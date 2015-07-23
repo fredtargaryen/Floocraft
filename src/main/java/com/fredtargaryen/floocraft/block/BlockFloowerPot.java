@@ -83,7 +83,7 @@ public class BlockFloowerPot extends BlockContainer
         }
         IInventory inventory = (IInventory) tileEntity;
 
-        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
             ItemStack item = inventory.getStackInSlot(i);
 
             if (item != null && item.stackSize > 0) {
@@ -124,24 +124,26 @@ public class BlockFloowerPot extends BlockContainer
             ItemStack stack = pot.getStackInSlot(0);
             if (stack != null && stack.stackSize > 0)
             {
-                for (int x = par2 - 5; x < par2 + 6; x++)
+                for (int x = par2 - 5; x < par2 + 6; ++x)
                 {
-                    for (int y = par3 - 5; y < par3 + 6; y++)
+                    for (int y = par3 - 5; y < par3 + 6; ++y)
                     {
-                        for (int z = par4 - 5; z < par4 + 6; z++)
+                        for (int z = par4 - 5; z < par4 + 6; ++z)
                         {
                             if (par1World.getBlock(x, y, z) == Blocks.fire)
                             {
                                 par1World.setBlock(x, y, z, FloocraftBase.greenFlamesTemp);
                                 GreenFlamesTemp gfit = (GreenFlamesTemp) par1World.getBlock(x, y, z);
-                                boolean shouldPut = gfit.approveOrDenyTeleport(par1World, x, y, z);
-                                par1World.setBlock(x, y, z, Blocks.fire);
-                                if (shouldPut)
+                                if (gfit.isInFireplace(par1World, x, y, z))
                                 {
                                     Item i = stack.getItem();
-                                    par1World.setBlock(x, y, z, FloocraftBase.greenFlamesBusyLower, ((ItemFlooPowder)i).getConcentration(), 2);
+                                    par1World.setBlock(x, y, z, FloocraftBase.greenFlamesBusy, ((ItemFlooPowder)i).getConcentration(), 3);
                                     stack.stackSize--;
                                     pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
+                                }
+                                else
+                                {
+                                    par1World.setBlock(x, y, z, Blocks.fire);
                                 }
                             }
                         }

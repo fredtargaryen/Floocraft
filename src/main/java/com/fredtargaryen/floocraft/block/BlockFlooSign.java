@@ -83,22 +83,22 @@ public class BlockFlooSign extends BlockSign
         {
             case 2:
             {
-                backZ++;
+                ++backZ;
                 break;
             }
             case 3:
             {
-                backZ--;
+                --backZ;
                 break;
             }
             case 4:
             {
-                backX++;
+                ++backX;
                 break;
             }
             case 5:
             {
-                backX--;
+                --backX;
                 break;
             }
         }
@@ -164,22 +164,22 @@ public class BlockFlooSign extends BlockSign
                 {
                     case 2:
                     {
-                        newZ++;
+                        ++newZ;
                         break;
                     }
                     case 3:
                     {
-                        newZ--;
+                        --newZ;
                         break;
                     }
                     case 4:
                     {
-                        newX++;
+                        ++newX;
                         break;
                     }
                     case 5:
                     {
-                        newX--;
+                        --newX;
                         break;
                     }
                 }

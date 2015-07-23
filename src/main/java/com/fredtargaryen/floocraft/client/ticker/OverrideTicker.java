@@ -16,7 +16,7 @@ public class OverrideTicker
 	{
 		if(this.ticks == -1)
         {
-            this.ticks++;
+            ++this.ticks;
         }
 	}
 	
@@ -27,7 +27,7 @@ public class OverrideTicker
 		{
 			if (event.phase == TickEvent.Phase.START)
 			{
-				this.ticks++;
+				++this.ticks;
             }
 			if (this.ticks > 94)
 			{

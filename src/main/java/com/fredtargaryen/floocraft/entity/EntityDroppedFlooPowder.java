@@ -43,11 +43,14 @@ public class EntityDroppedFlooPowder extends EntityItem
 		if(this.worldObj.getBlock(intX, intY, intZ) == Blocks.fire) {
 			this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesTemp);
 			if(((GreenFlamesTemp)this.worldObj.getBlock(intX, intY, intZ)).isInFireplace(this.worldObj, intX, intY, intZ)){
-				this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusy, this.concentration, 2);
+				this.worldObj.setBlock(intX, intY, intZ, FloocraftBase.greenFlamesBusy, this.concentration, 3);
 				this.playSound(DataReference.MODID+":greened", 1.0F, 1.0F);
 			}
 			else
 			{
+				//START
+				System.out.println("The temp block was not in a valid fireplace!");
+				//END
 				this.worldObj.setBlock(intX, intY, intZ, Blocks.fire);
 			}
 			this.setDead();

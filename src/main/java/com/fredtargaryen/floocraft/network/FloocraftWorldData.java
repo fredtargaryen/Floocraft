@@ -103,7 +103,7 @@ public class FloocraftWorldData extends WorldSavedData
 	public void writeToNBT(NBTTagCompound nbt)
 	{	
 		NBTTagList nbttaglist = new NBTTagList();
-		for(int i = 0; i < placenamelist.size(); i++)
+		for(int i = 0; i < placenamelist.size(); ++i)
 		{
 			NBTTagCompound nbt1 = new NBTTagCompound();
 			nbt1.setString("NAME", placenamelist.get(i));
@@ -123,21 +123,25 @@ public class FloocraftWorldData extends WorldSavedData
 		m.ycoordlist = this.ycoordlist;
 		m.zcoordlist = this.zcoordlist;
 		List<Boolean> l = new ArrayList<Boolean>();
-		for(int x = 0; x < placenamelist.size(); x++)
+		for(int x = 0; x < placenamelist.size(); ++x)
 		{
             int dx = xcoordlist.get(x);
             int dy = ycoordlist.get(x);
             int dz = zcoordlist.get(x);
 			Block b = w.getBlock(dx, dy, dz);
-            boolean ok = true;
-            if(!(b instanceof GreenFlamesBase) && b instanceof BlockFire)
+            boolean ok;
+            if(b instanceof BlockFire)
             {
                 w.setBlock(dx, dy, dz, FloocraftBase.greenFlamesTemp);
                 GreenFlamesTemp gfit = (GreenFlamesTemp) w.getBlock(dx, dy, dz);
-                ok = gfit.approveOrDenyTeleport(w, dx, dy, dz);
+                ok = gfit.isInFireplace(w, dx, dy, dz);
                 w.setBlock(dx, dy, dz, Blocks.fire);
             }
-            else if(!(b instanceof GreenFlamesBase))
+			else if(b instanceof GreenFlamesBase)
+			{
+				ok = true;
+			}
+            else
             {
                 ok = false;
             }

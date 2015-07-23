@@ -8,8 +8,6 @@ import java.util.Random;
 
 public class GreenFlamesTemp extends GreenFlamesIdle
 {
-    private final int renderID;
-
     @Override
     public int tickRate(World par1World)
     {
@@ -18,19 +16,13 @@ public class GreenFlamesTemp extends GreenFlamesIdle
 
     public GreenFlamesTemp(int renderID)
     {
-        super();
-        this.renderID = renderID;
-    }
-
-    public boolean approveOrDenyTeleport(World par1World, int par2, int par3, int par4)
-    {
-        return this.isInFireplace(par1World, par2, par3, par4);
+        super(renderID);
     }
 
     @Override
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
+    public void onBlockAdded(World w, int x, int y, int z)
     {
-        par1World.scheduleBlockUpdate(par2, par3, par4, this, this.tickRate(par1World));
+       w.scheduleBlockUpdate(x, y, z, this, this.tickRate(w));
     }
 
     @Override

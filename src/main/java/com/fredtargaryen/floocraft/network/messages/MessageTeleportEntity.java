@@ -34,7 +34,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		{
             world.setBlock(destX, destY, destZ, FloocraftBase.greenFlamesTemp);
             GreenFlamesTemp gfit = (GreenFlamesTemp) world.getBlock(destX, destY, destZ);
-            if(gfit.approveOrDenyTeleport(world, destX, destY, destZ))
+            if(gfit.isInFireplace(world, destX, destY, destZ))
             {
                 tpApproved = true;
             }
@@ -70,7 +70,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 			}
 			else
 			{
-				world.setBlockMetadataWithNotify(initX, initY, initZ, m == 9 ? m : m - 1, 2);
+				world.setBlockMetadataWithNotify(initX, initY, initZ, m == 9 ? m : m - 1, 3);
 			}
 		}
 		return null;

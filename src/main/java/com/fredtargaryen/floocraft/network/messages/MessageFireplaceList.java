@@ -36,7 +36,7 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 		int y = buf.readInt();
 		if(y > 0)
 		{
-			for(int x = 0; x < y; x++)
+			for(int x = 0; x < y; ++x)
 			{
 				int nameLength = buf.readInt();
 				this.placenamelist.add(new String(buf.readBytes(nameLength).array()));
@@ -61,7 +61,7 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 	{
 		int y = this.placenamelist.size();
 		buf.writeInt(y);
-		for(int x = 0; x < y; x++)
+		for(int x = 0; x < y; ++x)
 		{
 			String s = this.placenamelist.get(x);
 			buf.writeInt(s.length());

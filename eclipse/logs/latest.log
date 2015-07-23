@@ -1,31 +1,4 @@
-[11:13:00] [Server thread/INFO]: Starting minecraft server version 1.7.10
-[11:13:58] [Server thread/INFO]: Loading properties
-[11:13:58] [Server thread/INFO]: Default game type: SURVIVAL
-[11:13:58] [Server thread/INFO]: Generating keypair
-[11:14:01] [Server thread/INFO]: Starting Minecraft server on *:25565
-[11:14:03] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
-[11:14:03] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
-[11:14:03] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
-[11:14:03] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
-[11:14:07] [Server thread/INFO]: Preparing level "world"
-[11:14:15] [Server thread/INFO]: Preparing start region for level 0
-[11:14:19] [Server thread/INFO]: Preparing spawn area: 0%
-[11:14:20] [Server thread/INFO]: Preparing spawn area: 2%
-[11:14:22] [Server thread/INFO]: Preparing spawn area: 6%
-[11:14:24] [Server thread/INFO]: Preparing spawn area: 17%
-[11:14:25] [Server thread/INFO]: Preparing spawn area: 28%
-[11:14:26] [Server thread/INFO]: Preparing spawn area: 38%
-[11:14:27] [Server thread/INFO]: Preparing spawn area: 71%
-[11:14:28] [Server thread/INFO]: Done (21.232s)! For help, type "help" or "?"
-[11:14:30] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2273ms behind, skipping 45 tick(s)
-[11:15:03] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 13861ms behind, skipping 277 tick(s)
-[11:15:11] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 3442ms behind, skipping 68 tick(s)
-[11:15:31] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2933ms behind, skipping 58 tick(s)
-[11:17:07] [Server thread/WARN]: Can't keep up! Did the system time change, or is the server overloaded? Running 2086ms behind, skipping 41 tick(s)
-[11:17:13] [Server thread/INFO]: Stopping the server
-[11:17:13] [Server thread/INFO]: Stopping server
-[11:17:13] [Server thread/INFO]: Saving players
-[11:17:13] [Server thread/INFO]: Saving worlds
-[11:17:13] [Server thread/INFO]: Saving chunks for level 'world'/Overworld
-[11:17:15] [Server thread/INFO]: Saving chunks for level 'world'/Nether
-[11:17:15] [Server thread/INFO]: Saving chunks for level 'world'/The End
+[00:27:40] [main/INFO]: Setting user: Player626
+[00:27:54] [Client thread/INFO]: LWJGL Version: 2.9.1
+[00:28:53] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Floocraft
+[00:28:59] [Sound Library Loader/INFO]: Sound engine started

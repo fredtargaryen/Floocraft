@@ -8,12 +8,9 @@ import java.util.Random;
 
 public class GreenFlamesBusy extends GreenFlamesBase
 {
-    private final int renderID;
-
 	public GreenFlamesBusy(int id)
     {
-		super();
-        this.renderID = id;
+		super(id);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
     }
 
@@ -28,11 +25,8 @@ public class GreenFlamesBusy extends GreenFlamesBase
     {
         if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
         {
-            w.setBlock(x, y, z, FloocraftBase.greenFlamesIdle, w.getBlockMetadata(x, y, z), 2);
+            w.setBlock(x, y, z, FloocraftBase.greenFlamesIdle, w.getBlockMetadata(x, y, z), 3);
         }
         super.updateTick(w, x, y, z, par5Random);
     }
-
-    @Override
-    public int getRenderType(){return this.renderID;}
 }

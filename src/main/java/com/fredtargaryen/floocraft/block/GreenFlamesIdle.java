@@ -8,9 +8,9 @@ import java.util.Random;
 
 public class GreenFlamesIdle extends GreenFlamesBase
 {
-	public GreenFlamesIdle()
+	public GreenFlamesIdle(int rID)
     {
-		super();
+		super(rID);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class GreenFlamesIdle extends GreenFlamesBase
     {
         if(w.getClosestPlayer((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) != null)
         {
-            w.setBlock(x, y, z, FloocraftBase.greenFlamesBusyLower, w.getBlockMetadata(x, y, z), 2);
+            w.setBlock(x, y, z, FloocraftBase.greenFlamesBusy, w.getBlockMetadata(x, y, z), 3);
         }
         super.updateTick(w, x, y, z, par5Random);
     }

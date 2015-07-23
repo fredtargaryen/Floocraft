@@ -41,9 +41,13 @@ public class ItemFlooPowder extends Item
 	
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int X, int Y, int Z, int par7, float par8, float par9, float par10)
 	{
+		//DEBUG CODE - REMOVE LATER
+		System.out.println(par3World.getBlock(X, Y + 1, Z).getUnlocalizedName());
+		System.out.println(par3World.getBlock(X, Y + 2, Z).getUnlocalizedName());
+		//DEBUG CODE - REMOVE LATER
 		if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
 		{
-			par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesTemp, this.concentration, 2);
+			par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesTemp, this.concentration, 3);
 			if(((GreenFlamesTemp)par3World.getBlock(X, Y+1, Z)).isInFireplace(par3World, X, Y+1, Z))
 			{
 				par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusy);

@@ -1,6 +1,6 @@
 package com.fredtargaryen.floocraft.client.renderer;
 
-import com.fredtargaryen.floocraft.block.GreenFlamesBase;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -25,7 +25,7 @@ public class FireRenderer implements ISimpleBlockRenderingHandler
     {
         Tessellator t = Tessellator.instance;
         t.addTranslation(x, y, z);
-        IIcon iicon = ((GreenFlamesBase)block).getFireIcon(0);
+        IIcon iicon = block.getIcon(0, 0);
 
         t.setColorOpaque_F(1.0F, 1.0F, 1.0F);
         t.setBrightness(block.getMixedBrightnessForBlock(renderer.blockAccess,x, y, z));
@@ -37,6 +37,7 @@ public class FireRenderer implements ISimpleBlockRenderingHandler
         double r = iicon.getMaxU();
 
         double level = 2.0625;
+        if(block== FloocraftBase.greenFlamesIdle)level=1.4;
         //z-negative face
         t.addVertexWithUV(0.0,    0.0,   0.0, r, b);
         t.addVertexWithUV(0.0,    level,   0.0625, r, top);

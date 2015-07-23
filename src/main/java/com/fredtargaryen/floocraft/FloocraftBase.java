@@ -32,7 +32,7 @@ public class FloocraftBase
 	 */
     @Mod.Instance(DataReference.MODID)
     public static FloocraftBase instance;
-    
+
     /**
      * Declare all blocks here
      */
@@ -72,7 +72,7 @@ public class FloocraftBase
     	.setBlockName("greenflamesbusylower")
     	.setLightLevel(1.0F);
     	
-    	greenFlamesIdle = new GreenFlamesIdle()
+    	greenFlamesIdle = new GreenFlamesIdle(fireRenderID)
     	.setBlockName("greenflamesidle")
     	.setLightLevel(0.875F);
 
@@ -113,9 +113,9 @@ public class FloocraftBase
                 .setCreativeTab(CreativeTabs.tabMisc);
 
     	itemFlooSign = new ItemFlooSign()
-    	.setMaxStackSize(16)
-    	.setUnlocalizedName("itemfloosign")
-    	.setCreativeTab(CreativeTabs.tabDecorations);
+                .setMaxStackSize(16)
+                .setUnlocalizedName("itemfloosign")
+                .setCreativeTab(CreativeTabs.tabDecorations);
 
         //Register blocks with GameRegistry
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");

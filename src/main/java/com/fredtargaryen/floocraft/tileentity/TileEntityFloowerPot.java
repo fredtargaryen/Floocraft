@@ -116,7 +116,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         super.readFromNBT(tagCompound);
 
         NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
-        for (int i = 0; i < tagList.tagCount(); i++) {
+        for (int i = 0; i < tagList.tagCount(); ++i) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);
             byte slot = tag.getByte("Slot");
             if (slot >= 0 && slot < inv.length) {
@@ -130,7 +130,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         super.writeToNBT(tagCompound);
 
         NBTTagList itemList = new NBTTagList();
-        for (int i = 0; i < inv.length; i++) {
+        for (int i = 0; i < inv.length; ++i) {
             ItemStack stack = inv[i];
             if (stack != null) {
                 NBTTagCompound tag = new NBTTagCompound();

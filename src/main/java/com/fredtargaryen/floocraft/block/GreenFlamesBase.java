@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -25,10 +26,14 @@ import java.util.Random;
 
 public abstract class GreenFlamesBase extends Block
 {
-    public GreenFlamesBase()
+    protected int renderID;
+
+    public GreenFlamesBase(int renderID)
     {
-        super(Material.air);
+        super(Material.fire);
+        this.renderID = renderID;
     }
+
     /**
      * Gets the block's texture. Args: side, meta
      */
@@ -44,10 +49,21 @@ public abstract class GreenFlamesBase extends Block
         this.blockIcon = i.registerIcon(DataReference.MODID+":fire");
     }
 
-	public boolean isCollidable()
+    @Override
+	public boolean isNormalCube(IBlockAccess w, int x, int y, int z)
 	{
-		return true;
+		return false;
 	}
+
+    /**
+     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
+     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
+     */
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
 
 	@Override
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
@@ -104,19 +120,31 @@ public abstract class GreenFlamesBase extends Block
     }
 
     /**
+     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
+     * cleared to be reused)
+     */
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_)
+    {
+        return null;
+    }
+
+    @Override
+    public int getRenderType(){return this.renderID;}
+
+    /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
-    private int getTopBlockY(World w, int x, int y, int z) {
-            y++;
-        Block b0 = w.getBlock(x, y, z);
-        if (b0 == Blocks.air) {
-            y++;
-            while (w.getBlock(x, y, z) == Blocks.air) {
-                y++;
-            }
-            if (w.getBlock(x, y, z).isNormalCube(w, x, y, z)) {
-                return y;
-            }
+    //The source of all my problems!
+    protected int getTopBlockY(World w, int x, int y, int z)
+    {
+        int t = y;
+        Block b0 = w.getBlock(x, ++t, z);
+        while (w.getBlock(x, t, z) == Blocks.air && t < 256)
+        {
+            ++t;
+        }
+        if (w.getBlock(x, t, z).isNormalCube(w, x, t, z)) {
+            return t;
         }
         return 0;
     }
@@ -128,7 +156,7 @@ public abstract class GreenFlamesBase extends Block
             boolean valid = true;
             while (valid && bottomY < topY) {
                 if(w.getBlock(x, bottomY, z).isNormalCube(w, x, bottomY, z)) {
-                    bottomY++;
+                    ++bottomY;
                 }
                 else {
                     valid = false;
@@ -187,13 +215,13 @@ public abstract class GreenFlamesBase extends Block
         {
             if(backWall == 2 || backWall == 8)
             {
-                if(sideWall == 4){x--;}
-                else{x++;}
+                if(sideWall == 4){--x;}
+                else{++x;}
             }
             else
             {
-                if(sideWall == 2){z++;}
-                else{z--;}
+                if(sideWall == 2){++z;}
+                else{--z;}
             }
             int newTop = this.getTopBlockY(w, x, y, z);
             List<Integer> walls = this.getWalls(w, x, y, newTop, z);
@@ -206,14 +234,14 @@ public abstract class GreenFlamesBase extends Block
                     }
                     else
                     {
-                        if(newTop > top++)
+                        if(newTop > top + 1)
                         {
                             if(!this.isWallColumn(w, oldX, top, newTop, oldZ))
                             {
                                 return false;
                             }
                         }
-                        else if(newTop < top--)
+                        else if(newTop < top - 1)
                         {
                             if(!this.isWallColumn(w, x, newTop, top, z))
                             {
@@ -239,12 +267,17 @@ public abstract class GreenFlamesBase extends Block
 
     public boolean isInFireplace(World w, int x, int y, int z)
     {
+        //DELETE ALL SYSTEM.OUT.PRINTLNS
         if(!w.canBlockSeeTheSky(x, y, z))
         {
             if(y < 254 && x < 30000000 && x > -30000000 && z < 30000000 && z > -30000000)
             {
                 int t = this.getTopBlockY(w, x, y, z);
+                //START
+                if(t == 0) System.out.println("Couldn't get top Y!");
+                //END
                 List<Integer> walls = this.getWalls(w, x, y, t, z);
+                System.out.println(walls);
                 switch(walls.size())
                 {
                     case 3:
@@ -274,6 +307,11 @@ public abstract class GreenFlamesBase extends Block
                     default:break;
                 }
             }
+            //START
+            else {
+                System.out.println("Block was in invalid position!");
+            }
+            //END
         }
         return false;
     }

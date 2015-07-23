@@ -1,9 +1,12 @@
 package com.fredtargaryen.floocraft.tileentity;
 
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
@@ -33,22 +36,22 @@ public class TileEntityFireplace extends TileEntitySign
             {
                 case 2:
                 {
-                    newZ++;
+                    ++newZ;
                     break;
                 }
                 case 3:
                 {
-                    newZ--;
+                    --newZ;
                     break;
                 }
                 case 4:
                 {
-                    newX++;
+                    ++newX;
                     break;
                 }
                 case 5:
                 {
-                    newX--;
+                    --newX;
                     break;
                 }
             }
@@ -80,10 +83,23 @@ public class TileEntityFireplace extends TileEntitySign
 
     public static int iterateDownFromTop(World w, int x, int y, int z)
     {
-        y--;
-        while((w.isAirBlock(x, y, z) || w.getBlock(x, y, z) instanceof BlockFire) && y > -1)
+        --y;
+        boolean stop = false;
+        Block b;
+        while(!stop)
         {
-            y--;
+            if(y == -1)
+            {
+                stop = true;
+            }
+            else {
+                b = w.getBlock(x, y, z);
+                if (b == Blocks.air || b instanceof BlockFire || b instanceof GreenFlamesBase) {
+                    --y;
+                } else {
+                    stop = true;
+                }
+            }
         }
         return y + 1;
     }
