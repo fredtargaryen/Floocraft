@@ -424,3 +424,75 @@ Details:
 [00:28:57] [Thread-8/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]:     (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
 [00:28:59] [Thread-8/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: OpenAL initialized.
 [00:28:59] [Sound Library Loader/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[00:29:58] [Client thread/TRACE] [mcp/mcp]: Sending event FMLInitializationEvent to mod mcp
+[00:29:58] [Client thread/TRACE] [mcp/mcp]: Sent event FMLInitializationEvent to mod mcp
+[00:29:58] [Client thread/TRACE] [FML/FML]: Sending event FMLInitializationEvent to mod FML
+[00:29:58] [Client thread/TRACE] [FML/FML]: Sent event FMLInitializationEvent to mod FML
+[00:29:58] [Client thread/TRACE] [Forge/Forge]: Sending event FMLInitializationEvent to mod Forge
+[00:29:58] [Client thread/TRACE] [Forge/Forge]: Sent event FMLInitializationEvent to mod Forge
+[00:29:58] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sending event FMLInitializationEvent to mod ftfloocraft
+[00:29:58] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sent event FMLInitializationEvent to mod ftfloocraft
+[00:29:58] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod mcp
+[00:29:58] [Client thread/TRACE] [mcp/mcp]: Sending event IMCEvent to mod mcp
+[00:29:58] [Client thread/TRACE] [mcp/mcp]: Sent event IMCEvent to mod mcp
+[00:29:58] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod FML
+[00:29:58] [Client thread/TRACE] [FML/FML]: Sending event IMCEvent to mod FML
+[00:29:58] [Client thread/TRACE] [FML/FML]: Sent event IMCEvent to mod FML
+[00:29:58] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod Forge
+[00:29:58] [Client thread/TRACE] [Forge/Forge]: Sending event IMCEvent to mod Forge
+[00:29:58] [Client thread/TRACE] [Forge/Forge]: Sent event IMCEvent to mod Forge
+[00:29:58] [Client thread/TRACE] [FML/]: Attempting to deliver 0 IMC messages to mod ftfloocraft
+[00:29:58] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sending event IMCEvent to mod ftfloocraft
+[00:29:58] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sent event IMCEvent to mod ftfloocraft
+[00:29:58] [Client thread/INFO] [FML/]: Injecting itemstacks
+[00:29:58] [Client thread/INFO] [FML/]: Itemstack injection complete
+[00:29:58] [Client thread/TRACE] [mcp/mcp]: Sending event FMLPostInitializationEvent to mod mcp
+[00:29:58] [Client thread/TRACE] [mcp/mcp]: Sent event FMLPostInitializationEvent to mod mcp
+[00:29:58] [Client thread/TRACE] [FML/FML]: Sending event FMLPostInitializationEvent to mod FML
+[00:29:58] [Client thread/TRACE] [FML/FML]: Sent event FMLPostInitializationEvent to mod FML
+[00:29:58] [Client thread/TRACE] [Forge/Forge]: Sending event FMLPostInitializationEvent to mod Forge
+[00:29:59] [Client thread/TRACE] [Forge/Forge]: Sent event FMLPostInitializationEvent to mod Forge
+[00:29:59] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sending event FMLPostInitializationEvent to mod ftfloocraft
+[00:29:59] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sent event FMLPostInitializationEvent to mod ftfloocraft
+[00:29:59] [Client thread/TRACE] [mcp/mcp]: Sending event FMLLoadCompleteEvent to mod mcp
+[00:29:59] [Client thread/TRACE] [mcp/mcp]: Sent event FMLLoadCompleteEvent to mod mcp
+[00:29:59] [Client thread/TRACE] [FML/FML]: Sending event FMLLoadCompleteEvent to mod FML
+[00:29:59] [Client thread/TRACE] [FML/FML]: Sent event FMLLoadCompleteEvent to mod FML
+[00:29:59] [Client thread/TRACE] [Forge/Forge]: Sending event FMLLoadCompleteEvent to mod Forge
+[00:29:59] [Client thread/DEBUG] [FML/Forge]: Forge RecipeSorter Baking:
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   11: RecipeEntry("Before", UNKNOWN, )
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   10: RecipeEntry("minecraft:shaped", SHAPED, net.minecraft.item.crafting.ShapedRecipes) Before: minecraft:shapeless
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   9: RecipeEntry("minecraft:mapextending", SHAPED, net.minecraft.item.crafting.RecipesMapExtending) Before: minecraft:shapeless After: minecraft:shaped
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   8: RecipeEntry("forge:shapedore", SHAPED, net.minecraftforge.oredict.ShapedOreRecipe) Before: minecraft:shapeless After: minecraft:shaped
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   7: RecipeEntry("minecraft:shapeless", SHAPELESS, net.minecraft.item.crafting.ShapelessRecipes) After: minecraft:shaped
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   6: RecipeEntry("forge:shapelessore", SHAPELESS, net.minecraftforge.oredict.ShapelessOreRecipe) After: minecraft:shapeless
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   5: RecipeEntry("minecraft:armordyes", SHAPELESS, net.minecraft.item.crafting.RecipesArmorDyes) After: minecraft:shapeless
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   4: RecipeEntry("minecraft:bookcloning", SHAPELESS, net.minecraft.item.crafting.RecipeBookCloning) After: minecraft:shapeless
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   3: RecipeEntry("minecraft:mapcloning", SHAPELESS, net.minecraft.item.crafting.RecipesMapCloning) After: minecraft:shapeless
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   2: RecipeEntry("minecraft:fireworks", SHAPELESS, net.minecraft.item.crafting.RecipeFireworks) After: minecraft:shapeless
+[00:29:59] [Client thread/DEBUG] [FML/Forge]:   1: RecipeEntry("After", UNKNOWN, )
+[00:29:59] [Client thread/DEBUG] [FML/Forge]: Sorting recipies
+[00:29:59] [Client thread/TRACE] [Forge/Forge]: Sent event FMLLoadCompleteEvent to mod Forge
+[00:29:59] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sending event FMLLoadCompleteEvent to mod ftfloocraft
+[00:29:59] [Client thread/TRACE] [ftfloocraft/ftfloocraft]: Sent event FMLLoadCompleteEvent to mod ftfloocraft
+[00:29:59] [Client thread/DEBUG] [FML/]: Freezing block and item id maps
+[00:29:59] [Client thread/DEBUG] [FML/]: Registry consistency check successful
+[00:29:59] [Client thread/DEBUG] [FML/]: Registry consistency check successful
+[00:29:59] [Client thread/INFO] [FML/]: Forge Mod Loader has successfully loaded 4 mods
+[00:30:02] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[00:30:02] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: SoundSystem shutting down...
+[00:30:02] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:importantMessage:90]:     Author: Paul Lamb, www.paulscode.com
+[00:30:02] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[00:30:03] [Sound Library Loader/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[00:30:03] [Sound Library Loader/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: Starting up SoundSystem...
+[00:30:03] [Thread-10/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: Initializing LWJGL OpenAL
+[00:30:03] [Thread-10/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]:     (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[00:30:04] [Thread-10/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: OpenAL initialized.
+[00:30:04] [Sound Library Loader/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[00:30:29] [Client thread/DEBUG] [Forge Mod Loader/]: Mod Forge Mod Loader is missing a pack.mcmeta file, substituting a dummy one
+[00:30:29] [Client thread/DEBUG] [Minecraft Forge/]: Mod Minecraft Forge is missing a pack.mcmeta file, substituting a dummy one
+[00:30:29] [Client thread/DEBUG] [Floocraft/]: Mod Floocraft is missing a pack.mcmeta file, substituting a dummy one
+[00:30:34] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 
+[00:30:34] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: SoundSystem shutting down...
+[00:30:35] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:importantMessage:90]:     Author: Paul Lamb, www.paulscode.com
+[00:30:35] [Client thread/INFO] [STDOUT/]: [paulscode.sound.SoundSystemLogger:message:69]: 

@@ -94,7 +94,7 @@ public class TileEntityFireplace extends TileEntitySign
             }
             else {
                 b = w.getBlock(x, y, z);
-                if (b == Blocks.air || b instanceof BlockFire || b instanceof GreenFlamesBase) {
+                if (b.isAir(w, x, y, z) || b instanceof BlockFire || b instanceof GreenFlamesBase) {
                     --y;
                 } else {
                     stop = true;

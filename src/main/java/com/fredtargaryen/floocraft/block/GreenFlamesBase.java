@@ -7,7 +7,6 @@ import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,7 +17,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,17 +132,18 @@ public abstract class GreenFlamesBase extends Block
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
-    //The source of all my problems!
     protected int getTopBlockY(World w, int x, int y, int z)
     {
-        int t = y;
-        Block b0 = w.getBlock(x, ++t, z);
-        while (w.getBlock(x, t, z) == Blocks.air && t < 256)
+        Block b = w.getBlock(x, ++y, z);
+        if(b.isAir(w, x, y, z))
         {
-            ++t;
-        }
-        if (w.getBlock(x, t, z).isNormalCube(w, x, t, z)) {
-            return t;
+            while (b.isAir(w, x, y, z) && y < 256) {
+                ++y;
+                b = w.getBlock(x, y, z);
+            }
+            if (b.isNormalCube(w, x, y, z)) {
+                return y;
+            }
         }
         return 0;
     }
@@ -267,17 +266,12 @@ public abstract class GreenFlamesBase extends Block
 
     public boolean isInFireplace(World w, int x, int y, int z)
     {
-        //DELETE ALL SYSTEM.OUT.PRINTLNS
         if(!w.canBlockSeeTheSky(x, y, z))
         {
             if(y < 254 && x < 30000000 && x > -30000000 && z < 30000000 && z > -30000000)
             {
                 int t = this.getTopBlockY(w, x, y, z);
-                //START
-                if(t == 0) System.out.println("Couldn't get top Y!");
-                //END
                 List<Integer> walls = this.getWalls(w, x, y, t, z);
-                System.out.println(walls);
                 switch(walls.size())
                 {
                     case 3:
@@ -307,11 +301,6 @@ public abstract class GreenFlamesBase extends Block
                     default:break;
                 }
             }
-            //START
-            else {
-                System.out.println("Block was in invalid position!");
-            }
-            //END
         }
         return false;
     }

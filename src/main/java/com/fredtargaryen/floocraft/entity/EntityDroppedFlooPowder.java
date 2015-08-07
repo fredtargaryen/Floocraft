@@ -48,9 +48,6 @@ public class EntityDroppedFlooPowder extends EntityItem
 			}
 			else
 			{
-				//START
-				System.out.println("The temp block was not in a valid fireplace!");
-				//END
 				this.worldObj.setBlock(intX, intY, intZ, Blocks.fire);
 			}
 			this.setDead();
