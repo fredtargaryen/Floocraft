@@ -183,8 +183,7 @@ public class BlockFlooSign extends BlockSign
                         break;
                     }
                 }
-                int newY = TileEntityFireplace.iterateDownFromTop(w, newX, y, newZ);
-                FloocraftWorldData.forWorld(w).removeLocation(newX, newY, newZ);
+                FloocraftWorldData.forWorld(w).removeLocation(newX, tef.getY(), newZ);
             }
         }
         super.breakBlock(w, x, y, z, b, m);

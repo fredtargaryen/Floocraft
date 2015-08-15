@@ -6,7 +6,6 @@ import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
@@ -15,8 +14,9 @@ public class TileEntityFireplace extends TileEntitySign
 {
 	private EntityPlayer writer;
     private boolean isConnected;
+    private int y;
 
-    public TileEntityFireplace(){}
+    public TileEntityFireplace(){this.y = 0;}
 
 	/**Sends packet containing:
 	 *--xcoord
@@ -56,6 +56,7 @@ public class TileEntityFireplace extends TileEntitySign
                 }
             }
             int newY = iterateDownFromTop(par5World, newX, y, newZ);
+            this.y = newY;
         	MessageAddFireplace m = new MessageAddFireplace();
         	m.name = name;
         	m.x = newX;
@@ -80,6 +81,8 @@ public class TileEntityFireplace extends TileEntitySign
 			this.writer = par1EntityPlayer;
 		}
     }
+
+    public int getY(){return this.y;}
 
     public static int iterateDownFromTop(World w, int x, int y, int z)
     {
@@ -118,11 +121,13 @@ public class TileEntityFireplace extends TileEntitySign
     {
         super.writeToNBT(par1);
         par1.setBoolean("Connected",this.isConnected);
+        par1.setInteger("Y", this.y);
     }
 
     public void readFromNBT(NBTTagCompound par1)
     {
         super.readFromNBT(par1);
         this.isConnected = par1.getBoolean("Connected");
+        this.y = par1.getInteger("Y");
     }
 }

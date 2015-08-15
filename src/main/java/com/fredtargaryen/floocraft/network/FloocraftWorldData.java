@@ -2,8 +2,8 @@ package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.Block;
@@ -79,7 +79,7 @@ public class FloocraftWorldData extends WorldSavedData
 		}
 		else
 		{
-            FMLLog.warning("[FLOOCRAFT-SERVER] Failed to remove fireplace at (" + x + ", " + y + ", " + z + ").");
+			FMLLog.warning("[FLOOCRAFT-SERVER] Failed to remove fireplace at (" + x + ", " + y + ", " + z + ").");
 			FMLLog.warning("[FLOOCRAFT-SERVER] Data can be manually removed with an NBT editor.");
 		}
 		markDirty();

@@ -138,6 +138,7 @@ public class BlockFloowerPot extends BlockContainer
                                 {
                                     Item i = stack.getItem();
                                     par1World.setBlock(x, y, z, FloocraftBase.greenFlamesBusy, ((ItemFlooPowder)i).getConcentration(), 3);
+                                    par1World.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
                                     stack.stackSize--;
                                     pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                 }
