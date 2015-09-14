@@ -2,10 +2,12 @@ package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -127,15 +129,19 @@ public class FloocraftWorldData extends WorldSavedData
 		{
             BlockPos dest = new BlockPos(xcoordlist.get(x), ycoordlist.get(x), zcoordlist.get(x));
 			Block b = w.getBlockState(dest).getBlock();
-            boolean ok = true;
-            if(b == Blocks.fire)
+            boolean ok;
+            if(b instanceof BlockFire)
             {
                 w.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
                 GreenFlamesTemp gfit = (GreenFlamesTemp) w.getBlockState(dest).getBlock();
-                ok = gfit.approveOrDenyTeleport(w, dest);
+                ok = gfit.isInFireplace(w, dest);
                 w.setBlockState(dest, Blocks.fire.getDefaultState());
             }
-            else if(!(b instanceof GreenFlamesBusy))
+			else if(b instanceof GreenFlamesBase)
+			{
+				ok = true;
+			}
+            else
             {
                 ok = false;
             }

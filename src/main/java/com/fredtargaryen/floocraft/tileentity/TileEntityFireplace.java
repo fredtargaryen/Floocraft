@@ -16,6 +16,7 @@ public class TileEntityFireplace extends TileEntitySign
 {
 	private EntityPlayer writer;
     private boolean isConnected;
+    private int y;
 
     public TileEntityFireplace(){}
 
@@ -31,10 +32,11 @@ public class TileEntityFireplace extends TileEntitySign
         {
          	// We are on the client side.
             BlockPos finalpos = iterateDownFromSign(par5World, pos);
+            this.y = finalpos.getY();
         	MessageAddFireplace m = new MessageAddFireplace();
         	m.name = name;
         	m.x = finalpos.getX();
-        	m.y = finalpos.getY();
+        	m.y = this.y;
         	m.z = finalpos.getZ();
         	PacketHandler.INSTANCE.sendToServer(m);
         }
@@ -54,6 +56,8 @@ public class TileEntityFireplace extends TileEntitySign
 			this.writer = par1EntityPlayer;
 		}
     }
+
+    public int getY(){return this.y;}
 
     //Only call if world is remote
     private static BlockPos iterateDownFromSign(World w, BlockPos pos)
@@ -81,11 +85,13 @@ public class TileEntityFireplace extends TileEntitySign
     {
         super.writeToNBT(par1);
         par1.setBoolean("Connected",this.isConnected);
+        par1.setInteger("Y", this.y);
     }
 
     public void readFromNBT(NBTTagCompound par1)
     {
         super.readFromNBT(par1);
         this.isConnected = par1.getBoolean("Connected");
+        this.y = par1.getInteger("Y");
     }
 }

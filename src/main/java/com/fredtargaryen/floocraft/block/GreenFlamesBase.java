@@ -32,6 +32,16 @@ public abstract class GreenFlamesBase extends Block {
         return true;
     }
 
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(AGE, meta);
+    }
+
+    public int getMetaFromState(IBlockState state)
+    {
+        return state.getValue(AGE);
+    }
+
     @Override
     public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity) {
         if (par4Entity instanceof EntityPlayer) {
@@ -80,13 +90,13 @@ public abstract class GreenFlamesBase extends Block {
         BlockPos newPos = pos.offset(EnumFacing.UP, 1);
         int y = newPos.getY();
         Block b = w.getBlockState(newPos).getBlock();
-        while (b == Blocks.air && y < 256) {
+        while (b.isAir(w, newPos) && y < 256) {
             newPos = newPos.offset(EnumFacing.UP, 1);
             y = newPos.getY();
             b = w.getBlockState(newPos).getBlock();
         }
         //When y >= 256 you get an air block, so if b is a normal cube y is implicitly < 256
-        if (b.isNormalCube()) return newPos.getY();
+        if (b.isNormalCube()) return y;
         return 0;
     }
 

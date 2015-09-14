@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
@@ -125,12 +126,13 @@ public class BlockFloowerPot extends BlockContainer
                             {
                                 worldIn.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState());
                                 GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(pos).getBlock();
-                                boolean shouldPut = gfit.approveOrDenyTeleport(worldIn, pos);
+                                boolean shouldPut = gfit.isInFireplace(worldIn, pos);
                                 worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
                                 if (shouldPut)
                                 {
                                     Item i = stack.getItem();
                                     worldIn.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
+                                    worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
                                     stack.stackSize--;
                                     pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                 }

@@ -6,8 +6,6 @@ import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import com.fredtargaryen.floocraft.tileentity.TileEntityGreenFlames;
-import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlamesRenderer;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityPotRenderer;
 import net.minecraft.client.Minecraft;
@@ -27,7 +25,6 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGreenFlames.class, new TileEntityFlamesRenderer());
     }
 
     @Override
