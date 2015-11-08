@@ -7,9 +7,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import java.util.*;
 
 public class BlockFlooTorch extends BlockTorch
 {
@@ -63,5 +65,34 @@ public class BlockFlooTorch extends BlockTorch
 	public int quantityDropped(Random par1Random)
     {
         return 1;
+    }
+
+    @Override
+    public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
+        if (!par1World.isRemote) {
+            if (par5Entity instanceof EntityPlayer) {
+                Random r = new Random();
+                int minx = par2 - 3;
+                int maxx = par2 + 3;
+                int minz = par4 - 3;
+                int maxz = par4 + 3;
+                List<List<Integer>> coords = new ArrayList<List<Integer>>();
+                for (int x = minx; x <= maxx; x++) {
+                    for (int z = minz; z <= maxz; z++) {
+                        if (par1World.isAirBlock(x, par3, z) && par1World.isAirBlock(x, par3 + 1, z)) {
+                            List<Integer> nextCoord = new ArrayList<Integer>();
+                            nextCoord.add(x);
+                            nextCoord.add(z);
+                            coords.add(nextCoord);
+                        }
+                    }
+                }
+                if(coords.size() > 0) {
+                    List<Integer> chosenCoord = coords.get(r.nextInt(coords.size()));
+                    ((EntityPlayer) par5Entity).setPositionAndUpdate(chosenCoord.get(0) + 0.5, par3, chosenCoord.get(1) + 0.5);
+                    par1World.playSoundEffect((double) par2, (double) par3, (double) par4, DataReference.MODID + ":flick", 1.0F, 1.0F);
+                }
+            }
+        }
     }
 }

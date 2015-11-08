@@ -43,10 +43,10 @@ public class ItemFlooPowder extends Item
 	{
 		if (par3World.getBlock(X, Y + 1, Z) == Blocks.fire)
 		{
-			par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesTemp, this.concentration, 3);
+			par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesTemp);
 			if(((GreenFlamesTemp)par3World.getBlock(X, Y+1, Z)).isInFireplace(par3World, X, Y+1, Z))
 			{
-				par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusy);
+				par3World.setBlock(X, Y + 1, Z, FloocraftBase.greenFlamesBusy, this.concentration, 3);
 				par3World.playSound((double) X, (double) Y, (double) Z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
 			}
 			else
