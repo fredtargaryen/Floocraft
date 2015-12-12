@@ -41,10 +41,10 @@ public class FloocraftWorldData extends WorldSavedData
 		return data;
 	}
 
-	public void addLocation(String name, int x, int y, int z)
+	public void addLocation(String name, BlockPos pos)
 	{
-		placeList.put(name, new int[]{x, y, z});
-		FMLLog.info("[FLOOCRAFT-SERVER] Added fireplace at (" + x + ", " + y + ", " + z + "). Name: " + name);
+		placeList.put(name, new int[]{pos.getX(), pos.getY(), pos.getZ()});
+		FMLLog.info("[FLOOCRAFT-SERVER] Added fireplace at " + pos.toString() + ". Name: " + name);
 		markDirty();
 	}
 	
@@ -52,21 +52,17 @@ public class FloocraftWorldData extends WorldSavedData
 	{
 		int[] coords = new int[]{x, y, z};
 		boolean removedPlace = false;
-		//ArrayList<String> placesToRemove = new ArrayList<String>();
-		for(String placeName : this.placeList.keySet())
+		Iterator i = this.placeList.keySet().iterator();
+		while(i.hasNext() && !removedPlace)
 		{
-			if(Arrays.equals(this.placeList.get(placeName), coords))
+			String nextPlaceName = (String)i.next();
+			if(Arrays.equals(this.placeList.get(nextPlaceName), coords))
 			{
-				//placesToRemove.add(placeName);
-				FMLLog.info("[FLOOCRAFT-SERVER] Removed fireplace at (" + x + ", " + y + ", " + z + "). Name: " + placeName);
-				this.placeList.remove(placeName);
+				FMLLog.info("[FLOOCRAFT-SERVER] Removed fireplace at (" + x + ", " + y + ", " + z + "). Name: " + nextPlaceName);
+				this.placeList.remove(nextPlaceName);
 				removedPlace = true;
 			}
 		}
-		//for(String s : placesToRemove)
-		//{
-		//	this.placeList.remove(s);
-		//}
 		if(!removedPlace)
 		{
             FMLLog.warning("[FLOOCRAFT-SERVER] Failed to remove fireplace at (" + x + ", " + y + ", " + z + ").");

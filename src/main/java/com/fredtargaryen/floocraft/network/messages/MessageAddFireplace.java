@@ -1,17 +1,20 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 
 public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAddFireplace, IMessage>
 {
 	public String name;
-	public int x, y, z;
+	public BlockPos signPos;
+	public BlockPos locationPos;
 	
 	@Override
 	public IMessage onMessage(final MessageAddFireplace message, MessageContext ctx)
@@ -21,10 +24,12 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 			@Override
 			public void run()
 			{
-				FloocraftWorldData.forWorld((WorldServer)serverWorld).addLocation(message.name, message.x, message.y, message.z);
+				WorldServer castedServerWorld = (WorldServer)serverWorld;
+				TileEntityFireplace flooSign = (TileEntityFireplace)castedServerWorld.getTileEntity(message.signPos);
+				flooSign.setY(message.locationPos.getY());
+				FloocraftWorldData.forWorld(castedServerWorld).addLocation(message.name, message.locationPos);
 			}
 		});
-		FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).addLocation(message.name, message.x, message.y, message.z);
 		return null;
 	}
 
@@ -33,9 +38,8 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	{
 		int nameLength = buf.readInt();
         this.name = new String(buf.readBytes(nameLength).array());
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
+        this.locationPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+		this.signPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 	}
 
 	@Override
@@ -43,8 +47,11 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	{
 		buf.writeInt(name.length());
         buf.writeBytes(name.getBytes());
-		buf.writeInt(x);
-		buf.writeInt(y);
-		buf.writeInt(z);
+		buf.writeInt(this.locationPos.getX());
+		buf.writeInt(this.locationPos.getY());
+		buf.writeInt(this.locationPos.getZ());
+		buf.writeInt(this.signPos.getX());
+		buf.writeInt(this.signPos.getY());
+		buf.writeInt(this.signPos.getZ());
 	}
 }

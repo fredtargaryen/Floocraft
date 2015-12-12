@@ -100,7 +100,7 @@ public class BlockFlooSign extends BlockWallSign
             {
                 //Finds the fireplace position from the sign position and rotation
                 //The block below the block at the top of the fireplace
-                pos = pos.offset(((EnumFacing)state.getValue(BlockFlooSign.FACING)).getOpposite()).offset(EnumFacing.DOWN, 1);
+                pos = pos.offset(((EnumFacing)state.getValue(BlockFlooSign.FACING)).getOpposite());
                 FloocraftWorldData.forWorld(w).removeLocation(pos.getX(), tef.getY(), pos.getZ());
             }
         }

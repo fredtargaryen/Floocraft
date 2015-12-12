@@ -86,7 +86,6 @@ public class BlockFlooTorch extends BlockTorch
         {
             if (par5Entity instanceof EntityPlayer)
             {
-                Random r = new Random();
                 int blockx = pos.getX();
                 int minx = blockx - 3;
                 int maxx = blockx + 3;
@@ -108,7 +107,7 @@ public class BlockFlooTorch extends BlockTorch
                 }
                 if(coords.size() > 0)
                 {
-                    BlockPos chosenCoord = coords.get(r.nextInt(coords.size())).add(0.5D, 0.0D, 0.5D);
+                    BlockPos chosenCoord = coords.get(par1World.rand.nextInt(coords.size())).add(0.5D, 0.0D, 0.5D);
                     double x = chosenCoord.getX();
                     double y = chosenCoord.getY();
                     double z = chosenCoord.getZ();

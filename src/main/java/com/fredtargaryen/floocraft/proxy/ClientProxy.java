@@ -4,6 +4,7 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
+import com.fredtargaryen.floocraft.entity.TextureStitcherBreathFX;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
@@ -12,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -25,6 +27,7 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
+        MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
     }
 
     @Override
@@ -39,10 +42,7 @@ public class ClientProxy extends CommonProxy
         m.register(FloocraftBase.floopowder2t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_two", "inventory"));
         m.register(FloocraftBase.floopowder4t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_four", "inventory"));
         m.register(FloocraftBase.floopowder8t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_eight", "inventory"));
-        ModelResourceLocation flooPowderInfiniteModel = new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory");
-        m.register(FloocraftBase.floopowderc, 0, flooPowderInfiniteModel);
-        m.register(Item.getItemFromBlock(FloocraftBase.greenFlamesIdle), 0, flooPowderInfiniteModel);
-        m.register(Item.getItemFromBlock(FloocraftBase.greenFlamesBusy), 0, flooPowderInfiniteModel);
+        m.register(FloocraftBase.floopowderc, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory"));
     }
 
     @Override

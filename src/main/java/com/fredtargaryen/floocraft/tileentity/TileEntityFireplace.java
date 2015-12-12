@@ -1,7 +1,7 @@
 package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.block.BlockFlooSign;
-import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageAddFireplace;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,13 +31,12 @@ public class TileEntityFireplace extends TileEntitySign
         if(par5World.isRemote)
         {
          	// We are on the client side.
-            BlockPos finalpos = iterateDownFromSign(par5World, pos);
-            this.y = finalpos.getY();
-        	MessageAddFireplace m = new MessageAddFireplace();
-        	m.name = name;
-        	m.x = finalpos.getX();
-        	m.y = this.y;
-        	m.z = finalpos.getZ();
+            MessageAddFireplace m = new MessageAddFireplace();
+            m.name = name;
+            m.signPos = pos;
+            BlockPos locationPos = iterateDownFromSign(par5World, pos);
+            this.y = locationPos.getY();
+            m.locationPos = locationPos;
         	PacketHandler.INSTANCE.sendToServer(m);
         }
    	}
@@ -59,12 +58,16 @@ public class TileEntityFireplace extends TileEntitySign
 
     public int getY(){return this.y;}
 
-    //Only call if world is remote
+    /**
+     * Gets the position of the block which, according to fireplace construction rules, forms the bottom of the fireplace.
+     * Fireplaces only permit air, fire and green fire blocks inside them.
+     * @return
+     */
     private static BlockPos iterateDownFromSign(World w, BlockPos pos)
     {
         //The block below the block at the top of the fireplace
         pos = pos.offset(((EnumFacing)w.getBlockState(pos).getValue(BlockFlooSign.FACING)).getOpposite()).offset(EnumFacing.DOWN, 1);
-        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.fire || w.getBlockState(pos).getBlock() instanceof GreenFlamesBusy) && pos.getY() > -1)
+        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.fire || w.getBlockState(pos).getBlock() instanceof GreenFlamesBase) && pos.getY() > -1)
         {
             pos = pos.offset(EnumFacing.DOWN, 1);
         }
@@ -94,4 +97,6 @@ public class TileEntityFireplace extends TileEntitySign
         this.isConnected = par1.getBoolean("Connected");
         this.y = par1.getInteger("Y");
     }
+
+    public void setY(int y){this.y = y;}
 }

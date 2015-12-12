@@ -1,8 +1,3 @@
-/**
- * ===NEXT UP===
- * ConcurrentModificationException when teleporting (check)
- * HOW TO TORCH FLAMES?!?!???!?!?!?!?!?!??!??!?!?!!??!?!!!?!?!?!!?
- */
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
