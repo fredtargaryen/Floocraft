@@ -59,9 +59,12 @@ public class TileEntityFireplace extends TileEntitySign
             this.y = newY;
         	MessageAddFireplace m = new MessageAddFireplace();
         	m.name = name;
-        	m.x = newX;
-        	m.y = newY;
-        	m.z = newZ;
+        	m.locX = newX;
+        	m.locY = newY;
+        	m.locZ = newZ;
+            m.blkX = x;
+            m.blkY = y;
+            m.blkZ = z;
         	PacketHandler.INSTANCE.sendToServer(m);
         }
         //else, we are on the Bukkit or server side.
@@ -130,4 +133,6 @@ public class TileEntityFireplace extends TileEntitySign
         this.isConnected = par1.getBoolean("Connected");
         this.y = par1.getInteger("Y");
     }
+
+    public void setY(int y){this.y = y;}
 }
