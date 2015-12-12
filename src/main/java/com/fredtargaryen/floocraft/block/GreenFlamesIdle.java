@@ -13,6 +13,7 @@ public class GreenFlamesIdle extends GreenFlamesBase
 	public GreenFlamesIdle()
     {
 		super();
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 
     @Override
@@ -20,7 +21,7 @@ public class GreenFlamesIdle extends GreenFlamesBase
     {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) != null)
         {
-            w.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(AGE, w.getBlockState(pos).getValue(AGE)));
+            w.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(AGE, state.getValue(AGE)));
         }
         super.updateTick(w, pos, state, par5Random);
     }

@@ -16,18 +16,12 @@ public class GreenFlamesBusy extends GreenFlamesBase
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
     }
 
-    @Override
-    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state)
-    {
-        par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
-    }
-
 	@Override
     public void updateTick(World w, BlockPos pos, IBlockState state, Random par5Random)
     {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE) == null)
         {
-            w.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(AGE, w.getBlockState(pos).getValue(AGE)));
+            w.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(AGE, state.getValue(AGE)));
         }
         super.updateTick(w, pos, state, par5Random);
     }

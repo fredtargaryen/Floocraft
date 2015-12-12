@@ -19,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -33,11 +34,8 @@ public class GuiTeleport extends GuiScreen
     //"Cancel"
     private GuiButton cancelBtn;
     
-    private List<String> placenamelist = new ArrayList<String>();
-	private List<Integer> xcoordlist = new ArrayList<Integer>();
-	private List<Integer> ycoordlist = new ArrayList<Integer>();
-	private List<Integer> zcoordlist = new ArrayList<Integer>();
-	private List<Boolean> enabledlist = new ArrayList<Boolean>();
+    private HashMap<String, int[]> placeList;
+	private List<Boolean> enabledList = new ArrayList<Boolean>();
 	
 	private boolean receivedLists;
 
@@ -46,6 +44,9 @@ public class GuiTeleport extends GuiScreen
 	private final int initX;
     private final int initY;
     private final int initZ;
+
+    //Every object in here is a String, so just cast
+    private Object[] placeListKeySet;
 	
     public GuiTeleport(int x, int y, int z)
     {
@@ -98,7 +99,7 @@ public class GuiTeleport extends GuiScreen
         else //if the lists were received...
         {
             //if they are empty...
-            if (this.placenamelist.size() == 0) {
+            if (this.placeList.size() == 0) {
                 this.status = "No places found";
             } else {
                 this.status = "";
@@ -130,20 +131,18 @@ public class GuiTeleport extends GuiScreen
                 int initX = this.initX;
                 int initY = this.initY;
                 int initZ = this.initZ;
-                int destX = xcoordlist.get(this.scrollWindow.getSelectedElement());
-                int destY = ycoordlist.get(this.scrollWindow.getSelectedElement());
-                int destZ = zcoordlist.get(this.scrollWindow.getSelectedElement());
+                int[] destCoords = this.placeList.get(this.placeListKeySet[this.scrollWindow.getSelectedElement()]);
                 try
                 {
-                    if(!(initX == destX && initY == destY && initZ == destZ))
+                    if(!(initX == destCoords[0] && initY == destCoords[1] && initZ == destCoords[2]))
                     {
                         MessageTeleportEntity m = new MessageTeleportEntity();
                         m.initX = initX;
                         m.initY = initY;
                         m.initZ = initZ;
-                        m.destX = destX;
-                        m.destY = destY;
-                        m.destZ = destZ;
+                        m.destX = destCoords[0];
+                        m.destY = destCoords[1];
+                        m.destZ = destCoords[2];
                         PacketHandler.INSTANCE.sendToServer(m);
                     }
                 }
@@ -198,11 +197,8 @@ public class GuiTeleport extends GuiScreen
     
     private void refresh()
     {
-    	this.placenamelist.clear();
-    	this.xcoordlist.clear();
-    	this.ycoordlist.clear();
-    	this.zcoordlist.clear();
-    	this.enabledlist.clear();
+    	this.placeList = new HashMap<String, int[]>();
+    	this.enabledList = new ArrayList<Boolean>();
     	this.receivedLists = false;
     	this.initGui();
         PacketHandler.INSTANCE.sendToServer(new MessageFireplaceListRequest());
@@ -212,11 +208,9 @@ public class GuiTeleport extends GuiScreen
     {
         try
 		{
-        	this.placenamelist = m.placenamelist;
-        	this.xcoordlist = m.xcoordlist;
-        	this.ycoordlist = m.ycoordlist;
-        	this.zcoordlist = m.zcoordlist;
-        	this.enabledlist = m.enabledlist;
+        	this.placeList = m.placeList;
+        	this.enabledList = m.enabledList;
+            this.placeListKeySet = this.placeList.keySet().toArray();
 			this.receivedLists = true;
 		}
 		catch(Exception ex)
@@ -269,7 +263,7 @@ public class GuiTeleport extends GuiScreen
 
         protected int getSize()
         {
-            return GuiTeleport.this.placenamelist.size();
+            return GuiTeleport.this.placeList.size();
         }
 
         /**
@@ -277,7 +271,7 @@ public class GuiTeleport extends GuiScreen
          */
         protected void elementClicked(int id, boolean isDoubleClick, int mousex, int mousey)
         {
-            GuiTeleport.this.goBtn.enabled = GuiTeleport.this.enabledlist.get(id);
+            GuiTeleport.this.goBtn.enabled = GuiTeleport.this.enabledList.get(id);
         }
 
         /**
@@ -303,7 +297,7 @@ public class GuiTeleport extends GuiScreen
         @Override
         protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, int p_148126_6_, int p_148126_7_)
         {
-            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, GuiTeleport.this.placenamelist.get(id), this.width / 2, p_148126_3_ + 1, GuiTeleport.this.enabledlist.get(id) ? 65280 : 16711680);
+            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, (String)GuiTeleport.this.placeListKeySet[id], this.width / 2, p_148126_3_ + 1, GuiTeleport.this.enabledList.get(id) ? 65280 : 16711680);
         }
 
         @Override

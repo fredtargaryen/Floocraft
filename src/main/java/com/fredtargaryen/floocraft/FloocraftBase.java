@@ -1,7 +1,8 @@
 /**
  * ===NEXT UP===
- * ConcurrentModificationException when teleporting
- * --Removed tp sound to check - doesn't seem to cause problems
+ * Torch flicking not working
+ * --onEntityCollidedWithBlock not being called
+ * ConcurrentModificationException when teleporting (check)
  * HOW TO TORCH FLAMES?!?!???!?!?!?!?!?!??!??!?!?!!??!?!!!?!?!?!!?
  */
 package com.fredtargaryen.floocraft;

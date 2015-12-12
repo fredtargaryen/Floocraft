@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.block;
 
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -14,30 +13,12 @@ public class GreenFlamesTemp extends GreenFlamesBusy
     public GreenFlamesTemp()
     {
         super();
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
-    }
-
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this, AGE);
-    }
-
-    @Override
-    public boolean isCollidable()
-    {
-        return false;
     }
 
     @Override
     public int tickRate(World par1World)
     {
         return 100;
-    }
-
-    @Override
-    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state)
-    {
-        par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
     }
 
     @Override

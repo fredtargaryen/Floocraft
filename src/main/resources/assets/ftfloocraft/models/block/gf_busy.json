@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-            "particle": "ftfloocraft:blocks/gf",
-            "fire": "ftfloocraft:blocks/gf"
+        "particle": "ftfloocraft:blocks/gf",
+        "fire": "ftfloocraft:blocks/gf"
     },
     "elements": [
         {   "from": [ 0, 0, 8.8 ],

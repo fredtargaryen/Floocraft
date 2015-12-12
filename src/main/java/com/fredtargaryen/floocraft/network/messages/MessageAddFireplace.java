@@ -1,6 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import net.minecraft.util.IThreadListener;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -12,8 +14,16 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	public int x, y, z;
 	
 	@Override
-	public IMessage onMessage(MessageAddFireplace message, MessageContext ctx)
+	public IMessage onMessage(final MessageAddFireplace message, MessageContext ctx)
 	{
+		final IThreadListener serverWorld = (WorldServer)ctx.getServerHandler().playerEntity.worldObj;
+		serverWorld.addScheduledTask(new Runnable(){
+			@Override
+			public void run()
+			{
+				FloocraftWorldData.forWorld((WorldServer)serverWorld).addLocation(message.name, message.x, message.y, message.z);
+			}
+		});
 		FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).addLocation(message.name, message.x, message.y, message.z);
 		return null;
 	}

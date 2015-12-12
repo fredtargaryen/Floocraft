@@ -1,6 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import net.minecraft.util.IThreadListener;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -14,7 +16,7 @@ public class MessageApproveName implements IMessage, IMessageHandler<MessageAppr
 	public IMessage onMessage(MessageApproveName message, MessageContext ctx)
 	{
         MessageApproval m = new MessageApproval();
-        m.answer = !FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).placenamelist.contains(message.name);
+        m.answer = !FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).placeList.containsKey(message.name);
 		return m;
 	}
 

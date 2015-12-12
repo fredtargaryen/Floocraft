@@ -9,7 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -18,64 +20,71 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 {
 	public int initX, initY, initZ, destX, destY, destZ;
 	@Override
-	public IMessage onMessage(MessageTeleportEntity message, MessageContext ctx)
+	public IMessage onMessage(final MessageTeleportEntity message, MessageContext ctx)
 	{
-        int initX = message.initX;
-        int initY = message.initY;
-        int initZ = message.initZ;
-        int destX = message.destX;
-        int destY = message.destY;
-        int destZ = message.destZ;
-		boolean tpApproved = false;
-		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-		World world = player.worldObj;
-		//Makes sure the destination block is fire, busy or idle flames, in a valid fireplace
-        BlockPos dest = new BlockPos(destX, destY, destZ);
-		Block destBlock = world.getBlockState(dest).getBlock();
-		if(destBlock == Blocks.fire)
-		{
-            world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
-            GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
-            if(gft.isInFireplace(world, dest))
-            {
-                tpApproved = true;
-            }
-            else
-            {
-                world.setBlockState(dest, Blocks.fire.getDefaultState());
-                return null;
-            }
-		}
-        if(destBlock instanceof GreenFlamesBusy)
-        {
-            tpApproved = true;
-        }
-		//Makes sure the player going is in busy or idle flames
-		Block initBlock = world.getBlockState(new BlockPos(initX, initY, initZ)).getBlock();
-		if(!(initBlock instanceof GreenFlamesBusy && initBlock != FloocraftBase.greenFlamesTemp))
-		{
-			tpApproved = false;
-		}
-        if(tpApproved)
-		{
-            PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
-			if(player.isRiding())
-			{
-				player.mountEntity(null);
+		final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+		final IThreadListener serverListener = (WorldServer)player.worldObj;
+		serverListener.addScheduledTask(new Runnable() {
+			@Override
+			public void run() {
+				int initX = message.initX;
+				int initY = message.initY;
+				int initZ = message.initZ;
+				int destX = message.destX;
+				int destY = message.destY;
+				int destZ = message.destZ;
+				boolean tpApproved = false;
+				WorldServer world = (WorldServer)serverListener;
+				//Makes sure the destination block is fire, busy or idle flames, in a valid fireplace
+				BlockPos dest = new BlockPos(destX, destY, destZ);
+				Block destBlock = world.getBlockState(dest).getBlock();
+				if(destBlock == Blocks.fire)
+				{
+					world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+					GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
+					if(gft.isInFireplace(world, dest))
+					{
+						tpApproved = true;
+					}
+					else
+					{
+						world.setBlockState(dest, Blocks.fire.getDefaultState());
+						return;
+					}
+				}
+				if(destBlock instanceof GreenFlamesBusy)
+				{
+					tpApproved = true;
+				}
+				//Makes sure the player going is in busy or idle flames
+				Block initBlock = world.getBlockState(new BlockPos(initX, initY, initZ)).getBlock();
+				if(!(initBlock instanceof GreenFlamesBusy && initBlock != FloocraftBase.greenFlamesTemp))
+				{
+					tpApproved = false;
+				}
+				if(tpApproved)
+				{
+					PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
+					if(player.isRiding())
+					{
+						player.mountEntity(null);
+					}
+					player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
+					player.fallDistance = 0.0F;
+					BlockPos init = new BlockPos(initX, initY, initZ);
+					int m = (Integer)world.getBlockState(init).getValue(GreenFlamesBusy.AGE);
+					if(m < 2)
+					{
+						world.setBlockState(init, Blocks.fire.getDefaultState());
+					}
+					else
+					{
+						world.setBlockState(init, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, m == 9 ? 9 : m - 1), 2);
+					}
+				}
 			}
-            player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
-    		player.fallDistance = 0.0F;
-            BlockPos init = new BlockPos(initX, initY, initZ);
-            int m = (Integer)world.getBlockState(init).getValue(GreenFlamesBusy.AGE);
-			if(m < 2)
-			{
-				world.setBlockState(init, Blocks.fire.getDefaultState());
-			}
-			else
-			{
-				world.setBlockState(init, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, m == 9 ? 9 : m - 1), 2);
-			}
-		}
+		});
+
 		return null;
 	}
 

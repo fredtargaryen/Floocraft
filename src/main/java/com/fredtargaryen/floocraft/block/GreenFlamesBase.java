@@ -4,7 +4,10 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -25,21 +28,44 @@ public abstract class GreenFlamesBase extends Block {
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
 
     public GreenFlamesBase() {
-        super(Material.air);
+        super(Material.fire);
     }
 
-    public boolean isCollidable() {
-        return true;
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, AGE);
     }
 
+    @Override
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(AGE, meta);
     }
 
+    @Override
     public int getMetaFromState(IBlockState state)
     {
-        return state.getValue(AGE);
+        return (Integer)state.getValue(AGE);
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean isOpaqueCube(){return false;}
+
+    @Override
+    public boolean isFullCube(){return false;}
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumWorldBlockLayer getBlockLayer()
+    {
+        return EnumWorldBlockLayer.CUTOUT_MIPPED;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.client.gui.GuiFlooSign;
+import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -13,13 +14,21 @@ public class MessageApproval implements IMessage, IMessageHandler<MessageApprova
 	public boolean answer;
 	
 	@Override
-	public IMessage onMessage(MessageApproval message, MessageContext ctx)
+	public IMessage onMessage(final MessageApproval message, MessageContext ctx)
 	{
-        GuiScreen s = Minecraft.getMinecraft().currentScreen;
-        if(s instanceof GuiFlooSign)
-        {
-            ((GuiFlooSign) s).dealWithAnswer(message.answer);
-        }
+		final IThreadListener clientThread = Minecraft.getMinecraft();
+		clientThread.addScheduledTask(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				GuiScreen s = ((Minecraft)clientThread).currentScreen;
+				if(s instanceof GuiFlooSign)
+				{
+					((GuiFlooSign) s).dealWithAnswer(message.answer);
+				}
+			}
+		});
         return null;
 	}
 

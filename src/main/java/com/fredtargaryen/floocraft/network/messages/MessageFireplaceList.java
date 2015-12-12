@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -9,67 +10,67 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFireplaceList, IMessage>
 {
-	public List<String>placenamelist = new ArrayList<String>();
-	public List<Integer>xcoordlist = new ArrayList<Integer>();
-	public List<Integer>ycoordlist = new ArrayList<Integer>();
-	public List<Integer>zcoordlist = new ArrayList<Integer>();
-	public List<Boolean>enabledlist = new ArrayList<Boolean>();
+	public HashMap<String, int[]> placeList;
+	public List<Boolean> enabledList;
 	
 	@Override
-	public IMessage onMessage(MessageFireplaceList message, MessageContext ctx)
+	public IMessage onMessage(final MessageFireplaceList message, MessageContext ctx)
 	{
-		GuiScreen s = Minecraft.getMinecraft().currentScreen;
-		if(s instanceof GuiTeleport)
-		{
-			((GuiTeleport) s).onMessageReceived(message);
-		}
+		final IThreadListener clientListener = Minecraft.getMinecraft();
+		clientListener.addScheduledTask(new Runnable() {
+			@Override
+			public void run()
+			{
+				GuiScreen s = ((Minecraft)clientListener).currentScreen;
+				if(s instanceof GuiTeleport)
+				{
+					((GuiTeleport) s).onMessageReceived(message);
+				}
+			}
+		});
 		return null;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
+		this.placeList = new HashMap<String, int[]>();
+		this.enabledList = new ArrayList<Boolean>();
 		int y = buf.readInt();
 		if(y > 0)
 		{
 			for(int x = 0; x < y; x++)
 			{
 				int nameLength = buf.readInt();
-				this.placenamelist.add(new String(buf.readBytes(nameLength).array()));
-				this.xcoordlist.add(buf.readInt());
-				this.ycoordlist.add(buf.readInt());
-				this.zcoordlist.add(buf.readInt());
-				this.enabledlist.add(buf.readBoolean());
+				String name = new String(buf.readBytes(nameLength).array());
+				int[] coords = new int[]{buf.readInt(), buf.readInt(), buf.readInt()};
+				this.placeList.put(name, coords);
+				this.enabledList.add(buf.readBoolean());
 			}
-		}
-		else
-		{
-			this.placenamelist.clear();
-			this.xcoordlist.clear();
-			this.ycoordlist.clear();
-			this.zcoordlist.clear();
-			this.enabledlist.clear();
 		}
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		int y = this.placenamelist.size();
+		int y = this.placeList.size();
 		buf.writeInt(y);
-		for(int x = 0; x < y; x++)
+		int keyCount = 0;
+		for(String s : this.placeList.keySet())
 		{
-			String s = this.placenamelist.get(x);
 			buf.writeInt(s.length());
 	        buf.writeBytes(s.getBytes());
-			buf.writeInt(this.xcoordlist.get(x));
-			buf.writeInt(this.ycoordlist.get(x));
-			buf.writeInt(this.zcoordlist.get(x));
-			buf.writeBoolean(this.enabledlist.get(x));
+			int[] coords = this.placeList.get(s);
+			buf.writeInt(coords[0]);
+			buf.writeInt(coords[1]);
+			buf.writeInt(coords[2]);
+			buf.writeBoolean(this.enabledList.get(keyCount));
+			keyCount++;
 		}
 	}
 }

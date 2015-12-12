@@ -39,7 +39,10 @@ public class ClientProxy extends CommonProxy
         m.register(FloocraftBase.floopowder2t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_two", "inventory"));
         m.register(FloocraftBase.floopowder4t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_four", "inventory"));
         m.register(FloocraftBase.floopowder8t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_eight", "inventory"));
-        m.register(FloocraftBase.floopowderc, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory"));
+        ModelResourceLocation flooPowderInfiniteModel = new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory");
+        m.register(FloocraftBase.floopowderc, 0, flooPowderInfiniteModel);
+        m.register(Item.getItemFromBlock(FloocraftBase.greenFlamesIdle), 0, flooPowderInfiniteModel);
+        m.register(Item.getItemFromBlock(FloocraftBase.greenFlamesBusy), 0, flooPowderInfiniteModel);
     }
 
     @Override

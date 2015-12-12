@@ -1,4 +1,5 @@
 {
   "greened": {"category": "block","sounds": [{"name": "greened","stream": false}]},
-  "tp": {"category": "master","sounds": [{"name": "tp","stream": false}]}
+  "tp": {"category": "master","sounds": [{"name": "tp","stream": false}]},
+  "flick": {"category": "block","sounds": [{"name": "flick", "stream": false}]}
 }
