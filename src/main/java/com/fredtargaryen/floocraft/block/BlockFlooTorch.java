@@ -41,11 +41,13 @@ public class BlockFlooTorch extends BlockTorch
 		super();
 	}
 
+    @Override
     protected BlockState createBlockState()
     {
         return new BlockState(this, FACING);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
@@ -65,18 +67,20 @@ public class BlockFlooTorch extends BlockTorch
         }
     }
 
+    @Override
     public boolean isCollidable()
     {
         return true;
     }
 
+    @Override
 	public int quantityDropped(Random par1Random)
     {
         return 1;
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, Entity par5Entity)
+    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par5Entity)
     {
         if (!par1World.isRemote)
         {

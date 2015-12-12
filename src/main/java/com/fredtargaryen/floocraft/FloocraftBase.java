@@ -1,7 +1,5 @@
 /**
  * ===NEXT UP===
- * Torch flicking not working
- * --onEntityCollidedWithBlock not being called
  * ConcurrentModificationException when teleporting (check)
  * HOW TO TORCH FLAMES?!?!???!?!?!?!?!?!??!??!?!?!!??!?!!!?!?!?!!?
  */
