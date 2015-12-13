@@ -9,60 +9,36 @@
 #################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
+:compileApiJava UP-TO-DATE
+:processApiResources UP-TO-DATE
+:apiClasses UP-TO-DATE
+:sourceMainJava
+:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+1 warning
+
+:processResources
+:classes
+:jar
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:extractMcpData SKIPPED
+:extractMcpMappings SKIPPED
 :getVersionJson
-:extractUserdev
-Download http://files.minecraftforge.net/maven/net/minecraftforge/forge/1.8-11.14.4.1563/forge-1.8-11.14.4.1563.pom
-Download http://files.minecraftforge.net/maven/net/minecraftforge/forge/1.8-11.14.4.1563/forge-1.8-11.14.4.1563-userdev.jar
-:extractDependencyATs SKIPPED
-:extractMcpData
-Download http://files.minecraftforge.net/maven/de/oceanlabs/mcp/mcp/1.8/mcp-1.8-srg.zip
-:extractMcpMappings
-:genSrgs
-:downloadClient SKIPPED
-:downloadServer SKIPPED
-:splitServerJar
-:mergeJars
-:deobfMcSRG
-Applying SpecialSource...
-Applying Exceptor...
-:getFernFlower SKIPPED
-:decompileMc
-:fixMcSources
-:applySourcePatches
-:remapMcSources
-:recompileMc
-Download https://libraries.minecraft.net/com/mojang/authlib/1.5.21/authlib-1.5.21.pom
-Download https://libraries.minecraft.net/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.pom
-Download https://libraries.minecraft.net/com/mojang/authlib/1.5.21/authlib-1.5.21.jar
-Download https://libraries.minecraft.net/net/minecraft/launchwrapper/1.12/launchwrapper-1.12.jar
-[ant:javac] warning: [options] bootstrap class path not set in conjunction with -source 1.6
-[ant:javac] Note: Some input files use or override a deprecated API.
-[ant:javac] Note: Recompile with -Xlint:deprecation for details.
-[ant:javac] Note: Some input files use unchecked or unsafe operations.
-[ant:javac] Note: Recompile with -Xlint:unchecked for details.
-[ant:javac] 1 warning
-:extractNatives
-:getAssetIndex UP-TO-DATE
-:getAssets
-Current status: 27/734   3%
-Current status: 80/734   10%
-Current status: 126/734   17%
-Current status: 192/734   26%
-Current status: 269/734   36%
-Current status: 309/734   42%
-Current status: 367/734   50%
-Current status: 422/734   57%
-Current status: 464/734   63%
-Current status: 515/734   70%
-Current status: 556/734   75%
-Current status: 593/734   80%
-Current status: 646/734   88%
-Current status: 694/734   94%
-:makeStart
-[ant:javac] warning: [options] bootstrap class path not set in conjunction with -source 1.6
-[ant:javac] 1 warning
-:setupDecompWorkspace
+:extractUserdev UP-TO-DATE
+:genSrgs SKIPPED
+:reobfJar
+:extractRangemapSrc
+:retromapSources
+remapping source...
+:sourceJar
+:assemble
+:check UP-TO-DATE
+:build
 
 BUILD SUCCESSFUL
 
-Total time: 26 mins 1.861 secs
+Total time: 1 mins 42.167 secs

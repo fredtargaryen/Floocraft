@@ -87,5 +87,3 @@ idea {
         inheritOutputDirs = true
     }
 }
-
-sourceSets { main { output.resourcesDir = output.classesDir } }

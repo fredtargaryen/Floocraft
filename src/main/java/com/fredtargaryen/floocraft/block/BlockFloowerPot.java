@@ -111,30 +111,34 @@ public class BlockFloowerPot extends BlockContainer
         {
             TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
-            if (stack != null && stack.stackSize > 0)
+            if (stack != null)
             {
                 int par2 = pos.getX();
                 int par3 = pos.getY();
                 int par4 = pos.getZ();
+                BlockPos currentPos;
+                Block currentBlock;
                 for (int x = par2 - 5; x < par2 + 6; x++)
                 {
                     for (int y = par3 - 5; y < par3 + 6; y++)
                     {
                         for (int z = par4 - 5; z < par4 + 6; z++)
                         {
-                            if (state.getBlock() == Blocks.fire)
-                            {
-                                worldIn.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState());
-                                GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(pos).getBlock();
-                                boolean shouldPut = gfit.isInFireplace(worldIn, pos);
-                                worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
-                                if (shouldPut)
-                                {
-                                    Item i = stack.getItem();
-                                    worldIn.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, ((ItemFlooPowder) i).getConcentration()), 2);
-                                    worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
-                                    stack.stackSize--;
-                                    pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
+                            if(stack.stackSize > 0) {
+                                currentPos = new BlockPos(x, y, z);
+                                currentBlock = worldIn.getBlockState(currentPos).getBlock();
+                                if (currentBlock == Blocks.fire) {
+                                    worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesTemp.getDefaultState());
+                                    GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(currentPos).getBlock();
+                                    if (gfit.isInFireplace(worldIn, currentPos)) {
+                                        Item i = stack.getItem();
+                                        worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
+                                        worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
+                                        stack.stackSize--;
+                                        pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
+                                    } else {
+                                        worldIn.setBlockState(currentPos, Blocks.fire.getDefaultState());
+                                    }
                                 }
                             }
                         }

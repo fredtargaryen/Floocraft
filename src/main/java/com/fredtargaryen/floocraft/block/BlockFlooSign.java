@@ -8,6 +8,7 @@ import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -76,7 +77,7 @@ public class BlockFlooSign extends BlockWallSign
      * @return A ItemStack to add to the player's inventory, Null if nothing should be added.
      */
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos)
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player)
     {
         return new ItemStack(FloocraftBase.itemFlooSign, 1);
     }
