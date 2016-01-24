@@ -122,7 +122,7 @@ public abstract class GreenFlamesBase extends Block {
             b = w.getBlockState(newPos).getBlock();
         }
         //When y >= 256 you get an air block, so if b is a normal cube y is implicitly < 256
-        if (b.isNormalCube()) return y;
+        if (b.isSolidFullCube()) return y;
         return 0;
     }
 
@@ -130,7 +130,7 @@ public abstract class GreenFlamesBase extends Block {
         boolean valid = true;
         BlockPos newBottomPos = bottomPos;
         while (valid && newBottomPos.getY() < topY) {
-            if (w.getBlockState(newBottomPos).getBlock().isNormalCube()) {
+            if (w.getBlockState(newBottomPos).getBlock().isSolidFullCube()) {
                 newBottomPos = newBottomPos.offset(EnumFacing.UP, 1);
             } else {
                 valid = false;

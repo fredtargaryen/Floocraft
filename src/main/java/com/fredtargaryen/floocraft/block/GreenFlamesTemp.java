@@ -31,4 +31,7 @@ public class GreenFlamesTemp extends GreenFlamesBusy
     public void onEntityCollidedWithBlock(World w, BlockPos pos, IBlockState state, Entity e)
     {
     }
+
+    @Override
+    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {}
 }

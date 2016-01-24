@@ -21,7 +21,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class GuiFlooSign extends GuiScreen
 {
-    private String sameNameError = "";
+    private String status = "Note: before connecting, ensure that the fuel block is in the fireplace.";
 
     /** Reference to the sign object. */
     private final TileEntityFireplace fireplaceTE;
@@ -139,7 +139,7 @@ public class GuiFlooSign extends GuiScreen
         		40,
         		16777215);
         this.drawCenteredString(this.fontRendererObj,
-            	this.sameNameError,
+            	this.status,
             	this.width / 2,
             	this.height / 4 + 100,
             	16777215);
@@ -193,7 +193,7 @@ public class GuiFlooSign extends GuiScreen
     {
         if(answer)
         {
-            this.sameNameError = "";
+            this.status = "";
             //Tells the server that this sign should be connected
             MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
             BlockPos pos = this.fireplaceTE.getPos();
@@ -209,7 +209,7 @@ public class GuiFlooSign extends GuiScreen
         }
         else
         {
-            this.sameNameError = "There is already a fireplace with this name";
+            this.status = "There is already a fireplace with this name";
         }
     }
 
