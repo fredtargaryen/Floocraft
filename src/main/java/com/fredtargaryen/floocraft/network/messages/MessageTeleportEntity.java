@@ -28,8 +28,9 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 		boolean tpApproved = false;
 		EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 		World world = player.worldObj;
-		//Makes sure the destination block is fire, busy or idle flames, in a valid fireplace
+
 		Block destBlock = world.getBlock(destX, destY, destZ);
+		//Check if the destination block is fire
 		if(destBlock == Blocks.fire)
 		{
             world.setBlock(destX, destY, destZ, FloocraftBase.greenFlamesTemp);
@@ -41,20 +42,17 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
             else
             {
                 world.setBlock(destX, destY, destZ, Blocks.fire);
-                return null;
+                tpApproved = false;
             }
 		}
-        if(destBlock instanceof GreenFlamesBase)
+		//Check if the destination block is busy or idle flames
+        else if(destBlock == FloocraftBase.greenFlamesBusy || destBlock == FloocraftBase.greenFlamesIdle)
         {
             tpApproved = true;
         }
-		//Makes sure the player going is in busy or idle flames
+		//Makes sure the player is in busy or idle flames
 		Block initBlock = world.getBlock(initX, initY, initZ);
-		if(!(initBlock instanceof GreenFlamesBase && initBlock != FloocraftBase.greenFlamesTemp))
-		{
-			tpApproved = false;
-		}
-        if(tpApproved)
+        if(tpApproved && (initBlock == FloocraftBase.greenFlamesBusy || initBlock == FloocraftBase.greenFlamesIdle))
 		{
             PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
 			if(player.isRiding())
