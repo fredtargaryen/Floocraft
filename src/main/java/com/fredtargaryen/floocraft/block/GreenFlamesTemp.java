@@ -33,5 +33,8 @@ public class GreenFlamesTemp extends GreenFlamesBusy
     }
 
     @Override
-    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {}
+    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state)
+    {
+        par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
+    }
 }

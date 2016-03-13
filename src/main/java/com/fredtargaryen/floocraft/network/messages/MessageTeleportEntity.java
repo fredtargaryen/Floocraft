@@ -33,36 +33,36 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				int destX = message.destX;
 				int destY = message.destY;
 				int destZ = message.destZ;
-				boolean tpApproved = false;
+				boolean validDest = false;
 				WorldServer world = (WorldServer)serverListener;
-				//Makes sure the destination block is fire, busy or idle flames, in a valid fireplace
 				BlockPos dest = new BlockPos(destX, destY, destZ);
 				Block destBlock = world.getBlockState(dest).getBlock();
+
+				//Checks if the destination block is fire
 				if(destBlock == Blocks.fire)
 				{
 					world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
 					GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
 					if(gft.isInFireplace(world, dest))
 					{
-						tpApproved = true;
+						validDest = true;
 					}
 					else
 					{
 						world.setBlockState(dest, Blocks.fire.getDefaultState());
-						return;
+						validDest = false;
 					}
 				}
-				if(destBlock instanceof GreenFlamesBusy)
+				//Checks if the destination block is busy or idle flames
+				else if(destBlock == FloocraftBase.greenFlamesBusy || destBlock == FloocraftBase.greenFlamesIdle)
 				{
-					tpApproved = true;
+					validDest = true;
 				}
-				//Makes sure the player going is in busy or idle flames
+
+
 				Block initBlock = world.getBlockState(new BlockPos(initX, initY, initZ)).getBlock();
-				if(!(initBlock instanceof GreenFlamesBusy && initBlock != FloocraftBase.greenFlamesTemp))
-				{
-					tpApproved = false;
-				}
-				if(tpApproved)
+				//Check if the player is in busy or idle flames
+				if(validDest && (initBlock == FloocraftBase.greenFlamesBusy || initBlock == FloocraftBase.greenFlamesIdle))
 				{
 					PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
 					if(player.isRiding())
