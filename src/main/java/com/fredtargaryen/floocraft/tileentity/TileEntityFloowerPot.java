@@ -58,14 +58,8 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
-        ItemStack stack = getStackInSlot(slot);
-        if (stack != null)
-        {
-            setInventorySlotContents(slot, null);
-        }
-        return stack;
+    public ItemStack removeStackFromSlot(int index) {
+        return null;
     }
 
     @Override
@@ -183,7 +177,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public String getCommandSenderName() {
+    public String getName() {
         return null;
     }
 

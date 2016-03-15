@@ -1,7 +1,7 @@
-This mapping 'snapshot_20151122' was designed for MC 1.8! Use at your own peril.This mapping 'snapshot_20151122' was designed for MC 1.8! Use at your own peril.
+This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.
 
 #################################################
-         ForgeGradle 2.1-SNAPSHOT-d98ae31        
+         ForgeGradle 2.1-SNAPSHOT-9e8f067        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
                Powered by MCP unknown               
@@ -13,4 +13,4 @@ This mapping 'snapshot_20151122' was designed for MC 1.8! Use at your own peril.
 
 BUILD SUCCESSFUL
 
-Total time: 49.122 secs
+Total time: 35.688 secs

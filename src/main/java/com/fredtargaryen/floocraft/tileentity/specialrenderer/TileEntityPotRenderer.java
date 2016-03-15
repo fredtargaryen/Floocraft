@@ -31,12 +31,12 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
             GL11.glDisable(GL11.GL_BLEND);        // turn off "alpha" transparency blending
             GL11.glDepthMask(true);               // quad is hidden behind other objects
             this.bindTexture(DataReference.TP_BACKGROUND);
-            r.func_181668_a(GL11.GL_QUADS, DefaultVertexFormats.field_181707_g);
+            r.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
             double level = (((float)stack.stackSize / 64) * 0.3125) + 0.0625;
-            r.func_181662_b(0.625, level, 0.625).func_181673_a(1.0, 1.0).func_181675_d();
-            r.func_181662_b(0.625, level, 0.375).func_181673_a(1.0, 0.0).func_181675_d();
-            r.func_181662_b(0.375, level, 0.375).func_181673_a(0.0, 0.0).func_181675_d();
-            r.func_181662_b(0.375, level, 0.625).func_181673_a(0.0, 1.0).func_181675_d();
+            r.pos(0.625, level, 0.625).tex(1.0, 1.0).endVertex();
+            r.pos(0.625, level, 0.375).tex(1.0, 0.0).endVertex();
+            r.pos(0.375, level, 0.375).tex(0.0, 0.0).endVertex();
+            r.pos(0.375, level, 0.625).tex(0.0, 1.0).endVertex();
             t.draw();
             GL11.glPopAttrib();
             GL11.glPopMatrix();

@@ -318,11 +318,11 @@ public class GuiTeleport extends GuiScreen
             GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             float f = 32.0F;
-            wr.func_181668_a(GL11.GL_QUADS, DefaultVertexFormats.field_181707_g);
-            wr.func_181662_b((double)this.left, (double)p_148136_2_, 0.0D).func_181673_a(0.0D, (double)((float)p_148136_2_ / f)).func_181675_d();
-            wr.func_181662_b((double)(this.left + this.width), (double)p_148136_2_, 0.0D).func_181673_a((double)((float)this.width / f), (double)((float)p_148136_2_ / f)).func_181675_d();
-            wr.func_181662_b((double) (this.left + this.width), (double) p_148136_1_, 0.0D).func_181673_a((double) ((float) this.width / f), (double) ((float)p_148136_1_ / f)).func_181675_d();
-            wr.func_181662_b((double) this.left, (double) p_148136_1_, 0.0D).func_181673_a(0.0D, (double) ((float)p_148136_1_ / f)).func_181675_d();
+            wr.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            wr.pos((double)this.left, (double)p_148136_2_, 0.0D).tex(0.0D, (double)((float)p_148136_2_ / f)).endVertex();
+            wr.pos((double)(this.left + this.width), (double)p_148136_2_, 0.0D).tex((double)((float)this.width / f), (double)((float)p_148136_2_ / f)).endVertex();
+            wr.pos((double) (this.left + this.width), (double) p_148136_1_, 0.0D).tex((double) ((float) this.width / f), (double) ((float)p_148136_1_ / f)).endVertex();
+            wr.pos((double) this.left, (double) p_148136_1_, 0.0D).tex(0.0D, (double) ((float)p_148136_1_ / f)).endVertex();
             Tessellator.getInstance().draw();
         }
 
