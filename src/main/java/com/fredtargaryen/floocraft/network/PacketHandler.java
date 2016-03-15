@@ -20,6 +20,6 @@ public class PacketHandler
         INSTANCE.registerMessage(MessageApproval.class, MessageApproval.class, 5, Side.CLIENT);
         INSTANCE.registerMessage(MessageTileEntityFireplaceFunction.class, MessageTileEntityFireplaceFunction.class, 6, Side.SERVER);
         INSTANCE.registerMessage(MessageDoGreenFlash.class, MessageDoGreenFlash.class, 7, Side.CLIENT);
-
+		INSTANCE.registerMessage(MessageFlooTorchTeleport.class, MessageFlooTorchTeleport.class, 8, Side.SERVER);
 	}
 }

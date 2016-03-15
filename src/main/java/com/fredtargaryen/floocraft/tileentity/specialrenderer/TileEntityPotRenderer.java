@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
@@ -29,12 +31,12 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
             GL11.glDisable(GL11.GL_BLEND);        // turn off "alpha" transparency blending
             GL11.glDepthMask(true);               // quad is hidden behind other objects
             this.bindTexture(DataReference.TP_BACKGROUND);
-            r.startDrawingQuads();
+            r.func_181668_a(GL11.GL_QUADS, DefaultVertexFormats.field_181707_g);
             double level = (((float)stack.stackSize / 64) * 0.3125) + 0.0625;
-            r.addVertexWithUV(0.625, level, 0.625, 1.0, 1.0);
-            r.addVertexWithUV(0.625, level, 0.375, 1.0, 0.0);
-            r.addVertexWithUV(0.375, level, 0.375, 0.0, 0.0);
-            r.addVertexWithUV(0.375, level, 0.625, 0.0, 1.0);
+            r.func_181662_b(0.625, level, 0.625).func_181673_a(1.0, 1.0).func_181675_d();
+            r.func_181662_b(0.625, level, 0.375).func_181673_a(1.0, 0.0).func_181675_d();
+            r.func_181662_b(0.375, level, 0.375).func_181673_a(0.0, 0.0).func_181675_d();
+            r.func_181662_b(0.375, level, 0.625).func_181673_a(0.0, 1.0).func_181675_d();
             t.draw();
             GL11.glPopAttrib();
             GL11.glPopMatrix();

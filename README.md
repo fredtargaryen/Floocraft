@@ -1,2 +1,2 @@
-# Floocraft-1.8
+# Floocraft
 A Minecraft Forge mod about Floo Powder.

@@ -1,7 +1,8 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.entity.EntityGreenFlame;
+import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
 import com.google.common.base.Predicate;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.properties.PropertyDirection;
@@ -10,7 +11,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -18,8 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class BlockFlooTorch extends BlockTorch
@@ -82,38 +80,16 @@ public class BlockFlooTorch extends BlockTorch
     @Override
     public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par5Entity)
     {
-        if (!par1World.isRemote)
+        if (par1World.isRemote)
         {
             if (par5Entity instanceof EntityPlayer)
             {
-                int blockx = pos.getX();
-                int minx = blockx - 3;
-                int maxx = blockx + 3;
-                int blockz = pos.getZ();
-                int minz = blockz - 3;
-                int maxz = blockz + 3;
-                int blocky = pos.getY();
-                List<BlockPos> coords = new ArrayList<BlockPos>();
-                for (int x = minx; x <= maxx; x++)
-                {
-                    for (int z = minz; z <= maxz; z++)
-                    {
-                        BlockPos nextPos = new BlockPos(x, blocky, z);
-                        if (par1World.isAirBlock(nextPos) && par1World.isAirBlock(nextPos.up()))
-                        {
-                            coords.add(nextPos);
-                        }
-                    }
-                }
-                if(coords.size() > 0)
-                {
-                    BlockPos chosenCoord = coords.get(par1World.rand.nextInt(coords.size())).add(0.5D, 0.0D, 0.5D);
-                    double x = chosenCoord.getX();
-                    double y = chosenCoord.getY();
-                    double z = chosenCoord.getZ();
-                    par5Entity.setPositionAndUpdate(x, y, z);
-                    par1World.playSoundEffect(x, y, z, DataReference.MODID + ":flick", 1.0F, 1.0F);
-                }
+                //Triggered by a player on the client side.
+                MessageFlooTorchTeleport mftt = new MessageFlooTorchTeleport();
+                mftt.torchX = pos.getX();
+                mftt.torchY = pos.getY();
+                mftt.torchZ = pos.getZ();
+                PacketHandler.INSTANCE.sendToServer(mftt);
             }
         }
     }

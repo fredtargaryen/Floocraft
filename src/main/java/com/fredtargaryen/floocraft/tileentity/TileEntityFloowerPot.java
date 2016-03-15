@@ -183,7 +183,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public String getName() {
+    public String getCommandSenderName() {
         return null;
     }
 

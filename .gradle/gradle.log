@@ -1,44 +1,16 @@
+This mapping 'snapshot_20151122' was designed for MC 1.8! Use at your own peril.This mapping 'snapshot_20151122' was designed for MC 1.8! Use at your own peril.
+
 #################################################
-         ForgeGradle 2.0-SNAPSHOT        
+         ForgeGradle 2.1-SNAPSHOT-d98ae31        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
-               Powered by MCP 9.10               
+               Powered by MCP unknown               
              http://modcoderpack.com             
          by: Searge, ProfMobius, Fesh0r,         
          R4wk, ZeuX, IngisKahn, bspkrs           
 #################################################
-:deobfCompileDummyTask
-:deobfProvidedDummyTask
-:compileApiJava UP-TO-DATE
-:processApiResources UP-TO-DATE
-:apiClasses UP-TO-DATE
-:sourceMainJava
-:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
-Note: Some input files use unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-1 warning
-
-:processResources
-:classes
-:jar
-:compileTestJava UP-TO-DATE
-:processTestResources UP-TO-DATE
-:testClasses UP-TO-DATE
-:test UP-TO-DATE
-:extractMcpData SKIPPED
-:extractMcpMappings SKIPPED
-:getVersionJson
-:extractUserdev UP-TO-DATE
-:genSrgs SKIPPED
-:reobfJar
-:extractRangemapSrc
-:retromapSources
-remapping source...
-:sourceJar
-:assemble
-:check UP-TO-DATE
-:build
+:genIntellijRuns
 
 BUILD SUCCESSFUL
 
-Total time: 1 mins 42.167 secs
+Total time: 49.122 secs

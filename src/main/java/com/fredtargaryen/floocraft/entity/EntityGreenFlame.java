@@ -3,18 +3,11 @@ package com.fredtargaryen.floocraft.entity;
 import com.fredtargaryen.floocraft.DataReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * ALL CODE HERE GRABBED FROM MinecraftByExample BY TheGreyGhost. THANK YOU!
+ * ALL CODE HERE GRABBED FROM MinecraftByExample BY TheGreyGhost (and very slightly adjusted). THANK YOU!
  */
 public class EntityGreenFlame extends EntityFX
 {
@@ -25,8 +18,7 @@ public class EntityGreenFlame extends EntityFX
     {
         super(world, x, y, z, 0.0D, 0.0D, 0.0D);
 
-        final float ALPHA_VALUE = 0.99F;
-        this.particleAlpha = ALPHA_VALUE;  // a value less than 1 turns on alpha blending. Otherwise, alpha blending is off
+        this.particleAlpha = 0.99F;  // a value less than 1 turns on alpha blending. Otherwise, alpha blending is off
         // and the particle won't be transparent.
 
         //the vanilla EntityFX constructor added random variation to our starting velocity.  Undo it!
@@ -37,7 +29,7 @@ public class EntityGreenFlame extends EntityFX
         // set the texture to the flame texture, which we have previously added using TextureStitchEvent
         //   (see TextureStitcherBreathFX)
         TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(DataReference.FLAMERL.toString());
-        func_180435_a(sprite);  // initialise the icon to our custom texture
+        setParticleIcon(sprite);  // initialise the icon to our custom texture
     }
 
     /**
@@ -49,8 +41,6 @@ public class EntityGreenFlame extends EntityFX
      *   Layer 1 - uses the blocks + items texture sheet
      * lit particles: changes brightness depending on world lighting i.e. block light + sky light
      *   Layer 3 - uses the blocks + items texture sheet (I think)
-     *
-     * @return
      */
     @Override
     public int getFXLayer()
@@ -62,8 +52,8 @@ public class EntityGreenFlame extends EntityFX
     @Override
     public int getBrightnessForRender(float partialTick)
     {
-        final int FULL_BRIGHTNESS_VALUE = 0xf000f0;
-        return FULL_BRIGHTNESS_VALUE;
+        //Full brightness
+        return 0xf000f0;
     }
 
     // this function is used by EffectRenderer.addEffect() to determine whether depthmask writing should be on or not.
@@ -72,7 +62,7 @@ public class EntityGreenFlame extends EntityFX
     //   otherwise translucent objects (such as water) render over the top of our breath, even if the breath is in front
     //  of the water and not behind
     @Override
-    public float func_174838_j()
+    public float getAlpha()
     {
         return 1.0F;
     }
@@ -96,70 +86,4 @@ public class EntityGreenFlame extends EntityFX
             this.setDead();
         }
     }
-
-    /**
-     * Render the EntityFX onto the screen.  For more help with the tessellator see
-     * http://greyminecraftcoder.blogspot.co.at/2014/12/the-tessellator-and-worldrenderer-18.html
-     * <p/>
-     * You don't actually need to override this method, this is just a deobfuscated example of the vanilla, to show you
-     * how it works in case you want to do something a bit unusual.
-     * <p/>
-     * The EntityFX is rendered as a two-dimensional object (Quad) in the world (three-dimensional coordinates).
-     * The corners of the quad are chosen so that the EntityFX is drawn directly facing the viewer (or in other words,
-     * so that the quad is always directly face-on to the screen.)
-     * In order to manage this, it needs to know two direction vectors:
-     * 1) the 3D vector direction corresponding to left-right on the viewer's screen (edgeLRdirection)
-     * 2) the 3D vector direction corresponding to up-down on the viewer's screen (edgeUDdirection)
-     * These two vectors are calculated by the caller.
-     * For example, the top right corner of the quad on the viewer's screen is equal to:
-     * the centre point of the quad (x,y,z)
-     * plus the edgeLRdirection vector multiplied by half the quad's width
-     * plus the edgeUDdirection vector multiplied by half the quad's height.
-     * NB edgeLRdirectionY is not provided because it's always 0, i.e. the top of the viewer's screen is always directly
-     * up, so moving left-right on the viewer's screen doesn't affect the y coordinate position in the world
-     *
-     * @param worldRenderer
-     * @param entity
-     * @param partialTick
-     * @param edgeLRdirectionX edgeLRdirection[XYZ] is the vector direction pointing left-right on the player's screen
-     * @param edgeUDdirectionY edgeUDdirection[XYZ] is the vector direction pointing up-down on the player's screen
-     * @param edgeLRdirectionZ edgeLRdirection[XYZ] is the vector direction pointing left-right on the player's screen
-     * @param edgeUDdirectionX edgeUDdirection[XYZ] is the vector direction pointing up-down on the player's screen
-     * @param edgeUDdirectionZ edgeUDdirection[XYZ] is the vector direction pointing up-down on the player's screen
-     */
-    /*@Override
-    public void func_180434_a(WorldRenderer worldRenderer, Entity entity, float partialTick,
-                              float edgeLRdirectionX, float edgeUDdirectionY, float edgeLRdirectionZ,
-                              float edgeUDdirectionX, float edgeUDdirectionZ)
-    {
-        double minU = this.particleIcon.getMinU();
-        double maxU = this.particleIcon.getMaxU();
-        double minV = this.particleIcon.getMinV();
-        double maxV = this.particleIcon.getMaxV();
-
-        double scale = 0.1F * this.particleScale;  // vanilla scaling factor
-        final double scaleLR = scale;
-        final double scaleUD = scale;
-        double x = this.prevPosX + (this.posX - this.prevPosX) * partialTick - interpPosX;
-        double y = this.prevPosY + (this.posY - this.prevPosY) * partialTick - interpPosY;
-        double z = this.prevPosZ + (this.posZ - this.prevPosZ) * partialTick - interpPosZ;
-
-        worldRenderer.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
-        worldRenderer.addVertexWithUV(x - edgeLRdirectionX * scaleLR - edgeUDdirectionX * scaleUD,
-                y - edgeUDdirectionY * scaleUD,
-                z - edgeLRdirectionZ * scaleLR - edgeUDdirectionZ * scaleUD,
-                maxU, maxV);
-        worldRenderer.addVertexWithUV(x - edgeLRdirectionX * scaleLR + edgeUDdirectionX * scaleUD,
-                y + edgeUDdirectionY * scaleUD,
-                z - edgeLRdirectionZ * scaleLR + edgeUDdirectionZ * scaleUD,
-                maxU, minV);
-        worldRenderer.addVertexWithUV(x + edgeLRdirectionX * scaleLR + edgeUDdirectionX * scaleUD,
-                y + edgeUDdirectionY * scaleUD,
-                z + edgeLRdirectionZ * scaleLR + edgeUDdirectionZ * scaleUD,
-                minU, minV);
-        worldRenderer.addVertexWithUV(x + edgeLRdirectionX * scaleLR - edgeUDdirectionX * scaleUD,
-                y - edgeUDdirectionY * scaleUD,
-                z + edgeLRdirectionZ * scaleLR - edgeUDdirectionZ * scaleUD,
-                minU, maxV);
-    }*/
 }

@@ -12,6 +12,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -316,11 +318,11 @@ public class GuiTeleport extends GuiScreen
             GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             float f = 32.0F;
-            wr.startDrawingQuads();
-            wr.addVertexWithUV((double)this.left, (double)p_148136_2_, 0.0D, 0.0D, (double)((float)p_148136_2_ / f));
-            wr.addVertexWithUV((double)(this.left + this.width), (double)p_148136_2_, 0.0D, (double)((float)this.width / f), (double)((float)p_148136_2_ / f));
-            wr.addVertexWithUV((double) (this.left + this.width), (double) p_148136_1_, 0.0D, (double) ((float) this.width / f), (double) ((float)p_148136_1_ / f));
-            wr.addVertexWithUV((double) this.left, (double) p_148136_1_, 0.0D, 0.0D, (double) ((float)p_148136_1_ / f));
+            wr.func_181668_a(GL11.GL_QUADS, DefaultVertexFormats.field_181707_g);
+            wr.func_181662_b((double)this.left, (double)p_148136_2_, 0.0D).func_181673_a(0.0D, (double)((float)p_148136_2_ / f)).func_181675_d();
+            wr.func_181662_b((double)(this.left + this.width), (double)p_148136_2_, 0.0D).func_181673_a((double)((float)this.width / f), (double)((float)p_148136_2_ / f)).func_181675_d();
+            wr.func_181662_b((double) (this.left + this.width), (double) p_148136_1_, 0.0D).func_181673_a((double) ((float) this.width / f), (double) ((float)p_148136_1_ / f)).func_181675_d();
+            wr.func_181662_b((double) this.left, (double) p_148136_1_, 0.0D).func_181673_a(0.0D, (double) ((float)p_148136_1_ / f)).func_181675_d();
             Tessellator.getInstance().draw();
         }
 

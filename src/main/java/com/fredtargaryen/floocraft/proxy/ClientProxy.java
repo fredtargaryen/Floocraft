@@ -11,6 +11,7 @@ import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSign
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityPotRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -51,7 +52,7 @@ public class ClientProxy extends CommonProxy
         this.overrideTicker = new OverrideTicker();
         this.flash = new GuiFlash(Minecraft.getMinecraft());
 
-        FMLCommonHandler.instance().bus().register(this.overrideTicker);
-        FMLCommonHandler.instance().bus().register(this.flash);
+        MinecraftForge.EVENT_BUS.register(this.overrideTicker);
+        MinecraftForge.EVENT_BUS.register(this.flash);
     }
 }
