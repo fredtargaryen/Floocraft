@@ -1,19 +1,19 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.entity.EntityGreenFlame;
+import com.fredtargaryen.floocraft.entity.ParticleGreenFlame;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
 import com.google.common.base.Predicate;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,14 +40,14 @@ public class BlockFlooTorch extends BlockTorch
 	}
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, FACING);
+        return new BlockStateContainer(this, FACING);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void randomDisplayTick(IBlockState state, World worldIn, BlockPos pos, Random rand) {
         EnumFacing enumfacing = (EnumFacing) state.getValue(FACING);
         double d0 = (double) pos.getX() + 0.5D;
         double d1 = (double) pos.getY() + 0.7D;
@@ -58,10 +58,10 @@ public class BlockFlooTorch extends BlockTorch
         if (enumfacing.getAxis().isHorizontal()) {
             EnumFacing enumfacing1 = enumfacing.getOpposite();
             worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(worldIn, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ()));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGreenFlame(worldIn, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ()));
         } else {
             worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-            Minecraft.getMinecraft().effectRenderer.addEffect(new EntityGreenFlame(worldIn, d0, d1, d2));
+            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGreenFlame(worldIn, d0, d1, d2));
         }
     }
 

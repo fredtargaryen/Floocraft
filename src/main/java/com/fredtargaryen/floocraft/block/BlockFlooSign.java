@@ -6,18 +6,16 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockFlooSign extends BlockWallSign
@@ -30,9 +28,9 @@ public class BlockFlooSign extends BlockWallSign
 		setHardness(2.0F);
 	}
 
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, FACING);
+        return new BlockStateContainer(this, FACING);
     }
 
     @Override
@@ -50,36 +48,13 @@ public class BlockFlooSign extends BlockWallSign
 
     @Override
     //pos is the position of this block...
-    public void onNeighborBlockChange(World w, BlockPos pos, IBlockState state, Block neighbourBlock)
+    public void neighborChanged(IBlockState state, World w, BlockPos pos, Block neighbourBlock)
     {
-        if (!w.getBlockState(pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite())).getBlock().isNormalCube())
+        if (!w.getBlockState(pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite())).getMaterial().isSolid())
         {
             this.dropBlockAsItem(w, pos, state, 0);
             w.setBlockToAir(pos);
         }
-    }
-
-    /**
-     * Get the Item that this Block should drop when harvested.
-     *
-     * @param fortune the level of the Fortune enchantment on the player's tool
-     */
-    @Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return FloocraftBase.itemFlooSign;
-    }
-	
-	/**
-     * Called when a user uses the creative pick block button on this block
-     *
-     * @param target The full target the player is looking at
-     * @return A ItemStack to add to the player's inventory, Null if nothing should be added.
-     */
-    @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player)
-    {
-        return new ItemStack(FloocraftBase.itemFlooSign, 1);
     }
 
     /**
@@ -106,5 +81,22 @@ public class BlockFlooSign extends BlockWallSign
             }
         }
         super.breakBlock(w, pos, state);
+    }
+
+    //////////////////////////
+    //METHODS FROM BLOCKSIGN//
+    //////////////////////////
+    /**
+     * Get the Item that this Block should drop when harvested.
+     */
+    @Nullable
+    public Item getItemDropped(IBlockState state, Random rand, int fortune)
+    {
+        return FloocraftBase.itemFlooSign;
+    }
+
+    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
+    {
+        return new ItemStack(FloocraftBase.itemFlooSign);
     }
 }

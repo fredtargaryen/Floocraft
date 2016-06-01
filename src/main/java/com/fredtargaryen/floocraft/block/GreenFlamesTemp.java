@@ -3,7 +3,7 @@ package com.fredtargaryen.floocraft.block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -24,7 +24,7 @@ public class GreenFlamesTemp extends GreenFlamesBusy
     @Override
     public void updateTick(World w, BlockPos pos, IBlockState state, Random par5Random)
     {
-        w.setBlockState(pos, Blocks.fire.getDefaultState());
+        w.setBlockState(pos, Blocks.FIRE.getDefaultState());
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

@@ -4,15 +4,16 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.network.play.client.C12PacketUpdateSign;
-import net.minecraft.util.BlockPos;
+import net.minecraft.network.play.client.CPacketUpdateSign;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -32,6 +33,8 @@ public class GuiFlooSign extends GuiScreen
     /** The number of the line that is being edited. */
     private int editLine;
 
+    private GuiButton connectButton = new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network");
+
     public GuiFlooSign(TileEntityFireplace par1TileEntityFireplace)
     {
         this.fireplaceTE = par1TileEntityFireplace;
@@ -45,7 +48,7 @@ public class GuiFlooSign extends GuiScreen
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration"));
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network"));
+        this.buttonList.add(this.connectButton);
     }
 
     /**
@@ -54,10 +57,10 @@ public class GuiFlooSign extends GuiScreen
     public void onGuiClosed()
     {
         Keyboard.enableRepeatEvents(false);
-        NetHandlerPlayClient netclienthandler = this.mc.getNetHandler();
+        NetHandlerPlayClient netclienthandler = this.mc.getConnection();
         if (netclienthandler != null)
         {
-            netclienthandler.addToSendQueue(new C12PacketUpdateSign(this.fireplaceTE.getPos(), this.fireplaceTE.signText));
+            netclienthandler.sendPacket(new CPacketUpdateSign(this.fireplaceTE.getPos(), this.fireplaceTE.signText));
         }
     }
 
@@ -103,26 +106,35 @@ public class GuiFlooSign extends GuiScreen
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
+    protected void keyTyped(char typedChar, int keyCode)
     {
-        if (par2 == 200)
+        if (keyCode == 200)
         {
             this.editLine = this.editLine - 1 & 3;
         }
 
-        if (par2 == 208 || par2 == 28 || par2 == 156)
+        if (keyCode == 208 || keyCode == 28 || keyCode == 156)
         {
             this.editLine = this.editLine + 1 & 3;
         }
-        String text = this.fireplaceTE.signText[this.editLine].getUnformattedText();
-        if (par2 == 14 && text.length() > 0)
+
+        String s = this.fireplaceTE.signText[this.editLine].getUnformattedText();
+
+        if (keyCode == 14 && !s.isEmpty())
         {
-            this.fireplaceTE.signText[this.editLine] = new ChatComponentText(text.substring(0, text.length() - 1));
+            s = s.substring(0, s.length() - 1);
         }
 
-        if (ChatAllowedCharacters.isAllowedCharacter(par1) && text.length() < 15)
+        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRendererObj.getStringWidth(s + typedChar) <= 90)
         {
-            this.fireplaceTE.signText[this.editLine] = new ChatComponentText(text + par1);
+            s = s + typedChar;
+        }
+
+        this.fireplaceTE.signText[this.editLine] = new TextComponentString(s);
+
+        if (keyCode == 1)
+        {
+            this.actionPerformed(this.connectButton);
         }
     }
 
@@ -181,12 +193,12 @@ public class GuiFlooSign extends GuiScreen
         super.drawScreen(par1, par2, par3);
     }
 
-    private static String nameAsLine(IChatComponent[] original)
+    private static String nameAsLine(ITextComponent[] original)
     {
-        return original[0].getUnformattedTextForChat()+" "
-                +original[1].getUnformattedTextForChat()+" "
-                +original[2].getUnformattedTextForChat()+" "
-                +original[3].getUnformattedTextForChat();
+        return original[0].getUnformattedComponentText()+" "
+                +original[1].getUnformattedComponentText()+" "
+                +original[2].getUnformattedComponentText()+" "
+                +original[3].getUnformattedComponentText();
     }
 
     public void dealWithAnswer(boolean answer)

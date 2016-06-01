@@ -1,7 +1,5 @@
-This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.
-
 #################################################
-         ForgeGradle 2.1-SNAPSHOT-9e8f067        
+         ForgeGradle 2.2-SNAPSHOT-59f33ec        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
                Powered by MCP unknown               
@@ -13,4 +11,4 @@ This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.This m
 
 BUILD SUCCESSFUL
 
-Total time: 35.688 secs
+Total time: 33.406 secs

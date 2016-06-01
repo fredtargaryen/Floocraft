@@ -4,12 +4,11 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityDroppedFlooPowder extends EntityItem
@@ -34,17 +33,17 @@ public class EntityDroppedFlooPowder extends EntityItem
     public void onUpdate()
     {
         BlockPos pos = new BlockPos(this);
-        if (this.worldObj.getBlockState(pos).getBlock() == Blocks.fire)
+        if (this.worldObj.getBlockState(pos).getBlock() == Blocks.FIRE)
         {
 			this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState(), 2);
 			if(((GreenFlamesTemp)this.worldObj.getBlockState(pos).getBlock()).isInFireplace(this.worldObj, pos))
 			{
                 this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
-                this.playSound(DataReference.MODID+":greened", 1.0F, 1.0F);
+                //this.playSound(DataReference.MODID+":greened", 1.0F, 1.0F);
             }
 			else
 			{
-				this.worldObj.setBlockState(pos, Blocks.fire.getDefaultState(), 2);
+				this.worldObj.setBlockState(pos, Blocks.FIRE.getDefaultState(), 2);
 			}
             this.setDead();
         }
@@ -52,10 +51,11 @@ public class EntityDroppedFlooPowder extends EntityItem
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound par1)
+    public NBTTagCompound writeToNBT(NBTTagCompound par1)
     {
-        super.writeToNBT(par1);
+        par1 = super.writeToNBT(par1);
         par1.setByte("Concentration", this.concentration);
+        return par1;
     }
 
     @Override

@@ -4,10 +4,12 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -17,7 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ public abstract class GreenFlamesBase extends Block {
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
 
     public GreenFlamesBase() {
-        super(Material.fire);
+        super(Material.FIRE);
     }
 
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, AGE);
+        return new BlockStateContainer(this, AGE);
     }
 
     @Override
@@ -50,22 +51,16 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return null;
+        return FULL_BLOCK_AABB;
     }
 
     @Override
-    public boolean isOpaqueCube(){return false;}
-
-    @Override
-    public boolean isFullCube(){return false;}
-
-    @Override
     @SideOnly(Side.CLIENT)
-    public EnumWorldBlockLayer getBlockLayer()
+    public BlockRenderLayer getBlockLayer()
     {
-        return EnumWorldBlockLayer.CUTOUT_MIPPED;
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @Override
@@ -94,7 +89,7 @@ public abstract class GreenFlamesBase extends Block {
     @Override
     public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {
         if (!isInFireplace(par1World, pos)) {
-            par1World.setBlockState(pos, Blocks.fire.getDefaultState());
+            par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
             par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
         }
@@ -103,7 +98,7 @@ public abstract class GreenFlamesBase extends Block {
     @Override
     public void updateTick(World par1World, BlockPos pos, IBlockState state, Random par5Random) {
         if (!isInFireplace(par1World, pos) || par1World.getBlockState(pos).getValue(AGE).equals(0)) {
-            par1World.setBlockState(pos, Blocks.fire.getDefaultState());
+            par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
             par1World.scheduleUpdate(pos, this, this.tickRate(par1World) + par5Random.nextInt(10));
         }
@@ -115,14 +110,15 @@ public abstract class GreenFlamesBase extends Block {
     private int getTopBlockY(World w, BlockPos pos) {
         BlockPos newPos = pos.offset(EnumFacing.UP, 1);
         int y = newPos.getY();
-        Block b = w.getBlockState(newPos).getBlock();
-        while (b.isAir(w, newPos) && y < 256) {
+        IBlockState bs = w.getBlockState(newPos);
+        Block b = bs.getBlock();
+        while (b.isAir(bs, w, newPos) && y < 256) {
             newPos = newPos.offset(EnumFacing.UP, 1);
             y = newPos.getY();
             b = w.getBlockState(newPos).getBlock();
         }
         //When y >= 256 you get an air block, so if b is a normal cube y is implicitly < 256
-        if (b.isNormalCube()) return y;
+        if (b.getMaterial(bs).isSolid()) return y;
         return 0;
     }
 
@@ -130,7 +126,8 @@ public abstract class GreenFlamesBase extends Block {
         boolean valid = true;
         BlockPos newBottomPos = bottomPos;
         while (valid && newBottomPos.getY() < topY) {
-            if (w.getBlockState(newBottomPos).getBlock().isNormalCube()) {
+            IBlockState bs = w.getBlockState(newBottomPos);
+            if (bs.getBlock().getMaterial(bs).isSolid()) {
                 newBottomPos = newBottomPos.offset(EnumFacing.UP, 1);
             } else {
                 valid = false;

@@ -21,7 +21,7 @@ public class GuiFlash extends Gui
         if(this.ticks == -1)
         {
             this.ticks = 0;
-            this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation(DataReference.MODID+":tp"), 1.0F));
+            //this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation(DataReference.MODID+":tp"), 1.0F));
         }
     }
 

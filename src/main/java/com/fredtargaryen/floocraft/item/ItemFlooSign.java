@@ -4,8 +4,10 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.BlockFlooSign;
 import com.fredtargaryen.floocraft.client.gui.GuiFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,33 +25,33 @@ public class ItemFlooSign extends Item
 	}
 
     @Override
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, BlockPos pos, EnumFacing side, float hitx, float hity, float hitz)
+	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
     {
 		if (side == EnumFacing.DOWN || side == EnumFacing.UP)
         {
-            return false;
+            return EnumActionResult.FAIL;
         }
         else
         {
-            if (!par2EntityPlayer.canPlayerEdit(pos, side, par1ItemStack))
+            if (!player.canPlayerEdit(pos, side, stack))
             {
-                return false;
+                return EnumActionResult.FAIL;
             }
             else
             {
                 BlockPos newpos = pos.offset(side);
-            	par3World.setBlockState(newpos, FloocraftBase.blockFlooSign.getDefaultState().withProperty(BlockFlooSign.FACING, side), 3);
-            	--par1ItemStack.stackSize;
-            	TileEntityFireplace fireplaceTE = (TileEntityFireplace)par3World.getTileEntity(newpos);
+            	world.setBlockState(newpos, FloocraftBase.blockFlooSign.getDefaultState().withProperty(BlockFlooSign.FACING, side), 3);
+            	--stack.stackSize;
+            	TileEntityFireplace fireplaceTE = (TileEntityFireplace)world.getTileEntity(newpos);
             	if (fireplaceTE != null)
             	{
-            		fireplaceTE.setPlayer(par2EntityPlayer);
-            		if(par3World.isRemote)
+            		fireplaceTE.setPlayer(player);
+            		if(world.isRemote)
             		{
-            			this.dothesigneditguiscreen(par2EntityPlayer, fireplaceTE);
+            			this.dothesigneditguiscreen(player, fireplaceTE);
             		}
                 }
-                return true;
+                return EnumActionResult.SUCCESS;
             }
         }
     }

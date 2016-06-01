@@ -5,7 +5,7 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -15,7 +15,7 @@ class GuiFloowerPot extends GuiContainer {
 
     public GuiFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot tileEntity)
     {
-        //the container is instanciated and passed to the superclass for handling
+        //the container is instantiated and passed to the superclass for handling
         super(new ContainerFloowerPot(inventoryPlayer, tileEntity));
     }
 
@@ -24,9 +24,9 @@ class GuiFloowerPot extends GuiContainer {
     {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("tile.floowerpot.name"), 8, 6, 4210752);
+        this.fontRendererObj.drawString(I18n.translateToLocal("tile.floowerpot.name"), 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+        this.fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
     }
 
     @Override

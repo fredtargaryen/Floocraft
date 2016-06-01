@@ -3,7 +3,7 @@ package com.fredtargaryen.floocraft.network.messages;
 import com.fredtargaryen.floocraft.DataReference;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -69,11 +69,11 @@ public class MessageFlooTorchTeleport implements IMessage, IMessageHandler<Messa
                     }
                     if(player.isRiding())
                     {
-                        player.mountEntity(null);
+                        player.dismountRidingEntity();
                     }
-                    player.playerNetServerHandler.setPlayerLocation(x, y, z, player.rotationYaw, player.rotationPitch);
+                    player.connection.setPlayerLocation(x, y, z, player.rotationYaw, player.rotationPitch);
                     player.fallDistance = 0.0F;
-                    world.playSoundEffect(x, y, z, DataReference.MODID + ":flick", 1.0F, 1.0F);
+                    //world.playSoundEffect(x, y, z, DataReference.MODID + ":flick", 1.0F, 1.0F);
                 }
             }
         });

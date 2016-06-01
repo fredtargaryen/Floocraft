@@ -1,3 +1,12 @@
+/**
+ * TODO
+ * Make Items for all blocks
+ * Add sound
+ * Change deprecated methods
+ * 
+ * DONE
+ * Skipping 1.9; using Forge 1.9.4-12.17.0.1937
+ */
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
@@ -68,7 +77,7 @@ public class FloocraftBase
     	blockFlooTorch = new BlockFlooTorch()
                 .setUnlocalizedName("flootorch")
     	        .setLightLevel(1.0F)
-    	        .setCreativeTab(CreativeTabs.tabDecorations);
+    	        .setCreativeTab(CreativeTabs.DECORATIONS);
     	
     	greenFlamesBusy = new GreenFlamesBusy()
                 .setUnlocalizedName("greenflamesbusy")
@@ -86,37 +95,37 @@ public class FloocraftBase
 
         floowerPot = new BlockFloowerPot()
                 .setUnlocalizedName("floowerpot")
-                .setCreativeTab(CreativeTabs.tabMisc);
+                .setCreativeTab(CreativeTabs.MISC);
     	
     	floopowder1t = new ItemFlooPowder((byte)1)
     	        .setMaxStackSize(64)
     	        .setUnlocalizedName("floopowder")
-    	        .setCreativeTab(CreativeTabs.tabMisc);
+    	        .setCreativeTab(CreativeTabs.MISC);
 
         floopowder2t = new ItemFlooPowder((byte)2)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
-                .setCreativeTab(CreativeTabs.tabMisc);
+                .setCreativeTab(CreativeTabs.MISC);
 
         floopowder4t = new ItemFlooPowder((byte)4)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
-                .setCreativeTab(CreativeTabs.tabMisc);
+                .setCreativeTab(CreativeTabs.MISC);
 
         floopowder8t = new ItemFlooPowder((byte)8)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
-                .setCreativeTab(CreativeTabs.tabMisc);
+                .setCreativeTab(CreativeTabs.MISC);
 
         floopowderc = new ItemFlooPowder((byte)9)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
-                .setCreativeTab(CreativeTabs.tabMisc);
+                .setCreativeTab(CreativeTabs.MISC);
 
     	itemFlooSign = new ItemFlooSign()
                 .setMaxStackSize(16)
                 .setUnlocalizedName("itemfloosign")
-                .setCreativeTab(CreativeTabs.tabDecorations);
+                .setCreativeTab(CreativeTabs.DECORATIONS);
 
         //Registering blocks
         GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
@@ -141,23 +150,23 @@ public class FloocraftBase
         //Adding recipes
         //Infinite powder is creative only so no recipe
         GameRegistry.addShapelessRecipe(new ItemStack(floopowder1t,8),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
         GameRegistry.addShapelessRecipe(new ItemStack(floopowder2t,8),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
         GameRegistry.addShapelessRecipe(new ItemStack(floopowder4t,8),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL),
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
         GameRegistry.addShapelessRecipe(new ItemStack(floopowder8t,8),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl),
-                new ItemStack(Items.ender_pearl), new ItemStack(Items.ender_pearl), new ItemStack(Items.gunpowder));
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL),
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL),
+                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
 
         GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.itemFlooSign,1),
-                new ItemStack(Items.sign), new ItemStack(floopowder1t,8));
+                new ItemStack(Items.SIGN), new ItemStack(floopowder1t,8));
         GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.blockFlooTorch,4),
-                new ItemStack(Items.stick), new ItemStack(FloocraftBase.floopowder1t));
+                new ItemStack(Items.STICK), new ItemStack(FloocraftBase.floopowder1t));
         GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floowerPot),
-                new ItemStack(Items.flower_pot), new ItemStack(FloocraftBase.floopowder1t));
+                new ItemStack(Items.FLOWER_POT), new ItemStack(FloocraftBase.floopowder1t));
     }
         
     @EventHandler

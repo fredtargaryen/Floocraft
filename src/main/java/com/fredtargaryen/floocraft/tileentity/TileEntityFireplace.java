@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
@@ -67,7 +67,7 @@ public class TileEntityFireplace extends TileEntitySign
     {
         //The block below the block at the top of the fireplace
         pos = pos.offset(((EnumFacing)w.getBlockState(pos).getValue(BlockFlooSign.FACING)).getOpposite()).offset(EnumFacing.DOWN, 1);
-        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.fire || w.getBlockState(pos).getBlock() instanceof GreenFlamesBase) && pos.getY() > -1)
+        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.FIRE || w.getBlockState(pos).getBlock() instanceof GreenFlamesBase) && pos.getY() > -1)
         {
             pos = pos.offset(EnumFacing.DOWN, 1);
         }
@@ -84,11 +84,12 @@ public class TileEntityFireplace extends TileEntitySign
         return this.isConnected;
     }
 
-    public void writeToNBT(NBTTagCompound par1)
+    public NBTTagCompound writeToNBT(NBTTagCompound par1)
     {
-        super.writeToNBT(par1);
+        par1 = super.writeToNBT(par1);
         par1.setBoolean("Connected",this.isConnected);
         par1.setInteger("Y", this.y);
+        return par1;
     }
 
     public void readFromNBT(NBTTagCompound par1)

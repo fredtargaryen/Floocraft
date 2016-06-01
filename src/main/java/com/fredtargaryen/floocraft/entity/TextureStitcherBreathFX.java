@@ -12,6 +12,6 @@ public class TextureStitcherBreathFX
 {
     @SubscribeEvent
     public void stitcherEventPre(TextureStitchEvent.Pre event) {
-        event.map.registerSprite(DataReference.FLAMERL);
+        event.getMap().registerSprite(DataReference.FLAMERL);
     }
 }

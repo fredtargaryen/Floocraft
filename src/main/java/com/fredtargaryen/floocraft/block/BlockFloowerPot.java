@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
@@ -16,18 +15,29 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockFloowerPot extends BlockContainer
 {
+    private static final AxisAlignedBB POTBOX = new AxisAlignedBB(0.3125F, 0.0F, 0.3125F, 0.6875F, 0.375F, 0.6875F);
+
     public BlockFloowerPot()
     {
-        super(Material.circuits);
-        this.setBlockBounds(0.3125F, 0.0F, 0.3125F, 0.6875F, 0.375F, 0.6875F);
+        super(Material.CIRCUITS);
+    }
+
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+    {
+        return POTBOX;
     }
 
     @Override
@@ -36,7 +46,7 @@ public class BlockFloowerPot extends BlockContainer
         return new TileEntityFloowerPot();
     }
 
-    public boolean isOpaqueCube()
+    public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
@@ -45,7 +55,7 @@ public class BlockFloowerPot extends BlockContainer
     /**
      * Called upon block activation (right click on the block.)
      */
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity == null || player.isSneaking())
@@ -127,17 +137,17 @@ public class BlockFloowerPot extends BlockContainer
                             if(stack.stackSize > 0) {
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
-                                if (currentBlock == Blocks.fire) {
+                                if (currentBlock == Blocks.FIRE) {
                                     worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesTemp.getDefaultState());
                                     GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(currentPos).getBlock();
                                     if (gfit.isInFireplace(worldIn, currentPos)) {
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
-                                        worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
+                                        //worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
                                         stack.stackSize--;
                                         pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                     } else {
-                                        worldIn.setBlockState(currentPos, Blocks.fire.getDefaultState());
+                                        worldIn.setBlockState(currentPos, Blocks.FIRE.getDefaultState());
                                     }
                                 }
                             }
@@ -155,10 +165,12 @@ public class BlockFloowerPot extends BlockContainer
         worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
     }
 
-    @Override
-    public int getRenderType()
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
+    public EnumBlockRenderType getRenderType(IBlockState state)
     {
-        return 3;
+        return EnumBlockRenderType.MODEL;
     }
 
     /**
@@ -167,16 +179,16 @@ public class BlockFloowerPot extends BlockContainer
     @Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return super.canPlaceBlockAt(worldIn, pos) && World.doesBlockHaveSolidTopSurface(worldIn, new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ()));
+        return super.canPlaceBlockAt(worldIn, pos) && worldIn.isSideSolid(pos.offset(EnumFacing.DOWN), EnumFacing.UP);
     }
 
     /**
      * Called when a neighboring block changes.
      */
     @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn)
     {
-        if (!World.doesBlockHaveSolidTopSurface(worldIn, new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ())))
+        if (!worldIn.isSideSolid(pos.offset(EnumFacing.DOWN), EnumFacing.UP))
         {
             this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);

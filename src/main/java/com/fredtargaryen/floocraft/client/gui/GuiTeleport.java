@@ -11,9 +11,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -314,7 +313,7 @@ public class GuiTeleport extends GuiScreen
          */
         private void flooverlayBackground(int p_148136_1_, int p_148136_2_)
         {
-            WorldRenderer wr = Tessellator.getInstance().getWorldRenderer();
+            VertexBuffer wr = Tessellator.getInstance().getBuffer();
             GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             float f = 32.0F;

@@ -4,10 +4,9 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
@@ -25,7 +24,7 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
             GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
             GlStateManager.translate(relativeX, relativeY, relativeZ);
             Tessellator t = Tessellator.getInstance();
-            WorldRenderer r = t.getWorldRenderer();
+            VertexBuffer r = t.getBuffer();
             // set the key rendering flags appropriately...
             GL11.glDisable(GL11.GL_LIGHTING);     // turn off "item" lighting (face brightness depends on which direction it is facing)
             GL11.glDisable(GL11.GL_BLEND);        // turn off "alpha" transparency blending

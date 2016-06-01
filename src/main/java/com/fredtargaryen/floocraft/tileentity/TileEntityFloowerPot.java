@@ -7,11 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -137,8 +136,8 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        tagCompound = super.writeToNBT(tagCompound);
 
         NBTTagList itemList = new NBTTagList();
         for (int i = 0; i < inv.length; i++) {
@@ -151,13 +150,14 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
             }
         }
         tagCompound.setTag("Inventory", itemList);
+        return tagCompound;
     }
 
     @Override
-    public Packet getDescriptionPacket() {
+    public SPacketUpdateTileEntity getUpdatePacket() {
         NBTTagCompound nbtTag = new NBTTagCompound();
         this.writeToNBT(nbtTag);
-        return new S35PacketUpdateTileEntity(this.pos, 1, nbtTag);
+        return new SPacketUpdateTileEntity(this.pos, 1, nbtTag);
     }
 
     /**
@@ -171,7 +171,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
      */
     @Override
     @SideOnly(Side.CLIENT)
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
     {
         readFromNBT(pkt.getNbtCompound());
     }
@@ -187,7 +187,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public IChatComponent getDisplayName() {
-        return new ChatComponentText("Floower Pot");
+    public ITextComponent getDisplayName() {
+        return new TextComponentString("Floower Pot");
     }
 }

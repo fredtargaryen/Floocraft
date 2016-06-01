@@ -10,7 +10,7 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.MapStorage;
@@ -31,7 +31,7 @@ public class FloocraftWorldData extends WorldSavedData
 	{
         //Retrieves the FloocraftWorldData instance for the given world, creating it if necessary
 		MapStorage storage = world.getPerWorldStorage();
-		FloocraftWorldData data = (FloocraftWorldData)storage.loadData(FloocraftWorldData.class, DataReference.MODID);
+		FloocraftWorldData data = (FloocraftWorldData)storage.getOrLoadData(FloocraftWorldData.class, DataReference.MODID);
 		if (data == null)
 		{
             FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
@@ -84,7 +84,7 @@ public class FloocraftWorldData extends WorldSavedData
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{	
 		NBTTagList nbttaglist = new NBTTagList();
 		for(String nextName : this.placeList.keySet())
@@ -98,6 +98,7 @@ public class FloocraftWorldData extends WorldSavedData
 			nbttaglist.appendTag(nbt1);
 		}
 		nbt.setTag(DataReference.MODID, nbttaglist);
+		return nbt;
 	}
 	
 	public MessageFireplaceList assembleNewFireplaceList(World w)
@@ -116,7 +117,7 @@ public class FloocraftWorldData extends WorldSavedData
                 w.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
                 GreenFlamesTemp gfit = (GreenFlamesTemp) w.getBlockState(dest).getBlock();
                 ok = gfit.isInFireplace(w, dest);
-                w.setBlockState(dest, Blocks.fire.getDefaultState());
+                w.setBlockState(dest, Blocks.FIRE.getDefaultState());
             }
 			else
 			{

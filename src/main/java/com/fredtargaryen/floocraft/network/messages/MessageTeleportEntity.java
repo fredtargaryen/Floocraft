@@ -8,7 +8,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -38,7 +38,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				BlockPos dest = new BlockPos(destX, destY, destZ);
 				Block destBlock = world.getBlockState(dest).getBlock();
 				//Checks whether the destination is fire
-				if(destBlock == Blocks.fire)
+				if(destBlock == Blocks.FIRE)
 				{
 					world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
 					GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
@@ -48,7 +48,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 					}
 					else
 					{
-						world.setBlockState(dest, Blocks.fire.getDefaultState());
+						world.setBlockState(dest, Blocks.FIRE.getDefaultState());
 						validDest = false;
 					}
 				}
@@ -66,15 +66,15 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 					PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
 					if(player.isRiding())
 					{
-						player.mountEntity(null);
+						player.dismountRidingEntity();
 					}
-					player.playerNetServerHandler.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
+					player.connection.setPlayerLocation(destX + 0.5D, destY, destZ + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
 					player.fallDistance = 0.0F;
 					BlockPos init = new BlockPos(initX, initY, initZ);
 					int m = (Integer)world.getBlockState(init).getValue(GreenFlamesBusy.AGE);
 					if(m < 2)
 					{
-						world.setBlockState(init, Blocks.fire.getDefaultState());
+						world.setBlockState(init, Blocks.FIRE.getDefaultState());
 					}
 					else
 					{
