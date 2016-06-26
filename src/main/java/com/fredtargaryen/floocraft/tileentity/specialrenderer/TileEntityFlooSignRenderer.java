@@ -3,10 +3,8 @@ package com.fredtargaryen.floocraft.tileentity.specialrenderer;
 import com.fredtargaryen.floocraft.model.ModelFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation floosigntexloc = new ResourceLocation("ftfloocraft","textures/entity/blockfloosign.png");
+	private static final ResourceLocation floosigntexloc = new ResourceLocation("ftfloocraft", "assets/ftfloocraft/textures/entity/blockfloosign.png");
 	
 	/** The ModelFlooSign instance used by the TileEntityFlooSignRenderer */
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();

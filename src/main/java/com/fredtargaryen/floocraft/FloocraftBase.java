@@ -1,11 +1,6 @@
 /**
- * TODO
- * Make Items for all blocks
- * Add sound
- * Change deprecated methods
- * 
  * DONE
- * Skipping 1.9; using Forge 1.9.4-12.17.0.1937
+ *
  */
 package com.fredtargaryen.floocraft;
 
@@ -21,7 +16,10 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -46,21 +44,37 @@ public class FloocraftBase
     public static Block blockFlooTorch;
     public static Block greenFlamesBusy;
     public static Block greenFlamesIdle;
-    //Temporary green flames which "usher you out" of the new fireplace. Disappear after 100 ticks.
-    //Also used to check if a fireplace is valid at that time - if using it for this purpose, make
-    //sure to immediately set it back to whatever block it was before.
+    /**
+     * Temporary green flames which replace any normal fire at the destination fireplace, so that players aren't
+     * burnt on arrival. Disappear after 100 ticks.
+     */
     public static Block greenFlamesTemp;
     public static Block blockFlooSign;
     public static Block floowerPot;
+
     /**
      * Declare all items here
      */
+    public static Item itemFlooSign;
+    public static Item iFlooTorch;
+    public static Item iFloowerPot;
+
     public static Item floopowder1t;
     public static Item floopowder2t;
     public static Item floopowder4t;
     public static Item floopowder8t;
     public static Item floopowderc;
-    public static Item itemFlooSign;
+
+    /**
+     * Declare sounds here
+     */
+    //When a fire makes contact with Floo Powder
+    public static SoundEvent greened;
+    //When a player teleports using a fireplace
+    public static SoundEvent tp;
+    //When a player is teleported by a Floo Torch
+    public static SoundEvent flick;
+
     /**   
      * Says where the client and server 'proxy' code is loaded.
      */
@@ -76,76 +90,103 @@ public class FloocraftBase
         //Makes all blocks and items to be used
     	blockFlooTorch = new BlockFlooTorch()
                 .setUnlocalizedName("flootorch")
+                .setRegistryName("flootorch")
     	        .setLightLevel(1.0F)
     	        .setCreativeTab(CreativeTabs.DECORATIONS);
     	
     	greenFlamesBusy = new GreenFlamesBusy()
                 .setUnlocalizedName("greenflamesbusy")
+                .setRegistryName("greenflamesbusy")
                 .setLightLevel(1.0F);
 
         greenFlamesIdle = new GreenFlamesIdle()
                 .setUnlocalizedName("greenflamesidle")
+                .setRegistryName("greenflamesidle")
                 .setLightLevel(0.875F);
 
         greenFlamesTemp = new GreenFlamesTemp()
                 .setUnlocalizedName("greenflamesbusy")
+                .setRegistryName("greenflamestemp")
                 .setLightLevel(1.0F);
     	
-    	blockFlooSign = new BlockFlooSign();
+    	blockFlooSign = new BlockFlooSign()
+                .setRegistryName("blockfloosign");
 
         floowerPot = new BlockFloowerPot()
                 .setUnlocalizedName("floowerpot")
+                .setRegistryName("floowerpot")
                 .setCreativeTab(CreativeTabs.MISC);
+
+        iFlooTorch = new ItemBlock(blockFlooTorch)
+                .setUnlocalizedName("flootorch")
+                .setRegistryName("flootorch");
+        
+        iFloowerPot = new ItemBlock(floowerPot)
+                .setUnlocalizedName("floowerpot")
+                .setRegistryName("floowerpot");
     	
     	floopowder1t = new ItemFlooPowder((byte)1)
     	        .setMaxStackSize(64)
     	        .setUnlocalizedName("floopowder")
+                .setRegistryName("floopowder_one")
     	        .setCreativeTab(CreativeTabs.MISC);
 
         floopowder2t = new ItemFlooPowder((byte)2)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
+                .setRegistryName("floopowder_two")
                 .setCreativeTab(CreativeTabs.MISC);
 
         floopowder4t = new ItemFlooPowder((byte)4)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
+                .setRegistryName("floopowder_four")
                 .setCreativeTab(CreativeTabs.MISC);
 
         floopowder8t = new ItemFlooPowder((byte)8)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
+                .setRegistryName("floopowder_eight")
                 .setCreativeTab(CreativeTabs.MISC);
 
         floopowderc = new ItemFlooPowder((byte)9)
                 .setMaxStackSize(64)
                 .setUnlocalizedName("floopowder")
+                .setRegistryName("floopowder_infinite")
                 .setCreativeTab(CreativeTabs.MISC);
 
     	itemFlooSign = new ItemFlooSign()
                 .setMaxStackSize(16)
                 .setUnlocalizedName("itemfloosign")
+                .setRegistryName("itemfloosign")
                 .setCreativeTab(CreativeTabs.DECORATIONS);
 
         //Registering blocks
-        GameRegistry.registerBlock(blockFlooSign, "blockfloosign");
-        GameRegistry.registerBlock(blockFlooTorch, "flootorch");
-        GameRegistry.registerBlock(greenFlamesBusy, "greenflamesbusy");
-        GameRegistry.registerBlock(greenFlamesIdle, "greenflamesidle");
-        GameRegistry.registerBlock(greenFlamesTemp, "greenflamestemp");
-        GameRegistry.registerBlock(floowerPot, "floowerpot");
+        GameRegistry.register(blockFlooSign);
+        GameRegistry.register(blockFlooTorch);
+        GameRegistry.register(greenFlamesBusy);
+        GameRegistry.register(greenFlamesIdle);
+        GameRegistry.register(greenFlamesTemp);
+        GameRegistry.register(floowerPot);
 
         //Registering items
-        GameRegistry.registerItem(floopowder1t, "floopowder_one");
-        GameRegistry.registerItem(floopowder2t, "floopowder_two");
-        GameRegistry.registerItem(floopowder4t, "floopowder_four");
-        GameRegistry.registerItem(floopowder8t, "floopowder_eight");
-        GameRegistry.registerItem(floopowderc, "floopowder_infinite");
-        GameRegistry.registerItem(itemFlooSign, "itemfloosign");
+        GameRegistry.register(iFloowerPot);
+        GameRegistry.register(iFlooTorch);
+        GameRegistry.register(floopowder1t);
+        GameRegistry.register(floopowder2t);
+        GameRegistry.register(floopowder4t);
+        GameRegistry.register(floopowder8t);
+        GameRegistry.register(floopowderc);
+        GameRegistry.register(itemFlooSign);
 
         //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
+
+        //Registering sounds
+        greened = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened"));
+        tp = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp"));
+        flick = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick"));
 
         //Adding recipes
         //Infinite powder is creative only so no recipe

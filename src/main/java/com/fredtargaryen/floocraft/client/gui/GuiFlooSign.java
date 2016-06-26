@@ -33,7 +33,7 @@ public class GuiFlooSign extends GuiScreen
     /** The number of the line that is being edited. */
     private int editLine;
 
-    private GuiButton connectButton = new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network");
+    private GuiButton decorButton;
 
     public GuiFlooSign(TileEntityFireplace par1TileEntityFireplace)
     {
@@ -47,8 +47,9 @@ public class GuiFlooSign extends GuiScreen
     {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration"));
-        this.buttonList.add(this.connectButton);
+        this.decorButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration");
+        this.buttonList.add(this.decorButton);
+        this.buttonList.add(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network"));
     }
 
     /**
@@ -134,7 +135,7 @@ public class GuiFlooSign extends GuiScreen
 
         if (keyCode == 1)
         {
-            this.actionPerformed(this.connectButton);
+            this.actionPerformed(this.decorButton);
         }
     }
 

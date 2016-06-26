@@ -8,8 +8,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import static com.fredtargaryen.floocraft.FloocraftBase.greened;
 
 public class EntityDroppedFlooPowder extends EntityItem
 {
@@ -35,16 +38,11 @@ public class EntityDroppedFlooPowder extends EntityItem
         BlockPos pos = new BlockPos(this);
         if (this.worldObj.getBlockState(pos).getBlock() == Blocks.FIRE)
         {
-			this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState(), 2);
-			if(((GreenFlamesTemp)this.worldObj.getBlockState(pos).getBlock()).isInFireplace(this.worldObj, pos))
+			if(((GreenFlamesTemp)FloocraftBase.greenFlamesTemp).isInFireplace(this.worldObj, pos))
 			{
                 this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
-                //this.playSound(DataReference.MODID+":greened", 1.0F, 1.0F);
+                this.playSound(greened, 1.0F, 1.0F);
             }
-			else
-			{
-				this.worldObj.setBlockState(pos, Blocks.FIRE.getDefaultState(), 2);
-			}
             this.setDead();
         }
         super.onUpdate();

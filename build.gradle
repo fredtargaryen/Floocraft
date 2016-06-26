@@ -20,12 +20,12 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "0.1"
+version = "1.7.5"
 group= "com.fredtargaryen.floocraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Floocraft"
 
 minecraft {
-    version = "1.9.4-12.17.0.1937"
+    version = "1.9.4-12.17.0.1976"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.

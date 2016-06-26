@@ -25,7 +25,7 @@ public class ItemFlooSign extends Item
 	}
 
     @Override
-	public EnumActionResult onItemUseFirst(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
 		if (side == EnumFacing.DOWN || side == EnumFacing.UP)
         {

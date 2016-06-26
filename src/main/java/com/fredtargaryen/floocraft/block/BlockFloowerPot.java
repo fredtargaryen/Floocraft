@@ -18,15 +18,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockFloowerPot extends BlockContainer
+import static com.fredtargaryen.floocraft.FloocraftBase.greened;
+
+public class BlockFloowerPot extends Block
 {
     private static final AxisAlignedBB POTBOX = new AxisAlignedBB(0.3125F, 0.0F, 0.3125F, 0.6875F, 0.375F, 0.6875F);
 
@@ -41,7 +43,13 @@ public class BlockFloowerPot extends BlockContainer
     }
 
     @Override
-    public TileEntity createNewTileEntity(World var1, int var2)
+    public boolean hasTileEntity(IBlockState ibs)
+    {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state)
     {
         return new TileEntityFloowerPot();
     }
@@ -55,7 +63,7 @@ public class BlockFloowerPot extends BlockContainer
     /**
      * Called upon block activation (right click on the block.)
      */
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity == null || player.isSneaking())
@@ -117,6 +125,7 @@ public class BlockFloowerPot extends BlockContainer
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
+        super.updateTick(worldIn, pos, state, rand);
         if(!worldIn.isRemote)
         {
             TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
@@ -139,11 +148,11 @@ public class BlockFloowerPot extends BlockContainer
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
                                 if (currentBlock == Blocks.FIRE) {
                                     worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesTemp.getDefaultState());
-                                    GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(currentPos).getBlock();
-                                    if (gfit.isInFireplace(worldIn, currentPos)) {
+                                    GreenFlamesTemp tempFire = (GreenFlamesTemp) worldIn.getBlockState(currentPos).getBlock();
+                                    if (tempFire.isInFireplace(worldIn, currentPos)) {
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
-                                        //worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
+                                        worldIn.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
                                         stack.stackSize--;
                                         pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
                                     } else {
@@ -155,14 +164,15 @@ public class BlockFloowerPot extends BlockContainer
                     }
                 }
             }
+            worldIn.notifyBlockUpdate(pos, state, state, 3);
+            worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn) + rand.nextInt(100), 0);
         }
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn) + rand.nextInt(100));
     }
 
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+        worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn), 0);
     }
 
     /**

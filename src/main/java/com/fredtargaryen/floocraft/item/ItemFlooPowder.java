@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.item;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
@@ -11,6 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -18,6 +20,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
+
+import static com.fredtargaryen.floocraft.FloocraftBase.greened;
 
 public class ItemFlooPowder extends Item
 {
@@ -33,8 +37,9 @@ public class ItemFlooPowder extends Item
 		super();
         this.concentration = conc;
 	}
-	
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+
+    @Override
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
         BlockPos firePos = pos.offset(EnumFacing.UP, 1);
 		if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE)
@@ -43,16 +48,16 @@ public class ItemFlooPowder extends Item
             if(((GreenFlamesTemp)worldIn.getBlockState(firePos).getBlock()).isInFireplace(worldIn, firePos))
             {
                 worldIn.setBlockState(firePos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
-                //worldIn.playSound((double) firePos.getX(), (double) firePos.getY(), (double) firePos.getZ(), DataReference.MODID + ":greened", 1.0F, 1.0F, true);
+                worldIn.playSound(null, firePos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             else
             {
                 worldIn.setBlockState(firePos, Blocks.FIRE.getDefaultState(), 2);
             }
             --stack.stackSize;
-			return true;
+			return EnumActionResult.PASS;
 		}
-		return false;
+		return EnumActionResult.FAIL;
 	}
 	
 	/**

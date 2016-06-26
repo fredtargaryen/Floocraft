@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -129,8 +131,8 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         for (int i = 0; i < tagList.tagCount(); i++) {
             NBTTagCompound tag = tagList.getCompoundTagAt(i);
             byte slot = tag.getByte("Slot");
-            if (slot >= 0 && slot < inv.length) {
-                inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+            if (slot >= 0 && slot < this.inv.length) {
+                this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
             }
         }
     }
@@ -154,10 +156,9 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound nbtTag = new NBTTagCompound();
-        this.writeToNBT(nbtTag);
-        return new SPacketUpdateTileEntity(this.pos, 1, nbtTag);
+    public SPacketUpdateTileEntity getUpdatePacket()
+    {
+        return new SPacketUpdateTileEntity(this.pos, 0, this.writeToNBT(new NBTTagCompound()));
     }
 
     /**
@@ -173,7 +174,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     @SideOnly(Side.CLIENT)
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
     {
-        readFromNBT(pkt.getNbtCompound());
+        this.readFromNBT(pkt.getNbtCompound());
     }
 
     @Override

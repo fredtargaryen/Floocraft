@@ -10,3 +10,8 @@ tile.floowerpot.name=Pot o' Traveller's Snuff
 /ITEMS
 item.floopowder.name=Traveller's Snuff
 item.itemfloosign.name=Traveller's Plank
+
+/SUBTITLES
+subs.greened="St Elmo's Fire appears"
+subs.tp="Ye be transported!"
+subs.flick="Travel by Rod"

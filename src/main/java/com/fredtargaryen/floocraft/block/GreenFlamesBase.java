@@ -88,10 +88,10 @@ public abstract class GreenFlamesBase extends Block {
 
     @Override
     public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {
-        if (!isInFireplace(par1World, pos)) {
-            par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
-        } else {
+        if (isInFireplace(par1World, pos)) {
             par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
+        } else {
+            par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
         }
     }
 
@@ -104,6 +104,16 @@ public abstract class GreenFlamesBase extends Block {
         }
     }
 
+    @Override
+    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
+    {
+        return false;
+    }
+
+    @Deprecated
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn)
+    {}
+
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
      */
@@ -111,14 +121,13 @@ public abstract class GreenFlamesBase extends Block {
         BlockPos newPos = pos.offset(EnumFacing.UP, 1);
         int y = newPos.getY();
         IBlockState bs = w.getBlockState(newPos);
-        Block b = bs.getBlock();
-        while (b.isAir(bs, w, newPos) && y < 256) {
+        while (bs.getBlock().isAir(bs, w, newPos) && y < 256) {
             newPos = newPos.offset(EnumFacing.UP, 1);
             y = newPos.getY();
-            b = w.getBlockState(newPos).getBlock();
+            bs = w.getBlockState(newPos);
         }
-        //When y >= 256 you get an air block, so if b is a normal cube y is implicitly < 256
-        if (b.getMaterial(bs).isSolid()) return y;
+        //When y >= 256 you get an air block, so if b is a solid cube y is implicitly < 256
+        if (bs.getBlock().getMaterial(bs).isSolid()) return y;
         return 0;
     }
 

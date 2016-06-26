@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.client.gui;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,8 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-class GuiFloowerPot extends GuiContainer {
-
+class GuiFloowerPot extends GuiContainer
+{
     public GuiFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot tileEntity)
     {
         //the container is instantiated and passed to the superclass for handling
@@ -35,7 +36,7 @@ class GuiFloowerPot extends GuiContainer {
         //draw your Gui here, only thing you need to change is the path
         //May need to do getTexture first if this method causes trouble
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(new ResourceLocation("ftfloocraft","textures/gui/guifloowerpot.png"));
+        this.mc.renderEngine.bindTexture(new ResourceLocation(DataReference.MODID + ":textures/gui/guifloowerpot.png"));
         int x = (width - xSize) / 2;
         int y = (height - ySize) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);

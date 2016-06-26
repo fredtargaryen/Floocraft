@@ -1,5 +1,17 @@
 {
-  "greened": {"category": "block","sounds": [{"name": "greened","stream": false}]},
-  "tp": {"category": "master","sounds": [{"name": "tp","stream": false}]},
-  "flick": {"category": "block","sounds": [{"name": "flick", "stream": false}]}
+  "greened":
+  {
+    "sounds": [{"name": "ftfloocraft:greened","stream": false}],
+    "subtitle": "subs.greened"
+  },
+  "tp":
+  {
+    "sounds": [{"name": "ftfloocraft:tp","stream": false}],
+    "subtitle": "subs.tp"
+  },
+  "flick":
+  {
+    "sounds": [{"name": "ftfloocraft:flick", "stream": false}],
+    "subtitle": "subs.flick"
+  }
 }

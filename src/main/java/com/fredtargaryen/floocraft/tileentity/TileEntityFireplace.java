@@ -18,8 +18,6 @@ public class TileEntityFireplace extends TileEntitySign
     private boolean isConnected;
     private int y;
 
-    public TileEntityFireplace(){}
-
 	/**Sends packet containing:
 	 *--xcoord
 	 *--ycoord

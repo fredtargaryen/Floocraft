@@ -9,6 +9,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 
+import static com.fredtargaryen.floocraft.FloocraftBase.tp;
+
 public class GuiFlash extends Gui
 {
     private final Minecraft mc;
@@ -21,7 +23,7 @@ public class GuiFlash extends Gui
         if(this.ticks == -1)
         {
             this.ticks = 0;
-            //this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation(DataReference.MODID+":tp"), 1.0F));
+            this.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(tp, 1.0F));
         }
     }
 
