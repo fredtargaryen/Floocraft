@@ -1,7 +1,3 @@
-/**
- * DONE
- *
- */
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;

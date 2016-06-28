@@ -126,12 +126,16 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
-
         NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
-        for (int i = 0; i < tagList.tagCount(); i++) {
-            NBTTagCompound tag = tagList.getCompoundTagAt(i);
+        if(tagList.tagCount() == 0)
+        {
+            this.inv[0] = null;
+        }
+        else
+        {
+            NBTTagCompound tag = tagList.getCompoundTagAt(0);
             byte slot = tag.getByte("Slot");
-            if (slot >= 0 && slot < this.inv.length) {
+            if (slot == 0) {
                 this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
             }
         }
@@ -140,16 +144,13 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         tagCompound = super.writeToNBT(tagCompound);
-
         NBTTagList itemList = new NBTTagList();
-        for (int i = 0; i < inv.length; i++) {
-            ItemStack stack = inv[i];
-            if (stack != null) {
-                NBTTagCompound tag = new NBTTagCompound();
-                tag.setByte("Slot", (byte) i);
-                stack.writeToNBT(tag);
-                itemList.appendTag(tag);
-            }
+        ItemStack stack = inv[0];
+        if (stack != null) {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setByte("Slot", (byte) 0);
+            stack.writeToNBT(tag);
+            itemList.appendTag(tag);
         }
         tagCompound.setTag("Inventory", itemList);
         return tagCompound;

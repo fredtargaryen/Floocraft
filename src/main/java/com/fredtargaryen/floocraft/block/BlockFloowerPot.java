@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
+import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -130,7 +131,7 @@ public class BlockFloowerPot extends Block
         {
             TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
-            if (stack != null)
+            if (stack != null && stack.stackSize > 0)
             {
                 int par2 = pos.getX();
                 int par3 = pos.getY();
@@ -143,7 +144,7 @@ public class BlockFloowerPot extends Block
                     {
                         for (int z = par4 - 5; z < par4 + 6; z++)
                         {
-                            if(stack.stackSize > 0) {
+                            if(stack != null && stack.stackSize > 0) {
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
                                 if (currentBlock == Blocks.FIRE) {
@@ -153,8 +154,7 @@ public class BlockFloowerPot extends Block
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
                                         worldIn.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                                        stack.stackSize--;
-                                        pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
+                                        stack = stack.stackSize == 1 ? null : stack.splitStack(stack.stackSize - 1);
                                     } else {
                                         worldIn.setBlockState(currentPos, Blocks.FIRE.getDefaultState());
                                     }
@@ -164,6 +164,7 @@ public class BlockFloowerPot extends Block
                     }
                 }
             }
+            pot.setInventorySlotContents(0, stack);
             worldIn.notifyBlockUpdate(pos, state, state, 3);
             worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn) + rand.nextInt(100), 0);
         }
