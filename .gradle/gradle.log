@@ -1,16 +1,6 @@
 This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.This mapping 'stable_20' was designed for MC 1.8.8! Use at your own peril.
 
-#################################################
-         ForgeGradle 2.1-SNAPSHOT-9e8f067        
-  https://github.com/MinecraftForge/ForgeGradle  
-#################################################
-               Powered by MCP unknown               
-             http://modcoderpack.com             
-         by: Searge, ProfMobius, Fesh0r,         
-         R4wk, ZeuX, IngisKahn, bspkrs           
-#################################################
-:genIntellijRuns
 
 BUILD SUCCESSFUL
 
-Total time: 35.688 secs
+Total time: 12.151 secs

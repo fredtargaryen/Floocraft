@@ -6,6 +6,7 @@ import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -22,7 +23,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockFloowerPot extends BlockContainer
+public class BlockFloowerPot extends Block
 {
     public BlockFloowerPot()
     {
@@ -31,7 +32,10 @@ public class BlockFloowerPot extends BlockContainer
     }
 
     @Override
-    public TileEntity createNewTileEntity(World var1, int var2)
+    public boolean hasTileEntity(IBlockState state) { return true; }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state)
     {
         return new TileEntityFloowerPot();
     }
@@ -107,11 +111,12 @@ public class BlockFloowerPot extends BlockContainer
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
+        super.updateTick(worldIn, pos, state, rand);
         if(!worldIn.isRemote)
         {
             TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
-            if (stack != null)
+            if (stack != null && stack.stackSize > 0)
             {
                 int par2 = pos.getX();
                 int par3 = pos.getY();
@@ -124,7 +129,7 @@ public class BlockFloowerPot extends BlockContainer
                     {
                         for (int z = par4 - 5; z < par4 + 6; z++)
                         {
-                            if(stack.stackSize > 0) {
+                            if(stack != null && stack.stackSize > 0) {
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
                                 if (currentBlock == Blocks.fire) {
@@ -133,9 +138,8 @@ public class BlockFloowerPot extends BlockContainer
                                     if (gfit.isInFireplace(worldIn, currentPos)) {
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
-                                        worldIn.playSound((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F, true);
-                                        stack.stackSize--;
-                                        pot.setInventorySlotContents(0, stack.stackSize == 0 ? null : stack.splitStack(stack.stackSize));
+                                        worldIn.playSoundEffect((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F);
+                                        stack = stack.stackSize == 1 ? null : stack.splitStack(stack.stackSize - 1);
                                     } else {
                                         worldIn.setBlockState(currentPos, Blocks.fire.getDefaultState());
                                     }
@@ -145,14 +149,16 @@ public class BlockFloowerPot extends BlockContainer
                     }
                 }
             }
+            pot.setInventorySlotContents(0, stack);
+            worldIn.markBlockForUpdate(pos);
+            worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn) + rand.nextInt(100), 0);
         }
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn) + rand.nextInt(100));
     }
 
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+        worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn), 0);
     }
 
     @Override

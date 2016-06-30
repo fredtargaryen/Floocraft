@@ -93,10 +93,10 @@ public abstract class GreenFlamesBase extends Block {
 
     @Override
     public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {
-        if (!isInFireplace(par1World, pos)) {
-            par1World.setBlockState(pos, Blocks.fire.getDefaultState());
+        if (isInFireplace(par1World, pos)) {
+            par1World.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(par1World), 0);
         } else {
-            par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
+            par1World.setBlockState(pos, Blocks.fire.getDefaultState());
         }
     }
 
