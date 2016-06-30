@@ -25,7 +25,7 @@ group= "com.fredtargaryen.floocraft" // http://maven.apache.org/guides/mini/guid
 archivesBaseName = "Floocraft"
 
 minecraft {
-    version = "1.9.4-12.17.0.1976"
+    version = "1.10.2-12.18.0.2002-1.10.0"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
