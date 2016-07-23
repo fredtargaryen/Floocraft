@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.network.PacketHandler;
@@ -40,9 +41,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				//Checks whether the destination is fire
 				if(destBlock == Blocks.FIRE)
 				{
-					world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
-					GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
-					if(gft.isInFireplace(world, dest))
+					if(((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, dest))
 					{
 						validDest = true;
 					}

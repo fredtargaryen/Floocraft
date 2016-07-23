@@ -20,12 +20,12 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.7.5"
+version = "1.7.6"
 group= "com.fredtargaryen.floocraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Floocraft"
 
 minecraft {
-    version = "1.10.2-12.18.0.2002-1.10.0"
+    version = "1.10.2-12.18.1.2011"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -80,3 +80,7 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+// idea { module { inheritOutputDirs = true } }
+
+//sourceSets { main { output.resourcesDir = output.classesDir } }
