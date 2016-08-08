@@ -1,5 +1,5 @@
 #################################################
-         ForgeGradle 2.2-SNAPSHOT-59f33ec        
+         ForgeGradle 2.2-SNAPSHOT-0447b4e        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
                Powered by MCP unknown               
@@ -9,7 +9,7 @@
 #################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:sourceApiJava
+:sourceApiJava UP-TO-DATE
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
@@ -24,19 +24,19 @@ Note: Recompile with -Xlint:unchecked for details.
 :processResources
 :classes
 :jar
-:sourceTestJava
+:sourceTestJava UP-TO-DATE
 :compileTestJava UP-TO-DATE
 :processTestResources UP-TO-DATE
 :testClasses UP-TO-DATE
 :test UP-TO-DATE
 :extractMcpData SKIPPED
-:extractMcpMappings SKIPPED
+:extractMcpMappings
 :getVersionJson
 :extractUserdev UP-TO-DATE
 :genSrgs SKIPPED
 :reobfJar
 :extractRangemapReplacedMain
-C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft-1.9.4\build\sources\main\java
+C:\Users\user\Desktop\DEV\Minecraft Mods\Floocraft-1.9\build\sources\main\java
 :retromapReplacedMain
 remapping source...
 :sourceJar
@@ -46,4 +46,4 @@ remapping source...
 
 BUILD SUCCESSFUL
 
-Total time: 5 mins 39.055 secs
+Total time: 3 mins 52.49 secs
