@@ -2,8 +2,8 @@ package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
-import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,8 +39,7 @@ public class ItemFlooPowder extends Item
         BlockPos firePos = pos.offset(EnumFacing.UP, 1);
 		if (worldIn.getBlockState(firePos).getBlock() == Blocks.fire)
 		{
-            worldIn.setBlockState(firePos, FloocraftBase.greenFlamesTemp.getDefaultState(), 2);
-            if(((GreenFlamesTemp)worldIn.getBlockState(firePos).getBlock()).isInFireplace(worldIn, firePos))
+            if(((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, firePos))
             {
                 worldIn.setBlockState(firePos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
                 worldIn.playSound((double) firePos.getX(), (double) firePos.getY(), (double) firePos.getZ(), DataReference.MODID + ":greened", 1.0F, 1.0F, true);

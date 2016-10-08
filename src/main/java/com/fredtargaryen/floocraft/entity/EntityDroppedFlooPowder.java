@@ -2,9 +2,8 @@ package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
-import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -28,16 +27,12 @@ public class EntityDroppedFlooPowder extends EntityItem
 	}
 	
 	@Override
-	/**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         BlockPos pos = new BlockPos(this);
         if (this.worldObj.getBlockState(pos).getBlock() == Blocks.fire)
         {
-			this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesTemp.getDefaultState(), 2);
-			if(((GreenFlamesTemp)this.worldObj.getBlockState(pos).getBlock()).isInFireplace(this.worldObj, pos))
+			if(((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(this.worldObj, pos))
 			{
                 this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
                 this.playSound(DataReference.MODID+":greened", 1.0F, 1.0F);

@@ -1,8 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
-import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IThreadListener;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -40,15 +39,12 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				//Checks whether the destination is fire
 				if(destBlock == Blocks.fire)
 				{
-					world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
-					GreenFlamesTemp gft = (GreenFlamesTemp) world.getBlockState(dest).getBlock();
-					if(gft.isInFireplace(world, dest))
+					if(((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, dest))
 					{
 						validDest = true;
 					}
 					else
 					{
-						world.setBlockState(dest, Blocks.fire.getDefaultState());
 						validDest = false;
 					}
 				}
@@ -62,6 +58,10 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				//Checks whether the player is currently in busy or idle green flames
 				if(validDest && (initBlock == FloocraftBase.greenFlamesBusy || initBlock == FloocraftBase.greenFlamesIdle))
 				{
+					if(destBlock == Blocks.fire)
+					{
+						world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+					}
 					//Do the teleport
 					PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
 					if(player.isRiding())

@@ -133,9 +133,7 @@ public class BlockFloowerPot extends Block
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
                                 if (currentBlock == Blocks.fire) {
-                                    worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesTemp.getDefaultState());
-                                    GreenFlamesTemp gfit = (GreenFlamesTemp) worldIn.getBlockState(currentPos).getBlock();
-                                    if (gfit.isInFireplace(worldIn, currentPos)) {
+                                    if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, currentPos)) {
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
                                         worldIn.playSoundEffect((double) x, (double) y, (double) z, DataReference.MODID + ":greened", 1.0F, 1.0F);
