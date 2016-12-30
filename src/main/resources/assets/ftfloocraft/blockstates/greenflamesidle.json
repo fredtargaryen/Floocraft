@@ -1,17 +1,12 @@
 {
-  "variants": {
-
-    "normal": { "model": "ftfloocraft:gf_idle" },
-
-    "age=0": { "model": "ftfloocraft:gf_idle" },
-    "age=1": { "model": "ftfloocraft:gf_idle" },
-    "age=2": { "model": "ftfloocraft:gf_idle" },
-    "age=3": { "model": "ftfloocraft:gf_idle" },
-    "age=4": { "model": "ftfloocraft:gf_idle" },
-    "age=5": { "model": "ftfloocraft:gf_idle" },
-    "age=6": { "model": "ftfloocraft:gf_idle" },
-    "age=7": { "model": "ftfloocraft:gf_idle" },
-    "age=8": { "model": "ftfloocraft:gf_idle" },
-    "age=9": { "model": "ftfloocraft:gf_idle" }
-  }
+  "multipart":
+  [
+    {
+      "apply": [
+        {
+          "model": "ftfloocraft:gf_idle"
+        }
+      ]
+    }
+  ]
 }

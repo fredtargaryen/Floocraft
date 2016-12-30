@@ -1,3 +1,8 @@
+/**
+ * TO DO:
+ * Server - adding ~11+ locations is too much for the GUI, won't go to correct places (try large scale on TV, then 15 locs)
+ * Fire block faces too dark - west-facing for busy; west and east-facing for idle
+ */
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
