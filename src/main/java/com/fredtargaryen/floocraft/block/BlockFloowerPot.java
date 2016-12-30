@@ -64,7 +64,7 @@ public class BlockFloowerPot extends Block
     /**
      * Called upon block activation (right click on the block.)
      */
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity == null || player.isSneaking())
@@ -94,14 +94,14 @@ public class BlockFloowerPot extends Block
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack item = inventory.getStackInSlot(i);
 
-            if (item != null && item.stackSize > 0) {
+            if (!item.func_190926_b() && item.func_190916_E() > 0) {
                 float rx = rand.nextFloat() * 0.8F + 0.1F;
                 float ry = rand.nextFloat() * 0.8F + 0.1F;
                 float rz = rand.nextFloat() * 0.8F + 0.1F;
 
                 EntityItem entityItem = new EntityItem(world,
                         pos.getX() + rx, pos.getY() + ry, pos.getZ() + rz,
-                        new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
+                        new ItemStack(item.getItem(), item.func_190916_E(), item.getItemDamage()));
 
                 if (item.hasTagCompound()) {
                     entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
@@ -112,7 +112,7 @@ public class BlockFloowerPot extends Block
                 entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
                 entityItem.motionZ = rand.nextGaussian() * factor;
                 world.spawnEntityInWorld(entityItem);
-                item.stackSize = 0;
+                item.func_190920_e(0);
             }
         }
     }
@@ -131,7 +131,7 @@ public class BlockFloowerPot extends Block
         {
             TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
-            if (stack != null && stack.stackSize > 0)
+            if (!stack.func_190926_b() && stack.func_190916_E() > 0)
             {
                 int par2 = pos.getX();
                 int par3 = pos.getY();
@@ -144,7 +144,7 @@ public class BlockFloowerPot extends Block
                     {
                         for (int z = par4 - 5; z < par4 + 6; z++)
                         {
-                            if(stack != null && stack.stackSize > 0) {
+                            if(stack != null && stack.func_190916_E() > 0) {
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
                                 if (currentBlock == Blocks.FIRE)
@@ -154,7 +154,7 @@ public class BlockFloowerPot extends Block
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
                                         worldIn.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                                        stack = stack.stackSize == 1 ? null : stack.splitStack(stack.stackSize - 1);
+                                        stack = stack.func_190916_E() == 1 ? ItemStack.field_190927_a : stack.splitStack(stack.func_190916_E() - 1);
                                     } else {
                                         worldIn.setBlockState(currentPos, Blocks.FIRE.getDefaultState());
                                     }
@@ -197,7 +197,7 @@ public class BlockFloowerPot extends Block
      * Called when a neighboring block changes.
      */
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn)
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos someOtherPos)
     {
         if (!worldIn.isSideSolid(pos.offset(EnumFacing.DOWN), EnumFacing.UP))
         {

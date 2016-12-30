@@ -80,16 +80,16 @@ public class ContainerFloowerPot extends Container
                 return null;
             }
 
-            if (stackInSlot.stackSize == 0) {
-                slotObject.putStack(null);
+            if (stackInSlot.func_190916_E() == 0) {
+                slotObject.putStack(ItemStack.field_190927_a);
             } else {
                 slotObject.onSlotChanged();
             }
 
-            if (stackInSlot.stackSize == stack.stackSize) {
+            if (stackInSlot.func_190916_E() == stack.func_190916_E()) {
                 return null;
             }
-            slotObject.onPickupFromSlot(player, stackInSlot);
+            slotObject.func_190901_a(player, stackInSlot);
         }
         return stack;
     }

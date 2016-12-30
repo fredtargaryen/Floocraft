@@ -30,6 +30,15 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         return this.inv.length;
     }
 
+    /**
+     * a.k.a. isEmpty(). func_190926_b() returns true if the ItemStack is null or air or empty or whatever
+     */
+    @Override
+    public boolean func_191420_l()
+    {
+        return this.inv[0].func_190926_b();
+    }
+
     @Override
     public ItemStack getStackInSlot(int slot)
     {
@@ -40,16 +49,16 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     public ItemStack decrStackSize(int slot, int amt)
     {
         ItemStack stack = getStackInSlot(slot);
-        if (stack != null)
+        if (!stack.func_190926_b())
         {
-            if (stack.stackSize <= amt)
+            if (stack.func_190916_E() <= amt)
             {
                 setInventorySlotContents(slot, null);
             }
             else
             {
                 stack = stack.splitStack(amt);
-                if (stack.stackSize == 0)
+                if (stack.func_190916_E() == 0)
                 {
                     setInventorySlotContents(slot, null);
                 }
@@ -68,9 +77,9 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     {
         this.inv[slot] = stack;
 
-        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
+        if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
         {
-            stack.stackSize = this.getInventoryStackLimit();
+            stack.func_190920_e(this.getInventoryStackLimit());
         }
         this.markDirty();
     }
@@ -136,7 +145,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
             NBTTagCompound tag = tagList.getCompoundTagAt(0);
             byte slot = tag.getByte("Slot");
             if (slot == 0) {
-                this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+                this.inv[slot] = new ItemStack(tag);
             }
         }
     }

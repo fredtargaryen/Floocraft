@@ -48,7 +48,7 @@ public class BlockFlooSign extends BlockWallSign
 
     @Override
     //pos is the position of this block...
-    public void neighborChanged(IBlockState state, World w, BlockPos pos, Block neighbourBlock)
+    public void neighborChanged(IBlockState state, World w, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
         if (!w.getBlockState(pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite())).getMaterial().isSolid())
         {

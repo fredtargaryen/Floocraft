@@ -25,7 +25,7 @@ public class ItemFlooSign extends Item
 	}
 
     @Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
 		if (side == EnumFacing.DOWN || side == EnumFacing.UP)
         {
@@ -33,6 +33,7 @@ public class ItemFlooSign extends Item
         }
         else
         {
+        	ItemStack stack = player.getHeldItem(hand);
             if (!player.canPlayerEdit(pos, side, stack))
             {
                 return EnumActionResult.FAIL;
@@ -41,7 +42,7 @@ public class ItemFlooSign extends Item
             {
                 BlockPos newpos = pos.offset(side);
             	world.setBlockState(newpos, FloocraftBase.blockFlooSign.getDefaultState().withProperty(BlockFlooSign.FACING, side), 3);
-            	--stack.stackSize;
+            	stack.func_190917_f(-1);
             	TileEntityFireplace fireplaceTE = (TileEntityFireplace)world.getTileEntity(newpos);
             	if (fireplaceTE != null)
             	{

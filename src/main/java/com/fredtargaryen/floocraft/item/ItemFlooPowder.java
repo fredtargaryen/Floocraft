@@ -39,7 +39,7 @@ public class ItemFlooPowder extends Item
 	}
 
     @Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
         BlockPos firePos = pos.offset(EnumFacing.UP, 1);
 		if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE)
@@ -53,7 +53,7 @@ public class ItemFlooPowder extends Item
             {
                 worldIn.setBlockState(firePos, Blocks.FIRE.getDefaultState(), 2);
             }
-            --stack.stackSize;
+            playerIn.getHeldItem(hand).func_190917_f(-1);
 			return EnumActionResult.PASS;
 		}
 		return EnumActionResult.FAIL;
