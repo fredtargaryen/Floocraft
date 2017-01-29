@@ -1,7 +1,9 @@
 /**
  * TO DO:
- * Server - adding ~11+ locations is too much for the GUI, won't go to correct places (try large scale on TV, then 15 locs)
- * Fire block faces too dark - west-facing for busy; west and east-facing for idle
+ * Fires don't update if placed via right-click
+ * Server - try 15 locs on Jon's screen
+ * Fire block inner faces too dark - west-facing for busy; west and east-facing for idle (check. Added shade, set amb. occl. to 2)
+ * --Fine on Jon's PC
  */
 package com.fredtargaryen.floocraft;
 
