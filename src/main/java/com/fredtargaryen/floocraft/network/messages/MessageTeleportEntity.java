@@ -41,15 +41,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				//Checks whether the destination is fire
 				if(destBlock == Blocks.FIRE)
 				{
-					if(((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, dest))
-					{
-						validDest = true;
-					}
-					else
-					{
-						world.setBlockState(dest, Blocks.FIRE.getDefaultState());
-						validDest = false;
-					}
+					validDest = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, dest);
 				}
 				//Checks whether the destination is busy or idle green flames
 				else if(destBlock == FloocraftBase.greenFlamesBusy || destBlock == FloocraftBase.greenFlamesIdle)
@@ -61,7 +53,12 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 				//Checks whether the player is currently in busy or idle green flames
 				if(validDest && (initBlock == FloocraftBase.greenFlamesBusy || initBlock == FloocraftBase.greenFlamesIdle))
 				{
-					//Do the teleport
+					//Get the fire ready...
+					if(destBlock == Blocks.FIRE)
+					{
+						world.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+					}
+					//...then do the teleport
 					PacketHandler.INSTANCE.sendTo(new MessageDoGreenFlash(), player);
 					if(player.isRiding())
 					{

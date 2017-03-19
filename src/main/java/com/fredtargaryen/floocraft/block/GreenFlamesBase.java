@@ -5,7 +5,10 @@ import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -64,9 +67,12 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity) {
-        if (par4Entity instanceof EntityPlayer) {
-            if (par1World.isRemote) {
+    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity)
+    {
+        if (par1World.isRemote)
+        {
+            if (par4Entity instanceof EntityPlayer)
+            {
                 doClientGuiTings(pos);
             }
         }
@@ -113,6 +119,22 @@ public abstract class GreenFlamesBase extends Block {
     @Deprecated
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn)
     {}
+
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
+    {
+        if (rand.nextInt(24) == 0)
+        {
+            worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
+        }
+        for (int i = 0; i < 3; ++i)
+        {
+            double d0 = (double)pos.getX() + rand.nextDouble();
+            double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
+            double d2 = (double)pos.getZ() + rand.nextDouble();
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+        }
+    }
 
     /**
      * ALL FIREPLACE VALIDATION CODE STARTS HERE
