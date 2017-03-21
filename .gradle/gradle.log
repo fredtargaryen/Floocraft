@@ -11,225 +11,36 @@ This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril
 #################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:sourceApiJava
+:sourceApiJava UP-TO-DATE
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
-:sourceMainJava
+:sourceMainJava UP-TO-DATE
 :compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.6
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:97: error: cannot find symbol
-            if (!item.func_190926_b() && item.func_190916_E() > 0) {
-                     ^
-  symbol:   method func_190926_b()
-  location: variable item of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:97: error: cannot find symbol
-            if (!item.func_190926_b() && item.func_190916_E() > 0) {
-                                             ^
-  symbol:   method func_190916_E()
-  location: variable item of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:104: error: cannot find symbol
-                        new ItemStack(item.getItem(), item.func_190916_E(), item.getItemDamage()));
-                                                          ^
-  symbol:   method func_190916_E()
-  location: variable item of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:114: error: cannot find symbol
-                world.spawnEntityInWorld(entityItem);
-                     ^
-  symbol:   method spawnEntityInWorld(EntityItem)
-  location: variable world of type World
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:115: error: cannot find symbol
-                item.func_190920_e(0);
-                    ^
-  symbol:   method func_190920_e(int)
-  location: variable item of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:134: error: cannot find symbol
-            if (!stack.func_190926_b() && stack.func_190916_E() > 0)
-                      ^
-  symbol:   method func_190926_b()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:134: error: cannot find symbol
-            if (!stack.func_190926_b() && stack.func_190916_E() > 0)
-                                               ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:147: error: cannot find symbol
-                            if(stack != null && stack.func_190916_E() > 0) {
-                                                     ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:157: error: cannot find symbol
-                                        stack = stack.func_190916_E() == 1 ? ItemStack.field_190927_a : stack.splitStack(stack.func_190916_E() - 1);
-                                                     ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:157: error: cannot find symbol
-                                        stack = stack.func_190916_E() == 1 ? ItemStack.field_190927_a : stack.splitStack(stack.func_190916_E() - 1);
-                                                                                      ^
-  symbol:   variable field_190927_a
-  location: class ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFloowerPot.java:157: error: cannot find symbol
-                                        stack = stack.func_190916_E() == 1 ? ItemStack.field_190927_a : stack.splitStack(stack.func_190916_E() - 1);
-                                                                                                                              ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:19: error: TileEntityFloowerPot is not abstract and does not override abstract method isUsableByPlayer(EntityPlayer) in IInventory
-public class TileEntityFloowerPot extends TileEntity implements IInventory
-       ^
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:36: error: method does not override or implement a method from a supertype
-    @Override
-    ^
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:39: error: cannot find symbol
-        return this.inv[0].func_190926_b();
-                          ^
-  symbol:   method func_190926_b()
-  location: class ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:52: error: cannot find symbol
-        if (!stack.func_190926_b())
-                  ^
-  symbol:   method func_190926_b()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:54: error: cannot find symbol
-            if (stack.func_190916_E() <= amt)
-                     ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:61: error: cannot find symbol
-                if (stack.func_190916_E() == 0)
-                         ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:80: error: cannot find symbol
-        if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
-                  ^
-  symbol:   method func_190926_b()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:80: error: cannot find symbol
-        if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
-                                           ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:82: error: cannot find symbol
-            stack.func_190920_e(this.getInventoryStackLimit());
-                 ^
-  symbol:   method func_190920_e(int)
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:92: error: method does not override or implement a method from a supertype
-    @Override
-    ^
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\TileEntityFloowerPot.java:95: error: cannot find symbol
-        return worldObj.getTileEntity(this.pos) == this &&
-               ^
-  symbol:   variable worldObj
-  location: class TileEntityFloowerPot
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\entity\EntityDroppedFlooPowder.java:39: error: cannot find symbol
-        if (this.worldObj.getBlockState(pos).getBlock() == Blocks.FIRE)
-                ^
-  symbol: variable worldObj
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\entity\EntityDroppedFlooPowder.java:41: error: cannot find symbol
-			if(((GreenFlamesTemp)FloocraftBase.greenFlamesTemp).isInFireplace(this.worldObj, pos))
-			                                                                      ^
-  symbol: variable worldObj
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\entity\EntityDroppedFlooPowder.java:43: error: cannot find symbol
-                this.worldObj.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
-                    ^
-  symbol: variable worldObj
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\entity\ParticleGreenFlame.java:69: error: cannot find symbol
-        moveEntity(motionX, 0.001, motionZ);  // simple linear motion.  You can change speed by changing motionX, motionY,
-        ^
-  symbol:   method moveEntity(double,double,double)
-  location: class ParticleGreenFlame
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\inventory\container\ContainerFloowerPot.java:83: error: cannot find symbol
-            if (stackInSlot.func_190916_E() == 0) {
-                           ^
-  symbol:   method func_190916_E()
-  location: variable stackInSlot of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\inventory\container\ContainerFloowerPot.java:84: error: cannot find symbol
-                slotObject.putStack(ItemStack.field_190927_a);
-                                             ^
-  symbol:   variable field_190927_a
-  location: class ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\inventory\container\ContainerFloowerPot.java:89: error: cannot find symbol
-            if (stackInSlot.func_190916_E() == stack.func_190916_E()) {
-                           ^
-  symbol:   method func_190916_E()
-  location: variable stackInSlot of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\inventory\container\ContainerFloowerPot.java:89: error: cannot find symbol
-            if (stackInSlot.func_190916_E() == stack.func_190916_E()) {
-                                                    ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\inventory\container\ContainerFloowerPot.java:92: error: cannot find symbol
-            slotObject.func_190901_a(player, stackInSlot);
-                      ^
-  symbol:   method func_190901_a(EntityPlayer,ItemStack)
-  location: variable slotObject of type Slot
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\item\ItemFlooPowder.java:56: error: cannot find symbol
-            playerIn.getHeldItem(hand).func_190917_f(-1);
-                                      ^
-  symbol:   method func_190917_f(int)
-  location: class ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\item\ItemFlooSign.java:45: error: cannot find symbol
-            	stack.func_190917_f(-1);
-            	     ^
-  symbol:   method func_190917_f(int)
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\network\messages\MessageAddFireplace.java:22: error: cannot find symbol
-		final IThreadListener serverWorld = (WorldServer)ctx.getServerHandler().playerEntity.worldObj;
-		                                                                                    ^
-  symbol:   variable worldObj
-  location: variable playerEntity of type EntityPlayerMP
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\network\messages\MessageApproveName.java:19: error: cannot find symbol
-        m.answer = !FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).placeList.containsKey(message.name);
-                                                                                   ^
-  symbol:   variable worldObj
-  location: variable playerEntity of type EntityPlayerMP
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\network\messages\MessageFireplaceListRequest.java:16: error: cannot find symbol
-		World w = ctx.getServerHandler().playerEntity.worldObj;
-		                                             ^
-  symbol:   variable worldObj
-  location: variable playerEntity of type EntityPlayerMP
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\network\messages\MessageFlooTorchTeleport.java:27: error: cannot find symbol
-        final IThreadListener serverListener = (WorldServer)player.worldObj;
-                                                                  ^
-  symbol:   variable worldObj
-  location: variable player of type EntityPlayerMP
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\network\messages\MessageTeleportEntity.java:27: error: cannot find symbol
-		final IThreadListener serverListener = (WorldServer)player.worldObj;
-		                                                          ^
-  symbol:   variable worldObj
-  location: variable player of type EntityPlayerMP
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\network\messages\MessageTileEntityFireplaceFunction.java:21: error: cannot find symbol
-        final IThreadListener serverListener = (WorldServer)ctx.getServerHandler().playerEntity.worldObj;
-                                                                                               ^
-  symbol:   variable worldObj
-  location: variable playerEntity of type EntityPlayerMP
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\specialrenderer\TileEntityPotRenderer.java:21: error: cannot find symbol
-        if(stack != null && stack.func_190916_E() > 0)
-                                 ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\tileentity\specialrenderer\TileEntityPotRenderer.java:34: error: cannot find symbol
-            double level = (((float)stack.func_190916_E() / 64) * 0.3125) + 0.0625;
-                                         ^
-  symbol:   method func_190916_E()
-  location: variable stack of type ItemStack
 Note: Some input files use or override a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
-41 errors
 1 warning
- FAILED
 
-FAILURE: Build failed with an exception.
+:processResources
+:classes
+:jar
+:sourceTestJava UP-TO-DATE
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:extractMcpData SKIPPED
+:extractMcpMappings SKIPPED
+:getVersionJson
+:extractUserdev UP-TO-DATE
+:genSrgs SKIPPED
+:reobfJar
+:assemble
+:check UP-TO-DATE
+:build
 
-* What went wrong:
-Execution failed for task ':compileJava'.
-> Compilation failed; see the compiler error output for details.
+BUILD SUCCESSFUL
 
-* Try:
-Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
-
-BUILD FAILED
-
-Total time: 49.39 secs
+Total time: 1 mins 5.651 secs
