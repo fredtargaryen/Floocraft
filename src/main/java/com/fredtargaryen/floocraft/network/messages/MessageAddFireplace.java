@@ -19,7 +19,7 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	@Override
 	public IMessage onMessage(final MessageAddFireplace message, MessageContext ctx)
 	{
-		final IThreadListener serverWorld = (WorldServer)ctx.getServerHandler().playerEntity.worldObj;
+		final IThreadListener serverWorld = ctx.getServerHandler().playerEntity.getServerWorld();
 		serverWorld.addScheduledTask(new Runnable(){
 			@Override
 			public void run()

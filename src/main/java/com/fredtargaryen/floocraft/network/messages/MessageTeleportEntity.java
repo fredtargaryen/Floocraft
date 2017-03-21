@@ -24,7 +24,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 	public IMessage onMessage(final MessageTeleportEntity message, MessageContext ctx)
 	{
 		final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-		final IThreadListener serverListener = (WorldServer)player.worldObj;
+		final IThreadListener serverListener = player.getServerWorld();
 		serverListener.addScheduledTask(new Runnable() {
 			@Override
 			public void run() {

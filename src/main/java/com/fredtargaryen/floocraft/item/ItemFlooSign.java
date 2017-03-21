@@ -42,7 +42,7 @@ public class ItemFlooSign extends Item
             {
                 BlockPos newpos = pos.offset(side);
             	world.setBlockState(newpos, FloocraftBase.blockFlooSign.getDefaultState().withProperty(BlockFlooSign.FACING, side), 3);
-            	stack.func_190917_f(-1);
+            	stack.grow(-1);
             	TileEntityFireplace fireplaceTE = (TileEntityFireplace)world.getTileEntity(newpos);
             	if (fireplaceTE != null)
             	{

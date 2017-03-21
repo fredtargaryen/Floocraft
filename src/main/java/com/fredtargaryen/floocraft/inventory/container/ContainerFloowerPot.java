@@ -42,7 +42,7 @@ public class ContainerFloowerPot extends Container
     @Override
     public boolean canInteractWith(EntityPlayer player)
     {
-        return potTE.isUseableByPlayer(player);
+        return potTE.isUsableByPlayer(player);
     }
 
     private void bindPlayerInventory(InventoryPlayer inventoryPlayer)
@@ -80,16 +80,16 @@ public class ContainerFloowerPot extends Container
                 return null;
             }
 
-            if (stackInSlot.func_190916_E() == 0) {
-                slotObject.putStack(ItemStack.field_190927_a);
+            if (stackInSlot.getCount() == 0) {
+                slotObject.putStack(ItemStack.EMPTY);
             } else {
                 slotObject.onSlotChanged();
             }
 
-            if (stackInSlot.func_190916_E() == stack.func_190916_E()) {
+            if (stackInSlot.getCount() == stack.getCount()) {
                 return null;
             }
-            slotObject.func_190901_a(player, stackInSlot);
+            slotObject.onTake(player, stackInSlot);
         }
         return stack;
     }

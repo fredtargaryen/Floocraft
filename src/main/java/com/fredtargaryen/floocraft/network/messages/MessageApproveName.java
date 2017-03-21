@@ -16,7 +16,7 @@ public class MessageApproveName implements IMessage, IMessageHandler<MessageAppr
 	public IMessage onMessage(MessageApproveName message, MessageContext ctx)
 	{
         MessageApproval m = new MessageApproval();
-        m.answer = !FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.worldObj).placeList.containsKey(message.name);
+        m.answer = !FloocraftWorldData.forWorld(ctx.getServerHandler().playerEntity.getServerWorld()).placeList.containsKey(message.name);
 		return m;
 	}
 

@@ -53,7 +53,7 @@ public class ItemFlooPowder extends Item
             {
                 worldIn.setBlockState(firePos, Blocks.FIRE.getDefaultState(), 2);
             }
-            playerIn.getHeldItem(hand).func_190917_f(-1);
+            playerIn.getHeldItem(hand).grow(-1);
 			return EnumActionResult.PASS;
 		}
 		return EnumActionResult.FAIL;

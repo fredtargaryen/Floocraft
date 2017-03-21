@@ -18,7 +18,7 @@ public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHan
 	@Override
 	public IMessage onMessage(final MessageTileEntityFireplaceFunction message, MessageContext ctx)
 	{
-        final IThreadListener serverListener = (WorldServer)ctx.getServerHandler().playerEntity.worldObj;
+        final IThreadListener serverListener = ctx.getServerHandler().playerEntity.getServerWorld();
 		serverListener.addScheduledTask(new Runnable()
 		{
 			@Override

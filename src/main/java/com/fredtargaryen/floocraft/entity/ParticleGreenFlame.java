@@ -66,7 +66,7 @@ public class ParticleGreenFlame extends Particle
         prevPosY = posY;
         prevPosZ = posZ;
 
-        moveEntity(motionX, 0.001, motionZ);  // simple linear motion.  You can change speed by changing motionX, motionY,
+        move(motionX, 0.001, motionZ);  // simple linear motion.  You can change speed by changing motionX, motionY,
         // motionZ every tick.  For example - you can make the particle accelerate downwards due to gravity by
         // final double GRAVITY_ACCELERATION_PER_TICK = -0.02;
         // motionY += GRAVITY_ACCELERATION_PER_TICK;

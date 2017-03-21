@@ -24,19 +24,17 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     {
         this.inv = new ItemStack[1];
     }
+
     @Override
     public int getSizeInventory()
     {
         return this.inv.length;
     }
 
-    /**
-     * a.k.a. isEmpty(). func_190926_b() returns true if the ItemStack is null or air or empty or whatever
-     */
     @Override
-    public boolean func_191420_l()
+    public boolean isEmpty()
     {
-        return this.inv[0].func_190926_b();
+        return this.inv[0].isEmpty();
     }
 
     @Override
@@ -49,16 +47,16 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     public ItemStack decrStackSize(int slot, int amt)
     {
         ItemStack stack = getStackInSlot(slot);
-        if (!stack.func_190926_b())
+        if (!stack.isEmpty())
         {
-            if (stack.func_190916_E() <= amt)
+            if (stack.getCount() <= amt)
             {
                 setInventorySlotContents(slot, null);
             }
             else
             {
                 stack = stack.splitStack(amt);
-                if (stack.func_190916_E() == 0)
+                if (stack.getCount() == 0)
                 {
                     setInventorySlotContents(slot, null);
                 }
@@ -75,11 +73,11 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
-        this.inv[slot] = stack;
+        this.inv[slot] = stack == null ? ItemStack.EMPTY : stack;
 
-        if (!stack.func_190926_b() && stack.func_190916_E() > this.getInventoryStackLimit())
+        if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
         {
-            stack.func_190920_e(this.getInventoryStackLimit());
+            stack.setCount(this.getInventoryStackLimit());
         }
         this.markDirty();
     }
@@ -90,9 +88,9 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
-        return worldObj.getTileEntity(this.pos) == this &&
+        return this.world.getTileEntity(this.pos) == this &&
                 player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) < 64;
     }
 
@@ -138,7 +136,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
         if(tagList.tagCount() == 0)
         {
-            this.inv[0] = null;
+            this.inv[0] = ItemStack.EMPTY;
         }
         else
         {
@@ -155,7 +153,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         tagCompound = super.writeToNBT(tagCompound);
         NBTTagList itemList = new NBTTagList();
         ItemStack stack = inv[0];
-        if (stack != null) {
+        if (stack != null && !stack.isEmpty()) {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setByte("Slot", (byte) 0);
             stack.writeToNBT(tag);

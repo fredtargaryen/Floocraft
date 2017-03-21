@@ -13,7 +13,7 @@ public class MessageFireplaceListRequest implements IMessage, IMessageHandler<Me
 	@Override
 	public IMessage onMessage(MessageFireplaceListRequest message, MessageContext ctx)
 	{
-		World w = ctx.getServerHandler().playerEntity.worldObj;
+		World w = ctx.getServerHandler().playerEntity.getServerWorld();
 		return FloocraftWorldData.forWorld(w).assembleNewFireplaceList(w);
 	}
 
