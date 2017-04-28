@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -15,6 +16,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class TileEntityFloowerPot extends TileEntity implements IInventory
 {
@@ -38,12 +41,14 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public ItemStack getStackInSlot(int slot)
     {
         return this.inv[slot];
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public ItemStack decrStackSize(int slot, int amt)
     {
         ItemStack stack = getStackInSlot(slot);
@@ -51,14 +56,14 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
         {
             if (stack.getCount() <= amt)
             {
-                setInventorySlotContents(slot, null);
+                setInventorySlotContents(slot, ItemStack.EMPTY);
             }
             else
             {
                 stack = stack.splitStack(amt);
                 if (stack.getCount() == 0)
                 {
-                    setInventorySlotContents(slot, null);
+                    setInventorySlotContents(slot, ItemStack.EMPTY);
                 }
             }
         }
@@ -66,16 +71,18 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public ItemStack removeStackFromSlot(int index) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
         this.inv[slot] = stack == null ? ItemStack.EMPTY : stack;
 
-        if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
+        if (stack != null && !stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
         {
             stack.setCount(this.getInventoryStackLimit());
         }
@@ -88,6 +95,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean isUsableByPlayer(EntityPlayer player)
     {
         return this.world.getTileEntity(this.pos) == this &&
@@ -95,16 +103,19 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void openInventory(EntityPlayer player) {
 
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void closeInventory(EntityPlayer player) {
 
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return stack.getItem() instanceof ItemFlooPowder;
@@ -149,6 +160,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         tagCompound = super.writeToNBT(tagCompound);
         NBTTagList itemList = new NBTTagList();
@@ -186,6 +198,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public String getName() {
         return null;
     }
@@ -196,6 +209,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public ITextComponent getDisplayName() {
         return new TextComponentString("Floower Pot");
     }
