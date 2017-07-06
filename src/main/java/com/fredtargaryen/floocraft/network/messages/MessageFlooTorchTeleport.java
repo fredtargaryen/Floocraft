@@ -23,7 +23,7 @@ public class MessageFlooTorchTeleport implements IMessage, IMessageHandler<Messa
     @Override
     public IMessage onMessage(final MessageFlooTorchTeleport message, MessageContext ctx)
     {
-        final EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+        final EntityPlayerMP player = ctx.getServerHandler().player;
         final IThreadListener serverListener = player.getServerWorld();
         serverListener.addScheduledTask(new Runnable() {
             @Override

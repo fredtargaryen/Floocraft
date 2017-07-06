@@ -10,8 +10,9 @@ import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -174,7 +175,7 @@ public class GuiTeleport extends GuiScreen
     @SideOnly(Side.CLIENT)
     public void drawScreen(int mousex, int mousey, float partialticks)
     {
-        this.drawCenteredString(this.fontRendererObj,
+        this.drawCenteredString(this.fontRenderer,
                 this.status,
                 this.width / 2,
                 this.height / 4 + 48,
@@ -188,7 +189,7 @@ public class GuiTeleport extends GuiScreen
         if (this.scrollWindow != null) {
             this.scrollWindow.drawScreen(mousex, mousey, partialticks);
         }
-        this.drawCenteredString(this.fontRendererObj,
+        this.drawCenteredString(this.fontRenderer,
                 screenTitle,
                 this.width / 2,
                 15,
@@ -296,9 +297,9 @@ public class GuiTeleport extends GuiScreen
         protected void drawBackground(){}
 
         @Override
-        protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, int p_148126_6_, int p_148126_7_)
+        protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, int p_148126_6_, int p_148126_7_, float idk)
         {
-            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRendererObj, (String)GuiTeleport.this.placeListKeySet[id], this.width / 2, p_148126_3_ + 1, GuiTeleport.this.enabledList.get(id) ? 65280 : 16711680);
+            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRenderer, (String)GuiTeleport.this.placeListKeySet[id], this.width / 2, p_148126_3_ + 1, GuiTeleport.this.enabledList.get(id) ? 65280 : 16711680);
         }
 
         @Override
@@ -313,7 +314,7 @@ public class GuiTeleport extends GuiScreen
          */
         private void flooverlayBackground(int p_148136_1_, int p_148136_2_)
         {
-            VertexBuffer wr = Tessellator.getInstance().getBuffer();
+            BufferBuilder wr = Tessellator.getInstance().getBuffer();
             GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             float f = 32.0F;

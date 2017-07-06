@@ -20,7 +20,7 @@ public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();
 
     @Override
-    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage)
+    public void render(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
     {
         TileEntityFireplace sign = (TileEntityFireplace) te; 
         GL11.glPushMatrix();

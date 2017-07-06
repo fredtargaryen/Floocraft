@@ -126,7 +126,7 @@ public class GuiFlooSign extends GuiScreen
             s = s.substring(0, s.length() - 1);
         }
 
-        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRendererObj.getStringWidth(s + typedChar) <= 90)
+        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRenderer.getStringWidth(s + typedChar) <= 90)
         {
             s = s + typedChar;
         }
@@ -146,12 +146,12 @@ public class GuiFlooSign extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
     	super.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj,
+        this.drawCenteredString(this.fontRenderer,
                 "===Floo Network Setup Wizard===",
         		this.width / 2,
         		40,
         		16777215);
-        this.drawCenteredString(this.fontRendererObj,
+        this.drawCenteredString(this.fontRenderer,
             	this.sameNameError,
             	this.width / 2,
             	this.height / 4 + 100,
@@ -188,7 +188,7 @@ public class GuiFlooSign extends GuiScreen
             this.fireplaceTE.lineBeingEdited = this.editLine;
         }
 
-        TileEntityRendererDispatcher.instance.renderTileEntityAt(this.fireplaceTE, -0.5D, -0.75D, -0.5D, 0.0F);
+        TileEntityRendererDispatcher.instance.render(this.fireplaceTE, -0.5D, -0.75D, -0.5D, 0.0F);
         this.fireplaceTE.lineBeingEdited = -1;
         GL11.glPopMatrix();
         super.drawScreen(par1, par2, par3);

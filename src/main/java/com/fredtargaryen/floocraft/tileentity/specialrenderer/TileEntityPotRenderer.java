@@ -2,9 +2,9 @@ package com.fredtargaryen.floocraft.tileentity.specialrenderer;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
@@ -15,7 +15,7 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
 {
     @Override
     //"Relative" means distance on this axis from block to player's eye
-    public void renderTileEntityAt(TileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage)
+    public void render(TileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage, float alpha)
     {
         ItemStack stack = ((TileEntityFloowerPot)te).getStackInSlot(0);
         if(stack != null && stack.getCount() > 0)
@@ -24,7 +24,7 @@ public class TileEntityPotRenderer extends TileEntitySpecialRenderer
             GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
             GlStateManager.translate(relativeX, relativeY, relativeZ);
             Tessellator t = Tessellator.getInstance();
-            VertexBuffer r = t.getBuffer();
+            BufferBuilder r = t.getBuffer();
             // set the key rendering flags appropriately...
             GL11.glDisable(GL11.GL_LIGHTING);     // turn off "item" lighting (face brightness depends on which direction it is facing)
             GL11.glDisable(GL11.GL_BLEND);        // turn off "alpha" transparency blending

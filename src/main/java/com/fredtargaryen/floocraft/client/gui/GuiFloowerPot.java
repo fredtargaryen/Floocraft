@@ -25,9 +25,9 @@ class GuiFloowerPot extends GuiContainer
     {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
-        this.fontRendererObj.drawString(I18n.translateToLocal("tile.floowerpot.name"), 8, 6, 4210752);
+        this.fontRenderer.drawString(I18n.translateToLocal("tile.floowerpot.name"), 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
-        this.fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+        this.fontRenderer.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
     }
 
     @Override

@@ -104,7 +104,7 @@ public class BlockFloowerPot extends Block
                         new ItemStack(item.getItem(), item.getCount(), item.getItemDamage()));
 
                 if (item.hasTagCompound()) {
-                    entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
+                    entityItem.getItem().setTagCompound(item.getTagCompound().copy());
                 }
 
                 float factor = 0.05F;
