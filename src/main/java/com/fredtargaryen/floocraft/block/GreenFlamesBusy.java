@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class GreenFlamesBusy extends GreenFlamesBase
 {
-    protected final AxisAlignedBB BUSYBOX = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
+    private final AxisAlignedBB BUSYBOX = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {

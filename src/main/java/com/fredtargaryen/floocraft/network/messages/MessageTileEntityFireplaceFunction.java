@@ -3,7 +3,6 @@ package com.fredtargaryen.floocraft.network.messages;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.IThreadListener;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -18,16 +17,11 @@ public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHan
 	@Override
 	public IMessage onMessage(final MessageTileEntityFireplaceFunction message, MessageContext ctx)
 	{
-        final IThreadListener serverListener = ctx.getServerHandler().playerEntity.getServerWorld();
-		serverListener.addScheduledTask(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				TileEntityFireplace tef = (TileEntityFireplace) ((WorldServer)serverListener).getTileEntity(new BlockPos(message.x, message.y, message.z));
-				tef.setConnected(message.isConnected);
-			}
-		});
+        final IThreadListener serverListener = ctx.getServerHandler().player.getServerWorld();
+		serverListener.addScheduledTask(() -> {
+            TileEntityFireplace tef = (TileEntityFireplace) ((WorldServer)serverListener).getTileEntity(new BlockPos(message.x, message.y, message.z));
+            tef.setConnected(message.isConnected);
+        });
         return null;
 	}
 

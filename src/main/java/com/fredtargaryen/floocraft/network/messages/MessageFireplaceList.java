@@ -22,25 +22,21 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 	public IMessage onMessage(final MessageFireplaceList message, MessageContext ctx)
 	{
 		final IThreadListener clientListener = Minecraft.getMinecraft();
-		clientListener.addScheduledTask(new Runnable() {
-			@Override
-			public void run()
-			{
-				GuiScreen s = ((Minecraft)clientListener).currentScreen;
-				if(s instanceof GuiTeleport)
-				{
-					((GuiTeleport) s).onMessageReceived(message);
-				}
-			}
-		});
+		clientListener.addScheduledTask(() -> {
+            GuiScreen s = ((Minecraft)clientListener).currentScreen;
+            if(s instanceof GuiTeleport)
+            {
+                ((GuiTeleport) s).onMessageReceived(message);
+            }
+        });
 		return null;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.placeList = new HashMap<String, int[]>();
-		this.enabledList = new ArrayList<Boolean>();
+		this.placeList = new HashMap<>();
+		this.enabledList = new ArrayList<>();
 		int y = buf.readInt();
 		if(y > 0)
 		{

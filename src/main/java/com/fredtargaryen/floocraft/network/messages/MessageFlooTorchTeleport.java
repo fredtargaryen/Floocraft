@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.DataReference;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.SoundCategory;
@@ -25,59 +24,55 @@ public class MessageFlooTorchTeleport implements IMessage, IMessageHandler<Messa
     {
         final EntityPlayerMP player = ctx.getServerHandler().player;
         final IThreadListener serverListener = player.getServerWorld();
-        serverListener.addScheduledTask(new Runnable() {
-            @Override
-            public void run() {
-                int torchX = message.torchX;
-                int torchY = message.torchY;
-                int torchZ = message.torchZ;
-                WorldServer world = (WorldServer) serverListener;
-                int minx = torchX - 3;
-                int maxx = torchX + 3;
-                int minz = torchZ - 3;
-                int maxz = torchZ + 3;
-                int blocky = torchY;
-                List<BlockPos> coords = new ArrayList<BlockPos>();
-                for (int x = minx; x <= maxx; x++)
+        serverListener.addScheduledTask(() -> {
+            int torchX1 = message.torchX;
+            int torchY1 = message.torchY;
+            int torchZ1 = message.torchZ;
+            WorldServer world = (WorldServer) serverListener;
+            int minx = torchX1 - 3;
+            int maxx = torchX1 + 3;
+            int minz = torchZ1 - 3;
+            int maxz = torchZ1 + 3;
+            List<BlockPos> coords = new ArrayList<BlockPos>();
+            for (int x = minx; x <= maxx; x++)
+            {
+                for (int z = minz; z <= maxz; z++)
                 {
-                    for (int z = minz; z <= maxz; z++)
+                    BlockPos nextPos = new BlockPos(x, torchY1, z);
+                    if (world.isAirBlock(nextPos) && world.isAirBlock(nextPos.up()))
                     {
-                        BlockPos nextPos = new BlockPos(x, blocky, z);
-                        if (world.isAirBlock(nextPos) && world.isAirBlock(nextPos.up()))
-                        {
-                            coords.add(nextPos);
-                        }
+                        coords.add(nextPos);
                     }
                 }
-                if(coords.size() > 0)
+            }
+            if(coords.size() > 0)
+            {
+                BlockPos chosenCoord = coords.get(world.rand.nextInt(coords.size()));
+                double x = chosenCoord.getX();
+                if(x < torchX1)
                 {
-                    BlockPos chosenCoord = coords.get(world.rand.nextInt(coords.size()));
-                    double x = chosenCoord.getX();
-                    if(x < torchX)
-                    {
-                        x += 0.5;
-                    }
-                    else if(x > torchX) {
-                        x -= 0.5;
-                    }
-                    double y = chosenCoord.getY();
-                    double z = chosenCoord.getZ();
-                    if(z < torchZ)
-                    {
-                        z += 0.5;
-                    }
-                    else if(z > torchZ)
-                    {
-                        z -= 0.5;
-                    }
-                    if(player.isRiding())
-                    {
-                        player.dismountRidingEntity();
-                    }
-                    player.connection.setPlayerLocation(x, y, z, player.rotationYaw, player.rotationPitch);
-                    player.fallDistance = 0.0F;
-                    world.playSound(null, new BlockPos(torchX, torchY, torchZ), flick, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    x += 0.5;
                 }
+                else if(x > torchX1) {
+                    x -= 0.5;
+                }
+                double y = chosenCoord.getY();
+                double z = chosenCoord.getZ();
+                if(z < torchZ1)
+                {
+                    z += 0.5;
+                }
+                else if(z > torchZ1)
+                {
+                    z -= 0.5;
+                }
+                if(player.isRiding())
+                {
+                    player.dismountRidingEntity();
+                }
+                player.connection.setPlayerLocation(x, y, z, player.rotationYaw, player.rotationPitch);
+                player.fallDistance = 0.0F;
+                world.playSound(null, new BlockPos(torchX1, torchY1, torchZ1), flick, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         });
 

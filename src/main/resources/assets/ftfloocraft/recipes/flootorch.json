@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients":
+  [
+    {"item": "minecraft:stick"},
+    {"item": "ftfloocraft:floopowder_one"}
+  ],
+  "result":
+  {
+    "item": "ftfloocraft:flootorch",
+    "count": 4
+  }
+}

@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.entity;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
@@ -8,7 +7,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -28,11 +26,11 @@ public class EntityDroppedFlooPowder extends EntityItem
 	{
 		super.isImmuneToFire = true;
 	}
-	
-	@Override
+
 	/**
      * Called to update the entity's position/logic.
      */
+    @Override
     public void onUpdate()
     {
         BlockPos pos = new BlockPos(this);

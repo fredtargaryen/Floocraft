@@ -19,12 +19,12 @@ import java.util.*;
 
 public class FloocraftWorldData extends WorldSavedData
 {	
-	public FloocraftWorldData(String key)
+	private FloocraftWorldData()
 	{
-		super(key);
+		super(DataReference.MODID);
 	}
 
-	public HashMap<String, int[]> placeList = new HashMap<String, int[]>();
+	public final HashMap<String, int[]> placeList = new HashMap<>();
 	
 	public static FloocraftWorldData forWorld(World world)
 	{
@@ -34,7 +34,7 @@ public class FloocraftWorldData extends WorldSavedData
 		if (data == null)
 		{
             FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
-			data = new FloocraftWorldData(DataReference.MODID);
+			data = new FloocraftWorldData();
 			storage.setData(DataReference.MODID, data);
 		}
 		return data;
@@ -104,7 +104,7 @@ public class FloocraftWorldData extends WorldSavedData
 	{
 		MessageFireplaceList m = new MessageFireplaceList();
 		m.placeList = this.placeList;
-		List<Boolean> l = new ArrayList<Boolean>();
+		List<Boolean> l = new ArrayList<>();
 		for(String nextName : this.placeList.keySet())
 		{
 			int[] coords = this.placeList.get(nextName);

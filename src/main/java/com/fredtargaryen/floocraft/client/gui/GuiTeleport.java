@@ -12,7 +12,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +36,7 @@ public class GuiTeleport extends GuiScreen
     private GuiButton cancelBtn;
     
     private HashMap<String, int[]> placeList;
-	private List<Boolean> enabledList = new ArrayList<Boolean>();
+	private List<Boolean> enabledList = new ArrayList<>();
 	
 	private boolean receivedLists;
 
@@ -48,7 +47,7 @@ public class GuiTeleport extends GuiScreen
     private final int initZ;
 
     //Every object in here is a String, so just cast
-    private Object[] placeListKeySet;
+    private String[] placeListKeySet;
 	
     public GuiTeleport(int x, int y, int z)
     {
@@ -199,8 +198,8 @@ public class GuiTeleport extends GuiScreen
     
     private void refresh()
     {
-    	this.placeList = new HashMap<String, int[]>();
-    	this.enabledList = new ArrayList<Boolean>();
+    	this.placeList = new HashMap<>();
+    	this.enabledList = new ArrayList<>();
     	this.receivedLists = false;
     	this.initGui();
         PacketHandler.INSTANCE.sendToServer(new MessageFireplaceListRequest());
@@ -212,7 +211,7 @@ public class GuiTeleport extends GuiScreen
 		{
         	this.placeList = m.placeList;
         	this.enabledList = m.enabledList;
-            this.placeListKeySet = this.placeList.keySet().toArray();
+            this.placeListKeySet = (String[]) this.placeList.keySet().toArray();
 			this.receivedLists = true;
 		}
 		catch(Exception ex)

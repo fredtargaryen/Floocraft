@@ -20,16 +20,12 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	public IMessage onMessage(final MessageAddFireplace message, MessageContext ctx)
 	{
 		final IThreadListener serverWorld = ctx.getServerHandler().player.getServerWorld();
-		serverWorld.addScheduledTask(new Runnable(){
-			@Override
-			public void run()
-			{
-				WorldServer castedServerWorld = (WorldServer)serverWorld;
-				TileEntityFireplace flooSign = (TileEntityFireplace)castedServerWorld.getTileEntity(message.signPos);
-				flooSign.setY(message.locationPos.getY());
-				FloocraftWorldData.forWorld(castedServerWorld).addLocation(message.name, message.locationPos);
-			}
-		});
+		serverWorld.addScheduledTask(() -> {
+            WorldServer castedServerWorld = (WorldServer)serverWorld;
+            TileEntityFireplace flooSign = (TileEntityFireplace)castedServerWorld.getTileEntity(message.signPos);
+            flooSign.setY(message.locationPos.getY());
+            FloocraftWorldData.forWorld(castedServerWorld).addLocation(message.name, message.locationPos);
+        });
 		return null;
 	}
 

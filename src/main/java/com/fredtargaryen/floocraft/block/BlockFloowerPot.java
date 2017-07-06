@@ -2,10 +2,8 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
-import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -14,7 +12,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -60,10 +57,10 @@ public class BlockFloowerPot extends Block
         return false;
     }
 
-    @Override
     /**
      * Called upon block activation (right click on the block.)
      */
+    @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         TileEntity tileEntity = worldIn.getTileEntity(pos);

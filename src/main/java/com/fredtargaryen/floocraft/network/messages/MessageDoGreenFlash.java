@@ -15,12 +15,7 @@ public class MessageDoGreenFlash implements IMessage, IMessageHandler<MessageDoG
 	public IMessage onMessage(MessageDoGreenFlash message, MessageContext ctx)
 	{
 		IThreadListener mainThread = Minecraft.getMinecraft();
-		mainThread.addScheduledTask(new Runnable() {
-			@Override
-			public void run() {
-				((ClientProxy) FloocraftBase.proxy).flash.start();
-			}
-		});
+		mainThread.addScheduledTask(() -> ((ClientProxy) FloocraftBase.proxy).flash.start());
 		return null;
      }
 

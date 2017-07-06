@@ -17,18 +17,13 @@ public class MessageApproval implements IMessage, IMessageHandler<MessageApprova
 	public IMessage onMessage(final MessageApproval message, MessageContext ctx)
 	{
 		final IThreadListener clientThread = Minecraft.getMinecraft();
-		clientThread.addScheduledTask(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				GuiScreen s = ((Minecraft)clientThread).currentScreen;
-				if(s instanceof GuiFlooSign)
-				{
-					((GuiFlooSign) s).dealWithAnswer(message.answer);
-				}
-			}
-		});
+		clientThread.addScheduledTask(() -> {
+            GuiScreen s = ((Minecraft)clientThread).currentScreen;
+            if(s instanceof GuiFlooSign)
+            {
+                ((GuiFlooSign) s).dealWithAnswer(message.answer);
+            }
+        });
         return null;
 	}
 

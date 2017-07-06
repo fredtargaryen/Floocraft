@@ -50,7 +50,7 @@ public class BlockFlooSign extends BlockWallSign
     //pos is the position of this block...
     public void neighborChanged(IBlockState state, World w, BlockPos pos, Block blockIn, BlockPos p_189540_5_)
     {
-        if (!w.getBlockState(pos.offset(((EnumFacing) state.getValue(FACING)).getOpposite())).getMaterial().isSolid())
+        if (!w.getBlockState(pos.offset(state.getValue(FACING).getOpposite())).getMaterial().isSolid())
         {
             this.dropBlockAsItem(w, pos, state, 0);
             w.setBlockToAir(pos);
@@ -76,7 +76,7 @@ public class BlockFlooSign extends BlockWallSign
             {
                 //Finds the fireplace position from the sign position and rotation
                 //The block below the block at the top of the fireplace
-                pos = pos.offset(((EnumFacing)state.getValue(BlockFlooSign.FACING)).getOpposite());
+                pos = pos.offset(state.getValue(BlockFlooSign.FACING).getOpposite());
                 FloocraftWorldData.forWorld(w).removeLocation(pos.getX(), tef.getY(), pos.getZ());
             }
         }

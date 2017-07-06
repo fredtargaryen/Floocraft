@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.entity.EntityDroppedFlooPowder;
 import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,7 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.fredtargaryen.floocraft.FloocraftBase.greened;
@@ -90,19 +91,19 @@ public class ItemFlooPowder extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
     {
 		if(this.concentration == 9)
 		{
-			par3List.add(ChatFormatting.GREEN+"Concentration: \u221E tp/p");
-			par3List.add("Creative mode only!");
+			tooltip.add(ChatFormatting.GREEN+"Concentration: \u221E tp/p");
+            tooltip.add("Creative mode only!");
 		}
 		else
 		{
-        	par3List.add(ChatFormatting.GREEN+"Concentration: "+this.concentration+" tp/p");
+            tooltip.add(ChatFormatting.GREEN+"Concentration: "+this.concentration+" tp/p");
         	if(this.concentration == 1)
 			{
-				par3List.add("Can use in crafting");
+                tooltip.add("Can use in crafting");
 			}
         }
     }

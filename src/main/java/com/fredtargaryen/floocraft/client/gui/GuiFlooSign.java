@@ -4,7 +4,6 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;

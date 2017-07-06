@@ -1,8 +1,8 @@
-/**
- * TO DO:
- * Server - adding ~11+ locations is too much for the GUI, won't go to correct places (try large scale on TV, then 15 locs)
- * Fire block faces too dark - west-facing for busy; west and east-facing for idle
- */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//TO DO:                                                                                                                    //
+//* Server - adding ~11+ locations is too much for the GUI, won't go to correct places (try large scale on TV, then 15 locs)//
+//* Fire block faces too dark - west-facing for busy; west and east-facing for idle                                         //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
@@ -15,10 +15,8 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,6 +26,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
@@ -57,8 +56,8 @@ public class FloocraftBase
      * Declare all items here
      */
     public static Item itemFlooSign;
-    public static Item iFlooTorch;
-    public static Item iFloowerPot;
+    private static Item iFlooTorch;
+    private static Item iFloowerPot;
 
     public static Item floopowder1t;
     public static Item floopowder2t;
@@ -162,53 +161,36 @@ public class FloocraftBase
                 .setRegistryName("itemfloosign")
                 .setCreativeTab(CreativeTabs.DECORATIONS);
 
+        greened = new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened");
+        tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
+        flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
+
         //Registering blocks
-        GameRegistry.register(blockFlooSign);
-        GameRegistry.register(blockFlooTorch);
-        GameRegistry.register(greenFlamesBusy);
-        GameRegistry.register(greenFlamesIdle);
-        GameRegistry.register(greenFlamesTemp);
-        GameRegistry.register(floowerPot);
+        ForgeRegistries.BLOCKS.register(blockFlooSign);
+        ForgeRegistries.BLOCKS.register(blockFlooTorch);
+        ForgeRegistries.BLOCKS.register(greenFlamesBusy);
+        ForgeRegistries.BLOCKS.register(greenFlamesIdle);
+        ForgeRegistries.BLOCKS.register(greenFlamesTemp);
+        ForgeRegistries.BLOCKS.register(floowerPot);
 
         //Registering items
-        GameRegistry.register(iFloowerPot);
-        GameRegistry.register(iFlooTorch);
-        GameRegistry.register(floopowder1t);
-        GameRegistry.register(floopowder2t);
-        GameRegistry.register(floopowder4t);
-        GameRegistry.register(floopowder8t);
-        GameRegistry.register(floopowderc);
-        GameRegistry.register(itemFlooSign);
+        ForgeRegistries.ITEMS.register(iFloowerPot);
+        ForgeRegistries.ITEMS.register(iFlooTorch);
+        ForgeRegistries.ITEMS.register(floopowder1t);
+        ForgeRegistries.ITEMS.register(floopowder2t);
+        ForgeRegistries.ITEMS.register(floopowder4t);
+        ForgeRegistries.ITEMS.register(floopowder8t);
+        ForgeRegistries.ITEMS.register(floopowderc);
+        ForgeRegistries.ITEMS.register(itemFlooSign);
 
         //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
 
         //Registering sounds
-        greened = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened"));
-        tp = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp"));
-        flick = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick"));
-
-        //Adding recipes
-        //Infinite powder is creative only so no recipe
-        GameRegistry.addShapelessRecipe(new ItemStack(floopowder1t,8),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
-        GameRegistry.addShapelessRecipe(new ItemStack(floopowder2t,8),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
-        GameRegistry.addShapelessRecipe(new ItemStack(floopowder4t,8),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
-        GameRegistry.addShapelessRecipe(new ItemStack(floopowder8t,8),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL),
-                new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.ENDER_PEARL), new ItemStack(Items.GUNPOWDER));
-
-        GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.itemFlooSign,1),
-                new ItemStack(Items.SIGN), new ItemStack(floopowder1t,8));
-        GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.blockFlooTorch,4),
-                new ItemStack(Items.STICK), new ItemStack(FloocraftBase.floopowder1t));
-        GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floowerPot),
-                new ItemStack(Items.FLOWER_POT), new ItemStack(FloocraftBase.floopowder1t));
+        ForgeRegistries.SOUND_EVENTS.register(greened);
+        ForgeRegistries.SOUND_EVENTS.register(tp);
+        ForgeRegistries.SOUND_EVENTS.register(flick);
     }
         
     @EventHandler

@@ -31,7 +31,7 @@ import java.util.Random;
 public abstract class GreenFlamesBase extends Block {
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
 
-    public GreenFlamesBase() {
+    GreenFlamesBase() {
         super(Material.FIRE);
     }
 
@@ -50,7 +50,7 @@ public abstract class GreenFlamesBase extends Block {
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return (Integer)state.getValue(AGE);
+        return state.getValue(AGE);
     }
 
     @Override
@@ -132,7 +132,7 @@ public abstract class GreenFlamesBase extends Block {
             double d0 = (double)pos.getX() + rand.nextDouble();
             double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
             double d2 = (double)pos.getZ() + rand.nextDouble();
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, 0);
         }
     }
 
@@ -168,7 +168,7 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     private List<Integer> getWalls(World w, BlockPos bottomPos, int topY) {
-        List<Integer> walls = new ArrayList<Integer>();
+        List<Integer> walls = new ArrayList<>();
         if (this.isWallColumn(w, bottomPos.add(0.0D, 0.0D, 1.0D), topY)) {
             walls.add(2);
         }

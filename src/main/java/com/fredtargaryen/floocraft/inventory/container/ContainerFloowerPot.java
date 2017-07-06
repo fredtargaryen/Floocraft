@@ -64,7 +64,7 @@ public class ContainerFloowerPot extends Container
     @MethodsReturnNonnullByDefault
     public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
         ItemStack stack = null;
-        Slot slotObject = (Slot) inventorySlots.get(slot);
+        Slot slotObject = inventorySlots.get(slot);
 
         //null checks and checks if the item can be stacked (maxStackSize > 1)
         if (slotObject != null && slotObject.getHasStack()) {

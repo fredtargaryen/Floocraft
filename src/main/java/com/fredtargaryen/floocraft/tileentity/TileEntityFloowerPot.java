@@ -2,7 +2,6 @@ package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -80,11 +78,12 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     @ParametersAreNonnullByDefault
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
-        this.inv[slot] = stack == null ? ItemStack.EMPTY : stack;
+        ItemStack nonnullstack = stack == null ? ItemStack.EMPTY : stack;
+        this.inv[slot] = nonnullstack;
 
-        if (stack != null && !stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit())
+        if (!nonnullstack.isEmpty() && nonnullstack.getCount() > this.getInventoryStackLimit())
         {
-            stack.setCount(this.getInventoryStackLimit());
+            nonnullstack.setCount(this.getInventoryStackLimit());
         }
         this.markDirty();
     }

@@ -59,12 +59,11 @@ public class TileEntityFireplace extends TileEntitySign
     /**
      * Gets the position of the block which, according to fireplace construction rules, forms the bottom of the fireplace.
      * Fireplaces only permit air, fire and green fire blocks inside them.
-     * @return
      */
     private static BlockPos iterateDownFromSign(World w, BlockPos pos)
     {
         //The block below the block at the top of the fireplace
-        pos = pos.offset(((EnumFacing)w.getBlockState(pos).getValue(BlockFlooSign.FACING)).getOpposite()).offset(EnumFacing.DOWN, 1);
+        pos = pos.offset(w.getBlockState(pos).getValue(BlockFlooSign.FACING).getOpposite()).offset(EnumFacing.DOWN, 1);
         while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.FIRE || w.getBlockState(pos).getBlock() instanceof GreenFlamesBase) && pos.getY() > -1)
         {
             pos = pos.offset(EnumFacing.DOWN, 1);
