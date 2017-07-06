@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.inventory.container;
 
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -60,6 +61,7 @@ public class ContainerFloowerPot extends Container
     }
 
     @Override
+    @MethodsReturnNonnullByDefault
     public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
         ItemStack stack = null;
         Slot slotObject = (Slot) inventorySlots.get(slot);
@@ -72,12 +74,12 @@ public class ContainerFloowerPot extends Container
             //merges the item into player inventory since its in the tileEntity
             if (slot < 1) {
                 if (!this.mergeItemStack(stackInSlot, 1, this.inventorySlots.size(), true)) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             }
             //places it into the tileEntity is possible since its in the player inventory
             else if (!this.mergeItemStack(stackInSlot, 0, 1, false)) {
-                return null;
+                return ItemStack.EMPTY;
             }
 
             if (stackInSlot.getCount() == 0) {
@@ -87,10 +89,10 @@ public class ContainerFloowerPot extends Container
             }
 
             if (stackInSlot.getCount() == stack.getCount()) {
-                return null;
+                return ItemStack.EMPTY;
             }
             slotObject.onTake(player, stackInSlot);
         }
-        return stack;
+        return stack == null ? ItemStack.EMPTY : stack;
     }
 }
