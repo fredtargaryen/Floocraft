@@ -106,8 +106,9 @@ public class FloocraftWorldData extends WorldSavedData
 	public MessageFireplaceList assembleNewFireplaceList(World w)
 	{
 		MessageFireplaceList m = new MessageFireplaceList();
-		m.placeList = this.placeList;
-		List<Boolean> l = new ArrayList<>();
+		m.places = this.placeList.keySet().toArray();
+		boolean[] l = new boolean[m.places.length];
+		int keyCount = 0;
 		for(String nextName : this.placeList.keySet())
 		{
 			int[] coords = this.placeList.get(nextName);
@@ -123,7 +124,8 @@ public class FloocraftWorldData extends WorldSavedData
 			{
 				ok = b instanceof GreenFlamesBase;
 			}
-            l.add(ok);
+            l[keyCount] = ok;
+			++keyCount;
 		}
 		m.enabledList = l;
 		return m;

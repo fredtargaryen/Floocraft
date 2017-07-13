@@ -16,8 +16,8 @@ import java.util.List;
 
 public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFireplaceList, IMessage>
 {
-	public HashMap<String, int[]> placeList;
-	public List<Boolean> enabledList;
+	public Object[] places;
+	public boolean[] enabledList;
 	private static final Charset defaultCharset = Charset.defaultCharset();
 	
 	@Override
@@ -37,18 +37,17 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
-		this.placeList = new HashMap<>();
-		this.enabledList = new ArrayList<>();
+		this.places = new Object[]{};
+		this.enabledList = new boolean[]{};
 		int y = buf.readInt();
 		if(y > 0)
 		{
-			for(int x = 0; x < y; x++)
+			this.places = new Object[y];
+			this.enabledList = new boolean[y];
+			for(int x = 0; x < y; ++x)
 			{
-				int nameLength = buf.readInt();
-				String name = buf.readBytes(nameLength).toString(defaultCharset);
-				int[] coords = new int[]{buf.readInt(), buf.readInt(), buf.readInt()};
-				this.placeList.put(name, coords);
-				this.enabledList.add(buf.readBoolean());
+				this.places[x] = buf.readBytes(buf.readInt()).toString(defaultCharset);
+				this.enabledList[x] = buf.readBoolean();
 			}
 		}
 	}
@@ -56,19 +55,16 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
-		int y = this.placeList.size();
+		int y = this.places.length;
 		buf.writeInt(y);
 		int keyCount = 0;
-		for(String s : this.placeList.keySet())
+		for(Object o : this.places)
 		{
+			String s = (String) o;
 			buf.writeInt(s.length());
 	        buf.writeBytes(s.getBytes());
-			int[] coords = this.placeList.get(s);
-			buf.writeInt(coords[0]);
-			buf.writeInt(coords[1]);
-			buf.writeInt(coords[2]);
-			buf.writeBoolean(this.enabledList.get(keyCount));
-			keyCount++;
+			buf.writeBoolean(this.enabledList[keyCount]);
+			++keyCount;
 		}
 	}
 }
