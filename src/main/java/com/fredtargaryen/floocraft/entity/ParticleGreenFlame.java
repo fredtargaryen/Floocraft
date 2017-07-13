@@ -30,9 +30,7 @@ public class ParticleGreenFlame extends Particle
 
         // set the texture to the flame texture, which we have previously added using TextureStitchEvent
         //   (see TextureStitcherBreathFX)
-        //SPRITE = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(DataReference.FLAMERL.toString());
-        SPRITE = Minecraft.getMinecraft().getTextureMapBlocks().getTextureExtry(DataReference.FLAMERL.toString());
-        this.setParticleTexture(SPRITE);  // initialise the icon to our custom texture
+        this.setParticleTexture(SPRITE);
     }
 
     /**

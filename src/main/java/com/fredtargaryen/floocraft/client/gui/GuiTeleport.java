@@ -64,9 +64,9 @@ public class GuiTeleport extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
         refreshButton.enabled = false;
-        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 100, this.height / 4 + 144, 98, 20, "Go!"));
+        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 100, this.height - 60, 98, 20, "Go!"));
         this.goBtn.enabled = false;
-        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height / 4 + 144, 98, 20, "Cancel"));
+        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height - 60, 98, 20, "Cancel"));
         if (receivedLists)
         {
             refreshButton.enabled = true;
@@ -250,7 +250,7 @@ public class GuiTeleport extends GuiScreen
     {
         public PlaceList()
         {
-            super(GuiTeleport.this.mc, GuiTeleport.this.width, GuiTeleport.this.height, 32, GuiTeleport.this.height - 65 + 4, 18);
+            super(GuiTeleport.this.mc, GuiTeleport.this.width, GuiTeleport.this.height, 32, GuiTeleport.this.height - 64, 18);
             this.setShowSelectionBox(true);
         }
 

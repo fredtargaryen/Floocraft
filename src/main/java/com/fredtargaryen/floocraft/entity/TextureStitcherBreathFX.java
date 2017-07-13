@@ -6,13 +6,12 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
- * Created by TGG on 19/06/2015.
- * Inserts our custom flame texture into the blocks+items texture sheet.
+ * Thanks to TheGreyGhost for original particle texture stitching code
  */
 public class TextureStitcherBreathFX
 {
     @SubscribeEvent
     public void stitcherEventPre(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(DataReference.FLAMERL);
+        ParticleGreenFlame.setFlameSprite(event.getMap().registerSprite(DataReference.FLAMERL));
     }
 }
