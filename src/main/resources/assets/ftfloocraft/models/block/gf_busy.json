@@ -1,5 +1,4 @@
 {
-    "ambientocclusion": false,
     "textures": {
         "particle": "ftfloocraft:blocks/gf",
         "fire": "ftfloocraft:blocks/gf"

@@ -42,21 +42,17 @@ public class ItemFlooPowder extends Item
     @Override
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-        BlockPos firePos = pos.offset(EnumFacing.UP, 1);
-		if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE)
-		{
-            if(((GreenFlamesBase)FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, firePos))
-            {
-                worldIn.setBlockState(firePos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 2);
-                worldIn.playSound(null, firePos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
+	    if(!worldIn.isRemote) {
+            BlockPos firePos = pos.offset(EnumFacing.UP, 1);
+            if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE) {
+                if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, firePos) && !worldIn.isRemote) {
+                    worldIn.setBlockState(firePos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 3);
+                    worldIn.playSound(null, firePos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
+                playerIn.getHeldItem(hand).grow(-1);
+                return EnumActionResult.SUCCESS;
             }
-            else
-            {
-                worldIn.setBlockState(firePos, Blocks.FIRE.getDefaultState(), 2);
-            }
-            playerIn.getHeldItem(hand).grow(-1);
-			return EnumActionResult.PASS;
-		}
+        }
 		return EnumActionResult.FAIL;
 	}
 	

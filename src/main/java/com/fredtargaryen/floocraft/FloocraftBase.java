@@ -1,12 +1,13 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //TO DO:                                                                                                                    //
 //* Server - adding ~11+ locations is too much for the GUI, won't go to correct places (try large scale on TV, then 15 locs)//
-//* Fire block faces too dark - west-facing for busy; west and east-facing for idle                                         //
+//* Reduce size of MessageFireplaceList by only sending place strings                                                       //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
+import com.fredtargaryen.floocraft.entity.TextureStitcherBreathFX;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
@@ -19,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -164,6 +166,9 @@ public class FloocraftBase
         greened = new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened");
         tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
         flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
+
+        //Register Floo Torch flame texture
+        MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
 
         //Registering blocks
         ForgeRegistries.BLOCKS.register(blockFlooSign);

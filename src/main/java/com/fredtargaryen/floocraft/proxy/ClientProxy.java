@@ -26,7 +26,6 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
-        MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
     }
 
     @Override

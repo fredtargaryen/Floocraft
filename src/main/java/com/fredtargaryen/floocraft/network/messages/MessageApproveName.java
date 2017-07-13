@@ -6,9 +6,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
+import java.nio.charset.Charset;
+
 public class MessageApproveName implements IMessage, IMessageHandler<MessageApproveName, IMessage>
 {
 	public String name;
+	private static final Charset defaultCharset = Charset.defaultCharset();
 	
 	@Override
 	public IMessage onMessage(MessageApproveName message, MessageContext ctx)
@@ -22,7 +25,7 @@ public class MessageApproveName implements IMessage, IMessageHandler<MessageAppr
 	public void fromBytes(ByteBuf buf)
 	{
 		int nameLength = buf.readInt();
-        this.name = new String(buf.readBytes(nameLength).array());
+        this.name = buf.readBytes(nameLength).toString(defaultCharset);
 	}
 
 	@Override

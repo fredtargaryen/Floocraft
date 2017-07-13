@@ -9,6 +9,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 {
 	public HashMap<String, int[]> placeList;
 	public List<Boolean> enabledList;
+	private static final Charset defaultCharset = Charset.defaultCharset();
 	
 	@Override
 	public IMessage onMessage(final MessageFireplaceList message, MessageContext ctx)
@@ -43,7 +45,7 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 			for(int x = 0; x < y; x++)
 			{
 				int nameLength = buf.readInt();
-				String name = new String(buf.readBytes(nameLength).array());
+				String name = buf.readBytes(nameLength).toString(defaultCharset);
 				int[] coords = new int[]{buf.readInt(), buf.readInt(), buf.readInt()};
 				this.placeList.put(name, coords);
 				this.enabledList.add(buf.readBoolean());

@@ -10,11 +10,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 
+import java.nio.charset.Charset;
+
 public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAddFireplace, IMessage>
 {
 	public String name;
 	public BlockPos signPos;
 	public BlockPos locationPos;
+	private static final Charset defaultCharset = Charset.defaultCharset();
 	
 	@Override
 	public IMessage onMessage(final MessageAddFireplace message, MessageContext ctx)
@@ -33,7 +36,7 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	public void fromBytes(ByteBuf buf)
 	{
 		int nameLength = buf.readInt();
-        this.name = new String(buf.readBytes(nameLength).array());
+        this.name = buf.readBytes(nameLength).toString(defaultCharset);
         this.locationPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		this.signPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 	}

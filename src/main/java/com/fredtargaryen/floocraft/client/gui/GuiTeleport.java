@@ -19,9 +19,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiTeleport extends GuiScreen
@@ -47,7 +45,7 @@ public class GuiTeleport extends GuiScreen
     private final int initZ;
 
     //Every object in here is a String, so just cast
-    private String[] placeListKeySet;
+    private Object[] placeListKeySet;
 	
     public GuiTeleport(int x, int y, int z)
     {
@@ -211,7 +209,7 @@ public class GuiTeleport extends GuiScreen
 		{
         	this.placeList = m.placeList;
         	this.enabledList = m.enabledList;
-            this.placeListKeySet = (String[]) this.placeList.keySet().toArray();
+            this.placeListKeySet = this.placeList.keySet().toArray();
 			this.receivedLists = true;
 		}
 		catch(Exception ex)

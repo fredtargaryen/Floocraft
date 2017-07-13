@@ -18,10 +18,13 @@ import net.minecraftforge.fml.common.FMLLog;
 import java.util.*;
 
 public class FloocraftWorldData extends WorldSavedData
-{	
-	private FloocraftWorldData()
+{
+	/**
+	 * Code inspection will tell you the parameter is redundant and the access can be private, but it isnae and cannae
+	 */
+	public FloocraftWorldData(String key)
 	{
-		super(DataReference.MODID);
+		super(key);
 	}
 
 	public final HashMap<String, int[]> placeList = new HashMap<>();
@@ -34,7 +37,7 @@ public class FloocraftWorldData extends WorldSavedData
 		if (data == null)
 		{
             FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
-			data = new FloocraftWorldData();
+			data = new FloocraftWorldData(DataReference.MODID);
 			storage.setData(DataReference.MODID, data);
 		}
 		return data;

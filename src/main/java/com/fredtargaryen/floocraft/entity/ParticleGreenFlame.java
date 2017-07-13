@@ -11,6 +11,8 @@ import net.minecraft.world.World;
  */
 public class ParticleGreenFlame extends Particle
 {
+    private static TextureAtlasSprite SPRITE;
+
     /**
      * Construct a new FlameFX at the given [x,y,z] position with the given initial velocity.
      */
@@ -28,8 +30,9 @@ public class ParticleGreenFlame extends Particle
 
         // set the texture to the flame texture, which we have previously added using TextureStitchEvent
         //   (see TextureStitcherBreathFX)
-        TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(DataReference.FLAMERL.toString());
-        setParticleTexture(sprite);  // initialise the icon to our custom texture
+        //SPRITE = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(DataReference.FLAMERL.toString());
+        SPRITE = Minecraft.getMinecraft().getTextureMapBlocks().getTextureExtry(DataReference.FLAMERL.toString());
+        this.setParticleTexture(SPRITE);  // initialise the icon to our custom texture
     }
 
     /**
@@ -74,5 +77,10 @@ public class ParticleGreenFlame extends Particle
         if (this.particleMaxAge-- <= 0) {
             this.setExpired();
         }
+    }
+
+    public static void setFlameSprite(TextureAtlasSprite tas)
+    {
+        SPRITE = tas;
     }
 }
