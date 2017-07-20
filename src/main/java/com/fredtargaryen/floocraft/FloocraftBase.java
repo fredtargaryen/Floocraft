@@ -162,9 +162,6 @@ public class FloocraftBase
         tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
         flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
 
-        //Register Floo Torch flame texture
-        MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
-
         //Registering blocks
         ForgeRegistries.BLOCKS.register(blockFlooSign);
         ForgeRegistries.BLOCKS.register(blockFlooTorch);
@@ -191,6 +188,8 @@ public class FloocraftBase
         ForgeRegistries.SOUND_EVENTS.register(greened);
         ForgeRegistries.SOUND_EVENTS.register(tp);
         ForgeRegistries.SOUND_EVENTS.register(flick);
+
+        proxy.registerTextureStitcher();
     }
         
     @EventHandler

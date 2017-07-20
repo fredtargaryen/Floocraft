@@ -7,4 +7,6 @@ public interface IProxy
     void registerModels();
 
     void registerTickHandlers();
+
+    void registerTextureStitcher();
 }

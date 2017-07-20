@@ -52,4 +52,11 @@ public class ClientProxy extends CommonProxy
         MinecraftForge.EVENT_BUS.register(this.overrideTicker);
         MinecraftForge.EVENT_BUS.register(this.flash);
     }
+
+    @Override
+    public void registerTextureStitcher()
+    {
+        //Register Floo Torch flame texture
+        MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
+    }
 }
