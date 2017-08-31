@@ -23,6 +23,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
 
     public TileEntityFloowerPot()
     {
+        super();
         this.inv = new ItemStack[1];
     }
 

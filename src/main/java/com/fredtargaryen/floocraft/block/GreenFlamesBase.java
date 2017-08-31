@@ -3,9 +3,11 @@ package com.fredtargaryen.floocraft.block;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
+import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -313,4 +315,16 @@ public abstract class GreenFlamesBase extends Block {
     {
         return false;
     }
+
+    ////////////////////////
+    //ALBEDO COMPATIBILITY//
+    ////////////////////////
+    @Override
+    public final boolean hasTileEntity(IBlockState ibs)
+    {
+        return FloocraftBase.isAlbedoInstalled();
+    }
+
+    @Override
+    public abstract TileEntity createTileEntity(World world, IBlockState state);
 }

@@ -2,7 +2,9 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -27,5 +29,20 @@ public class GreenFlamesBusy extends GreenFlamesBase
             w.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(AGE, state.getValue(AGE)));
         }
         super.updateTick(w, pos, state, par5Random);
+    }
+
+    ////////////////////////
+    //ALBEDO COMPATIBILITY//
+    ////////////////////////
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state)
+    {
+        TileEntityAlbedoFire teaf = null;
+        if(FloocraftBase.isAlbedoInstalled())
+        {
+            teaf = new TileEntityAlbedoFire();
+            teaf.setRadius(7.0F);
+        }
+        return teaf;
     }
 }

@@ -7,6 +7,7 @@ import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
+import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
@@ -16,6 +17,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -34,6 +36,8 @@ public class FloocraftBase
 	 */
     @Mod.Instance(DataReference.MODID)
     public static FloocraftBase instance;
+
+    private static boolean albedoInstalled;
     
     /**
      * Declare all blocks here
@@ -81,10 +85,10 @@ public class FloocraftBase
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        //Makes all packets to be used
+        //Making packets
         PacketHandler.init();
 
-        //Makes all blocks and items to be used
+        //Making blocks
     	blockFlooTorch = new BlockFlooTorch()
                 .setUnlocalizedName("flootorch")
                 .setRegistryName("flootorch")
@@ -117,7 +121,8 @@ public class FloocraftBase
         iFlooTorch = new ItemBlock(blockFlooTorch)
                 .setUnlocalizedName("flootorch")
                 .setRegistryName("flootorch");
-        
+
+        //Making items
         iFloowerPot = new ItemBlock(floowerPot)
                 .setUnlocalizedName("floowerpot")
                 .setRegistryName("floowerpot");
@@ -158,6 +163,7 @@ public class FloocraftBase
                 .setRegistryName("itemfloosign")
                 .setCreativeTab(CreativeTabs.DECORATIONS);
 
+        //Making sounds
         greened = new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened");
         tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
         flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
@@ -180,14 +186,15 @@ public class FloocraftBase
         ForgeRegistries.ITEMS.register(floopowderc);
         ForgeRegistries.ITEMS.register(itemFlooSign);
 
-        //Registering Tile Entities
-        GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
-        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-
         //Registering sounds
         ForgeRegistries.SOUND_EVENTS.register(greened);
         ForgeRegistries.SOUND_EVENTS.register(tp);
         ForgeRegistries.SOUND_EVENTS.register(flick);
+
+        //Registering Tile Entities
+        GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
+        GameRegistry.registerTileEntity(TileEntityAlbedoFire.class, "greenLightTE");
 
         proxy.registerTextureStitcher();
     }
@@ -205,5 +212,11 @@ public class FloocraftBase
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+        albedoInstalled = Loader.isModLoaded("albedo");
+    }
+
+    public static boolean isAlbedoInstalled()
+    {
+        return albedoInstalled;
     }
 }
