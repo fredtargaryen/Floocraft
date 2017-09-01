@@ -1,8 +1,10 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.ParticleGreenFlame;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
+import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
 import com.google.common.base.Predicate;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.properties.PropertyDirection;
@@ -11,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -92,5 +95,26 @@ public class BlockFlooTorch extends BlockTorch
                 PacketHandler.INSTANCE.sendToServer(mftt);
             }
         }
+    }
+
+    ////////////////////////
+    //ALBEDO COMPATIBILITY//
+    ////////////////////////
+    @Override
+    public boolean hasTileEntity(IBlockState ibs)
+    {
+        return FloocraftBase.isAlbedoInstalled();
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) throws NullPointerException
+    {
+        TileEntityAlbedoFire teaf = null;
+        if(FloocraftBase.isAlbedoInstalled())
+        {
+            teaf = new TileEntityAlbedoFire();
+            teaf.setRadius(4.0F);
+        }
+        return teaf;
     }
 }

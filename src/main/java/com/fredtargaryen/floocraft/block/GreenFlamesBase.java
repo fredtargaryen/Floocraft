@@ -6,6 +6,7 @@ import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -136,9 +137,21 @@ public abstract class GreenFlamesBase extends Block {
         }
     }
 
-    /**
-     * ALL FIREPLACE VALIDATION CODE STARTS HERE
-     */
+    ////////////////////////
+    //ALBEDO COMPATIBILITY//
+    ////////////////////////
+    @Override
+    public boolean hasTileEntity(IBlockState ibs)
+    {
+        return FloocraftBase.isAlbedoInstalled();
+    }
+
+    @Override
+    public abstract TileEntity createTileEntity(World world, IBlockState state) throws NullPointerException;
+
+    ////////////////////////
+    //FIREPLACE VALIDATION//
+    ////////////////////////
     private int getTopBlockY(World w, BlockPos pos) {
         BlockPos newPos = pos.offset(EnumFacing.UP, 1);
         int y = newPos.getY();

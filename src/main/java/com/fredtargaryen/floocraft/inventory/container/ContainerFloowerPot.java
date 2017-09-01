@@ -9,6 +9,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class ContainerFloowerPot extends Container
 {
@@ -26,7 +27,7 @@ public class ContainerFloowerPot extends Container
          */
         public boolean isItemValid(ItemStack par1ItemStack)
         {
-            return par1ItemStack.getItem() instanceof ItemFlooPowder;
+            return par1ItemStack.isEmpty() || par1ItemStack.getItem() instanceof ItemFlooPowder;
         }
     }
 
@@ -94,5 +95,18 @@ public class ContainerFloowerPot extends Container
             slotObject.onTake(player, stackInSlot);
         }
         return stack == null ? ItemStack.EMPTY : stack;
+    }
+
+    /**
+     * Found some error I'll probably never find/reproduce again so thought I'd better deal with it.
+     * returns a list if itemStacks, for each slot.
+     */
+    @Override
+    public NonNullList<ItemStack> getInventory()
+    {
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>create();
+        ItemStack is = this.inventorySlots.get(0).getStack();
+        nonnulllist.add(is.isEmpty() ? ItemStack.EMPTY : is);
+        return nonnulllist;
     }
 }

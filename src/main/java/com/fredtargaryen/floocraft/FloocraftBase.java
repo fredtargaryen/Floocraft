@@ -21,6 +21,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -38,6 +39,8 @@ public class FloocraftBase
 	 */
     @Mod.Instance(DataReference.MODID)
     public static FloocraftBase instance;
+
+    private static boolean albedoInstalled;
     
     /**
      * Declare all blocks here
@@ -224,5 +227,11 @@ public class FloocraftBase
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
+        albedoInstalled = Loader.isModLoaded("albedo");
+    }
+
+    public static boolean isAlbedoInstalled()
+    {
+        return albedoInstalled;
     }
 }
