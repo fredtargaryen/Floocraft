@@ -54,6 +54,12 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
+    public boolean isOpaqueCube(IBlockState state) { return false; }
+
+    @Override
+    public boolean isFullCube(IBlockState state) { return false; }
+
+    @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
         return FULL_BLOCK_AABB;
@@ -117,9 +123,9 @@ public abstract class GreenFlamesBase extends Block {
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn)
     {}
 
-    /**
-     * ALL FIREPLACE VALIDATION CODE STARTS HERE
-     */
+    ////////////////////////
+    //FIREPLACE VALIDATION//
+    ////////////////////////
     private int getTopBlockY(World w, BlockPos pos) {
         BlockPos newPos = pos.offset(EnumFacing.UP, 1);
         int y = newPos.getY();

@@ -1,5 +1,5 @@
 #################################################
-         ForgeGradle 2.2-SNAPSHOT-59eb824        
+         ForgeGradle 2.2-SNAPSHOT-d13a6c8        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
                Powered by MCP unknown               
@@ -32,11 +32,11 @@ Note: Recompile with -Xlint:unchecked for details.
 :extractMcpData SKIPPED
 :extractMcpMappings SKIPPED
 :getVersionJson
-:extractUserdev
+:extractUserdev UP-TO-DATE
 :genSrgs SKIPPED
 :reobfJar
 :extractRangemapReplacedMain
-C:\Desktop\DEV\Minecraft Mods\Floocraft10\build\sources\main\java
+C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java
 :retromapReplacedMain
 remapping source...
 :sourceJar
@@ -46,4 +46,4 @@ remapping source...
 
 BUILD SUCCESSFUL
 
-Total time: 9 mins 24.993 secs
+Total time: 5 mins 26.778 secs
