@@ -3,7 +3,7 @@ package com.fredtargaryen.floocraft.block;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
+import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.init.SoundEvents;
@@ -317,12 +317,12 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     ////////////////////////
-    //ALBEDO COMPATIBILITY//
+    //MIRAGE COMPATIBILITY//
     ////////////////////////
     @Override
     public final boolean hasTileEntity(IBlockState ibs)
     {
-        return FloocraftBase.isAlbedoInstalled();
+        return FloocraftBase.isMirageInstalled();
     }
 
     @Override

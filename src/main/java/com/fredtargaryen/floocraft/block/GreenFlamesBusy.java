@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
+import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -32,17 +32,17 @@ public class GreenFlamesBusy extends GreenFlamesBase
     }
 
     ////////////////////////
-    //ALBEDO COMPATIBILITY//
+    //MIRAGE COMPATIBILITY//
     ////////////////////////
     @Override
     public TileEntity createTileEntity(World world, IBlockState state)
     {
-        TileEntityAlbedoFire teaf = null;
-        if(FloocraftBase.isAlbedoInstalled())
+        TileEntityMirageFire temf = null;
+        if(FloocraftBase.isMirageInstalled())
         {
-            teaf = new TileEntityAlbedoFire();
-            teaf.setRadius(7.0F);
+            temf = new TileEntityMirageFire();
+            temf.setRadius(7.0F);
         }
-        return teaf;
+        return temf;
     }
 }

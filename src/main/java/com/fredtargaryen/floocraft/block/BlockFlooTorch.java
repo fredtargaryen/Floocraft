@@ -4,7 +4,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.ParticleGreenFlame;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
-import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
+import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.google.common.base.Predicate;
 import net.minecraft.block.BlockTorch;
@@ -99,23 +99,23 @@ public class BlockFlooTorch extends BlockTorch
     }
 
     ////////////////////////
-    //ALBEDO COMPATIBILITY//
+    //MIRAGE COMPATIBILITY//
     ////////////////////////
     @Override
     public boolean hasTileEntity(IBlockState ibs)
     {
-        return FloocraftBase.isAlbedoInstalled();
+        return FloocraftBase.isMirageInstalled();
     }
 
     @Override
     public TileEntity createTileEntity(World world, IBlockState state)
     {
-        TileEntityAlbedoFire teaf = null;
-        if(FloocraftBase.isAlbedoInstalled())
+        TileEntityMirageFire temf = null;
+        if(FloocraftBase.isMirageInstalled())
         {
-            teaf = new TileEntityAlbedoFire();
-            teaf.setRadius(4.0F);
+            temf = new TileEntityMirageFire();
+            temf.setRadius(4.0F);
         }
-        return teaf;
+        return temf;
     }
 }

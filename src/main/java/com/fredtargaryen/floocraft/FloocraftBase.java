@@ -7,7 +7,7 @@ import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
+import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
@@ -37,7 +37,7 @@ public class FloocraftBase
     @Mod.Instance(DataReference.MODID)
     public static FloocraftBase instance;
 
-    private static boolean albedoInstalled;
+    private static boolean mirageInstalled;
     
     /**
      * Declare all blocks here
@@ -194,7 +194,7 @@ public class FloocraftBase
         //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-        GameRegistry.registerTileEntity(TileEntityAlbedoFire.class, "greenLightTE");
+        GameRegistry.registerTileEntity(TileEntityMirageFire.class, "greenLightTE");
 
         proxy.registerTextureStitcher();
     }
@@ -212,11 +212,11 @@ public class FloocraftBase
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        albedoInstalled = Loader.isModLoaded("albedo");
+        mirageInstalled = Loader.isModLoaded("mirage");
     }
 
-    public static boolean isAlbedoInstalled()
+    public static boolean isMirageInstalled()
     {
-        return albedoInstalled;
+        return mirageInstalled;
     }
 }
