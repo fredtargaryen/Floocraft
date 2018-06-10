@@ -1,49 +1,15 @@
 This mapping 'snapshot_20171003' was designed for MC 1.12! Use at your own peril.This mapping 'snapshot_20171003' was designed for MC 1.12! Use at your own peril.
 
 #################################################
-         ForgeGradle 2.3-SNAPSHOT-f49079d        
+         ForgeGradle 2.3-SNAPSHOT-ee3e3df        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
-               Powered by MCP unknown               
+                 Powered by MCP                  
              http://modcoderpack.com             
-         by: Searge, ProfMobius, Fesh0r,         
-         R4wk, ZeuX, IngisKahn, bspkrs           
+     by: Searge, ProfMobius, R4wk, ZeuX          
+     Fesh0r, IngisKahn, bspkrs, LexManos         
 #################################################
-:deobfCompileDummyTask
-:deobfProvidedDummyTask
-:sourceApiJava
-:compileApiJava UP-TO-DATE
-:processApiResources UP-TO-DATE
-:apiClasses UP-TO-DATE
-:sourceMainJava
-:compileJavaNote: Some input files use or override a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-Note: Some input files use unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
 
-:processResources
-:classes
-:jar
-:sourceTestJava
-:compileTestJava UP-TO-DATE
-:processTestResources UP-TO-DATE
-:testClasses UP-TO-DATE
-:test UP-TO-DATE
-:extractMcpData SKIPPED
-:extractMcpMappings
-:getVersionJson
-:extractUserdev UP-TO-DATE
-:genSrgs SKIPPED
-:reobfJar
-:extractRangemapReplacedMain
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java
-:retromapReplacedMain
-remapping source...
-:sourceJar
-:assemble
-:check UP-TO-DATE
-:build
+CONFIGURE SUCCESSFUL
 
-BUILD SUCCESSFUL
-
-Total time: 3 mins 36.118 secs
+Total time: 2 mins 37.803 secs

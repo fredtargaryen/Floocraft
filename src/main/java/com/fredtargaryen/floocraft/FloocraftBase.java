@@ -16,7 +16,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -24,6 +26,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -168,24 +171,6 @@ public class FloocraftBase
         tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
         flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
 
-        //Registering blocks
-        ForgeRegistries.BLOCKS.register(blockFlooSign);
-        ForgeRegistries.BLOCKS.register(blockFlooTorch);
-        ForgeRegistries.BLOCKS.register(greenFlamesBusy);
-        ForgeRegistries.BLOCKS.register(greenFlamesIdle);
-        ForgeRegistries.BLOCKS.register(greenFlamesTemp);
-        ForgeRegistries.BLOCKS.register(floowerPot);
-
-        //Registering items
-        ForgeRegistries.ITEMS.register(iFloowerPot);
-        ForgeRegistries.ITEMS.register(iFlooTorch);
-        ForgeRegistries.ITEMS.register(floopowder1t);
-        ForgeRegistries.ITEMS.register(floopowder2t);
-        ForgeRegistries.ITEMS.register(floopowder4t);
-        ForgeRegistries.ITEMS.register(floopowder8t);
-        ForgeRegistries.ITEMS.register(floopowderc);
-        ForgeRegistries.ITEMS.register(itemFlooSign);
-
         //Registering sounds
         ForgeRegistries.SOUND_EVENTS.register(greened);
         ForgeRegistries.SOUND_EVENTS.register(tp);
@@ -205,7 +190,6 @@ public class FloocraftBase
         //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         proxy.registerRenderers();
-        proxy.registerModels();
     	proxy.registerTickHandlers();
     }
         
@@ -213,6 +197,26 @@ public class FloocraftBase
     public void postInit(FMLPostInitializationEvent event)
     {
         mirageInstalled = Loader.isModLoaded("mirage");
+    }
+
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Block> evt)
+    {
+        evt.getRegistry().registerAll(blockFlooSign, blockFlooTorch, greenFlamesBusy, greenFlamesIdle, greenFlamesTemp,
+                floowerPot);
+    }
+
+    @SubscribeEvent
+    public static void registerItems(RegistryEvent.Register<Item> evt)
+    {
+        evt.getRegistry().registerAll(iFloowerPot, iFlooTorch, floopowder1t, floopowder2t, floopowder4t, floopowder8t,
+                floopowderc, itemFlooSign);
+    }
+
+    @SubscribeEvent
+    public static void registerModels(ModelRegistryEvent event)
+    {
+        proxy.registerModels();
     }
 
     public static boolean isMirageInstalled()
