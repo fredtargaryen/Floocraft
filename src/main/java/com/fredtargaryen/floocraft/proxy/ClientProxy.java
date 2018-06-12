@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -31,16 +32,14 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerModels()
     {
-        //Describes how some blocks should look in the inventory
-        ItemModelMesher m = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-        m.register(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID + ":itemfloosign", "inventory"));
-        m.register(Item.getItemFromBlock(FloocraftBase.blockFlooTorch), 0, new ModelResourceLocation(DataReference.MODID + ":flootorch", "inventory"));
-        m.register(Item.getItemFromBlock(FloocraftBase.floowerPot), 0, new ModelResourceLocation(DataReference.MODID + ":floowerpot", "inventory"));
-        m.register(FloocraftBase.floopowder1t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_one", "inventory"));
-        m.register(FloocraftBase.floopowder2t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_two", "inventory"));
-        m.register(FloocraftBase.floopowder4t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_four", "inventory"));
-        m.register(FloocraftBase.floopowder8t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_eight", "inventory"));
-        m.register(FloocraftBase.floopowderc, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID + ":itemfloosign", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(FloocraftBase.blockFlooTorch), 0, new ModelResourceLocation(DataReference.MODID + ":flootorch", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(FloocraftBase.floowerPot), 0, new ModelResourceLocation(DataReference.MODID + ":floowerpot", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder1t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_one", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder2t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_two", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder4t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_four", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder8t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_eight", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowderc, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory"));
     }
 
     @Override

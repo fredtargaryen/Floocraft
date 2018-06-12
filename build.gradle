@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.8"
+version = "1.8.1"
 group = "com.fredtargaryen.floocraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Floocraft 1.12.2"
 
@@ -21,7 +21,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.1.2555"
+    version = "1.12.2-14.23.4.2705"
     runDir = "run"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -49,7 +49,7 @@ dependencies {
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 	compile "com.elytradev:mirage:2.0.3-rc3-SNAPSHOT"
-	
+
     // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 

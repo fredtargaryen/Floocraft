@@ -31,13 +31,16 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
+import static com.fredtargaryen.floocraft.DataReference.MODID;
+
+@Mod(modid= MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
+@Mod.EventBusSubscriber
 public class FloocraftBase
 {
 	/**
 	 * The instance of your mod that Forge uses.
 	 */
-    @Mod.Instance(DataReference.MODID)
+    @Mod.Instance(MODID)
     public static FloocraftBase instance;
 
     private static boolean mirageInstalled;
@@ -167,9 +170,9 @@ public class FloocraftBase
                 .setCreativeTab(CreativeTabs.DECORATIONS);
 
         //Making sounds
-        greened = new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened");
-        tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
-        flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
+        greened = new SoundEvent(new ResourceLocation(MODID, "greened")).setRegistryName("greened");
+        tp = new SoundEvent(new ResourceLocation(MODID, "tp")).setRegistryName("tp");
+        flick = new SoundEvent(new ResourceLocation(MODID, "flick")).setRegistryName("flick");
 
         //Registering sounds
         ForgeRegistries.SOUND_EVENTS.register(greened);
@@ -177,9 +180,9 @@ public class FloocraftBase
         ForgeRegistries.SOUND_EVENTS.register(flick);
 
         //Registering Tile Entities
-        GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
-        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
-        GameRegistry.registerTileEntity(TileEntityMirageFire.class, "greenLightTE");
+        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(MODID+":fireplaceTE"));
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(MODID+":potTE"));
+        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(MODID+":greenLightTE"));
 
         proxy.registerTextureStitcher();
     }
