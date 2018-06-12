@@ -1,7 +1,7 @@
 This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril.This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril.
 
 #################################################
-         ForgeGradle 2.2-SNAPSHOT-d13a6c8        
+         ForgeGradle 2.2-SNAPSHOT-9bc34b4        
   https://github.com/MinecraftForge/ForgeGradle  
 #################################################
                Powered by MCP unknown               
@@ -11,7 +11,7 @@ This mapping 'snapshot_20161220' was designed for MC 1.11! Use at your own peril
 #################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:sourceApiJava
+:sourceApiJava UP-TO-DATE
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
@@ -48,4 +48,4 @@ remapping source...
 
 BUILD SUCCESSFUL
 
-Total time: 3 mins 37.737 secs
+Total time: 3 mins 27.336 secs
