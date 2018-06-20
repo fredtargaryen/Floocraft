@@ -2,9 +2,14 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -26,6 +31,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -68,13 +74,43 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity)
-    {
-        if (par1World.isRemote)
-        {
-            if (par4Entity instanceof EntityPlayer)
-            {
+    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity) {
+        if (par1World.isRemote) {
+            if (par4Entity instanceof EntityPlayer) {
                 doClientGuiTings(pos);
+            }
+        }
+        else {
+            //Server side. Players are dealt with on the client because of the GUI
+            if(!(par4Entity instanceof EntityPlayer)) {
+                boolean teleport = false;
+                if(FloocraftBase.itemsTeleport && par4Entity instanceof EntityItem) {
+                    teleport = true;
+                }
+                else if(    (FloocraftBase.villagersTeleport && par4Entity instanceof EntityVillager)
+                        ||  (FloocraftBase.miscMobsTeleport && par4Entity instanceof EntityLiving)) {
+                    teleport = par1World.rand.nextFloat() < 0.2;
+                }
+                if(teleport) {
+                    //Get list of locations and whether they are available
+                    MessageFireplaceList mfl = FloocraftWorldData.forWorld(par1World).assembleNewFireplaceList(par1World);
+                    ArrayList<String> possibleLocations = new ArrayList<String>();
+                    Iterator<Boolean> enabledIter = mfl.enabledList.iterator();
+                    Iterator<String> nameIter = mfl.placeList.keySet().iterator();
+                    String nextName;
+                    Boolean nextEnabled;
+                    //Add the enabled locations to possibleLocations
+                    while(nameIter.hasNext()) {
+                        nextName = nameIter.next();
+                        nextEnabled = enabledIter.next();
+                        if(nextEnabled) possibleLocations.add(nextName);
+                    }
+                    //Pick a random location from possibleLocations
+                    String destName = possibleLocations.get(par1World.rand.nextInt(possibleLocations.size()));
+                    //Teleport to that location
+                    int[] coords = mfl.placeList.get(destName);
+                    par4Entity.setLocationAndAngles(coords[0], coords[1], coords[2], par4Entity.rotationYaw, par4Entity.rotationPitch);
+                }
             }
         }
     }

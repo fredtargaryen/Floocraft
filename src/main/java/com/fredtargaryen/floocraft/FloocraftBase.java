@@ -1,7 +1,19 @@
 /**
- * TO DO:
- * Server - adding ~11+ locations is too much for the GUI, won't go to correct places (try large scale on TV, then 15 locs)
- * Fire block faces too dark - west-facing for busy; west and east-facing for idle
+ * TODO
+ * Fireplace Peeking
+ * * Peek button in GuiTeleport
+ *   * Sends Message to server
+ *     * When message received, creates an EntityPeeker, spawned in the fire, and syncs to client
+ *       * Must ensure chunk is loaded
+ *       * EntityPeeker can't move or collide and is immune to fire
+ *       * Must detect the direction going "Out" of the fireplace and face that way
+ *       * On client it is used as the renderViewEntity
+ *       * Extra: Appearance:
+ *         * Appears as face of player doing the peeking
+ *         * A square, positioned in the fire, rotated leaning "into" the fire
+ *   * Changes to a GuiPeek which has no GUI elements except a big Done button at the bottom
+ *     * When pressed, kills the EntityPeeker and resets renderViewEntity
+ * If an item teleports, it should instead land outside the fire.
  */
 package com.fredtargaryen.floocraft;
 
@@ -21,6 +33,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -41,6 +54,11 @@ public class FloocraftBase
     public static FloocraftBase instance;
 
     private static boolean albedoInstalled;
+
+    //Config vars
+    public static boolean villagersTeleport;
+    public static boolean itemsTeleport;
+    public static boolean miscMobsTeleport;
     
     /**
      * Declare all blocks here
@@ -90,6 +108,14 @@ public class FloocraftBase
     {
         //Makes all packets to be used
         PacketHandler.init();
+
+        //CONFIG SETUP
+        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        villagersTeleport = config.getBoolean("Villagers Teleport", "Teleportation", false, "If true, villagers who wander into Floo fires MAY teleport to a random fireplace. Never consumes Floo Powder");
+        itemsTeleport = config.getBoolean("Items Teleport", "Teleportation", false, "If true, dropped items that touch Floo fires WILL teleport to a random fireplace. Never consumes Floo Powder");
+        miscMobsTeleport = config.getBoolean("Misc. Mobs Teleport", "Teleportation", false, "As with villagers, but for Sheep, Cows, Spiders, Silverfish, Zombies etc. Never consumes Floo Powder");
+        config.save();
 
         //Makes all blocks and items to be used
     	blockFlooTorch = new BlockFlooTorch()
