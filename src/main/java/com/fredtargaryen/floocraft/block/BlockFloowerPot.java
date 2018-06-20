@@ -156,7 +156,7 @@ public class BlockFloowerPot extends Block
                                 currentBlock = worldIn.getBlockState(currentPos).getBlock();
                                 if (currentBlock == Blocks.FIRE)
                                 {
-                                    if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, currentPos))
+                                    if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, currentPos) != null)
 									{
                                         Item i = stack.getItem();
                                         worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);

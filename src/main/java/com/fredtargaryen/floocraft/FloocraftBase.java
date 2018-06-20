@@ -13,7 +13,6 @@
  *         * A square, positioned in the fire, rotated leaning "into" the fire
  *   * Changes to a GuiPeek which has no GUI elements except a big Done button at the bottom
  *     * When pressed, kills the EntityPeeker and resets renderViewEntity
- * If an item teleports, it should instead land outside the fire.
  */
 package com.fredtargaryen.floocraft;
 

@@ -84,8 +84,11 @@ public abstract class GreenFlamesBase extends Block {
             //Server side. Players are dealt with on the client because of the GUI
             if(!(par4Entity instanceof EntityPlayer)) {
                 boolean teleport = false;
+                //Teleport destination one block outside the fire, instead of in the fire
+                boolean landOutside = false;
                 if(FloocraftBase.itemsTeleport && par4Entity instanceof EntityItem) {
                     teleport = true;
+                    landOutside = true;
                 }
                 else if(    (FloocraftBase.villagersTeleport && par4Entity instanceof EntityVillager)
                         ||  (FloocraftBase.miscMobsTeleport && par4Entity instanceof EntityLiving)) {
@@ -109,7 +112,16 @@ public abstract class GreenFlamesBase extends Block {
                     String destName = possibleLocations.get(par1World.rand.nextInt(possibleLocations.size()));
                     //Teleport to that location
                     int[] coords = mfl.placeList.get(destName);
-                    par4Entity.setLocationAndAngles(coords[0], coords[1], coords[2], par4Entity.rotationYaw, par4Entity.rotationPitch);
+                    if(landOutside) {
+                        BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
+                        dest = dest.offset(this.isInFireplace(par1World, dest));
+                        par4Entity.setLocationAndAngles(
+                                dest.getX(), coords[1], dest.getZ(), par4Entity.rotationYaw, par4Entity.rotationPitch);
+                    }
+                    else {
+                        par4Entity.setLocationAndAngles(
+                                coords[0], coords[1], coords[2], par4Entity.rotationYaw, par4Entity.rotationPitch);
+                    }
                 }
             }
         }
@@ -131,7 +143,7 @@ public abstract class GreenFlamesBase extends Block {
 
     @Override
     public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {
-        if (isInFireplace(par1World, pos)) {
+        if (isInFireplace(par1World, pos) != null) {
             par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
         } else {
             par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
@@ -140,7 +152,7 @@ public abstract class GreenFlamesBase extends Block {
 
     @Override
     public void updateTick(World par1World, BlockPos pos, IBlockState state, Random par5Random) {
-        if (!isInFireplace(par1World, pos) || par1World.getBlockState(pos).getValue(AGE).equals(0)) {
+        if (isInFireplace(par1World, pos) == null || par1World.getBlockState(pos).getValue(AGE).equals(0)) {
             par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
             par1World.scheduleUpdate(pos, this, this.tickRate(par1World) + par5Random.nextInt(10));
@@ -216,53 +228,37 @@ public abstract class GreenFlamesBase extends Block {
         return valid;
     }
 
-    private List<Integer> getWalls(World w, BlockPos bottomPos, int topY) {
-        List<Integer> walls = new ArrayList<Integer>();
-        if (this.isWallColumn(w, bottomPos.add(0.0D, 0.0D, 1.0D), topY)) {
-            walls.add(2);
+    private List<EnumFacing> getWalls(World w, BlockPos bottomPos, int topY) {
+        List<EnumFacing> walls = new ArrayList<EnumFacing>();
+        if(this.isWallColumn(w, bottomPos.offset(EnumFacing.NORTH), topY)) {
+            walls.add(EnumFacing.NORTH);
         }
-        if (this.isWallColumn(w, bottomPos.add(-1.0D, 0.0D, 0.0D), topY)) {
-            walls.add(4);
+        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.WEST), topY)) {
+            walls.add(EnumFacing.WEST);
         }
-        if (this.isWallColumn(w, bottomPos.add(1.0D, 0.0D, 0.0D), topY)) {
-            walls.add(6);
+        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.EAST), topY)) {
+            walls.add(EnumFacing.EAST);
         }
-        if (this.isWallColumn(w, bottomPos.add(0.0D, 0.0D, -1.0D), topY)) {
-            walls.add(8);
+        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.SOUTH), topY)) {
+            walls.add(EnumFacing.SOUTH);
         }
         return walls;
     }
 
-    private boolean canLoopToCorner(World w, int x, int y, int z, int backWall, int oldSideWall, int top) {
-        int sideWall;
+    private boolean canLoopToCorner(World w, int x, int y, int z, EnumFacing backWall, EnumFacing oldSideWall, int top) {
         int oldX = x;
         int oldZ = z;
-        switch (oldSideWall) {
-            case 2:
-                sideWall = 8;
-                break;
-            case 4:
-                sideWall = 6;
-                break;
-            case 6:
-                sideWall = 4;
-                break;
-            case 8:
-                sideWall = 2;
-                break;
-            default:
-                return false;
-        }
+        EnumFacing sideWall = oldSideWall.getOpposite();
         boolean stop = false;
         while (!stop) {
-            if (backWall == 2 || backWall == 8) {
-                if (sideWall == 4) {
+            if (backWall == EnumFacing.NORTH || backWall == EnumFacing.SOUTH) {
+                if (sideWall == EnumFacing.WEST) {
                     x--;
                 } else {
                     x++;
                 }
             } else {
-                if (sideWall == 2) {
+                if (sideWall == EnumFacing.NORTH) {
                     z++;
                 } else {
                     z--;
@@ -270,7 +266,7 @@ public abstract class GreenFlamesBase extends Block {
             }
             BlockPos newBottomPos = new BlockPos(x, y, z);
             int newTop = this.getTopBlockY(w, newBottomPos);
-            List<Integer> walls = this.getWalls(w, newBottomPos, newTop);
+            List<EnumFacing> walls = this.getWalls(w, newBottomPos, newTop);
             switch (walls.size()) {
                 case 1:
                     if (!walls.contains(backWall)) {
@@ -304,38 +300,73 @@ public abstract class GreenFlamesBase extends Block {
         return true;
     }
 
-    public boolean isInFireplace(World w, BlockPos pos)
+    /**
+     * Returns the EnumFacing that points out of the fireplace, if the fireplace is valid.
+     * Not necessarily the direction of the sign.
+     * If the fireplace is invalid, returns null.
+     * @return EnumFacing.UP if the fire block is in a corner of a valid fireplace; NORTH, SOUTH, EAST, WEST if the fire
+     * is in a valid fireplace but not a corner; null if the fireplace is invalid
+     */
+    public EnumFacing isInFireplace(World w, BlockPos pos)
     {
         if (pos.getY() < 254)
         {
             int t = this.getTopBlockY(w, pos);
             if (t > 0)
             {
-                List<Integer> walls = this.getWalls(w, pos, t);
+                List<EnumFacing> walls = this.getWalls(w, pos, t);
                 int x = pos.getX();
                 int y = pos.getY();
                 int z = pos.getZ();
                 switch (walls.size())
                 {
                     case 3:
-                        return true;
+                        //One-block-long fireplace
+                        for(EnumFacing ef : EnumFacing.HORIZONTALS) {
+                            if(!walls.contains(ef)) return ef;
+                        }
+                        break;
                     case 2:
-                        if ((walls.contains(2) && (walls.contains(4) || walls.contains(6))
-                                || (walls.contains(8) && (walls.contains(4) || walls.contains(6))))) {
-                            return this.canLoopToCorner(w, x, y, z, walls.get(0), walls.get(1), t)
-                                    || this.canLoopToCorner(w, x, y, z, walls.get(1), walls.get(0), t);
+                        if ((walls.contains(EnumFacing.NORTH) && (walls.contains(EnumFacing.WEST) || walls.contains(EnumFacing.EAST))
+                                || (walls.contains(EnumFacing.SOUTH) && (walls.contains(EnumFacing.WEST) || walls.contains(EnumFacing.EAST))))) {
+                            boolean zeroToOne = this.canLoopToCorner(w, x, y, z, walls.get(0), walls.get(1), t);
+                            boolean oneToZero = this.canLoopToCorner(w, x, y, z, walls.get(1), walls.get(0), t);
+                            if(zeroToOne && oneToZero) {
+                                //Fire is in corner of fireplace. Valid fireplace, but can't put a sign on a corner, so
+                                //return UP
+                                return EnumFacing.UP;
+                            }
+                            else if(zeroToOne) {
+                                //End of a long fireplace
+                                //Wall 0 is the back of the fireplace
+                                return walls.get(0).getOpposite();
+                            }
+                            else if(oneToZero) {
+                                //End of a long fireplace
+                                //Wall 1 is the back of the fireplace
+                                return walls.get(1).getOpposite();
+                            }
                         }
                         break;
                     case 1:
                         switch (walls.get(0)) {
-                            case 2:
-                                return this.canLoopToCorner(w, x, y, z, 2, 4, t) && this.canLoopToCorner(w, x, y, z, 2, 6, t);
-                            case 4:
-                                return this.canLoopToCorner(w, x, y, z, 4, 8, t) && this.canLoopToCorner(w, x, y, z, 4, 2, t);
-                            case 6:
-                                return this.canLoopToCorner(w, x, y, z, 6, 8, t) && this.canLoopToCorner(w, x, y, z, 6, 2, t);
-                            case 8:
-                                return this.canLoopToCorner(w, x, y, z, 8, 4, t) && this.canLoopToCorner(w, x, y, z, 8, 6, t);
+                            //This will be the back wall. If valid, this is the middle of a long fireplace
+                            case NORTH:
+                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.NORTH, EnumFacing.WEST, t)
+                                    &&  this.canLoopToCorner(w, x, y, z, EnumFacing.NORTH, EnumFacing.EAST, t))
+                                            return EnumFacing.SOUTH;
+                            case WEST:
+                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.WEST, EnumFacing.SOUTH, t)
+                                    &&  this.canLoopToCorner(w, x, y, z, EnumFacing.WEST, EnumFacing.NORTH, t))
+                                            return EnumFacing.EAST;
+                            case EAST:
+                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.EAST, EnumFacing.SOUTH, t)
+                                    &&  this.canLoopToCorner(w, x, y, z, EnumFacing.EAST, EnumFacing.NORTH, t))
+                                            return EnumFacing.WEST;
+                            case SOUTH:
+                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.SOUTH, EnumFacing.WEST, t)
+                                    &&  this.canLoopToCorner(w, x, y, z, EnumFacing.SOUTH, EnumFacing.EAST, t))
+                                            return EnumFacing.NORTH;
                             default:
                                 break;
                         }
@@ -345,6 +376,6 @@ public abstract class GreenFlamesBase extends Block {
                 }
             }
         }
-        return false;
+        return null;
     }
 }
