@@ -20,6 +20,7 @@ public class ContainerFloowerPot extends Container
         public PowderSlot(IInventory par1IInventory)
         {
             super(par1IInventory, 0, 80, 35);
+            this.putStack(ItemStack.EMPTY);
         }
 
         /**
