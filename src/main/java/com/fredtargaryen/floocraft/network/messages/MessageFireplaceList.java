@@ -29,7 +29,7 @@ public class MessageFireplaceList implements IMessage, IMessageHandler<MessageFi
 				GuiScreen s = ((Minecraft)clientListener).currentScreen;
 				if(s instanceof GuiTeleport)
 				{
-					((GuiTeleport) s).onMessageReceived(message);
+					((GuiTeleport) s).onFireplaceList(message);
 				}
 			}
 		});

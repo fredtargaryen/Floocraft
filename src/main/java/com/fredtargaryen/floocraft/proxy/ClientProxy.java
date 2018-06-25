@@ -3,7 +3,9 @@ package com.fredtargaryen.floocraft.proxy;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiFlash;
+import com.fredtargaryen.floocraft.client.renderer.RenderPeekerFactory;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
+import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.entity.TextureStitcherBreathFX;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
@@ -15,6 +17,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
@@ -26,6 +29,7 @@ public class ClientProxy extends CommonProxy
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFireplace.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloowerPot.class, new TileEntityPotRenderer());
+        RenderingRegistry.registerEntityRenderingHandler(EntityPeeker.class, new RenderPeekerFactory());
         MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
     }
 
@@ -47,10 +51,8 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerTickHandlers()
     {
+        //Tickers now register and unregister themselves when necessary, improving performance very slightly
         this.overrideTicker = new OverrideTicker();
         this.flash = new GuiFlash(Minecraft.getMinecraft());
-
-        MinecraftForge.EVENT_BUS.register(this.overrideTicker);
-        MinecraftForge.EVENT_BUS.register(this.flash);
     }
 }

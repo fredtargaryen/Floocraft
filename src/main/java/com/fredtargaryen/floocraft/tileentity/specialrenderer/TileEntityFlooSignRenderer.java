@@ -5,14 +5,13 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.DataReference;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer
+public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer<TileEntityFireplace>
 {
 	private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID+":textures/entity/blockfloosign.png");
 	
@@ -20,9 +19,8 @@ public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();
 
     @Override
-    public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage)
+    public void renderTileEntityAt(TileEntityFireplace sign, double x, double y, double z, float partialTicks, int destroyStage)
     {
-        TileEntityFireplace sign = (TileEntityFireplace) te; 
         GL11.glPushMatrix();
         float f1 = 0.6666667F;
         float f2;

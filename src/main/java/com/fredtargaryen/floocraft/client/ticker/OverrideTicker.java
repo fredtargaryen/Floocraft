@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.client.ticker;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -17,6 +18,7 @@ public class OverrideTicker
 		if(this.ticks == -1)
         {
             this.ticks++;
+            MinecraftForge.EVENT_BUS.register(this);
         }
 	}
 	
@@ -32,6 +34,7 @@ public class OverrideTicker
 			if (this.ticks > 94)
 			{
                 this.ticks = -1;
+                MinecraftForge.EVENT_BUS.unregister(this);
 			}
 	    }
 	}

@@ -1,37 +1,25 @@
-/**
- * TODO
- * Fireplace Peeking
- * * Peek button in GuiTeleport
- *   * Sends Message to server
- *     * When message received, creates an EntityPeeker, spawned in the fire, and syncs to client
- *       * Must ensure chunk is loaded
- *       * EntityPeeker can't move or collide and is immune to fire
- *       * Must detect the direction going "Out" of the fireplace and face that way
- *       * On client it is used as the renderViewEntity
- *       * Extra: Appearance:
- *         * Appears as face of player doing the peeking
- *         * A square, positioned in the fire, rotated leaning "into" the fire
- *   * Changes to a GuiPeek which has no GUI elements except a big Done button at the bottom
- *     * When pressed, kills the EntityPeeker and resets renderViewEntity
- */
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
+import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
+import com.fredtargaryen.floocraft.tileentity.TileEntityAlbedoFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -41,7 +29,12 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 @Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
 public class FloocraftBase
@@ -211,6 +204,7 @@ public class FloocraftBase
         //Registering Tile Entities
         GameRegistry.registerTileEntity(TileEntityFireplace.class, "fireplaceTE");
         GameRegistry.registerTileEntity(TileEntityFloowerPot.class, "potTE");
+        GameRegistry.registerTileEntity(TileEntityAlbedoFire.class, "albfTE");
 
         //Registering sounds
         greened = GameRegistry.register(new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened"));
@@ -237,6 +231,7 @@ public class FloocraftBase
                 new ItemStack(Items.STICK), new ItemStack(FloocraftBase.floopowder1t));
         GameRegistry.addShapelessRecipe(new ItemStack(FloocraftBase.floowerPot),
                 new ItemStack(Items.FLOWER_POT), new ItemStack(FloocraftBase.floopowder1t));
+        proxy.registerRenderers();
     }
         
     @EventHandler
@@ -244,7 +239,9 @@ public class FloocraftBase
     {
         //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        proxy.registerRenderers();
+        ResourceLocation peekerLocation = new ResourceLocation(DataReference.MODID+":peeker");
+        //Last three params are for tracking: trackingRange, updateFrequency and sendsVelocityUpdates
+        EntityRegistry.registerModEntity(peekerLocation, EntityPeeker.class, "peeker", 0, instance, 32, 1, false);
         proxy.registerModels();
     	proxy.registerTickHandlers();
     }
@@ -258,5 +255,17 @@ public class FloocraftBase
     public static boolean isAlbedoInstalled()
     {
         return albedoInstalled;
+    }
+
+    //Common entity access method
+    public static Entity getEntityWithUUID(World world, UUID uuid) {
+        if(world == null || uuid == null) return null;
+        List<Entity> entities = world.loadedEntityList;
+        Iterator<Entity> eIter = entities.iterator();
+        while(eIter.hasNext()) {
+            Entity nextEntity = eIter.next();
+            if(nextEntity.getUniqueID().equals(uuid)) return nextEntity;
+        }
+        return null;
     }
 }

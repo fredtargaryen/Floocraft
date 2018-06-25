@@ -21,5 +21,10 @@ public class PacketHandler
         INSTANCE.registerMessage(MessageTileEntityFireplaceFunction.class, MessageTileEntityFireplaceFunction.class, 6, Side.SERVER);
         INSTANCE.registerMessage(MessageDoGreenFlash.class, MessageDoGreenFlash.class, 7, Side.CLIENT);
 		INSTANCE.registerMessage(MessageFlooTorchTeleport.class, MessageFlooTorchTeleport.class, 8, Side.SERVER);
+		INSTANCE.registerMessage(MessagePeekRequest.class, MessagePeekRequest.class, 9, Side.SERVER);
+		INSTANCE.registerMessage(MessageStartPeek.class, MessageStartPeek.class, 10, Side.CLIENT);
+		INSTANCE.registerMessage(MessageEndPeek.class, MessageEndPeek.class, 11, Side.SERVER);
+		INSTANCE.registerMessage(MessagePlayerIDRequest.class, MessagePlayerIDRequest.class, 12, Side.SERVER);
+		INSTANCE.registerMessage(MessagePlayerID.class, MessagePlayerID.class, 13, Side.CLIENT);
 	}
 }

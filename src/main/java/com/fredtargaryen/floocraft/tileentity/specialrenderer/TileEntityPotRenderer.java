@@ -8,16 +8,15 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityPotRenderer extends TileEntitySpecialRenderer
+public class TileEntityPotRenderer extends TileEntitySpecialRenderer<TileEntityFloowerPot>
 {
     @Override
     //"Relative" means distance on this axis from block to player's eye
-    public void renderTileEntityAt(TileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage)
+    public void renderTileEntityAt(TileEntityFloowerPot te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage)
     {
-        ItemStack stack = ((TileEntityFloowerPot)te).getStackInSlot(0);
+        ItemStack stack = te.getStackInSlot(0);
         if(stack != null && stack.getCount() > 0)
         {
             GL11.glPushMatrix();
