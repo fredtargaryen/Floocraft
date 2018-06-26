@@ -110,10 +110,15 @@ public abstract class GreenFlamesBase extends Block {
                     }
                     //Pick a random location from possibleLocations
                     String destName = possibleLocations.get(par1World.rand.nextInt(possibleLocations.size()));
-                    //Teleport to that location
+                    //Get location coords
                     int[] coords = mfl.placeList.get(destName);
+                    BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
+                    //Set a temporary Floo fire here
+                    if(par1World.getBlockState(dest).getBlock() == Blocks.FIRE)
+                    {
+                        par1World.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+                    }
                     if(landOutside) {
-                        BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
                         dest = dest.offset(this.isInFireplace(par1World, dest));
                         par4Entity.setLocationAndAngles(
                                 dest.getX(), coords[1], dest.getZ(), par4Entity.rotationYaw, par4Entity.rotationPitch);

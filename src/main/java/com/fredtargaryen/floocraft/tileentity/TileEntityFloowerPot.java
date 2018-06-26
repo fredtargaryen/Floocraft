@@ -27,6 +27,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     {
         super();
         this.inv = new ItemStack[1];
+        this.inv[0] = ItemStack.EMPTY;
     }
 
     @Override
