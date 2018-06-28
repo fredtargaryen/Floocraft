@@ -23,7 +23,7 @@ Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 1 warning
 
-:processResources UP-TO-DATE
+:processResources
 :classes
 :jar
 :sourceTestJava UP-TO-DATE
@@ -34,7 +34,7 @@ Note: Recompile with -Xlint:unchecked for details.
 :extractMcpData SKIPPED
 :extractMcpMappings SKIPPED
 :getVersionJson
-:extractUserdev UP-TO-DATE
+:extractUserdev
 :genSrgs SKIPPED
 :reobfJar
 :extractRangemapReplacedMain
@@ -48,4 +48,4 @@ remapping source...
 
 BUILD SUCCESSFUL
 
-Total time: 2 mins 14.582 secs
+Total time: 3 mins 1.561 secs

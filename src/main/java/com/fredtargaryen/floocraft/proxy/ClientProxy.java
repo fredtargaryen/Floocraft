@@ -7,6 +7,7 @@ import com.fredtargaryen.floocraft.client.renderer.RenderPeekerFactory;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
 import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.entity.TextureStitcherBreathFX;
+import com.fredtargaryen.floocraft.network.messages.MessagePlayerID;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.specialrenderer.TileEntityFlooSignRenderer;
@@ -55,4 +56,10 @@ public class ClientProxy extends CommonProxy
         this.overrideTicker = new OverrideTicker();
         this.flash = new GuiFlash(Minecraft.getMinecraft());
     }
+	
+	@Override
+	public void setUUIDs(MessagePlayerID message) {		
+		EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(Minecraft.getMinecraft().world, message.peekerUUID);
+		ep.setPlayerUUID(message.playerUUID);
+	}
 }

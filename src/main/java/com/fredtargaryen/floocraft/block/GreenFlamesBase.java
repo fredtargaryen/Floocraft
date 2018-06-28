@@ -76,7 +76,7 @@ public abstract class GreenFlamesBase extends Block {
     @Override
     public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity) {
         if (par1World.isRemote) {
-            if (par4Entity instanceof EntityPlayer) {
+            if (par4Entity == Minecraft.getMinecraft().player) {
                 doClientGuiTings(pos);
             }
         }

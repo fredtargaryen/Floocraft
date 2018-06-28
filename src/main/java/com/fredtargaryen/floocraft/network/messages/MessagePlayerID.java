@@ -25,8 +25,7 @@ public class MessagePlayerID implements IMessage, IMessageHandler<MessagePlayerI
 			@Override
 			public void run()
 			{
-				EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(((Minecraft) clientThread).world, message.peekerUUID);
-				ep.setPlayerUUID(message.playerUUID);
+				FloocraftBase.proxy.setUUIDs(message);
 			}
 		});
         return null;
