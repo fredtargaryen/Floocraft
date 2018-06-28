@@ -1,5 +1,7 @@
 package com.fredtargaryen.floocraft.proxy;
 
+import com.fredtargaryen.floocraft.network.messages.MessagePlayerID;
+
 public interface IProxy
 {
     void registerRenderers();
@@ -9,4 +11,6 @@ public interface IProxy
     void registerTickHandlers();
 
     void registerTextureStitcher();
+
+    void setUUIDs(MessagePlayerID message);
 }

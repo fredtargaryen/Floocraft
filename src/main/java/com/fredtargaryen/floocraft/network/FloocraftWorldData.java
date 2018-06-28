@@ -117,7 +117,7 @@ public class FloocraftWorldData extends WorldSavedData
             boolean ok;
             if(b instanceof BlockFire)
             {
-                ok = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(w, dest);
+                ok = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(w, dest) != null;
                 w.setBlockState(dest, Blocks.FIRE.getDefaultState());
             }
 			else

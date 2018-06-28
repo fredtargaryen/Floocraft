@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.gui.GuiHandler;
-import com.fredtargaryen.floocraft.entity.TextureStitcherBreathFX;
+import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
@@ -12,12 +12,14 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -28,8 +30,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 import static com.fredtargaryen.floocraft.DataReference.MODID;
 
@@ -44,6 +51,11 @@ public class FloocraftBase
     public static FloocraftBase instance;
 
     private static boolean mirageInstalled;
+
+    //Config vars
+    public static boolean villagersTeleport;
+    public static boolean itemsTeleport;
+    public static boolean miscMobsTeleport;
     
     /**
      * Declare all blocks here
@@ -93,6 +105,14 @@ public class FloocraftBase
     {
         //Making packets
         PacketHandler.init();
+
+        //CONFIG SETUP
+        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        villagersTeleport = config.getBoolean("Villagers Teleport", "Teleportation", false, "If true, villagers who wander into Floo fires MAY teleport to a random fireplace. Never consumes Floo Powder");
+        itemsTeleport = config.getBoolean("Items Teleport", "Teleportation", false, "If true, dropped items that touch Floo fires WILL teleport to a random fireplace. Never consumes Floo Powder");
+        miscMobsTeleport = config.getBoolean("Misc. Mobs Teleport", "Teleportation", false, "As with villagers, but for Sheep, Cows, Spiders, Silverfish, Zombies etc. Never consumes Floo Powder");
+        config.save();
 
         //Making blocks
     	blockFlooTorch = new BlockFlooTorch()
@@ -185,6 +205,7 @@ public class FloocraftBase
         GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(MODID+":greenLightTE"));
 
         proxy.registerTextureStitcher();
+        proxy.registerRenderers();
     }
         
     @EventHandler
@@ -192,7 +213,9 @@ public class FloocraftBase
     {
         //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        proxy.registerRenderers();
+        ResourceLocation peekerLocation = new ResourceLocation(DataReference.MODID+":peeker");
+        //Last three params are for tracking: trackingRange, updateFrequency and sendsVelocityUpdates
+        EntityRegistry.registerModEntity(peekerLocation, EntityPeeker.class, "peeker", 0, instance, 32, 1, false);
     	proxy.registerTickHandlers();
     }
         
@@ -225,5 +248,17 @@ public class FloocraftBase
     public static boolean isMirageInstalled()
     {
         return mirageInstalled;
+    }
+
+    //Common entity access method
+    public static Entity getEntityWithUUID(World world, UUID uuid) {
+        if (world == null || uuid == null) return null;
+        List<Entity> entities = world.loadedEntityList;
+        Iterator<Entity> eIter = entities.iterator();
+        while (eIter.hasNext()) {
+            Entity nextEntity = eIter.next();
+            if (nextEntity.getUniqueID().equals(uuid)) return nextEntity;
+        }
+        return null;
     }
 }

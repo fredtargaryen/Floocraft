@@ -11,13 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityPotRenderer extends TileEntitySpecialRenderer
+public class TileEntityPotRenderer extends TileEntitySpecialRenderer<TileEntityFloowerPot>
 {
     @Override
     //"Relative" means distance on this axis from block to player's eye
-    public void render(TileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage, float alpha)
+    public void render(TileEntityFloowerPot te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage, float alpha)
     {
-        ItemStack stack = ((TileEntityFloowerPot)te).getStackInSlot(0);
+        ItemStack stack = te.getStackInSlot(0);
         if(stack != null && stack.getCount() > 0)
         {
             GL11.glPushMatrix();

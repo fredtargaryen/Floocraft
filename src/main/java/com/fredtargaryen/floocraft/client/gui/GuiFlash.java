@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
@@ -23,6 +24,7 @@ public class GuiFlash extends Gui
         if(this.ticks == -1)
         {
             this.ticks = 0;
+            MinecraftForge.EVENT_BUS.register(this);
             this.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(tp, 1.0F));
         }
     }
@@ -43,6 +45,7 @@ public class GuiFlash extends Gui
             if(this.ticks > 89)
             {
                 this.ticks = -1;
+                MinecraftForge.EVENT_BUS.unregister(this);
             }
         }
     }

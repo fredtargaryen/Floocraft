@@ -44,7 +44,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
 
                 //Checks whether the destination is fire and in a valid fireplace
                 if (destBlock == Blocks.FIRE) {
-                    validDest = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, destBlockPos);
+                    validDest = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, destBlockPos) != null;
                 }
                 //Checks whether the destination is busy or idle green flames (implying valid fireplace)
                 else if (destBlock == FloocraftBase.greenFlamesBusy || destBlock == FloocraftBase.greenFlamesIdle) {

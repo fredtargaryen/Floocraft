@@ -45,7 +45,7 @@ public class ItemFlooPowder extends Item
 	    if(!worldIn.isRemote) {
             BlockPos firePos = pos.offset(EnumFacing.UP, 1);
             if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE) {
-                if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, firePos) && !worldIn.isRemote) {
+                if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, firePos) != null && !worldIn.isRemote) {
                     worldIn.setBlockState(firePos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 3);
                     worldIn.playSound(null, firePos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }

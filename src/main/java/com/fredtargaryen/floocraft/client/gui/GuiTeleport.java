@@ -3,9 +3,7 @@ package com.fredtargaryen.floocraft.client.gui;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
-import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
-import com.fredtargaryen.floocraft.network.messages.MessageFireplaceListRequest;
-import com.fredtargaryen.floocraft.network.messages.MessageTeleportEntity;
+import com.fredtargaryen.floocraft.network.messages.*;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,7 +25,9 @@ public class GuiTeleport extends GuiScreen
     private static final String screenTitle = "===Choose a destination===";
     private String status;
 
-    //"Go!".
+    //"Peek..."
+    private GuiButton peekBtn;
+    //"Go!"
     private GuiButton goBtn;
     //"Cancel"
     private GuiButton cancelBtn;
@@ -62,9 +62,11 @@ public class GuiTeleport extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
         refreshButton.enabled = false;
-        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 100, this.height - 60, 98, 20, "Go!"));
+        this.buttonList.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height / 4 + 144, 98, 20, "Peek..."));
+        this.peekBtn.enabled = false;
+        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height / 4 + 144, 98, 20, "Go!"));
         this.goBtn.enabled = false;
-        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 2, this.height - 60, 98, 20, "Cancel"));
+        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height / 4 + 144, 98, 20, "Cancel"));
         if (receivedLists)
         {
             refreshButton.enabled = true;
@@ -111,6 +113,7 @@ public class GuiTeleport extends GuiScreen
     {
         if (par1GuiButton.enabled)
         {
+            int id = this.scrollWindow.getSelectedElement();
             //Cancel
             if (par1GuiButton.id == -1)
             {
@@ -128,7 +131,7 @@ public class GuiTeleport extends GuiScreen
                 int initX = this.initX;
                 int initY = this.initY;
                 int initZ = this.initZ;
-                String dest = (String) this.placeList[this.scrollWindow.getSelectedElement()];
+                String dest = (String) this.placeList[id];
                 try
                 {
                     MessageTeleportEntity m = new MessageTeleportEntity();
@@ -143,6 +146,20 @@ public class GuiTeleport extends GuiScreen
                     e.printStackTrace();
                 }
                 this.actionPerformed(GuiTeleport.this.cancelBtn);
+            }
+            //Peek...
+            else if(par1GuiButton.id == -4) {
+                String dest = (String) this.placeList[id];
+                try {
+                    MessagePeekRequest m = new MessagePeekRequest();
+                    m.initX = this.initX;
+                    m.initY = this.initY;
+                    m.initZ = this.initZ;
+                    m.dest = dest;
+                    PacketHandler.INSTANCE.sendToServer(m);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -196,7 +213,7 @@ public class GuiTeleport extends GuiScreen
         PacketHandler.INSTANCE.sendToServer(new MessageFireplaceListRequest());
     }
     
-    public void onMessageReceived(MessageFireplaceList m)
+    public void onFireplaceList(MessageFireplaceList m)
     {
         try
 		{
@@ -209,6 +226,12 @@ public class GuiTeleport extends GuiScreen
 			ex.printStackTrace();
 		}
         this.initGui();
+    }
+
+    public void onStartPeek(MessageStartPeek msp) {
+        this.mc.displayGuiScreen(
+                new GuiPeek(
+                        (String)GuiTeleport.this.placeList[this.scrollWindow.getSelectedElement()], msp.peekerUUID));
     }
     
     /**
@@ -262,7 +285,9 @@ public class GuiTeleport extends GuiScreen
          */
         protected void elementClicked(int id, boolean isDoubleClick, int mousex, int mousey)
         {
-            GuiTeleport.this.goBtn.enabled = GuiTeleport.this.enabledList[id];
+            boolean enabled = GuiTeleport.this.enabledList[id];
+            GuiTeleport.this.goBtn.enabled = enabled;
+            GuiTeleport.this.peekBtn.enabled = enabled;
         }
 
         /**
