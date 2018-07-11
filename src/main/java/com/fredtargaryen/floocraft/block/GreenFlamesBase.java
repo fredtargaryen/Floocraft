@@ -248,9 +248,9 @@ public abstract class GreenFlamesBase extends Block {
                 }
             } else {
                 if (sideWall == EnumFacing.NORTH) {
-                    z++;
-                } else {
                     z--;
+                } else {
+                    z++;
                 }
             }
             BlockPos newBottomPos = new BlockPos(x, y, z);
