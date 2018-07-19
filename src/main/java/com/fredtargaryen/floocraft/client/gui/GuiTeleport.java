@@ -66,11 +66,11 @@ public class GuiTeleport extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
         refreshButton.enabled = false;
-        this.buttonList.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height / 4 + 144, 98, 20, "Peek..."));
+        this.buttonList.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height - 40, 98, 20, "Peek..."));
         this.peekBtn.enabled = false;
-        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height / 4 + 144, 98, 20, "Go!"));
+        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height - 40, 98, 20, "Go!"));
         this.goBtn.enabled = false;
-        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height / 4 + 144, 98, 20, "Cancel"));
+        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height - 40, 98, 20, "Cancel"));
         if (receivedLists)
         {
             refreshButton.enabled = true;
