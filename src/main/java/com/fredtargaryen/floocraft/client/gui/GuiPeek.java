@@ -62,7 +62,7 @@ public class GuiPeek extends GuiScreen {
                 this.mc.setRenderViewEntity(ep);
             }
         }
-        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 144, 200, 20, "Mischief managed"));
+        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height - 40, 200, 20, "Mischief managed"));
         this.doneBtn.enabled = true;
     }
 

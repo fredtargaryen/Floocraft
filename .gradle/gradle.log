@@ -1,30 +1,21 @@
 This mapping 'snapshot_20171003' was designed for MC 1.12! Use at your own peril.This mapping 'snapshot_20171003' was designed for MC 1.12! Use at your own peril.
 
-#################################################
-         ForgeGradle 2.3-SNAPSHOT-ee3e3df        
-  https://github.com/MinecraftForge/ForgeGradle  
-#################################################
-                 Powered by MCP                  
-             http://modcoderpack.com             
-     by: Searge, ProfMobius, R4wk, ZeuX          
-     Fesh0r, IngisKahn, bspkrs, LexManos         
-#################################################
 :deobfCompileDummyTask
 :deobfProvidedDummyTask
-:sourceApiJava
+:sourceApiJava UP-TO-DATE
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
 :sourceMainJava
 :compileJavaNote: Some input files use or override a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
-Note: C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFlooTorch.java uses unchecked or unsafe operations.
+Note: C:\Users\Jamie\Desktop\DEV\Minecraft\Floocraft\build\sources\main\java\com\fredtargaryen\floocraft\block\BlockFlooTorch.java uses unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
 :processResources
 :classes
 :jar
-:sourceTestJava
+:sourceTestJava UP-TO-DATE
 :compileTestJava UP-TO-DATE
 :processTestResources UP-TO-DATE
 :testClasses UP-TO-DATE
@@ -37,7 +28,7 @@ Note: Recompile with -Xlint:unchecked for details.
 :reobfJar
 :extractAnnotationsJar
 :extractRangemapReplacedMain
-C:\Desktop\DEV\Minecraft Mods\Floocraft\build\sources\main\java
+C:\Users\Jamie\Desktop\DEV\Minecraft\Floocraft\build\sources\main\java
 :retromapReplacedMain
 remapping source...
 :sourceJar
@@ -47,4 +38,4 @@ remapping source...
 
 BUILD SUCCESSFUL
 
-Total time: 5 mins 59.762 secs
+Total time: 5.072 secs

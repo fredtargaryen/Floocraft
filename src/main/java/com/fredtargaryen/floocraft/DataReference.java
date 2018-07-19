@@ -30,7 +30,7 @@ public class DataReference
     //MAIN MOD DETAILS
     public static final String MODID = "ftfloocraft";
     public static final String MODNAME = "Floocraft";
-    public static final String VERSION = "1.9.2";
+    public static final String VERSION = "1.9.3";
     //PROXY PATHS
     public static final String CLIENTPROXYPATH = "com.fredtargaryen.floocraft.proxy.ClientProxy";
     public static final String SERVERPROXYPATH = "com.fredtargaryen.floocraft.proxy.ServerProxy";
