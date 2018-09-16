@@ -58,6 +58,7 @@ public class FloocraftBase
     public static Block blockFlooTorch;
     public static Block greenFlamesBusy;
     public static Block greenFlamesIdle;
+
     /**
      * Temporary green flames which replace any normal fire at the destination fireplace, so that players aren't
      * burnt on arrival. Disappear after 100 ticks.
