@@ -7,10 +7,11 @@ import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -38,8 +39,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import static net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+
 @Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
 @Mod.EventBusSubscriber
+@ObjectHolder(DataReference.MODID)
 public class FloocraftBase {
 	/**
 	 * The instance of your mod that Forge uses.
@@ -55,39 +59,56 @@ public class FloocraftBase {
     public static boolean miscMobsTeleport;
     
     //Declare all blocks here
+    @ObjectHolder("flootorch")
     public static Block blockFlooTorch;
+    @ObjectHolder("greenflamesbusy")
     public static Block greenFlamesBusy;
+    @ObjectHolder("greenflamesidle")
     public static Block greenFlamesIdle;
     /**
      * Temporary green flames which replace any normal fire at the destination fireplace, so that players aren't
      * burnt on arrival. Disappear after 100 ticks.
      */
+    @ObjectHolder("greenflamestemp")
     public static Block greenFlamesTemp;
+    @ObjectHolder("blockfloosign")
     public static Block blockFlooSign;
+    @ObjectHolder("floowerpot")
     public static Block floowerPot;
 
     //Declare all items here
+    @ObjectHolder("itemfloosign")
     public static Item itemFlooSign;
-    private static Item iFlooTorch;
-    private static Item iFloowerPot;
+    @ObjectHolder("flootorch")
+    public static Item iFlooTorch;
+    @ObjectHolder("floowerpot")
+    public static Item iFloowerPot;
+    @ObjectHolder("floopowder_one")
     public static Item floopowder1t;
+    @ObjectHolder("floopowder_two")
     public static Item floopowder2t;
+    @ObjectHolder("floopowder_four")
     public static Item floopowder4t;
+    @ObjectHolder("floopowder_eight")
     public static Item floopowder8t;
+    @ObjectHolder("floopowder_infinite")
     public static Item floopowderc;
 
     //Declare sounds here
     /**
      * When a fire makes contact with Floo Powder
      */
+    @ObjectHolder("greened")
     public static SoundEvent greened;
     /**
      * When a player teleports using a fireplace
      */
+    @ObjectHolder("tp")
     public static SoundEvent tp;
     /**
      * When a player is teleported by a Floo Torch
      */
+    @ObjectHolder("flick")
     public static SoundEvent flick;
 
     /**   
@@ -111,12 +132,12 @@ public class FloocraftBase {
         config.save();
 
         //Making blocks
-    	blockFlooTorch = new BlockFlooTorch()
+        blockFlooTorch = new BlockFlooTorch()
                 .setUnlocalizedName("flootorch")
                 .setRegistryName("flootorch")
-    	        .setLightLevel(1.0F)
-    	        .setCreativeTab(CreativeTabs.DECORATIONS);
-    	
+                .setLightLevel(1.0F)
+                .setCreativeTab(CreativeTabs.DECORATIONS);
+
     	greenFlamesBusy = new GreenFlamesBusy()
                 .setUnlocalizedName("greenflamesbusy")
                 .setRegistryName("greenflamesbusy")
