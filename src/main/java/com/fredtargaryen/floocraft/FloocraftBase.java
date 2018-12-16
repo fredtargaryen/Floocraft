@@ -38,16 +38,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import static com.fredtargaryen.floocraft.DataReference.MODID;
-
-@Mod(modid= MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
+@Mod(modid=DataReference.MODID, name=DataReference.MODNAME, version=DataReference.VERSION)
 @Mod.EventBusSubscriber
-public class FloocraftBase
-{
+public class FloocraftBase {
 	/**
 	 * The instance of your mod that Forge uses.
 	 */
-    @Mod.Instance(MODID)
+    @Mod.Instance(DataReference.MODID)
     public static FloocraftBase instance;
 
     private static boolean mirageInstalled;
@@ -57,9 +54,7 @@ public class FloocraftBase
     public static boolean itemsTeleport;
     public static boolean miscMobsTeleport;
     
-    /**
-     * Declare all blocks here
-     */
+    //Declare all blocks here
     public static Block blockFlooTorch;
     public static Block greenFlamesBusy;
     public static Block greenFlamesIdle;
@@ -71,27 +66,28 @@ public class FloocraftBase
     public static Block blockFlooSign;
     public static Block floowerPot;
 
-    /**
-     * Declare all items here
-     */
+    //Declare all items here
     public static Item itemFlooSign;
     private static Item iFlooTorch;
     private static Item iFloowerPot;
-
     public static Item floopowder1t;
     public static Item floopowder2t;
     public static Item floopowder4t;
     public static Item floopowder8t;
     public static Item floopowderc;
 
+    //Declare sounds here
     /**
-     * Declare sounds here
+     * When a fire makes contact with Floo Powder
      */
-    //When a fire makes contact with Floo Powder
     public static SoundEvent greened;
-    //When a player teleports using a fireplace
+    /**
+     * When a player teleports using a fireplace
+     */
     public static SoundEvent tp;
-    //When a player is teleported by a Floo Torch
+    /**
+     * When a player is teleported by a Floo Torch
+     */
     public static SoundEvent flick;
 
     /**   
@@ -190,9 +186,9 @@ public class FloocraftBase
                 .setCreativeTab(CreativeTabs.DECORATIONS);
 
         //Making sounds
-        greened = new SoundEvent(new ResourceLocation(MODID, "greened")).setRegistryName("greened");
-        tp = new SoundEvent(new ResourceLocation(MODID, "tp")).setRegistryName("tp");
-        flick = new SoundEvent(new ResourceLocation(MODID, "flick")).setRegistryName("flick");
+        greened = new SoundEvent(new ResourceLocation(DataReference.MODID, "greened")).setRegistryName("greened");
+        tp = new SoundEvent(new ResourceLocation(DataReference.MODID, "tp")).setRegistryName("tp");
+        flick = new SoundEvent(new ResourceLocation(DataReference.MODID, "flick")).setRegistryName("flick");
 
         //Registering sounds
         ForgeRegistries.SOUND_EVENTS.register(greened);
@@ -200,9 +196,9 @@ public class FloocraftBase
         ForgeRegistries.SOUND_EVENTS.register(flick);
 
         //Registering Tile Entities
-        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(MODID+":fireplaceTE"));
-        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(MODID+":potTE"));
-        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(MODID+":greenLightTE"));
+        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(DataReference.MODID+":fireplace"));
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(DataReference.MODID+":pot"));
+        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(DataReference.MODID+":greenlight"));
 
         proxy.registerTextureStitcher();
         proxy.registerRenderers();
