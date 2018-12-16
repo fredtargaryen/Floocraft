@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube",
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "floocraftft:blocks/blockfloosign"
+    }
+}

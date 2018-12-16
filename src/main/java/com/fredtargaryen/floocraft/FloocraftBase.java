@@ -140,11 +140,11 @@ public class FloocraftBase {
                 .setRegistryName("floowerpot")
                 .setCreativeTab(CreativeTabs.MISC);
 
+        //Making items
         iFlooTorch = new ItemBlock(blockFlooTorch)
                 .setUnlocalizedName("flootorch")
                 .setRegistryName("flootorch");
 
-        //Making items
         iFloowerPot = new ItemBlock(floowerPot)
                 .setUnlocalizedName("floowerpot")
                 .setRegistryName("floowerpot");
@@ -196,9 +196,9 @@ public class FloocraftBase {
         ForgeRegistries.SOUND_EVENTS.register(flick);
 
         //Registering Tile Entities
-        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(DataReference.MODID+":fireplace"));
-        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(DataReference.MODID+":pot"));
-        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(DataReference.MODID+":greenlight"));
+        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(DataReference.MODID+":fireplaceTE"));
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(DataReference.MODID+":potTE"));
+        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(DataReference.MODID+":greenLightTE"));
 
         proxy.registerTextureStitcher();
         proxy.registerRenderers();
@@ -256,5 +256,119 @@ public class FloocraftBase {
             if (nextEntity.getUniqueID().equals(uuid)) return nextEntity;
         }
         return null;
+    }
+
+    ////////////////////////
+    //FOR THE MODID CHANGE//
+    ////////////////////////
+    @SubscribeEvent
+    public static void handleMissingMappings(RegistryEvent.MissingMappings evt) {
+        String fullName = evt.getName().toString();
+        if(fullName.equals("minecraft:blocks")) {
+            for(Object mapping : evt.getAllMappings()) {
+                RegistryEvent.MissingMappings.Mapping trueMapping = (RegistryEvent.MissingMappings.Mapping) mapping;
+                if(trueMapping.key.getResourceDomain().equals("ftfloocraft")) {
+                    switch (trueMapping.key.getResourcePath()) {
+                        case "flootorch":
+                            trueMapping.remap(blockFlooTorch);
+                            break;
+                        case "greenflamesbusy":
+                            trueMapping.remap(greenFlamesBusy);
+                            break;
+                        case "greenflamesidle":
+                            trueMapping.remap(greenFlamesIdle);
+                            break;
+                        case "greenflamestemp":
+                            trueMapping.remap(greenFlamesTemp);
+                            break;
+                        case "blockfloosign":
+                            trueMapping.remap(blockFlooSign);
+                            break;
+                        case "floowerpot":
+                            trueMapping.remap(floowerPot);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        else if(fullName.equals("minecraft:items")) {
+            for(Object mapping : evt.getAllMappings()) {
+                RegistryEvent.MissingMappings.Mapping trueMapping = (RegistryEvent.MissingMappings.Mapping) mapping;
+                if (trueMapping.key.getResourceDomain().equals("ftfloocraft")) {
+                    switch (trueMapping.key.getResourcePath()) {
+                        case "flootorch":
+                            trueMapping.remap(iFlooTorch);
+                            break;
+                        case "floowerpot":
+                            trueMapping.remap(iFloowerPot);
+                            break;
+                        case "floopowder_one":
+                            trueMapping.remap(floopowder1t);
+                            break;
+                        case "floopowder_two":
+                            trueMapping.remap(floopowder2t);
+                            break;
+                        case "floopowder_four":
+                            trueMapping.remap(floopowder4t);
+                            break;
+                        case "floopowder_eight":
+                            trueMapping.remap(floopowder8t);
+                            break;
+                        case "floopowder_infinite":
+                            trueMapping.remap(floopowderc);
+                            break;
+                        case "itemfloosign":
+                            trueMapping.remap(itemFlooSign);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        else if(fullName.equals("minecraft:entities")) {
+            for(Object mapping : evt.getAllMappings()) {
+                RegistryEvent.MissingMappings.Mapping trueMapping = (RegistryEvent.MissingMappings.Mapping) mapping;
+                if (trueMapping.key.getResourceDomain().equals("ftfloocraft")) {
+                    switch (trueMapping.key.getResourcePath()) {
+                        case "peeker":
+                            trueMapping.remap(EntityRegistry.getEntry(EntityPeeker.class));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        else if(fullName.equals("minecraft:soundevents")) {
+            for(Object mapping : evt.getAllMappings()) {
+                RegistryEvent.MissingMappings.Mapping trueMapping = (RegistryEvent.MissingMappings.Mapping) mapping;
+                if (trueMapping.key.getResourceDomain().equals("ftfloocraft")) {
+                    switch (trueMapping.key.getResourcePath()) {
+                        case "tp":
+                            trueMapping.remap(tp);
+                            break;
+                        case "flick":
+                            trueMapping.remap(flick);
+                            break;
+                        case "greened":
+                            trueMapping.remap(greened);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        else if(fullName.equals("minecraft:tileentities")) {
+            for(Object mapping : evt.getAllMappings()) {
+                RegistryEvent.MissingMappings.Mapping trueMapping = (RegistryEvent.MissingMappings.Mapping) mapping;
+                if (trueMapping.key.getResourceDomain().equals("ftfloocraft")) {
+                    System.out.println("Yeah it's legit");
+                }
+            }
+        }
     }
 }

@@ -1,0 +1,17 @@
+{
+
+    "variants": {
+
+        "normal": { "model": "floocraftft:blockfloosign" },
+
+        "facing=east": { "model": "floocraftft:blockfloosign" },
+
+        "facing=south": { "model": "floocraftft:blockfloosign" },
+
+        "facing=west": { "model": "floocraftft:blockfloosign" },
+
+        "facing=north": { "model": "floocraftft:blockfloosign" }
+
+    }
+
+}

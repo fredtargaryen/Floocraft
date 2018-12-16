@@ -1,0 +1,17 @@
+{
+  "greened":
+  {
+    "sounds": [{"name": "floocraftft:greened","stream": false}],
+    "subtitle": "subs.greened"
+  },
+  "tp":
+  {
+    "sounds": [{"name": "floocraftft:tp","stream": false}],
+    "subtitle": "subs.tp"
+  },
+  "flick":
+  {
+    "sounds": [{"name": "floocraftft:flick", "stream": false}],
+    "subtitle": "subs.flick"
+  }
+}

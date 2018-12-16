@@ -1,0 +1,12 @@
+{
+  "multipart":
+  [
+    {
+      "apply": [
+        {
+          "model": "floocraftft:gf_idle"
+        }
+      ]
+    }
+  ]
+}
