@@ -11,17 +11,21 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.datafix.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.util.CompoundDataFixer;
+import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -223,6 +227,39 @@ public class FloocraftBase {
 
         proxy.registerTextureStitcher();
         proxy.registerRenderers();
+
+        //Also for the id change: register DataFixer for the TileEntities
+        CompoundDataFixer fixer = FMLCommonHandler.instance().getDataFixer();
+        ModFixs modFixs = fixer.init("ftfloocraft", 0);
+        modFixs.registerFix(FixTypes.BLOCK_ENTITY, new IFixableData() {
+            @Override
+            public int getFixVersion() {
+                return 1;
+            }
+
+            @Override
+            public NBTTagCompound fixTagCompound(NBTTagCompound compound) {
+                return compound;
+            }
+        });
+        fixer.registerWalker(FixTypes.BLOCK_ENTITY, new IDataWalker() {
+            @Override
+            public NBTTagCompound process(IDataFixer fixer, NBTTagCompound compound, int versionIn) {
+                String id = compound.getString("id");
+                if(id.equals("ftfloocraft:fireplacete")) {
+                    compound.setString("id", DataReference.MODID + ":fireplace");
+                }
+                else if(id.equals("ftfloocraft:greenlightte")) {
+                    compound.setString("id", DataReference.MODID + ":greenlight");
+                }
+                else if(id.equals("ftfloocraft:potte")) {
+                    compound.setString("id", DataReference.MODID + ":pot");
+                }
+                return compound;
+            }
+        });
+
+
     }
         
     @EventHandler
@@ -380,14 +417,6 @@ public class FloocraftBase {
                         default:
                             break;
                     }
-                }
-            }
-        }
-        else if(fullName.equals("minecraft:tileentities")) {
-            for(Object mapping : evt.getAllMappings()) {
-                RegistryEvent.MissingMappings.Mapping trueMapping = (RegistryEvent.MissingMappings.Mapping) mapping;
-                if (trueMapping.key.getResourceDomain().equals("ftfloocraft")) {
-                    System.out.println("Yeah it's legit");
                 }
             }
         }
