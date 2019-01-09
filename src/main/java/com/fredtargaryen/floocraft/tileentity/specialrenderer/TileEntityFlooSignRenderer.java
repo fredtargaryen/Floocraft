@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer<TileEntityFireplace>
 {
-	private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID+":textures/entity/blockfloosign.png");
+	private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID, "textures/entity/blockfloosign.png");
 	
 	/** The ModelFlooSign instance used by the TileEntityFlooSignRenderer */
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();

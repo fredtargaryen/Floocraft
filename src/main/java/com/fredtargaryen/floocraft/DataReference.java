@@ -37,7 +37,7 @@ public class DataReference
 
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 
-    public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID+":textures/blocks/tp_background.png");
+    public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID, "textures/blocks/tp_background.png");
     //idk why the format of this ResourceLocation is different
-    public static final ResourceLocation FLAMERL = new ResourceLocation(MODID+":particle/torchflame");
+    public static final ResourceLocation FLAMERL = new ResourceLocation(MODID, "particle/torchflame");
 }

@@ -217,9 +217,9 @@ public class FloocraftBase {
         ForgeRegistries.SOUND_EVENTS.register(flick);
 
         //Registering Tile Entities
-        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(DataReference.MODID+":fireplaceTE"));
-        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(DataReference.MODID+":potTE"));
-        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(DataReference.MODID+":greenLightTE"));
+        GameRegistry.registerTileEntity(TileEntityFireplace.class, new ResourceLocation(DataReference.MODID, "fireplace"));
+        GameRegistry.registerTileEntity(TileEntityFloowerPot.class, new ResourceLocation(DataReference.MODID, "pot"));
+        GameRegistry.registerTileEntity(TileEntityMirageFire.class, new ResourceLocation(DataReference.MODID, "greenlight"));
 
         proxy.registerTextureStitcher();
         proxy.registerRenderers();
@@ -230,7 +230,7 @@ public class FloocraftBase {
     {
         //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-        ResourceLocation peekerLocation = new ResourceLocation(DataReference.MODID+":peeker");
+        ResourceLocation peekerLocation = new ResourceLocation(DataReference.MODID, "peeker");
         //Last three params are for tracking: trackingRange, updateFrequency and sendsVelocityUpdates
         EntityRegistry.registerModEntity(peekerLocation, EntityPeeker.class, "peeker", 0, instance, 32, 1, false);
     	proxy.registerTickHandlers();

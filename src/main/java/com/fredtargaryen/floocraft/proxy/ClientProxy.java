@@ -37,14 +37,14 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerModels()
     {
-        ModelLoader.setCustomModelResourceLocation(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID + ":itemfloosign", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(FloocraftBase.blockFlooTorch), 0, new ModelResourceLocation(DataReference.MODID + ":flootorch", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(FloocraftBase.floowerPot), 0, new ModelResourceLocation(DataReference.MODID + ":floowerpot", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder1t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_one", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder2t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_two", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder4t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_four", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder8t, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_eight", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowderc, 0, new ModelResourceLocation(DataReference.MODID + ":floopowder_infinite", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.itemFlooSign, 0, new ModelResourceLocation(DataReference.MODID+":itemfloosign", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(FloocraftBase.blockFlooTorch), 0, new ModelResourceLocation(DataReference.MODID+":flootorch", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(FloocraftBase.floowerPot), 0, new ModelResourceLocation(DataReference.MODID+":floowerpot", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder1t, 0, new ModelResourceLocation(DataReference.MODID+":floopowder_one", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder2t, 0, new ModelResourceLocation(DataReference.MODID+":floopowder_two", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder4t, 0, new ModelResourceLocation(DataReference.MODID+":floopowder_four", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowder8t, 0, new ModelResourceLocation(DataReference.MODID+":floopowder_eight", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(FloocraftBase.floopowderc, 0, new ModelResourceLocation(DataReference.MODID+":floopowder_infinite", "inventory"));
     }
 
     @Override

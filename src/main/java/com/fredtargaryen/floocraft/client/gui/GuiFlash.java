@@ -39,7 +39,7 @@ public class GuiFlash extends Gui
                 this.ticks += 5;
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.PI / 180 * this.ticks));
                 GL11.glDisable(GL11.GL_LIGHTING);
-                this.mc.renderEngine.bindTexture(new ResourceLocation(DataReference.MODID+":textures/gui/flash.png"));
+                this.mc.renderEngine.bindTexture(new ResourceLocation(DataReference.MODID, "textures/gui/flash.png"));
                 this.drawTexturedModalRect(0, 0, 0, 0, this.mc.displayWidth, this.mc.displayHeight);
             }
             if(this.ticks > 89)
