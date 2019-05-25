@@ -134,16 +134,19 @@ public class EntityPeeker extends Entity {
 
     @SubscribeEvent
     public void onHurt(LivingHurtEvent lhe) {
-        if (this.world.isRemote && this.playerUUID != null && lhe.getEntity().getUniqueID().equals(this.playerUUID)) {
-            MessageEndPeek mep = new MessageEndPeek();
-            mep.peekerUUID = this.getUniqueID();
-            PacketHandler.INSTANCE.sendToServer(mep);
+        if (this.world != null && this.world.isRemote && this.playerUUID != null) {
+            UUID hurtEntityUUID = lhe.getEntity().getUniqueID();
+            if(hurtEntityUUID.equals(this.playerUUID)) {
+                MessageEndPeek mep = new MessageEndPeek();
+                mep.peekerUUID = this.getUniqueID();
+                PacketHandler.INSTANCE.sendToServer(mep);
+            }
         }
     }
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent lde) {
-        if (this.world.isRemote && this.playerUUID != null && lde.getEntity().getUniqueID().equals(this.playerUUID)) {
+        if (this.world != null && this.world.isRemote && this.playerUUID != null && lde.getEntity().getUniqueID().equals(this.playerUUID)) {
             MessageEndPeek mep = new MessageEndPeek();
             mep.peekerUUID = this.getUniqueID();
             PacketHandler.INSTANCE.sendToServer(mep);

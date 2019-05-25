@@ -16,6 +16,7 @@ import net.minecraft.world.storage.MapStorage;
 import net.minecraftforge.fml.common.FMLLog;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FloocraftWorldData extends WorldSavedData
 {
@@ -27,7 +28,7 @@ public class FloocraftWorldData extends WorldSavedData
 		super(key);
 	}
 
-	public final HashMap<String, int[]> placeList = new HashMap<>();
+	public final ConcurrentHashMap<String, int[]> placeList = new ConcurrentHashMap<>();
 	
 	public static FloocraftWorldData forWorld(World world)
 	{

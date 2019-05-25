@@ -234,7 +234,7 @@ public class FloocraftBase {
         modFixs.registerFix(FixTypes.BLOCK_ENTITY, new IFixableData() {
             @Override
             public int getFixVersion() {
-                return 1;
+                return 0;
             }
 
             @Override
