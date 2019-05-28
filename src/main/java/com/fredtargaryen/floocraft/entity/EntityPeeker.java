@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.entity;
 
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageEndPeek;
 import com.fredtargaryen.floocraft.network.messages.MessagePlayerIDRequest;
@@ -15,7 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class EntityPeeker extends Entity {
     private boolean sentRequest;
 
     public EntityPeeker(World w) {
-        super(w);
+        super(FloocraftBase.PEEKER_TYPE, w);
         this.setSize(0.5F, 0.5F);
         this.isImmuneToFire = true;
         MinecraftForge.EVENT_BUS.register(this);
@@ -57,7 +58,7 @@ public class EntityPeeker extends Entity {
                 x += 0.5;
                 break;
         }
-        this.playerUUID = player.getPersistentID();
+        this.playerUUID = player.getUniqueID();
         this.setLocationAndAngles(x, y, z, this.getYawFromDirection(direction), 0.0F);
     }
 
@@ -78,13 +79,10 @@ public class EntityPeeker extends Entity {
         }
     }
 
-    public void setDead() {
-        super.setDead();
-        MinecraftForge.EVENT_BUS.unregister(this);
-    }
-
     @Override
-    protected void entityInit() {
+    public void remove() {
+        super.remove();
+        MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     /**
@@ -92,11 +90,11 @@ public class EntityPeeker extends Entity {
      * Kills itself if the player it is tied to is dead or not connected
      */
     @Override
-    public void onEntityUpdate() {
+    public void tick() {
         if (!this.world.isRemote) {
             EntityPlayer player = this.world.getPlayerEntityByUUID(this.playerUUID);
-            if (player == null || player.isDead) {
-                this.setDead();
+            if (player == null || !player.isAlive()) {
+                this.remove();
             }
         }
     }
@@ -119,19 +117,6 @@ public class EntityPeeker extends Entity {
         return this.texture;
     }
 
-    @Override
-    protected void readEntityFromNBT(NBTTagCompound compound) {
-        this.playerUUID = new UUID(compound.getLong("msb"), compound.getLong("lsb"));
-        this.setRotation(compound.getFloat("yaw"), 0.0F);
-    }
-
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound compound) {
-        compound.setLong("msb", this.playerUUID.getMostSignificantBits());
-        compound.setLong("lsb", this.playerUUID.getLeastSignificantBits());
-        compound.setFloat("yaw", this.rotationYaw);
-    }
-
     @SubscribeEvent
     public void onHurt(LivingHurtEvent lhe) {
         if (this.world != null && this.world.isRemote && this.playerUUID != null) {
@@ -151,5 +136,34 @@ public class EntityPeeker extends Entity {
             mep.peekerUUID = this.getUniqueID();
             PacketHandler.INSTANCE.sendToServer(mep);
         }
+    }
+
+    @Override
+    protected void registerData() {
+
+    }
+
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     *
+     * @param compound
+     */
+    @Override
+    protected void readAdditional(NBTTagCompound compound) {
+        this.playerUUID = new UUID(compound.getLong("msb"), compound.getLong("lsb"));
+        this.setRotation(compound.getFloat("yaw"), 0.0F);
+    }
+
+    /**
+     * Writes the extra NBT data specific to this type of entity. Should <em>not</em> be called from outside this class;
+     * use {@link #writeUnlessPassenger} or {@link #writeWithoutTypeId} instead.
+     *
+     * @param compound
+     */
+    @Override
+    protected void writeAdditional(NBTTagCompound compound) {
+        compound.setLong("msb", this.playerUUID.getMostSignificantBits());
+        compound.setLong("lsb", this.playerUUID.getLeastSignificantBits());
+        compound.setFloat("yaw", this.rotationYaw);
     }
 }

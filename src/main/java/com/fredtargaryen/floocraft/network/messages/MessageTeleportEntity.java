@@ -18,14 +18,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.nio.charset.Charset;
 
-public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageTeleportEntity, IMessage>
+public class MessageTeleportEntity
 {
 	public int initX, initY, initZ;
     public String dest;
     private static final Charset defaultCharset = Charset.defaultCharset();
     
 	@Override
-	public IMessage onMessage(final MessageTeleportEntity message, MessageContext ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
 		final EntityPlayerMP player = ctx.getServerHandler().player;
 		final IThreadListener serverListener = player.getServerWorld();
@@ -68,7 +68,7 @@ public class MessageTeleportEntity implements IMessage, IMessageHandler<MessageT
                     player.connection.setPlayerLocation(destCoords[0] + 0.5D, destCoords[1], destCoords[2] + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
                     player.fallDistance = 0.0F;
                     //...then update the age of the fire.
-                    int m = (Integer) world.getBlockState(initBlockPos).getValue(GreenFlamesBusy.AGE);
+                    int m = (Integer) world.getBlockState(initBlockPos).get(GreenFlamesBusy.AGE);
                     if (m < 2) {
                         world.setBlockState(initBlockPos, Blocks.FIRE.getDefaultState());
                     } else {

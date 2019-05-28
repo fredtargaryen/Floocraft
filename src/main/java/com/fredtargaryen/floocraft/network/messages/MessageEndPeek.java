@@ -1,22 +1,17 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.entity.EntityPeeker;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.IThreadListener;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
-public class MessageEndPeek implements IMessage, IMessageHandler<MessageEndPeek, IMessage> {
+public class MessageEndPeek {
     public UUID peekerUUID;
 
     @Override
-    public IMessage onMessage(final MessageEndPeek message, MessageContext ctx) {
+    public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         final EntityPlayerMP player = ctx.getServerHandler().player;
         final IThreadListener serverListener = player.getServerWorld();
         serverListener.addScheduledTask(() -> {

@@ -1,6 +1,5 @@
 {
-    "parent": "block/cube",
-    "ambientocclusion": false,
+    "": "parent:block/block\nambientocclusion:false",
     "textures": {
         "particle": "floocraftft:blocks/blockfloosign"
     }

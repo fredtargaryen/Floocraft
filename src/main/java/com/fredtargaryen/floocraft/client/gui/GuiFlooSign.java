@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.client.gui;
 
+import com.fredtargaryen.floocraft.block.BlockFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
@@ -9,16 +10,17 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.network.play.client.CPacketUpdateSign;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SharedConstants;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiFlooSign extends GuiScreen
 {
     private String sameNameError = "";
@@ -39,16 +41,38 @@ public class GuiFlooSign extends GuiScreen
         this.fireplaceTE = par1TileEntityFireplace;
     }
 
+    private void sendDisconnectedMessage() {
+        MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
+        BlockPos pos = this.fireplaceTE.getPos();
+        m.x = pos.getX();
+        m.y = pos.getY();
+        m.z = pos.getZ();
+        m.isConnected = false;
+        PacketHandler.INSTANCE.sendToServer(m);
+    }
+
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
-        this.buttonList.clear();
-        Keyboard.enableRepeatEvents(true);
-        this.decorButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration");
-        this.buttonList.add(this.decorButton);
-        this.buttonList.add(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network"));
+    public void initGui() {
+        this.buttons.clear();
+        this.mc.keyboardListener.enableRepeatEvents(true);
+        this.decorButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                GuiFlooSign.this.sendDisconnectedMessage();
+                GuiFlooSign.this.mc.displayGuiScreen(null);
+            }
+        };
+        this.buttons.add(this.decorButton);
+        this.buttons.add(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                GuiFlooSign.this.sendDisconnectedMessage();
+                MessageApproveName man = new MessageApproveName(nameAsLine(GuiFlooSign.this.fireplaceTE.signText));
+                PacketHandler.INSTANCE.sendToServer(man);
+            }
+        });
     }
 
     /**
@@ -56,85 +80,54 @@ public class GuiFlooSign extends GuiScreen
      */
     public void onGuiClosed()
     {
-        Keyboard.enableRepeatEvents(false);
+        this.mc.keyboardListener.enableRepeatEvents(false);
         NetHandlerPlayClient netclienthandler = this.mc.getConnection();
-        if (netclienthandler != null)
-        {
-            netclienthandler.sendPacket(new CPacketUpdateSign(this.fireplaceTE.getPos(), this.fireplaceTE.signText));
+        if (netclienthandler != null) {
+            netclienthandler.sendPacket(new CPacketUpdateSign(this.fireplaceTE.getPos(),
+                    this.fireplaceTE.signText[0],
+                    this.fireplaceTE.signText[1],
+                    this.fireplaceTE.signText[2],
+                    this.fireplaceTE.signText[3]));
         }
     }
 
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen()
+    public void tick()
     {
         ++this.updateCounter;
     }
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        if (par1GuiButton.enabled)
-        {
-            MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();
-            BlockPos pos = this.fireplaceTE.getPos();
-            m.x = pos.getX();
-            m.y = pos.getY();
-            m.z = pos.getZ();
-            m.isConnected = false;
-            PacketHandler.INSTANCE.sendToServer(m);
-            switch(par1GuiButton.id)
-            {
-                case 0:
-                {
-                    this.mc.displayGuiScreen(null);
-                    break;
-                }
-                case 1:
-                {
-                    MessageApproveName man = new MessageApproveName();
-                    man.name = nameAsLine(this.fireplaceTE.signText);
-                    PacketHandler.INSTANCE.sendToServer(man);
-                    break;
-                }
-            }
+
+    public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_) {
+        String s = this.fireplaceTE.func_212366_a(this.editLine).getString();
+        if (SharedConstants.isAllowedCharacter(p_charTyped_1_) && this.fontRenderer.getStringWidth(s + p_charTyped_1_) <= 90) {
+            s = s + p_charTyped_1_;
         }
+
+        this.fireplaceTE.func_212365_a(this.editLine, new TextComponentString(s));
+        return true;
     }
 
-    /**
-     * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
-     */
-    protected void keyTyped(char typedChar, int keyCode)
-    {
-        if (keyCode == 200)
-        {
+    public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+        if (p_keyPressed_1_ == 265) {
             this.editLine = this.editLine - 1 & 3;
-        }
+            return true;
+        } else if (p_keyPressed_1_ != 264 && p_keyPressed_1_ != 257 && p_keyPressed_1_ != 335) {
+            if (p_keyPressed_1_ == 259) {
+                String s = this.fireplaceTE.func_212366_a(this.editLine).getString();
+                if (!s.isEmpty()) {
+                    s = s.substring(0, s.length() - 1);
+                    this.fireplaceTE.func_212365_a(this.editLine, new TextComponentString(s));
+                }
 
-        if (keyCode == 208 || keyCode == 28 || keyCode == 156)
-        {
+                return true;
+            } else {
+                return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+            }
+        } else {
             this.editLine = this.editLine + 1 & 3;
-        }
-
-        String s = this.fireplaceTE.signText[this.editLine].getUnformattedText();
-
-        if (keyCode == 14 && !s.isEmpty())
-        {
-            s = s.substring(0, s.length() - 1);
-        }
-
-        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRenderer.getStringWidth(s + typedChar) <= 90)
-        {
-            s = s + typedChar;
-        }
-
-        this.fireplaceTE.signText[this.editLine] = new TextComponentString(s);
-
-        if (keyCode == 1)
-        {
-            this.actionPerformed(this.decorButton);
+            return true;
         }
     }
 
@@ -142,8 +135,7 @@ public class GuiFlooSign extends GuiScreen
      * Draws the screen and all the components in it.
      */
     @Override
-    public void drawScreen(int par1, int par2, float par3)
-    {
+    public void render(int mouseX, int mouseY, float partialTicks) {
     	super.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer,
                 "===Floo Network Setup Wizard===",
@@ -161,36 +153,32 @@ public class GuiFlooSign extends GuiScreen
         GL11.glScalef(-f1, -f1, -f1);
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 
-            int k = this.fireplaceTE.getBlockMetadata();
+            EnumFacing k = this.fireplaceTE.getBlockState().get(BlockFlooSign.FACING);
             float f3 = 0.0F;
 
-            if (k == 2)
-            {
+            if (k == EnumFacing.SOUTH) {
                 f3 = 180.0F;
             }
 
-            if (k == 4)
-            {
+            if (k == EnumFacing.WEST) {
                 f3 = 90.0F;
             }
 
-            if (k == 5)
-            {
+            if (k == EnumFacing.EAST) {
                 f3 = -90.0F;
             }
 
             GL11.glRotatef(f3, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
 
-        if (this.updateCounter / 6 % 2 == 0)
-        {
+        if (this.updateCounter / 6 % 2 == 0) {
             this.fireplaceTE.lineBeingEdited = this.editLine;
         }
 
         TileEntityRendererDispatcher.instance.render(this.fireplaceTE, -0.5D, -0.75D, -0.5D, 0.0F);
         this.fireplaceTE.lineBeingEdited = -1;
         GL11.glPopMatrix();
-        super.drawScreen(par1, par2, par3);
+        super.render(mouseX, mouseY, partialTicks);
     }
 
     private static String nameAsLine(ITextComponent[] original)

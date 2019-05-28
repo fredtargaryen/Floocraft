@@ -7,17 +7,16 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
-public class MessagePlayerIDRequest implements IMessage, IMessageHandler<MessagePlayerIDRequest, IMessage> {
+public class MessagePlayerIDRequest {
     public UUID peekerUUID;
 
     @Override
-    public IMessage onMessage(final MessagePlayerIDRequest message, MessageContext ctx) {
+    public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         final EntityPlayerMP player = ctx.getServerHandler().player;
         final IThreadListener serverListener = player.getServerWorld();
         serverListener.addScheduledTask(() -> {

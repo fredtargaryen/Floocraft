@@ -106,7 +106,6 @@ public class GuiPeek extends GuiScreen {
     /**
      * Draws the screen and all the components in it.
      */
-    @Override
     @SideOnly(Side.CLIENT)
     public void drawScreen(int mousex, int mousey, float partialticks) {
         this.drawCenteredString(this.fontRenderer,
@@ -120,7 +119,6 @@ public class GuiPeek extends GuiScreen {
     /**
      * Returns true if this GUI should pause the game when it is displayed in single-player
      */
-    @Override
     public boolean doesGuiPauseGame() {
         return false;
     }

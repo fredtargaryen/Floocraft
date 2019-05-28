@@ -2,15 +2,15 @@
 
     "variants": {
 
-        "facing=up": { "model": "floocraftft:flootorch" },
+        "facing=up": { "model": "floocraftft:block/flootorch" },
 
-        "facing=east": { "model": "floocraftft:flootorch_wall" },
+        "facing=east": { "model": "floocraftft:block/flootorch_wall" },
 
-        "facing=south": { "model": "floocraftft:flootorch_wall", "y": 90 },
+        "facing=south": { "model": "floocraftft:block/flootorch_wall", "y": 90 },
 
-        "facing=west": { "model": "floocraftft:flootorch_wall", "y": 180 },
+        "facing=west": { "model": "floocraftft:block/flootorch_wall", "y": 180 },
 
-        "facing=north": { "model": "floocraftft:flootorch_wall", "y": 270 }
+        "facing=north": { "model": "floocraftft:block/flootorch_wall", "y": 270 }
 
     }
 

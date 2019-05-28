@@ -1,9 +1,9 @@
 package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.DataReference;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 /**
  * Thanks to TheGreyGhost for original particle texture stitching code
@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class TextureStitcherBreathFX
 {
     @SubscribeEvent
-    public void stitcherEventPre(TextureStitchEvent.Pre event) {
-        ParticleGreenFlame.setFlameSprite(event.getMap().registerSprite(DataReference.FLAMERL));
+    public void stitcherEventPre(TextureStitchEvent.Pre event) { //TODO
+        //ParticleGreenFlame.setFlameSprite(event.getMap().registerSprite(DataReference.FLAMERL));
     }
 }

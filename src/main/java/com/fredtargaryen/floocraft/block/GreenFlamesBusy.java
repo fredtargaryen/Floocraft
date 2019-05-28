@@ -14,6 +14,8 @@ import java.util.Random;
 
 public class GreenFlamesBusy extends GreenFlamesBase
 {
+    public GreenFlamesBusy() { super(15); }
+
     private final AxisAlignedBB BUSYBOX = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 2.0F, 1.0F);
 
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -26,7 +28,7 @@ public class GreenFlamesBusy extends GreenFlamesBase
     {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE, false) == null)
         {
-            w.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(AGE, state.getValue(AGE)));
+            w.setBlockState(pos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(AGE, state.get(AGE)));
         }
         super.updateTick(w, pos, state, par5Random);
     }

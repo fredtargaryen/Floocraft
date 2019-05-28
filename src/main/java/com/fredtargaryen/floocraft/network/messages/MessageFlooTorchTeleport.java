@@ -15,12 +15,12 @@ import java.util.List;
 
 import static com.fredtargaryen.floocraft.FloocraftBase.flick;
 
-public class MessageFlooTorchTeleport implements IMessage, IMessageHandler<MessageFlooTorchTeleport, IMessage>
+public class MessageFlooTorchTeleport
 {
     public int torchX, torchY, torchZ;
 
     @Override
-    public IMessage onMessage(final MessageFlooTorchTeleport message, MessageContext ctx)
+    public void onMessage(Supplier<NetworkEvent.Context> ctx)
     {
         final EntityPlayerMP player = ctx.getServerHandler().player;
         final IThreadListener serverListener = player.getServerWorld();

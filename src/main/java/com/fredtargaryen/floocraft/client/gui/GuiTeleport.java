@@ -11,14 +11,13 @@ import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiTeleport extends GuiScreen
 {
     /** The title string that is displayed in the top-centre of the screen. */
@@ -58,21 +57,67 @@ public class GuiTeleport extends GuiScreen
      */
     public void initGui()
     {
-        this.buttonList.clear();
-        Keyboard.enableRepeatEvents(true);
-        GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh");
+        this.buttons.clear();
+        this.mc.keyboardListener.enableRepeatEvents(true);
+        GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                GuiTeleport.this.refresh();
+            }
+        };
         refreshButton.enabled = false;
-        this.buttonList.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height - 40, 98, 20, "Peek..."));
+        this.buttons.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height - 40, 98, 20, "Peek...") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                String dest = (String) GuiTeleport.this.placeList[id];
+                try {
+                    MessagePeekRequest m = new MessagePeekRequest();
+                    m.initX = GuiTeleport.this.initX;
+                    m.initY = GuiTeleport.this.initY;
+                    m.initZ = GuiTeleport.this.initZ;
+                    m.dest = dest;
+                    PacketHandler.INSTANCE.sendToServer(m);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         this.peekBtn.enabled = false;
-        this.buttonList.add(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height - 40, 98, 20, "Go!"));
+        this.buttons.add(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height - 40, 98, 20, "Go!") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                int initX = GuiTeleport.this.initX;
+                int initY = GuiTeleport.this.initY;
+                int initZ = GuiTeleport.this.initZ;
+                String dest = (String) GuiTeleport.this.placeList[id];
+                try {
+                    MessageTeleportEntity m = new MessageTeleportEntity();
+                    m.initX = initX;
+                    m.initY = initY;
+                    m.initZ = initZ;
+                    m.dest = dest;
+                    PacketHandler.INSTANCE.sendToServer(m);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                GuiTeleport.this.cancelBtn.onClick(0.0, 0.0);
+            }
+        });
         this.goBtn.enabled = false;
-        this.buttonList.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height - 40, 98, 20, "Cancel"));
+        this.buttons.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height - 40, 98, 20, "Cancel") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
+                GuiTeleport.this.mc.displayGuiScreen(null);
+            }
+        });
         if (receivedLists)
         {
             refreshButton.enabled = true;
             this.scrollWindow = new PlaceList();
         }
-        this.buttonList.add(refreshButton);
+        this.buttons.add(refreshButton);
     }
 
     /**
@@ -81,22 +126,20 @@ public class GuiTeleport extends GuiScreen
     public void onGuiClosed()
     {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
-        Keyboard.enableRepeatEvents(false);
+        this.mc.keyboardListener.enableRepeatEvents(false);
         proxy.overrideTicker.start();
     }
 
     /**
      * Called from the main game loop to update the screen.
      */
-    public void updateScreen()
-    {
-        super.updateScreen();
-        if (!this.receivedLists)
-        {
+    @Override
+    public void tick() {
+        super.tick();
+        if (!this.receivedLists) {
             this.status = "Loading...";
         }
-        else //if the lists were received...
-        {
+        else {//if the lists were received...
             //if they are empty...
             if (this.placeList.length == 0) {
                 this.status = "No places found";
@@ -107,80 +150,21 @@ public class GuiTeleport extends GuiScreen
     }
 
     /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
-        if (par1GuiButton.enabled)
-        {
-            int id = this.scrollWindow.getSelectedElement();
-            //Cancel
-            if (par1GuiButton.id == -1)
-            {
-                ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
-                this.mc.displayGuiScreen(null);
-            }
-            //Refresh
-            else if(par1GuiButton.id == -2)
-            {
-            	this.refresh();
-            }
-            //Go!
-            else if(par1GuiButton.id == -3)
-            {
-                int initX = this.initX;
-                int initY = this.initY;
-                int initZ = this.initZ;
-                String dest = (String) this.placeList[id];
-                try
-                {
-                    MessageTeleportEntity m = new MessageTeleportEntity();
-                    m.initX = initX;
-                    m.initY = initY;
-                    m.initZ = initZ;
-                    m.dest = dest;
-                    PacketHandler.INSTANCE.sendToServer(m);
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                }
-                this.actionPerformed(GuiTeleport.this.cancelBtn);
-            }
-            //Peek...
-            else if(par1GuiButton.id == -4) {
-                String dest = (String) this.placeList[id];
-                try {
-                    MessagePeekRequest m = new MessagePeekRequest();
-                    m.initX = this.initX;
-                    m.initY = this.initY;
-                    m.initZ = this.initZ;
-                    m.dest = dest;
-                    PacketHandler.INSTANCE.sendToServer(m);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2)
-    {
-        if (par2 == 1)
-        {
-            this.actionPerformed(this.cancelBtn);
+    public boolean charTyped(char par1, int par2) {
+        if (par2 == 1) {
+            this.cancelBtn.onClick(0.0, 0.0);
         }
+        return true;
     }
 
     /**
      * Draws the screen and all the components in it.
      */
     @Override
-    @SideOnly(Side.CLIENT)
-    public void drawScreen(int mousex, int mousey, float partialticks)
+    @OnlyIn(Dist.CLIENT)
+    public void render(int mousex, int mousey, float partialticks)
     {
         this.drawCenteredString(this.fontRenderer,
                 this.status,
@@ -201,7 +185,7 @@ public class GuiTeleport extends GuiScreen
                 this.width / 2,
                 15,
                 16777215);
-        super.drawScreen(mousex, mousey, partialticks);
+        super.render(mousex, mousey, partialticks);
     }
     
     private void refresh()
@@ -243,24 +227,28 @@ public class GuiTeleport extends GuiScreen
         return false;
     }
 
-    @Override
-    public void handleMouseInput()
-    {
-        try
-        {
-            if(this.scrollWindow != null)
-            {
-                this.scrollWindow.handleMouseInput();
-            }
-            super.handleMouseInput();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-    }
+    //TODO Might not need these
+//    @Override
+//    public void handleMouseEvent() {
+//        try
+//        {
+//            if(this.scrollWindow != null)
+//            {
+//                this.scrollWindow.handleMouseInput();
+//            }
+//            super.handleMouseInput();
+//        }
+//        catch(IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public boolean mouseScrolled(double p_mouseScrolled_1_) {
+//        return this.placeList.mouseScrolled(p_mouseScrolled_1_);
+//    }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     class PlaceList extends GuiSlot
     {
         public PlaceList()

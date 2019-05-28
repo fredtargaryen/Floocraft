@@ -5,24 +5,21 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityPotRenderer extends TileEntitySpecialRenderer<TileEntityFloowerPot>
+public class TileEntityPotRenderer extends TileEntityRenderer<TileEntityFloowerPot>
 {
     @Override
     //"Relative" means distance on this axis from block to player's eye
-    public void render(TileEntityFloowerPot te, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamage, float alpha)
-    {
+    public void render(TileEntityFloowerPot te, double relativeX, double relativeY, double relativeZ, float partialTicks, int destroyStage) {
         ItemStack stack = te.getStackInSlot(0);
-        if(stack != null && stack.getCount() > 0)
-        {
+        if(stack != null && stack.getCount() > 0) {
             GL11.glPushMatrix();
             GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-            GlStateManager.translate(relativeX, relativeY, relativeZ);
+            GlStateManager.translated(relativeX, relativeY, relativeZ);
             Tessellator t = Tessellator.getInstance();
             BufferBuilder r = t.getBuffer();
             // set the key rendering flags appropriately...

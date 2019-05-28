@@ -4,7 +4,7 @@
     {
       "apply": [
         {
-          "model": "floocraftft:gf_busy"
+          "model": "floocraftft:block/gf_busy"
         }
       ]
     }

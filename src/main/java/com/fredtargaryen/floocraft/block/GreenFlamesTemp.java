@@ -8,12 +8,8 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class GreenFlamesTemp extends GreenFlamesBusy
-{
-    public GreenFlamesTemp()
-    {
-        super();
-    }
+public class GreenFlamesTemp extends GreenFlamesBusy {
+    public GreenFlamesTemp() { super(15); }
 
     @Override
     public int tickRate(World par1World)

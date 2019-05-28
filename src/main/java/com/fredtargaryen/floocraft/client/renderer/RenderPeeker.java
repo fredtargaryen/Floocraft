@@ -28,12 +28,12 @@ public class RenderPeeker extends Render<EntityPeeker> {
 
     public void doRender(EntityPeeker par1EntityPeeker, double x, double y, double z, float par8, float partialTicks) {
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float)x, (float)y, (float)z);
-        GlStateManager.rotate(180.0F - par1EntityPeeker.rotationYaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.translatef((float)x, (float)y, (float)z);
+        GlStateManager.rotatef(180.0F - par1EntityPeeker.rotationYaw, 0.0F, 1.0F, 0.0F);
         this.bindEntityTexture(par1EntityPeeker);
-        GlStateManager.enableAlpha();
+        GlStateManager.enableAlphaTest();
         GlStateManager.enableBlend();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 0.6F);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 0.6F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -42,9 +42,9 @@ public class RenderPeeker extends Render<EntityPeeker> {
         vertexbuffer.pos(maxx, maxy, maxz).tex(minu, minv).endVertex();
         vertexbuffer.pos(maxx, miny, minz).tex(minu, maxv).endVertex();
         tessellator.draw();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableBlend();
-        GlStateManager.disableAlpha();
+        GlStateManager.disableAlphaTest();
         GlStateManager.popMatrix();
         super.doRender(par1EntityPeeker, x, y, z, par8, partialTicks);
     }

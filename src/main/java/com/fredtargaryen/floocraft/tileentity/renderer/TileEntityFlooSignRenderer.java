@@ -4,15 +4,16 @@ import com.fredtargaryen.floocraft.model.ModelFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.DataReference;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer<TileEntityFireplace>
+@OnlyIn(Dist.CLIENT)
+public class TileEntityFlooSignRenderer extends TileEntityRenderer<TileEntityFireplace>
 {
 	private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID, "textures/entity/blockfloosign.png");
 	
@@ -20,27 +21,25 @@ public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer<TileEn
     private final ModelFlooSign modelFlooSign = new ModelFlooSign();
 
     @Override
-    public void render(TileEntityFireplace te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
-    {
-        TileEntityFireplace sign = te;
+    public void render(TileEntityFireplace sign, double x, double y, double z, float partialTicks, int destroyStage){
         GL11.glPushMatrix();
         float f1 = 0.6666667F;
         float f2;
 
-        int i = sign.getBlockMetadata();
+        EnumFacing i = sign.getBlockState().get(BlockStateProperties.HORIZONTAL_FACING);
         f2 = 0.0F;
 
-        if (i == 2)
+        if (i == EnumFacing.SOUTH)
         {
             f2 = 180.0F;
         }
 
-        if (i == 4)
+        if (i == EnumFacing.WEST)
         {
             f2 = 90.0F;
         }
 
-        if (i == 5)
+        if (i == EnumFacing.EAST)
         {
             f2 = -90.0F;
         }
@@ -64,7 +63,7 @@ public class TileEntityFlooSignRenderer extends TileEntitySpecialRenderer<TileEn
 
         for (int j = 0; j < sign.signText.length; ++j)
         {
-            String s = sign.signText[j].getUnformattedText();
+            String s = sign.signText[j].getUnformattedComponentText();
 
             if (j == sign.lineBeingEdited)
             {

@@ -11,32 +11,27 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public class ContainerFloowerPot extends Container
-{
+public class ContainerFloowerPot extends Container {
     private final TileEntityFloowerPot potTE;
 
-    private class PowderSlot extends Slot
-    {
-        public PowderSlot(IInventory par1IInventory)
-        {
+    private class PowderSlot extends Slot {
+        public PowderSlot(IInventory par1IInventory) {
             super(par1IInventory, 0, 80, 35);
         }
 
         /**
          * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
          */
-        public boolean isItemValid(ItemStack par1ItemStack)
-        {
+        public boolean isItemValid(ItemStack par1ItemStack) {
             return par1ItemStack.isEmpty() || par1ItemStack.getItem() instanceof ItemFlooPowder ;
         }
     }
 
-    public ContainerFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot te)
-    {
+    public ContainerFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot te) {
         potTE = te;
         //the Slot constructor takes the IInventory and the slot number in that it binds to
         //and the x-y coordinates it resides on-screen
-        addSlotToContainer(new PowderSlot(potTE));
+        this.addSlot(new PowderSlot(potTE));
         //commonly used vanilla code that adds the player's inventory
         bindPlayerInventory(inventoryPlayer);
     }
@@ -51,13 +46,13 @@ public class ContainerFloowerPot extends Container
     {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
+                this.addSlot(new Slot(inventoryPlayer, j + i * 9 + 9,
                         8 + j * 18, 84 + i * 18));
             }
         }
         for (int i = 0; i < 9; i++)
         {
-            addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
         }
     }
 

@@ -12,13 +12,13 @@ import io.netty.buffer.ByteBuf;
 
 import java.nio.charset.Charset;
 
-public class MessageApproveName implements IMessage, IMessageHandler<MessageApproveName, IMessage>
+public class MessageApproveName
 {
 	public String name;
 	private static final Charset defaultCharset = Charset.defaultCharset();
 	
 	@Override
-	public IMessage onMessage(MessageApproveName message, MessageContext ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
 		final EntityPlayerMP player = ctx.getServerHandler().player;
 		final IThreadListener serverListener = player.getServerWorld();

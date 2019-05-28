@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "floocraftft:floowerpot" }
+        "": { "model": "floocraftft:block/floowerpot" }
     }
 }

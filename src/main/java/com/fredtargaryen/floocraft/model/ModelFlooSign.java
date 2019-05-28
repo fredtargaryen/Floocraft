@@ -1,7 +1,7 @@
 package com.fredtargaryen.floocraft.model;
 
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.model.ModelSign;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelSign;
 
 public class ModelFlooSign extends ModelSign
 {

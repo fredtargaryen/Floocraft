@@ -4,18 +4,14 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IThreadListener;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import java.util.UUID;
 
-public class MessagePlayerID implements IMessage, IMessageHandler<MessagePlayerID, IMessage> {
+public class MessagePlayerID {
     public UUID peekerUUID;
     public UUID playerUUID;
 
-    @Override
-    public IMessage onMessage(final MessagePlayerID message, MessageContext ctx) {
+    public void onMessage(final MessagePlayerID message, MessageContext ctx) {
         final IThreadListener clientThread = Minecraft.getMinecraft();
         clientThread.addScheduledTask(() -> {
             FloocraftBase.proxy.setUUIDs(message);

@@ -4,18 +4,12 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-@SideOnly(Side.CLIENT)
-class GuiFloowerPot extends GuiContainer
-{
-    public GuiFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot tileEntity)
-    {
+@Dist.SideOnly(Side.CLIENT)
+class GuiFloowerPot extends GuiContainer {
+    public GuiFloowerPot(TileEntityFloowerPot tileEntity, ContainerFloowerPot container) {
         //the container is instantiated and passed to the superclass for handling
         super(new ContainerFloowerPot(inventoryPlayer, tileEntity));
     }

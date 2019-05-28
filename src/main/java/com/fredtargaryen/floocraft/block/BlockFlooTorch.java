@@ -7,7 +7,10 @@ import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
 import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import com.google.common.base.Predicate;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -40,7 +43,11 @@ public class BlockFlooTorch extends BlockTorch
 
 	public BlockFlooTorch()
 	{
-		super();
+		super(Block.Properties.create(Material.CIRCUITS)
+                .doesNotBlockMovement()
+                .hardnessAndResistance(0F)
+                .lightValue(14)
+                .sound(SoundType.WOOD));
 	}
 
     @Override
@@ -52,7 +59,7 @@ public class BlockFlooTorch extends BlockTorch
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState state, World worldIn, BlockPos pos, Random rand) {
-        EnumFacing enumfacing = state.getValue(FACING);
+        EnumFacing enumfacing = state.get(FACING);
         double d0 = (double) pos.getX() + 0.5D;
         double d1 = (double) pos.getY() + 0.7D;
         double d2 = (double) pos.getZ() + 0.5D;

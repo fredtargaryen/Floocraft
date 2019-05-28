@@ -8,14 +8,16 @@ import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
-public class MessageStartPeek implements IMessage, IMessageHandler<MessageStartPeek, IMessage> {
+public class MessageStartPeek {
     public UUID peekerUUID;
 
     @Override
-    public IMessage onMessage(final MessageStartPeek message, MessageContext ctx) {
+    public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         final IThreadListener clientThread = Minecraft.getMinecraft();
         clientThread.addScheduledTask(() -> {
             GuiScreen s = ((Minecraft)clientThread).currentScreen;

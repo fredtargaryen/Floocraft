@@ -4,17 +4,16 @@ import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.IThreadListener;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class MessageFireplaceListRequest implements IMessage, IMessageHandler<MessageFireplaceListRequest, IMessage>
-{
-	@Override
-	public IMessage onMessage(MessageFireplaceListRequest message, MessageContext ctx)
-	{
+import java.util.function.Supplier;
+
+public class MessageFireplaceListRequest {
+	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
+		ctx.get().enqueueWork(() -> ctx.get().getSender());
+		ctx.get().setPacketHandled(true);
 		final EntityPlayerMP player = ctx.getServerHandler().player;
 		final IThreadListener serverListener = player.getServerWorld();
 		serverListener.addScheduledTask(() -> {
@@ -22,16 +21,14 @@ public class MessageFireplaceListRequest implements IMessage, IMessageHandler<Me
 			MessageFireplaceList mfl = FloocraftWorldData.forWorld(w).assembleNewFireplaceList(w);
 			PacketHandler.INSTANCE.sendTo(mfl, player);
 		});
-		return null;
 	}
 
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
-	}
+	public MessageFireplaceListRequest () {}
 
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
-	}
+	/**
+	 * Effectively fromBytes from 1.12.2
+	 */
+	public MessageFireplaceListRequest(ByteBuf buf) {}
+
+	public void toBytes(ByteBuf buf) {}
 }

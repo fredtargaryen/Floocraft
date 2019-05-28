@@ -1,35 +1,35 @@
 package com.fredtargaryen.floocraft.client.gui;
 
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.inventory.Container;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
-public class GuiHandler implements IGuiHandler
-{
-    //returns an instance of the Container you made earlier
-    @Override
-    public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
-    {
-        TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
-        if(tileEntity instanceof TileEntityFloowerPot)
-        {
-            return new ContainerFloowerPot(player.inventory, (TileEntityFloowerPot) tileEntity);
-        }
-        return null;
-    }
+import javax.annotation.Nullable;
 
+public class GuiHandler {
     //returns an instance of the Gui you made earlier
-    @Override
-    public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
-    {
+    @Nullable
+    public static GuiScreen getClientGuiElement(FMLPlayMessages.OpenContainer container) {
+        PacketBuffer buffer = container.getAdditionalData();
+        int x = buffer.readInt();
+        int y = buffer.readInt();
+        int z = buffer.readInt();
+        EntityPlayer player = FloocraftBase.proxy.getClientPlayer();
+        World world = FloocraftBase.proxy.getClientWorld();
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
-        if(tileEntity instanceof TileEntityFloowerPot)
-        {
-            return new GuiFloowerPot(player.inventory, (TileEntityFloowerPot) tileEntity);
+        if(tileEntity instanceof TileEntityFloowerPot) {
+            TileEntityFloowerPot pot = (TileEntityFloowerPot) tileEntity;
+            return new GuiFloowerPot(pot, new ContainerFloowerPot(player.inventory, pot));
         }
         return null;
     }

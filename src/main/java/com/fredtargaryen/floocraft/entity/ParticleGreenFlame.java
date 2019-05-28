@@ -1,7 +1,5 @@
 package com.fredtargaryen.floocraft.entity;
 
-import com.fredtargaryen.floocraft.DataReference;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.World;
@@ -61,7 +59,7 @@ public class ParticleGreenFlame extends Particle
      * call once per tick to update the EntityFX position, calculate collisions, remove when max lifetime is reached, etc
      */
     @Override
-    public void onUpdate()
+    public void tick()
     {
         prevPosX = posX;
         prevPosY = posY;
@@ -72,7 +70,7 @@ public class ParticleGreenFlame extends Particle
         // final double GRAVITY_ACCELERATION_PER_TICK = -0.02;
         // motionY += GRAVITY_ACCELERATION_PER_TICK;
         this.particleScale *= 0.95;
-        if (this.particleMaxAge-- <= 0) {
+        if (this.maxAge-- <= 0) {
             this.setExpired();
         }
     }

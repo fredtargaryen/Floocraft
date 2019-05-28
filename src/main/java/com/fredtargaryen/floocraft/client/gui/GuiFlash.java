@@ -1,16 +1,15 @@
 package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
-
-import static com.fredtargaryen.floocraft.FloocraftBase.tp;
 
 public class GuiFlash extends Gui
 {
@@ -25,7 +24,7 @@ public class GuiFlash extends Gui
         {
             this.ticks = 0;
             MinecraftForge.EVENT_BUS.register(this);
-            this.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(tp, 1.0F));
+            this.mc.getSoundHandler().play(SimpleSound.getMasterRecord(FloocraftBase.TP, 1.0F));
         }
     }
 
@@ -39,8 +38,8 @@ public class GuiFlash extends Gui
                 this.ticks += 5;
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.PI / 180 * this.ticks));
                 GL11.glDisable(GL11.GL_LIGHTING);
-                this.mc.renderEngine.bindTexture(new ResourceLocation(DataReference.MODID, "textures/gui/flash.png"));
-                this.drawTexturedModalRect(0, 0, 0, 0, this.mc.displayWidth, this.mc.displayHeight);
+                this.mc.getTextureManager().bindTexture(new ResourceLocation(DataReference.MODID, "textures/gui/flash.png"));
+                this.drawTexturedModalRect(0, 0, 0, 0, this.mc.mainWindow.getWidth(), this.mc.mainWindow.getHeight());
             }
             if(this.ticks > 89)
             {

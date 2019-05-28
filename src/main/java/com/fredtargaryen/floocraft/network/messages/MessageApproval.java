@@ -8,13 +8,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class MessageApproval implements IMessage, IMessageHandler<MessageApproval, IMessage>
+import java.util.function.Supplier;
+
+public class MessageApproval
 {
 	public boolean answer;
 	
 	@Override
-	public IMessage onMessage(final MessageApproval message, MessageContext ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
 		final IThreadListener clientThread = Minecraft.getMinecraft();
 		clientThread.addScheduledTask(() -> {
@@ -24,16 +27,13 @@ public class MessageApproval implements IMessage, IMessageHandler<MessageApprova
                 ((GuiFlooSign) s).dealWithAnswer(message.answer);
             }
         });
-        return null;
 	}
 
-	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		this.answer = buf.getBoolean(0);
 	}
 
-	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		buf.writeBoolean(this.answer);

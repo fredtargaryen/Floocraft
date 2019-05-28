@@ -63,7 +63,7 @@ public class TileEntityFireplace extends TileEntitySign
     private static BlockPos iterateDownFromSign(World w, BlockPos pos)
     {
         //The block below the block at the top of the fireplace
-        pos = pos.offset(w.getBlockState(pos).getValue(BlockFlooSign.FACING).getOpposite()).offset(EnumFacing.DOWN, 1);
+        pos = pos.offset(w.getBlockState(pos).get(BlockFlooSign.FACING).getOpposite()).offset(EnumFacing.DOWN, 1);
         while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.FIRE || w.getBlockState(pos).getBlock() instanceof GreenFlamesBase) && pos.getY() > -1)
         {
             pos = pos.offset(EnumFacing.DOWN, 1);
@@ -81,19 +81,17 @@ public class TileEntityFireplace extends TileEntitySign
         return this.isConnected;
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound par1)
-    {
-        par1 = super.writeToNBT(par1);
+    public NBTTagCompound write(NBTTagCompound par1) {
+        par1 = super.write(par1);
         par1.setBoolean("Connected",this.isConnected);
-        par1.setInteger("Y", this.y);
+        par1.setInt("Y", this.y);
         return par1;
     }
 
-    public void readFromNBT(NBTTagCompound par1)
-    {
-        super.readFromNBT(par1);
+    public void read(NBTTagCompound par1) {
+        super.read(par1);
         this.isConnected = par1.getBoolean("Connected");
-        this.y = par1.getInteger("Y");
+        this.y = par1.getInt("Y");
     }
 
     public void setY(int y){this.y = y;}

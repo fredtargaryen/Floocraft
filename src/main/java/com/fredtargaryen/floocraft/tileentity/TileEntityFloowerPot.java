@@ -1,8 +1,13 @@
 package com.fredtargaryen.floocraft.tileentity;
 
+import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,18 +17,18 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.IInteractionObject;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class TileEntityFloowerPot extends TileEntity implements IInventory
-{
+public class TileEntityFloowerPot extends TileEntity implements IInventory, IInteractionObject {
     private final ItemStack[] inv;
 
-    public TileEntityFloowerPot()
-    {
-        super();
+    public TileEntityFloowerPot() {
+        super(FloocraftBase.POT_TYPE);
         this.inv = new ItemStack[1];
         this.inv[0] = ItemStack.EMPTY;
     }
@@ -60,7 +65,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
             }
             else
             {
-                stack = stack.splitStack(amt);
+                stack = stack.split(amt);
                 if (stack.getCount() == 0)
                 {
                     setInventorySlotContents(slot, ItemStack.EMPTY);
@@ -143,43 +148,39 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
-        NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
-        if(tagList.tagCount() == 0)
-        {
+    public void read(NBTTagCompound tagCompound) {
+        super.read(tagCompound);
+        NBTTagList tagList = tagCompound.getList("Inventory", 10);
+        if(tagList.size() == 0) {
             this.inv[0] = ItemStack.EMPTY;
         }
-        else
-        {
-            NBTTagCompound tag = tagList.getCompoundTagAt(0);
+        else {
+            NBTTagCompound tag = tagList.getCompound(0);
             byte slot = tag.getByte("Slot");
             if (slot == 0) {
-                this.inv[slot] = new ItemStack(tag);
+                this.inv[slot] = ItemStack.read(tag);
             }
         }
     }
 
     @Override
-    @MethodsReturnNonnullByDefault
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        tagCompound = super.writeToNBT(tagCompound);
+    public NBTTagCompound write(NBTTagCompound tagCompound) {
+        tagCompound = super.write(tagCompound);
         NBTTagList itemList = new NBTTagList();
         ItemStack stack = inv[0];
         if (stack != null && !stack.isEmpty()) {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setByte("Slot", (byte) 0);
-            stack.writeToNBT(tag);
-            itemList.appendTag(tag);
+            stack.write(tag);
+            itemList.add(tag);
         }
         tagCompound.setTag("Inventory", itemList);
         return tagCompound;
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket()
-    {
-        return new SPacketUpdateTileEntity(this.pos, 0, this.writeToNBT(new NBTTagCompound()));
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(this.pos, 0, this.write(new NBTTagCompound()));
     }
 
     /**
@@ -192,15 +193,14 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
      * @param pkt The data packet
      */
     @Override
-    @SideOnly(Side.CLIENT)
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-    {
-        this.readFromNBT(pkt.getNbtCompound());
+    @OnlyIn(Dist.CLIENT)
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        this.read(pkt.getNbtCompound());
     }
 
     @Override
     @MethodsReturnNonnullByDefault
-    public String getName() {
+    public ITextComponent getName() {
         return null;
     }
 
@@ -213,5 +213,21 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory
     @MethodsReturnNonnullByDefault
     public ITextComponent getDisplayName() {
         return new TextComponentString("Floower Pot");
+    }
+
+    @Nullable
+    @Override
+    public ITextComponent getCustomName() {
+        return null;
+    }
+
+    @Override
+    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+        return new ContainerFloowerPot(playerInventory, this);
+    }
+
+    @Override
+    public String getGuiID() {
+        return DataReference.MODID + ":pot";
     }
 }

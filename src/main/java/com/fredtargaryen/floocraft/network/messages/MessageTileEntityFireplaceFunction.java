@@ -9,13 +9,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 
-public class MessageTileEntityFireplaceFunction implements IMessage, IMessageHandler<MessageTileEntityFireplaceFunction, IMessage>
+public class MessageTileEntityFireplaceFunction
 {
 	public int x, y, z;
     public boolean isConnected;
 
 	@Override
-	public IMessage onMessage(final MessageTileEntityFireplaceFunction message, MessageContext ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
         final IThreadListener serverListener = ctx.getServerHandler().player.getServerWorld();
 		serverListener.addScheduledTask(() -> {

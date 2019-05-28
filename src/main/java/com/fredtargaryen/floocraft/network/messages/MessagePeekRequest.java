@@ -13,19 +13,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.nio.charset.Charset;
+import java.util.function.Supplier;
 
-public class MessagePeekRequest implements IMessage, IMessageHandler<MessagePeekRequest, IMessage> {
+public class MessagePeekRequest {
     public int initX, initY, initZ;
     public String dest;
     private static final Charset defaultCharset = Charset.defaultCharset();
 
     @Override
-	public IMessage onMessage(final MessagePeekRequest message, MessageContext ctx) {
+	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         final EntityPlayerMP player = ctx.getServerHandler().player;
         final IThreadListener serverListener = player.getServerWorld();
         serverListener.addScheduledTask(() -> {

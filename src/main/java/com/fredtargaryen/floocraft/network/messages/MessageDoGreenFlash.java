@@ -9,10 +9,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageDoGreenFlash implements IMessage, IMessageHandler<MessageDoGreenFlash, IMessage>
+public class MessageDoGreenFlash
 {
 	@Override
-	public IMessage onMessage(MessageDoGreenFlash message, MessageContext ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
 		IThreadListener mainThread = Minecraft.getMinecraft();
 		mainThread.addScheduledTask(() -> ((ClientProxy) FloocraftBase.proxy).flash.start());

@@ -37,8 +37,8 @@ import java.util.Random;
 public abstract class GreenFlamesBase extends Block {
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
 
-    GreenFlamesBase() {
-        super(Material.FIRE);
+    GreenFlamesBase(int lightLevel) {
+        super(Properties.create(Material.FIRE).lightValue(lightLevel));
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class GreenFlamesBase extends Block {
     @Override
     public int getMetaFromState(IBlockState state)
     {
-        return state.getValue(AGE);
+        return state.get(AGE);
     }
 
     @Override
@@ -153,7 +153,7 @@ public abstract class GreenFlamesBase extends Block {
 
     @Override
     public void updateTick(World par1World, BlockPos pos, IBlockState state, Random par5Random) {
-        if (isInFireplace(par1World, pos) == null || par1World.getBlockState(pos).getValue(AGE).equals(0)) {
+        if (isInFireplace(par1World, pos) == null || par1World.getBlockState(pos).get(AGE).equals(0)) {
             par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
             par1World.scheduleUpdate(pos, this, this.tickRate(par1World) + par5Random.nextInt(10));

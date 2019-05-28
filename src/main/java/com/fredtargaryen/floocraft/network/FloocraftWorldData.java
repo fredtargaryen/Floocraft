@@ -11,15 +11,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraft.world.storage.MapStorage;
-import net.minecraftforge.fml.common.FMLLog;
+import net.minecraft.world.storage.WorldSavedDataStorage;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class FloocraftWorldData extends WorldSavedData
-{
+public class FloocraftWorldData extends WorldSavedData {
 	/**
 	 * Code inspection will tell you the parameter is redundant and the access can be private, but it isnae and cannae
 	 */
@@ -28,18 +27,49 @@ public class FloocraftWorldData extends WorldSavedData
 		super(key);
 	}
 
+	/**
+	 * reads in data from the NBTTagCompound into this MapDataBase
+	 *
+	 * @param nbt
+	 */
+	@Override
+	public void read(NBTTagCompound nbt) {
+		NBTTagList nbttaglist = nbt.getList(DataReference.MODID, 10);
+		for(int i = 0; i < nbttaglist.size(); ++i)
+		{
+			NBTTagCompound nbt1 = nbttaglist.getCompound(i);
+			int[] coords = new int[]{nbt1.getInt("X"), nbt1.getInt("Y"), nbt1.getInt("Z")};
+			this.placeList.put(nbt1.getString("NAME"), coords);
+		}
+	}
+
+	@Override
+	public NBTTagCompound write(NBTTagCompound compound) {
+		NBTTagList nbttaglist = new NBTTagList();
+		for(String nextName : this.placeList.keySet()) {
+			NBTTagCompound nbt1 = new NBTTagCompound();
+			nbt1.setString("NAME", nextName);
+			int[] coords = this.placeList.get(nextName);
+			nbt1.setInt("X", coords[0]);
+			nbt1.setInt("Y", coords[1]);
+			nbt1.setInt("Z", coords[2]);
+			nbttaglist.add(nbt1);
+		}
+		compound.setTag(DataReference.MODID, nbttaglist);
+		return compound;
+	}
+
 	public final ConcurrentHashMap<String, int[]> placeList = new ConcurrentHashMap<>();
 	
-	public static FloocraftWorldData forWorld(World world)
-	{
+	public static FloocraftWorldData forWorld(World world) {
         //Retrieves the FloocraftWorldData instance for the given world, creating it if necessary
-		MapStorage storage = world.getPerWorldStorage();
-		FloocraftWorldData data = (FloocraftWorldData)storage.getOrLoadData(FloocraftWorldData.class, DataReference.MODID);
-		if (data == null)
-		{
-            FMLLog.warning("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
+		WorldSavedDataStorage storage = world.getMapStorage();
+		DimensionType dt = world.getDimension().getType();
+		FloocraftWorldData data = (FloocraftWorldData)storage.func_212426_a(dt, FloocraftWorldData::new, DataReference.MODID); //getOrLoadData
+		if (data == null) {
+            FloocraftBase.warn("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
 			data = new FloocraftWorldData(DataReference.MODID);
-			storage.setData(DataReference.MODID, data);
+			storage.func_212424_a(dt, DataReference.MODID, data); //setData
 		}
 		return data;
 	}
@@ -47,7 +77,7 @@ public class FloocraftWorldData extends WorldSavedData
 	public void addLocation(String name, BlockPos pos)
 	{
 		placeList.put(name, new int[]{pos.getX(), pos.getY(), pos.getZ()});
-		FMLLog.info("[FLOOCRAFT-SERVER] Added fireplace at " + pos.toString() + ". Name: " + name);
+		FloocraftBase.info("[FLOOCRAFT-SERVER] Added fireplace at " + pos.toString() + ". Name: " + name);
 		markDirty();
 	}
 	
@@ -61,68 +91,34 @@ public class FloocraftWorldData extends WorldSavedData
 			String nextPlaceName = (String)i.next();
 			if(Arrays.equals(this.placeList.get(nextPlaceName), coords))
 			{
-				FMLLog.info("[FLOOCRAFT-SERVER] Removed fireplace at (" + x + ", " + y + ", " + z + "). Name: " + nextPlaceName);
+				FloocraftBase.info("[FLOOCRAFT-SERVER] Removed fireplace at (" + x + ", " + y + ", " + z + "). Name: " + nextPlaceName);
 				this.placeList.remove(nextPlaceName);
 				removedPlace = true;
 			}
 		}
 		if(!removedPlace)
 		{
-            FMLLog.warning("[FLOOCRAFT-SERVER] Failed to remove fireplace at (" + x + ", " + y + ", " + z + ").");
-			FMLLog.warning("[FLOOCRAFT-SERVER] Data can be manually removed with an NBT editor.");
+            FloocraftBase.warn("[FLOOCRAFT-SERVER] Failed to remove fireplace at (" + x + ", " + y + ", " + z + ").");
+			FloocraftBase.warn("[FLOOCRAFT-SERVER] Data can be manually removed with an NBT editor.");
 		}
 		markDirty();
 	}
 	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt)
-	{
-		NBTTagList nbttaglist = nbt.getTagList(DataReference.MODID, 10);
-		for(int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbt1 = nbttaglist.getCompoundTagAt(i);
-			int[] coords = new int[]{nbt1.getInteger("X"), nbt1.getInteger("Y"), nbt1.getInteger("Z")};
-            this.placeList.put(nbt1.getString("NAME"), coords);
-        }
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
-	{	
-		NBTTagList nbttaglist = new NBTTagList();
-		for(String nextName : this.placeList.keySet())
-		{
-			NBTTagCompound nbt1 = new NBTTagCompound();
-			nbt1.setString("NAME", nextName);
-			int[] coords = this.placeList.get(nextName);
-			nbt1.setInteger("X", coords[0]);
-			nbt1.setInteger("Y", coords[1]);
-			nbt1.setInteger("Z", coords[2]);
-			nbttaglist.appendTag(nbt1);
-		}
-		nbt.setTag(DataReference.MODID, nbttaglist);
-		return nbt;
-	}
-	
-	public MessageFireplaceList assembleNewFireplaceList(World w)
-	{
+	public MessageFireplaceList assembleNewFireplaceList(World w) {
 		MessageFireplaceList m = new MessageFireplaceList();
 		m.places = this.placeList.keySet().toArray();
 		boolean[] l = new boolean[m.places.length];
 		int keyCount = 0;
-		for(String nextName : this.placeList.keySet())
-		{
+		for(String nextName : this.placeList.keySet()) {
 			int[] coords = this.placeList.get(nextName);
             BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
 			Block b = w.getBlockState(dest).getBlock();
             boolean ok;
-            if(b instanceof BlockFire)
-            {
-                ok = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(w, dest) != null;
+            if(b instanceof BlockFire) {
+                ok = ((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(w, dest) != null;
                 w.setBlockState(dest, Blocks.FIRE.getDefaultState());
             }
-			else
-			{
+			else {
 				ok = b instanceof GreenFlamesBase;
 			}
             l[keyCount] = ok;

@@ -12,7 +12,7 @@ import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 
 import java.nio.charset.Charset;
 
-public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAddFireplace, IMessage>
+public class MessageAddFireplace
 {
 	public String name;
 	public BlockPos signPos;
@@ -20,7 +20,7 @@ public class MessageAddFireplace implements IMessage, IMessageHandler<MessageAdd
 	private static final Charset defaultCharset = Charset.defaultCharset();
 	
 	@Override
-	public IMessage onMessage(final MessageAddFireplace message, MessageContext ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
 		final IThreadListener serverWorld = ctx.getServerHandler().player.getServerWorld();
 		serverWorld.addScheduledTask(() -> {

@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -20,7 +21,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.Random;
 
@@ -75,7 +78,12 @@ public class BlockFloowerPot extends Block
         {
             return false;
         }
-        player.openGui(FloocraftBase.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        NetworkHooks.openGui((EntityPlayerMP) player, (IInteractionObject) tileEntity, buf -> {
+            BlockPos blockPos = tileEntity.getPos();
+            buf.writeInt(blockPos.getX());
+            buf.writeInt(blockPos.getY());
+            buf.writeInt(blockPos.getZ());
+        });
         return true;
     }
 
