@@ -1,48 +1,31 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.entity.ParticleGreenFlame;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
-import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-import com.google.common.base.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.init.Particles;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
-public class BlockFlooTorch extends BlockTorch
-{
-    private static final PropertyDirection FACING = PropertyDirection.create("facing", new Predicate()
-    {
-        public boolean apply(EnumFacing facing)
-        {
-            return facing != EnumFacing.DOWN;
-        }
-        public boolean apply(Object p_apply_1_)
-        {
-            return this.apply((EnumFacing)p_apply_1_);
-        }
+public class BlockFlooTorch extends BlockTorch {
+    public static final DirectionProperty FACING_EXCEPT_DOWN = DirectionProperty.create("facing", (p_208125_0_) -> {
+        return p_208125_0_ != EnumFacing.DOWN;
     });
 
-	public BlockFlooTorch()
-	{
+	public BlockFlooTorch() {
 		super(Block.Properties.create(Material.CIRCUITS)
                 .doesNotBlockMovement()
                 .hardnessAndResistance(0F)
@@ -51,29 +34,20 @@ public class BlockFlooTorch extends BlockTorch
 	}
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return new BlockStateContainer(this, FACING);
+    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+        builder.add(FACING_EXCEPT_DOWN);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World worldIn, BlockPos pos, Random rand) {
-        EnumFacing enumfacing = state.get(FACING);
-        double d0 = (double) pos.getX() + 0.5D;
-        double d1 = (double) pos.getY() + 0.7D;
-        double d2 = (double) pos.getZ() + 0.5D;
-        double d3 = 0.22D;
-        double d4 = 0.27D;
-
-        if (enumfacing.getAxis().isHorizontal()) {
-            EnumFacing enumfacing1 = enumfacing.getOpposite();
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
-            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGreenFlame(worldIn, d0 + d4 * (double) enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double) enumfacing1.getFrontOffsetZ()));
-        } else {
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleGreenFlame(worldIn, d0, d1, d2));
-        }
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(IBlockState state, World worldIn, BlockPos pos, Random rand) {
+        double d0 = (double)pos.getX() + 0.5D;
+        double d1 = (double)pos.getY() + 0.7D;
+        double d2 = (double)pos.getZ() + 0.5D;
+        worldIn.spawnParticle(Particles.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        worldIn.spawnParticle(Particles.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        //TODO Green flames
+        //Minecraft.getInstance().effectRenderer.addEffect(new ParticleGreenFlame(worldIn, d0, d1, d2));
     }
 
     @Override
@@ -83,18 +57,14 @@ public class BlockFlooTorch extends BlockTorch
     }
 
     @Override
-	public int quantityDropped(Random par1Random)
-    {
+    public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random) {
         return 1;
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par5Entity)
-    {
-        if (par1World.isRemote)
-        {
-            if (par5Entity instanceof EntityPlayer)
-            {
+    public void onEntityCollision(IBlockState state, World world, BlockPos pos, Entity entity) {
+        if (world.isRemote) {
+            if (entity instanceof EntityPlayer) {
                 //Triggered by a player on the client side.
                 MessageFlooTorchTeleport mftt = new MessageFlooTorchTeleport();
                 mftt.torchX = pos.getX();
@@ -108,21 +78,21 @@ public class BlockFlooTorch extends BlockTorch
     ////////////////////////
     //MIRAGE COMPATIBILITY//
     ////////////////////////
-    @Override
-    public boolean hasTileEntity(IBlockState ibs)
-    {
-        return FloocraftBase.isMirageInstalled();
-    }
-
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state)
-    {
-        TileEntityMirageFire temf = null;
-        if(FloocraftBase.isMirageInstalled())
-        {
-            temf = new TileEntityMirageFire();
-            temf.setRadius(4.0F);
-        }
-        return temf;
-    }
+//    @Override
+//    public boolean hasTileEntity(IBlockState ibs)
+//    {
+//        return FloocraftBase.isMirageInstalled();
+//    }
+//
+//    @Override
+//    public TileEntity createTileEntity(World world, IBlockState state)
+//    {
+//        TileEntityMirageFire temf = null;
+//        if(FloocraftBase.isMirageInstalled())
+//        {
+//            temf = new TileEntityMirageFire();
+//            temf.setRadius(4.0F);
+//        }
+//        return temf;
+//    }
 }

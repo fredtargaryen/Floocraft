@@ -1,4 +1,4 @@
-package com.fredtargaryen.floocraft.tileentity.specialrenderer;
+package com.fredtargaryen.floocraft.tileentity.renderer;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;

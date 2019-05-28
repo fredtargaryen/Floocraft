@@ -2,33 +2,40 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
+//import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class GreenFlamesIdle extends GreenFlamesBase
-{
+import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
+
+public class GreenFlamesIdle extends GreenFlamesBase {
+    private static final VoxelShape SMALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
+
 	public GreenFlamesIdle() { super(12); }
 
     @Override
-    public void updateTick(World w, BlockPos pos, IBlockState state, Random par5Random)
-    {
+    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) { return SMALLBOX; }
+
+    @Override
+    public void tick(IBlockState state, World w, BlockPos pos, Random rand) {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE, false) != null)
         {
-            w.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(AGE, state.get(AGE)));
+            w.setBlockState(pos, FloocraftBase.GREEN_FLAMES_BUSY.getDefaultState().with(AGE_0_15, state.get(AGE_0_15)));
         }
-        super.updateTick(w, pos, state, par5Random);
+        super.tick(state, w, pos, rand);
     }
 
     ////////////////////////
     //MIRAGE COMPATIBILITY//
     ////////////////////////
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
+//    @Override
+//    public TileEntity createTileEntity(World world, IBlockState state) {
 //        TileEntityMirageFire temf = null;
 //        if(FloocraftBase.isMirageInstalled())
 //        {
@@ -36,6 +43,6 @@ public class GreenFlamesIdle extends GreenFlamesBase
 //            temf.setRadius(6.0F);
 //        }
 //        return temf;
-        return null;
-    }
+//        return null;
+//    }
 }

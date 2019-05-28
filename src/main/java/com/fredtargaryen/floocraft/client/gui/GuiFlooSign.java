@@ -1,17 +1,23 @@
 package com.fredtargaryen.floocraft.client.gui;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.block.BlockFlooSign;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageApproveName;
 import com.fredtargaryen.floocraft.network.messages.MessageTileEntityFireplaceFunction;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.network.play.client.CPacketUpdateSign;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -35,6 +41,8 @@ public class GuiFlooSign extends GuiScreen
     private int editLine;
 
     private GuiButton decorButton;
+
+    private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID, "textures/blocks/floosign.png");
 
     public GuiFlooSign(TileEntityFireplace par1TileEntityFireplace)
     {
@@ -60,14 +68,16 @@ public class GuiFlooSign extends GuiScreen
         this.decorButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration") {
             @Override
             public void onClick(double mouseX, double mouseY) {
+                super.onClick(mouseX, mouseY);
                 GuiFlooSign.this.sendDisconnectedMessage();
                 GuiFlooSign.this.mc.displayGuiScreen(null);
             }
         };
-        this.buttons.add(this.decorButton);
-        this.buttons.add(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network") {
+        this.addButton(this.decorButton);
+        this.addButton(new GuiButton(1, this.width / 2 + 2, this.height / 4 + 120, 98, 20,   "Connect to Network") {
             @Override
             public void onClick(double mouseX, double mouseY) {
+                super.onClick(mouseX, mouseY);
                 GuiFlooSign.this.sendDisconnectedMessage();
                 MessageApproveName man = new MessageApproveName(nameAsLine(GuiFlooSign.this.fireplaceTE.signText));
                 PacketHandler.INSTANCE.sendToServer(man);
@@ -156,7 +166,7 @@ public class GuiFlooSign extends GuiScreen
             EnumFacing k = this.fireplaceTE.getBlockState().get(BlockFlooSign.FACING);
             float f3 = 0.0F;
 
-            if (k == EnumFacing.SOUTH) {
+            if (k == EnumFacing.NORTH) {
                 f3 = 180.0F;
             }
 
@@ -174,6 +184,17 @@ public class GuiFlooSign extends GuiScreen
         if (this.updateCounter / 6 % 2 == 0) {
             this.fireplaceTE.lineBeingEdited = this.editLine;
         }
+
+        //Draw the sign
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bb = tessellator.getBuffer();
+        Minecraft.getInstance().getTextureManager().bindTexture(floosigntexloc);
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        bb.pos(150, 100, 0.0).tex(0.375, 0.21875).endVertex();
+        bb.pos(150, 50, 0.0).tex(0.375, 0.03125).endVertex();
+        bb.pos(50, 50, 0.0).tex(0.03125, 0.03125).endVertex();
+        bb.pos(50, 100, 0.0).tex(0.03125, 0.21875).endVertex();
+        tessellator.draw();
 
         TileEntityRendererDispatcher.instance.render(this.fireplaceTE, -0.5D, -0.75D, -0.5D, 0.0F);
         this.fireplaceTE.lineBeingEdited = -1;

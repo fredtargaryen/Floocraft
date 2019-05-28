@@ -2,30 +2,33 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.IThreadListener;
+import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
+import java.util.function.Supplier;
 
 public class MessagePlayerID {
     public UUID peekerUUID;
     public UUID playerUUID;
 
-    public void onMessage(final MessagePlayerID message, MessageContext ctx) {
-        final IThreadListener clientThread = Minecraft.getMinecraft();
-        clientThread.addScheduledTask(() -> {
-            FloocraftBase.proxy.setUUIDs(message);
-        });
-        return null;
+    public void onMessage(Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> FloocraftBase.proxy.setUUIDs(this));
+        ctx.get().setPacketHandled(true);
     }
 
-    @Override
-	public void fromBytes(ByteBuf buf) {
+    public MessagePlayerID(UUID playerUUID, UUID peekerUUID) {
+        this.playerUUID = playerUUID;
+        this.peekerUUID = peekerUUID;
+    }
+
+    /**
+     * Effectively fromBytes from 1.12.2
+     */
+	public MessagePlayerID(ByteBuf buf) {
         this.peekerUUID = new UUID(buf.readLong(), buf.readLong());
         this.playerUUID = new UUID(buf.readLong(), buf.readLong());
     }
 
-    @Override
 	public void toBytes(ByteBuf buf) {
         buf.writeLong(this.peekerUUID.getMostSignificantBits());
         buf.writeLong(this.peekerUUID.getLeastSignificantBits());

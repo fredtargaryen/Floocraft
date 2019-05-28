@@ -4,39 +4,37 @@ import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class MessageTileEntityFireplaceFunction
-{
+import java.util.function.Supplier;
+
+public class MessageTileEntityFireplaceFunction {
 	public int x, y, z;
     public boolean isConnected;
 
-	@Override
-	public void onMessage(Supplier<NetworkEvent.Context> ctx)
-	{
-        final IThreadListener serverListener = ctx.getServerHandler().player.getServerWorld();
-		serverListener.addScheduledTask(() -> {
-            TileEntityFireplace tef = (TileEntityFireplace) ((WorldServer)serverListener).getTileEntity(new BlockPos(message.x, message.y, message.z));
-            tef.setConnected(message.isConnected);
+	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
+		ctx.get().enqueueWork(() -> {
+			final IThreadListener serverListener = ctx.get().getSender().getServerWorld();
+            TileEntityFireplace tef = (TileEntityFireplace) ((WorldServer)serverListener).getTileEntity(new BlockPos(this.x, this.y, this.z));
+            tef.setConnected(this.isConnected);
         });
-        return null;
+		ctx.get().setPacketHandled(true);
 	}
 
-	@Override
-	public void fromBytes(ByteBuf buf)
-	{
+	public MessageTileEntityFireplaceFunction(){}
+
+	/**
+	 * Effectively fromBytes from 1.12.2
+	 */
+	public MessageTileEntityFireplaceFunction(ByteBuf buf) {
         this.x = buf.readInt();
         this.y = buf.readInt();
         this.z = buf.readInt();
 		this.isConnected = buf.readBoolean();
 	}
 
-	@Override
-	public void toBytes(ByteBuf buf)
-	{
+	public void toBytes(ByteBuf buf) {
         buf.writeInt(this.x);
         buf.writeInt(this.y);
         buf.writeInt(this.z);

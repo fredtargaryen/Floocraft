@@ -9,16 +9,13 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 public class GuiPeek extends GuiScreen {
@@ -28,8 +25,7 @@ public class GuiPeek extends GuiScreen {
     private Entity player;
     private UUID peekerID;
 
-    public GuiPeek(String name, UUID peekerID)
-    {
+    public GuiPeek(String name, UUID peekerID) {
         super();
         this.peekerSpawned = false;
         this.fireplaceName = name;
@@ -40,10 +36,9 @@ public class GuiPeek extends GuiScreen {
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
-        this.buttonList.clear();
-        Keyboard.enableRepeatEvents(true);
+    public void initGui() {
+        this.buttons.clear();
+        this.mc.keyboardListener.enableRepeatEvents(true);
         if(!this.peekerSpawned) {
             EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(this.mc.world, this.peekerID);
             if (ep != null) {
@@ -51,28 +46,32 @@ public class GuiPeek extends GuiScreen {
                 this.player = this.mc.getRenderViewEntity();
                 int chunkX = ep.chunkCoordX;
                 int chunkZ = ep.chunkCoordZ;
-                Chunk peekerChunk = this.mc.world.getChunkFromChunkCoords(chunkX, chunkZ);
+                Chunk peekerChunk = this.mc.world.getChunk(chunkX, chunkZ);
                 if (!peekerChunk.isLoaded()) {
                     for (int x = chunkX - 1; x < chunkX + 2; ++chunkX) {
                         for (int z = chunkZ - 1; z < chunkZ + 2; ++chunkZ) {
-                            this.mc.world.getChunkProvider().loadChunk(chunkX, chunkZ);
+                            this.mc.world.getChunkProvider().provideChunk(chunkX, chunkZ, true, true); //I think p4 means can't be null. Don't know about p3
                         }
                     }
                 }
                 this.mc.setRenderViewEntity(ep);
             }
         }
-        this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height - 40, 200, 20, "Mischief managed"));
+        this.addButton(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height - 40, 200, 20, "Mischief managed") {
+            @Override
+            public void onClick(double mouseX, double mouseY) {
+                GuiPeek.this.onGuiClosed();
+            }
+        });
         this.doneBtn.enabled = true;
     }
 
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
-        Keyboard.enableRepeatEvents(false);
+        this.mc.keyboardListener.enableRepeatEvents(false);
         MinecraftForge.EVENT_BUS.unregister(this);
         proxy.overrideTicker.start();
     }
@@ -80,8 +79,7 @@ public class GuiPeek extends GuiScreen {
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
+    protected void actionPerformed(GuiButton par1GuiButton) {
         if (par1GuiButton.enabled) {
             if (par1GuiButton.id == 0) {
                 ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
@@ -97,23 +95,24 @@ public class GuiPeek extends GuiScreen {
     /**
      * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
      */
-    protected void keyTyped(char par1, int par2) {
+    public boolean charTyped(char par1, int par2) {
         if (par2 == 1) {
             this.actionPerformed(this.doneBtn);
         }
+        return true;
     }
 
     /**
      * Draws the screen and all the components in it.
      */
-    @SideOnly(Side.CLIENT)
-    public void drawScreen(int mousex, int mousey, float partialticks) {
+    @OnlyIn(Dist.CLIENT)
+    public void render(int mousex, int mousey, float partialticks) {
         this.drawCenteredString(this.fontRenderer,
                 this.peekerSpawned ? "Peeking into "+this.fireplaceName : "Waiting...",
                 this.width / 2,
                 15,
                 16777215);
-        super.drawScreen(mousex, mousey, partialticks);
+        super.render(mousex, mousey, partialticks);
     }
 
     /**

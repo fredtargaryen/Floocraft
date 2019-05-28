@@ -4,10 +4,8 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.IThreadListener;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -15,26 +13,24 @@ import java.util.function.Supplier;
 public class MessagePlayerIDRequest {
     public UUID peekerUUID;
 
-    @Override
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-        final EntityPlayerMP player = ctx.getServerHandler().player;
-        final IThreadListener serverListener = player.getServerWorld();
-        serverListener.addScheduledTask(() -> {
-            EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID((World) serverListener, message.peekerUUID);
-            MessagePlayerID mpID = new MessagePlayerID();
-            mpID.peekerUUID = message.peekerUUID;
-            mpID.playerUUID = ep.getPlayerUUID();
-            PacketHandler.INSTANCE.sendTo(mpID, player);
+        ctx.get().enqueueWork(() -> {
+            EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(ctx.get().getSender().getServerWorld(), this.peekerUUID);
+            MessagePlayerID mpID = new MessagePlayerID(this.peekerUUID, ep.getPlayerUUID());
+            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> ctx.get().getSender()), mpID);
         });
-        return null;
+        ctx.get().setPacketHandled(true);
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
+    public MessagePlayerIDRequest() {}
+
+    /**
+     * Effectively fromBytes from 1.12.2
+     */
+    public MessagePlayerIDRequest(ByteBuf buf) {
         this.peekerUUID = new UUID(buf.readLong(), buf.readLong());
     }
 
-    @Override
     public void toBytes(ByteBuf buf) {
         buf.writeLong(this.peekerUUID.getMostSignificantBits());
         buf.writeLong(this.peekerUUID.getLeastSignificantBits());

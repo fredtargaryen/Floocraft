@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -20,26 +22,21 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.IInteractionObject;
-import net.minecraft.world.World;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.*;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.Random;
 
-import static com.fredtargaryen.floocraft.FloocraftBase.greened;
-
-public class BlockFloowerPot extends Block
-{
-    private static final AxisAlignedBB POTBOX = new AxisAlignedBB(0.3125F, 0.0F, 0.3125F, 0.6875F, 0.375F, 0.6875F);
+public class BlockFloowerPot extends Block {
+    protected static final VoxelShape POTBOX = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
 
     public BlockFloowerPot()
     {
-        super(Material.CIRCUITS);
+        super(Block.Properties.create(Material.CIRCUITS).hardnessAndResistance(0F));
     }
 
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
+    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
         return POTBOX;
     }
 
@@ -50,15 +47,9 @@ public class BlockFloowerPot extends Block
     }
 
     @Override
-    public TileEntity createTileEntity(World world, IBlockState state)
+    public TileEntity createTileEntity(IBlockState state, IBlockReader world)
     {
         return new TileEntityFloowerPot();
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
     }
 
     @Override
@@ -71,8 +62,7 @@ public class BlockFloowerPot extends Block
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
-    {
+    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity == null || player.isSneaking())
         {
@@ -88,10 +78,9 @@ public class BlockFloowerPot extends Block
     }
 
     @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
+    public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
         this.dropItems(worldIn, pos);
-        super.breakBlock(worldIn, pos, state);
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
     private void dropItems(World world, BlockPos pos){
@@ -113,10 +102,10 @@ public class BlockFloowerPot extends Block
 
                 EntityItem entityItem = new EntityItem(world,
                         pos.getX() + rx, pos.getY() + ry, pos.getZ() + rz,
-                        new ItemStack(item.getItem(), item.getCount(), item.getItemDamage()));
+                        new ItemStack(item.getItem(), item.getCount(), item.getTag()));
 
-                if (item.hasTagCompound()) {
-                    entityItem.getItem().setTagCompound(item.getTagCompound().copy());
+                if (item.hasTag()) {
+                    entityItem.getItem().setTag(item.getTag().copy());
                 }
 
                 float factor = 0.05F;
@@ -130,44 +119,37 @@ public class BlockFloowerPot extends Block
     }
 
     @Override
-    public int tickRate(World par1World)
+    public int tickRate(IWorldReaderBase par1World)
     {
         return 50;
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
-    {
-        super.updateTick(worldIn, pos, state, rand);
-        if(!worldIn.isRemote)
-        {
-            TileEntityFloowerPot pot = (TileEntityFloowerPot) worldIn.getTileEntity(pos);
+    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+        super.tick(state, world, pos, rand);
+        if(!world.isRemote) {
+            TileEntityFloowerPot pot = (TileEntityFloowerPot) world.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
-            if (stack != null && stack.getCount() > 0)
-            {
+            if (stack != null && stack.getCount() > 0) {
                 int par2 = pos.getX();
                 int par3 = pos.getY();
                 int par4 = pos.getZ();
                 BlockPos currentPos;
                 Block currentBlock;
-                for (int x = par2 - 5; x < par2 + 6; x++)
-                {
-                    for (int y = par3 - 5; y < par3 + 6; y++)
-                    {
-                        for (int z = par4 - 5; z < par4 + 6; z++)
-                        {
+                for (int x = par2 - 5; x < par2 + 6; x++) {
+                    for (int y = par3 - 5; y < par3 + 6; y++) {
+                        for (int z = par4 - 5; z < par4 + 6; z++) {
                             if(stack != null && stack.getCount() > 0) {
                                 currentPos = new BlockPos(x, y, z);
-                                currentBlock = worldIn.getBlockState(currentPos).getBlock();
-                                if (currentBlock == Blocks.FIRE)
-                                {
-                                    if (((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(worldIn, currentPos) != null) {
+                                currentBlock = world.getBlockState(currentPos).getBlock();
+                                if (currentBlock == Blocks.FIRE) {
+                                    if (((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, currentPos) != null) {
                                         Item i = stack.getItem();
-                                        worldIn.setBlockState(currentPos, FloocraftBase.greenFlamesIdle.getDefaultState().withProperty(GreenFlamesIdle.AGE, (int) ((ItemFlooPowder) i).getConcentration()), 3);
-                                        worldIn.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                                        stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.splitStack(stack.getCount() - 1);
+                                        world.setBlockState(currentPos, FloocraftBase.GREEN_FLAMES_IDLE.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration()), 3);
+                                        world.playSound(null, currentPos, FloocraftBase.GREENED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                                        stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
                                     } else {
-                                        worldIn.setBlockState(currentPos, Blocks.FIRE.getDefaultState());
+                                        world.setBlockState(currentPos, Blocks.FIRE.getDefaultState());
                                     }
                                 }
                             }
@@ -176,15 +158,14 @@ public class BlockFloowerPot extends Block
                 }
             }
             pot.setInventorySlotContents(0, stack);
-            worldIn.notifyBlockUpdate(pos, state, state, 3);
-            worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn) + rand.nextInt(100), 0);
+            world.notifyBlockUpdate(pos, state, state, 3);
+            world.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), this.tickRate(world) + rand.nextInt(100), TickPriority.EXTREMELY_LOW);
         }
     }
 
     @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
-    {
-        worldIn.scheduleBlockUpdate(pos, state.getBlock(), this.tickRate(worldIn), 0);
+    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+        worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), this.tickRate(worldIn), TickPriority.EXTREMELY_LOW);
     }
 
     /**
@@ -199,21 +180,17 @@ public class BlockFloowerPot extends Block
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, pos
      */
     @Override
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
-    {
-        return super.canPlaceBlockAt(worldIn, pos) && worldIn.isSideSolid(pos.offset(EnumFacing.DOWN), EnumFacing.UP);
+    public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
+        return super.isValidPosition(state, worldIn, pos) && worldIn.getBlockState(pos.down()).getBlockFaceShape(worldIn, pos, EnumFacing.UP) == BlockFaceShape.SOLID;
     }
 
     /**
      * Called when a neighboring block changes.
      */
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos someOtherPos)
-    {
-        if (!worldIn.isSideSolid(pos.offset(EnumFacing.DOWN), EnumFacing.UP))
-        {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockToAir(pos);
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos someOtherPos) {
+        if (worldIn.getBlockState(pos.down()).getBlockFaceShape(worldIn, pos, EnumFacing.UP) != BlockFaceShape.SOLID) {
+            this.onReplaced(state, worldIn, pos, Blocks.AIR.getDefaultState(), false);
         }
     }
 }

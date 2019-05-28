@@ -7,13 +7,14 @@ import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.nio.charset.Charset;
 import java.util.function.Supplier;
@@ -23,30 +24,28 @@ public class MessagePeekRequest {
     public String dest;
     private static final Charset defaultCharset = Charset.defaultCharset();
 
-    @Override
 	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-        final EntityPlayerMP player = ctx.getServerHandler().player;
-        final IThreadListener serverListener = player.getServerWorld();
-        serverListener.addScheduledTask(() -> {
-            int initX = message.initX;
-            int initY = message.initY;
-            int initZ = message.initZ;
-            WorldServer world = (WorldServer)serverListener;
+        ctx.get().enqueueWork(() -> {
+            int initX = this.initX;
+            int initY = this.initY;
+            int initZ = this.initZ;
+            EntityPlayerMP player = ctx.get().getSender();
+            World world = player.world;
             Block initBlock = world.getBlockState(new BlockPos(initX, initY, initZ)).getBlock();
-            int[] destCoords = FloocraftWorldData.forWorld(world).placeList.get(message.dest);
+            int[] destCoords = FloocraftWorldData.forWorld(world).placeList.get(this.dest);
             //Stop everything if the destination has the same coordinates as where the player is
-            if(!(destCoords[0] == message.initX && destCoords[1] == message.initY && destCoords[2] == message.initZ)) {
+            if(!(destCoords[0] == this.initX && destCoords[1] == this.initY && destCoords[2] == this.initZ)) {
                 int destX = destCoords[0];
                 int destY = destCoords[1];
                 int destZ = destCoords[2];
                 //Checks whether the player is currently in busy or idle green flames
-                if (initBlock == FloocraftBase.greenFlamesBusy || initBlock == FloocraftBase.greenFlamesIdle) {
+                if (initBlock == FloocraftBase.GREEN_FLAMES_BUSY || initBlock == FloocraftBase.GREEN_FLAMES_IDLE) {
                     BlockPos dest = new BlockPos(destX, destY, destZ);
                     Block destBlock = world.getBlockState(dest).getBlock();
                     //Checks whether the destination is fire
-                    if (destBlock == Blocks.FIRE || destBlock == FloocraftBase.greenFlamesBusy
-                            || destBlock == FloocraftBase.greenFlamesIdle) {
-                        EnumFacing direction = ((GreenFlamesBase) FloocraftBase.greenFlamesTemp).isInFireplace(world, dest);
+                    if (destBlock == Blocks.FIRE || destBlock == FloocraftBase.GREEN_FLAMES_BUSY
+                            || destBlock == FloocraftBase.GREEN_FLAMES_IDLE) {
+                        EnumFacing direction = ((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, dest);
                         if (direction != null) {
                             EnumFacing.Axis axis = direction.getAxis();
                             if (axis == EnumFacing.Axis.X || axis == EnumFacing.Axis.Z) {
@@ -55,27 +54,29 @@ public class MessagePeekRequest {
                                 peeker.setPeekerData(player, dest, direction);
                                 world.spawnEntity(peeker);
                                 //Create message
-                                MessageStartPeek msp = new MessageStartPeek();
-                                msp.peekerUUID = peeker.getUniqueID();
-                                PacketHandler.INSTANCE.sendTo(msp, player);
+                                MessageStartPeek msp = new MessageStartPeek(peeker.getUniqueID());
+                                PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msp);
                             }
                         }
                     }
                 }
             }
         });
-        return null;
+        ctx.get().setPacketHandled(true);
     }
 
-    @Override
-	public void fromBytes(ByteBuf buf) {
+    public MessagePeekRequest() {}
+
+    /**
+     * Effectively fromBytes from 1.12.2
+     */
+	public MessagePeekRequest(ByteBuf buf) {
         this.initX = buf.readInt();
         this.initY = buf.readInt();
         this.initZ = buf.readInt();
         this.dest = buf.readBytes(buf.readInt()).toString(defaultCharset);
     }
 
-        	@Override
 	public void toBytes(ByteBuf buf) {
         buf.writeInt(initX);
         buf.writeInt(initY);

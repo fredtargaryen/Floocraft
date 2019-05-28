@@ -1,7 +1,7 @@
 {
     "": "100% accurate",
     "": "BLOCKS",
-    "block.floocraftft.blockfloosign": "Traveller's Plank",
+    "block.floocraftft.floosign": "Traveller's Plank",
     "block.floocraftft.flootorch": "Rod o' Green Flames",
     "block.floocraftft.greenflamesbusy": "St Elmo's Fire",
     "block.floocraftft.greenflamestemp": "St Elmo's Fire",
@@ -9,8 +9,12 @@
     "block.floocraftft.floowerpot": "Pot o' Traveller's Snuff",
 
     "": "ITEMS",
-    "item.floocraftft.floopowder": "Traveller's Snuff",
-    "item.floocraftft.itemfloosign": "Traveller's Plank",
+    "item.floocraftft.floopowder_one": "Traveller's Snuff",
+    "item.floocraftft.floopowder_two": "Traveller's Snuff",
+    "item.floocraftft.floopowder_four": "Traveller's Snuff",
+    "item.floocraftft.floopowder_eight": "Traveller's Snuff",
+    "item.floocraftft.floopowder_infinite": "Traveller's Snuff",
+    "item.floocraftft.floosign": "Traveller's Plank",
 
     "": "SUBTITLES",
     "subs.floocraftft.greened": "\"St Elmo's Fire appears\"",

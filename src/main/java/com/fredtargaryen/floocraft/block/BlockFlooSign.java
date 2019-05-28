@@ -1,6 +1,5 @@
 package com.fredtargaryen.floocraft.block;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.block.Block;
@@ -8,19 +7,21 @@ import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockFlooSign extends BlockWallSign {
 	public BlockFlooSign() {
-		super(Properties.create(Material.WOOD).sound(SoundType.WOOD));
+		super(Properties.create(Material.WOOD)
+                .doesNotBlockMovement()
+                .hardnessAndResistance(1.0F)
+                .sound(SoundType.WOOD));
+		this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, EnumFacing.NORTH).with(WATERLOGGED, false));
 	}
 
     @Override
@@ -40,8 +41,7 @@ public class BlockFlooSign extends BlockWallSign {
     //pos is the position of this block...
     public void neighborChanged(IBlockState state, World w, BlockPos pos, Block blockIn, BlockPos p_189540_5_) {
         if (!w.getBlockState(pos.offset(state.get(FACING).getOpposite())).getMaterial().isSolid()) {
-            this.dropBlockAsItem(w, pos, state, 0);
-            w.setBlockToAir(pos);
+            state.dropBlockAsItem(w, pos, 0);
         }
     }
 
@@ -49,39 +49,21 @@ public class BlockFlooSign extends BlockWallSign {
      * Returns the quantity of items to drop on block destruction.
      */
     @Override
-    public int quantityDropped(Random p_149745_1_)
-    {
+    public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random) {
         return 1;
     }
 
     @Override
-    public void destroyBlock(World w, BlockPos pos, IBlockState state) {
+    public void onReplaced(IBlockState state, World w, BlockPos pos, IBlockState newState, boolean isMoving) {
         if(!w.isRemote) {
             TileEntityFireplace tef = (TileEntityFireplace) w.getTileEntity(pos);
-            if (tef.getConnected())
-            {
+            if (tef.getConnected()) {
                 //Finds the fireplace position from the sign position and rotation
                 //The block below the block at the top of the fireplace
-                pos = pos.offset(state.get(BlockFlooSign.FACING).getOpposite());
+                pos = pos.offset(state.get(FACING).getOpposite());
                 FloocraftWorldData.forWorld(w).removeLocation(pos.getX(), tef.getY(), pos.getZ());
             }
         }
-        super.breakBlock(w, pos, state);
-    }
-
-    //////////////////////////
-    //METHODS FROM BLOCKSIGN//
-    //////////////////////////
-    /**
-     * Get the Item that this Block should drop when harvested.
-     */
-    @Nullable
-    public Item getItemDropped(IBlockState state, Random rand, int fortune)
-    {
-        return FloocraftBase.itemFlooSign;
-    }
-
-    public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-        return new ItemStack(FloocraftBase.itemFlooSign);
+        super.onReplaced(state, w, pos, newState, isMoving);
     }
 }

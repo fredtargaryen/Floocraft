@@ -1,7 +1,7 @@
 {
     "": "100% accurate",
     "": "BLOCKS",
-    "block.floocraftft.blockfloosign": "Floo Sign",
+    "block.floocraftft.floosign": "Floo Sign",
     "block.floocraftft.flootorch": "Floo Torch",
     "block.floocraftft.greenflamesbusy": "Green Flames",
     "block.floocraftft.greenflamestemp": "Green Flames",
@@ -9,8 +9,12 @@
     "block.floocraftft.floowerpot": "Floower Pot",
 
     "": "ITEMS",
-    "item.floocraftft.floopowder": "Floo Powder",
-    "item.floocraftft.itemfloosign": "Floo Sign",
+    "item.floocraftft.floopowder_one": "Floo Powder",
+    "item.floocraftft.floopowder_two": "Floo Powder",
+    "item.floocraftft.floopowder_four": "Floo Powder",
+    "item.floocraftft.floopowder_eight": "Floo Powder",
+    "item.floocraftft.floopowder_infinite": "Floo Powder",
+    "item.floocraftft.floosign": "Floo Sign",
 
     "": "SUBTITLES",
     "subs.floocraftft.greened": "Floo Powder hits fire",

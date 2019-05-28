@@ -1,7 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.IThreadListener;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.entity.EntityPeeker;
+import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
@@ -10,23 +11,23 @@ import java.util.function.Supplier;
 public class MessageEndPeek {
     public UUID peekerUUID;
 
-    @Override
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-        final EntityPlayerMP player = ctx.getServerHandler().player;
-        final IThreadListener serverListener = player.getServerWorld();
-        serverListener.addScheduledTask(() -> {
-            EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID((World) serverListener, message.peekerUUID);
-            if (ep != null) ep.setDead();
+        ctx.get().enqueueWork(() -> {
+            EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(ctx.get().getSender().world, this.peekerUUID);
+            if (ep != null) ep.remove();
         });
-        return null;
+        ctx.get().setPacketHandled(true);
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
+    public MessageEndPeek(){}
+
+    /**
+     * Effectively fromBytes from 1.12.2
+     */
+    public MessageEndPeek(ByteBuf buf) {
         this.peekerUUID = new UUID(buf.readLong(), buf.readLong());
     }
 
-    @Override
     public void toBytes(ByteBuf buf) {
         buf.writeLong(this.peekerUUID.getMostSignificantBits());
         buf.writeLong(this.peekerUUID.getLeastSignificantBits());

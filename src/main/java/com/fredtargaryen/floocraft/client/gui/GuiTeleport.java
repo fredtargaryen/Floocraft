@@ -66,7 +66,7 @@ public class GuiTeleport extends GuiScreen
             }
         };
         refreshButton.enabled = false;
-        this.buttons.add(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height - 40, 98, 20, "Peek...") {
+        this.addButton(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height - 40, 98, 20, "Peek...") {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 String dest = (String) GuiTeleport.this.placeList[id];
@@ -83,7 +83,7 @@ public class GuiTeleport extends GuiScreen
             }
         });
         this.peekBtn.enabled = false;
-        this.buttons.add(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height - 40, 98, 20, "Go!") {
+        this.addButton(this.goBtn = new GuiButton(-3, this.width / 2 - 49, this.height - 40, 98, 20, "Go!") {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 int initX = GuiTeleport.this.initX;
@@ -105,7 +105,7 @@ public class GuiTeleport extends GuiScreen
             }
         });
         this.goBtn.enabled = false;
-        this.buttons.add(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height - 40, 98, 20, "Cancel") {
+        this.addButton(this.cancelBtn = new GuiButton(-1, this.width / 2 + 53, this.height - 40, 98, 20, "Cancel") {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
@@ -117,7 +117,7 @@ public class GuiTeleport extends GuiScreen
             refreshButton.enabled = true;
             this.scrollWindow = new PlaceList();
         }
-        this.buttons.add(refreshButton);
+        this.addButton(refreshButton);
     }
 
     /**

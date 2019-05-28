@@ -29,7 +29,7 @@ public class GuiHandler {
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
         if(tileEntity instanceof TileEntityFloowerPot) {
             TileEntityFloowerPot pot = (TileEntityFloowerPot) tileEntity;
-            return new GuiFloowerPot(pot, new ContainerFloowerPot(player.inventory, pot));
+            return new GuiFloowerPot(new ContainerFloowerPot(player.inventory, pot));
         }
         return null;
     }

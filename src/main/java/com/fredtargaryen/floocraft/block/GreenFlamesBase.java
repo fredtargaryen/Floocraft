@@ -2,25 +2,22 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import com.fredtargaryen.floocraft.config.GeneralConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -28,150 +25,137 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
+
 public abstract class GreenFlamesBase extends Block {
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 9);
+    private static final EnumFacing[] HORIZONTALS = new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST };
+    private static final VoxelShape TALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
 
     GreenFlamesBase(int lightLevel) {
         super(Properties.create(Material.FIRE).lightValue(lightLevel));
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
+    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
     {
-        return new BlockStateContainer(this, AGE);
+        builder.add(AGE_0_15);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState().withProperty(AGE, meta);
-    }
+    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) { return TALLBOX; }
 
     @Override
-    public int getMetaFromState(IBlockState state)
-    {
-        return state.get(AGE);
-    }
-
-    @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
-        return FULL_BLOCK_AABB;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
+    @OnlyIn(Dist.CLIENT)
+    public BlockRenderLayer getRenderLayer()
     {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World par1World, BlockPos pos, IBlockState state, Entity par4Entity) {
-        if (par1World.isRemote) {
-            if (par4Entity == Minecraft.getMinecraft().player) {
+    public void onEntityCollision(IBlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+        if (worldIn.isRemote) {
+            if (entityIn == Minecraft.getInstance().player) {
                 doClientGuiTings(pos);
             }
         }
         else {
             //Server side. Players are dealt with on the client because of the GUI
-            if(!(par4Entity instanceof EntityPlayer)) {
+            if(!(entityIn instanceof EntityPlayer)) {
                 boolean teleport = false;
                 //Set teleport destination one block outside the fire, instead of in the fire
                 boolean landOutside = false;
 
-                if(FloocraftBase.itemsTeleport && par4Entity instanceof EntityItem) {
+                if(GeneralConfig.ITEMS_TELEPORT.get() && entityIn instanceof EntityItem) {
                     teleport = true;
                     landOutside = true;
                 }
-                else if(    (FloocraftBase.villagersTeleport && par4Entity instanceof EntityVillager)
-                          ||(FloocraftBase.miscMobsTeleport && par4Entity instanceof EntityLiving)) {
-                    teleport = par1World.rand.nextFloat() < 0.2;
+                else if(    (GeneralConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof EntityVillager)
+                          ||(GeneralConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof EntityLiving)) {
+                    teleport = worldIn.rand.nextFloat() < 0.2;
                 }
                 if(teleport) {
                     //Get list of locations and whether they are available
-                    FloocraftWorldData fwd = FloocraftWorldData.forWorld(par1World);
-                    MessageFireplaceList mfl = fwd.assembleNewFireplaceList(par1World);
+                    FloocraftWorldData fwd = FloocraftWorldData.forWorld(worldIn);
+                    MessageFireplaceList mfl = fwd.assembleNewFireplaceList(worldIn);
                     ArrayList<String> possibleLocations = new ArrayList<>();
                     //Add the enabled locations to possibleLocations
                     for(int i = 0; i < mfl.places.length; ++i) {
                         if(mfl.enabledList[i]) possibleLocations.add((String) mfl.places[i]);
                     }
                     //Pick a random location from possibleLocations
-                    int destNo = par1World.rand.nextInt(possibleLocations.size());
+                    int destNo = worldIn.rand.nextInt(possibleLocations.size());
                     //Teleport to that location
                     String destName = possibleLocations.get(destNo);
                     //Get location coords
                     int[] coords = fwd.placeList.get(destName);
                     BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
                     //Set a temporary Floo fire here
-                    if(par1World.getBlockState(dest).getBlock() == Blocks.FIRE) {
-                        par1World.setBlockState(dest, FloocraftBase.greenFlamesTemp.getDefaultState());
+                    if(worldIn.getBlockState(dest).getBlock() == Blocks.FIRE) {
+                        worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
                     }
                     if(landOutside) {
-                        dest = dest.offset(this.isInFireplace(par1World, dest));
-                        par4Entity.setLocationAndAngles(
-                                dest.getX(), coords[1], dest.getZ(), par4Entity.rotationYaw, par4Entity.rotationPitch);
+                        dest = dest.offset(this.isInFireplace(worldIn, dest));
+                        entityIn.setLocationAndAngles(
+                                dest.getX(), coords[1], dest.getZ(), entityIn.rotationYaw, entityIn.rotationPitch);
                     }
                     else {
-                        par4Entity.setLocationAndAngles(
-                                   coords[0], coords[1], coords[2], par4Entity.rotationYaw, par4Entity.rotationPitch);
+                        entityIn.setLocationAndAngles(
+                                   coords[0], coords[1], coords[2], entityIn.rotationYaw, entityIn.rotationPitch);
                     }
                 }
             }
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void doClientGuiTings(BlockPos pos) {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
-        if (Minecraft.getMinecraft().currentScreen == null && !proxy.overrideTicker.isOverriding()) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiTeleport(pos.getX(), pos.getY(), pos.getZ()));
+        if (Minecraft.getInstance().currentScreen == null && !proxy.overrideTicker.isOverriding()) {
+            Minecraft.getInstance().displayGuiScreen(new GuiTeleport(pos.getX(), pos.getY(), pos.getZ()));
             proxy.overrideTicker.start();
         }
     }
 
     @Override
-    public int tickRate(World par1World) {
+    public int tickRate(IWorldReaderBase par1World)
+    {
         return 30;
     }
 
     @Override
-    public void onBlockAdded(World par1World, BlockPos pos, IBlockState state) {
-        if (isInFireplace(par1World, pos) != null) {
-            par1World.scheduleUpdate(pos, this, this.tickRate(par1World));
+    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+        if (isInFireplace(worldIn, pos) != null) {
+            worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
         } else {
-            par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
+            worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
         }
     }
 
     @Override
-    public void updateTick(World par1World, BlockPos pos, IBlockState state, Random par5Random) {
-        if (isInFireplace(par1World, pos) == null || par1World.getBlockState(pos).get(AGE).equals(0)) {
-            par1World.setBlockState(pos, Blocks.FIRE.getDefaultState());
+    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+        if (isInFireplace(world, pos) == null || world.getBlockState(pos).get(AGE_0_15).equals(0)) {
+            world.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
-            par1World.scheduleUpdate(pos, this, this.tickRate(par1World) + par5Random.nextInt(10));
+            world.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(world) + rand.nextInt(10));
         }
-    }
-
-    @Override
-    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face)
-    {
-        return false;
     }
 
     @Deprecated
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean lolidkwhatthisis)
-    {}
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean lolidkwhatthisis) {}
 
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
         if (rand.nextInt(24) == 0)
         {
@@ -182,7 +166,7 @@ public abstract class GreenFlamesBase extends Block {
             double d0 = (double)pos.getX() + rand.nextDouble();
             double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
             double d2 = (double)pos.getZ() + rand.nextDouble();
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0, d1, d2, 0.0D, 0.0D, 0.0D, 0);
+            worldIn.spawnParticle(Particles.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -311,7 +295,7 @@ public abstract class GreenFlamesBase extends Block {
                 {
                     case 3:
                         //One-block-long fireplace
-                        for(EnumFacing ef : EnumFacing.HORIZONTALS) {
+                        for(EnumFacing ef : HORIZONTALS) {
                             if(!walls.contains(ef)) return ef;
                         }
                         break;
@@ -367,15 +351,6 @@ public abstract class GreenFlamesBase extends Block {
         return null;
     }
 
-    /**
-     * Used to determine ambient occlusion and culling when rebuilding chunks for render
-     */
-    @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
-    }
-
     @Override
     public boolean isFullCube(IBlockState state)
     {
@@ -385,12 +360,12 @@ public abstract class GreenFlamesBase extends Block {
     ////////////////////////
     //MIRAGE COMPATIBILITY//
     ////////////////////////
-    @Override
-    public final boolean hasTileEntity(IBlockState ibs)
-    {
-        return FloocraftBase.isMirageInstalled();
-    }
-
-    @Override
-    public abstract TileEntity createTileEntity(World world, IBlockState state);
+//    @Override
+//    public final boolean hasTileEntity(IBlockState ibs)
+//    {
+//        return FloocraftBase.isMirageInstalled();
+//    }
+//
+//    @Override
+//    public abstract TileEntity createTileEntity(World world, IBlockState state);
 }

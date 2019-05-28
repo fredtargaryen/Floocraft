@@ -16,15 +16,15 @@ public class MessageFireplaceList {
 	private static final Charset defaultCharset = Charset.defaultCharset();
 
 	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-		final IThreadListener clientListener = Minecraft.getMinecraft();
+		final IThreadListener clientListener = Minecraft.getInstance();
 		clientListener.addScheduledTask(() -> {
             GuiScreen s = ((Minecraft)clientListener).currentScreen;
             if(s instanceof GuiTeleport)
             {
-                ((GuiTeleport) s).onFireplaceList(message);
+                ((GuiTeleport) s).onFireplaceList(this);
             }
         });
-		return null;
+		ctx.get().setPacketHandled(true);
 	}
 
 	public MessageFireplaceList() {}
