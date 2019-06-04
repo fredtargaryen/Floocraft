@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import net.minecraft.block.Block;
@@ -7,8 +8,11 @@ import net.minecraft.block.BlockWallSign;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -38,12 +42,7 @@ public class BlockFlooSign extends BlockWallSign {
     }
 
     @Override
-    //pos is the position of this block...
-    public void neighborChanged(IBlockState state, World w, BlockPos pos, Block blockIn, BlockPos p_189540_5_) {
-        if (!w.getBlockState(pos.offset(state.get(FACING).getOpposite())).getMaterial().isSolid()) {
-            state.dropBlockAsItem(w, pos, 0);
-        }
-    }
+    public Item asItem() { return FloocraftBase.ITEM_FLOO_SIGN; }
 
     /**
      * Returns the quantity of items to drop on block destruction.
@@ -60,10 +59,20 @@ public class BlockFlooSign extends BlockWallSign {
             if (tef.getConnected()) {
                 //Finds the fireplace position from the sign position and rotation
                 //The block below the block at the top of the fireplace
-                pos = pos.offset(state.get(FACING).getOpposite());
-                FloocraftWorldData.forWorld(w).removeLocation(pos.getX(), tef.getY(), pos.getZ());
+                BlockPos locationPos = pos.offset(state.get(FACING).getOpposite());
+                FloocraftWorldData.forWorld(w).removeLocation(locationPos.getX(), tef.getY(), locationPos.getZ());
             }
         }
         super.onReplaced(state, w, pos, newState, isMoving);
+    }
+
+    /**
+     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
+     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
+     * @deprecated call via {@link IBlockState#getRenderType()} whenever possible. Implementing/overriding is fine.
+     */
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
     }
 }

@@ -80,8 +80,7 @@ public class ItemFlooPowder extends Item {
         return null;
     }
     
-    public boolean hasCustomEntity(ItemStack stack)
-    {
+    public boolean hasCustomEntity(ItemStack stack) {
         return true;
     }
 

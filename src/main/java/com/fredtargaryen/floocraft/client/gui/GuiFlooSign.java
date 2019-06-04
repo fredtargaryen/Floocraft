@@ -88,8 +88,7 @@ public class GuiFlooSign extends GuiScreen
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         this.mc.keyboardListener.enableRepeatEvents(false);
         NetHandlerPlayClient netclienthandler = this.mc.getConnection();
         if (netclienthandler != null) {
@@ -157,6 +156,19 @@ public class GuiFlooSign extends GuiScreen
             	this.width / 2,
             	this.height / 4 + 100,
             	16777215);
+        //Draw the sign
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bb = tessellator.getBuffer();
+        Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation(DataReference.MODID, "textures/blocks/floosign.png"));
+        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        int centreX = this.width / 2;
+        int centreY = 121;
+        bb.pos(centreX + 50, centreY + 25, 0.0).tex(0.375, 0.21875).endVertex();
+        bb.pos(centreX + 50, centreY - 25, 0.0).tex(0.375, 0.03125).endVertex();
+        bb.pos(centreX - 50, centreY - 25, 0.0).tex(0.03125, 0.03125).endVertex();
+        bb.pos(centreX - 50, centreY + 25, 0.0).tex(0.03125, 0.21875).endVertex();
+        tessellator.draw();
+
         GL11.glPushMatrix();
         GL11.glTranslatef((float)(this.width / 2), 0.0F, 50.0F);
         float f1 = 93.75F;
@@ -185,35 +197,21 @@ public class GuiFlooSign extends GuiScreen
             this.fireplaceTE.lineBeingEdited = this.editLine;
         }
 
-        //Draw the sign
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bb = tessellator.getBuffer();
-        Minecraft.getInstance().getTextureManager().bindTexture(floosigntexloc);
-        bb.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        bb.pos(150, 100, 0.0).tex(0.375, 0.21875).endVertex();
-        bb.pos(150, 50, 0.0).tex(0.375, 0.03125).endVertex();
-        bb.pos(50, 50, 0.0).tex(0.03125, 0.03125).endVertex();
-        bb.pos(50, 100, 0.0).tex(0.03125, 0.21875).endVertex();
-        tessellator.draw();
-
         TileEntityRendererDispatcher.instance.render(this.fireplaceTE, -0.5D, -0.75D, -0.5D, 0.0F);
         this.fireplaceTE.lineBeingEdited = -1;
         GL11.glPopMatrix();
         super.render(mouseX, mouseY, partialTicks);
     }
 
-    private static String nameAsLine(ITextComponent[] original)
-    {
+    private static String nameAsLine(ITextComponent[] original) {
         return original[0].getUnformattedComponentText()+" "
                 +original[1].getUnformattedComponentText()+" "
                 +original[2].getUnformattedComponentText()+" "
                 +original[3].getUnformattedComponentText();
     }
 
-    public void dealWithAnswer(boolean answer)
-    {
-        if(answer)
-        {
+    public void dealWithAnswer(boolean answer) {
+        if(answer) {
             this.sameNameError = "";
             //Tells the server that this sign should be connected
             MessageTileEntityFireplaceFunction m = new MessageTileEntityFireplaceFunction();

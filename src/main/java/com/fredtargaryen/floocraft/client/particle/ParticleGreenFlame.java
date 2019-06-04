@@ -1,21 +1,18 @@
-package com.fredtargaryen.floocraft.entity;
+package com.fredtargaryen.floocraft.client.particle;
 
+import com.fredtargaryen.floocraft.DataReference;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.World;
 
 /**
  * ALL CODE HERE GRABBED FROM MinecraftByExample BY TheGreyGhost (and very slightly adjusted). THANK YOU!
  */
-public class ParticleGreenFlame extends Particle
-{
-    private static TextureAtlasSprite SPRITE;
-
+public class ParticleGreenFlame extends Particle {
     /**
      * Construct a new FlameFX at the given [x,y,z] position with the given initial velocity.
      */
-    public ParticleGreenFlame(World world, double x, double y, double z)
-    {
+    public ParticleGreenFlame(World world, double x, double y, double z) {
         super(world, x, y, z, 0.0D, 0.0D, 0.0D);
 
         this.particleAlpha = 0.99F;  // a value less than 1 turns on alpha blending. Otherwise, alpha blending is off
@@ -27,8 +24,8 @@ public class ParticleGreenFlame extends Particle
         motionZ = 0.0D;
 
         // set the texture to the flame texture, which we have previously added using TextureStitchEvent
-        //   (see TextureStitcherBreathFX)
-        this.setParticleTexture(SPRITE);
+        //   (see TextureStitcher)
+        this.setParticleTexture(Minecraft.getInstance().getTextureMap().getAtlasSprite(DataReference.FLAMERL.toString()));
     }
 
     /**
@@ -42,15 +39,13 @@ public class ParticleGreenFlame extends Particle
      *   Layer 3 - uses the blocks + items texture sheet (I think)
      */
     @Override
-    public int getFXLayer()
-    {
+    public int getFXLayer() {
         return 1;
     }
 
     // can be used to change the brightness of the rendered EntityFX.
     @Override
-    public int getBrightnessForRender(float partialTick)
-    {
+    public int getBrightnessForRender(float partialTick) {
         //Full brightness
         return 0xf000f0;
     }
@@ -59,8 +54,8 @@ public class ParticleGreenFlame extends Particle
      * call once per tick to update the EntityFX position, calculate collisions, remove when max lifetime is reached, etc
      */
     @Override
-    public void tick()
-    {
+    public void tick() {
+        super.tick();
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
@@ -69,14 +64,9 @@ public class ParticleGreenFlame extends Particle
         // motionZ every tick.  For example - you can make the particle accelerate downwards due to gravity by
         // final double GRAVITY_ACCELERATION_PER_TICK = -0.02;
         // motionY += GRAVITY_ACCELERATION_PER_TICK;
-        this.particleScale *= 0.95;
+        this.particleScale *= 0.99;
         if (this.maxAge-- <= 0) {
             this.setExpired();
         }
-    }
-
-    public static void setFlameSprite(TextureAtlasSprite tas)
-    {
-        SPRITE = tas;
     }
 }

@@ -7,6 +7,7 @@ bin
 .project
 
 # idea
+classes
 out
 *.ipr
 *.iws

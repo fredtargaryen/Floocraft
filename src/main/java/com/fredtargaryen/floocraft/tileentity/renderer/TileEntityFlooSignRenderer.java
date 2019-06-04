@@ -1,18 +1,10 @@
 package com.fredtargaryen.floocraft.tileentity.renderer;
 
 import com.fredtargaryen.floocraft.block.BlockFlooSign;
-import com.fredtargaryen.floocraft.model.ModelFlooSign;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import com.fredtargaryen.floocraft.DataReference;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -54,8 +46,7 @@ public class TileEntityFlooSignRenderer extends TileEntityRenderer<TileEntityFir
         GL11.glDepthMask(false);
         byte b0 = 0;
 
-        for (int j = 0; j < sign.signText.length; ++j)
-        {
+        for (int j = 0; j < sign.signText.length; ++j) {
             String s = sign.signText[j].getUnformattedComponentText();
 
             if (j == sign.lineBeingEdited)

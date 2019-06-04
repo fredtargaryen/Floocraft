@@ -6,6 +6,7 @@ import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.*;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -35,7 +36,7 @@ public class GuiTeleport extends GuiScreen
 	
 	private boolean receivedLists;
 
-    private PlaceList scrollWindow;
+    private PlaceScrollWindow scrollWindow;
     
 	private final int initX;
     private final int initY;
@@ -44,32 +45,34 @@ public class GuiTeleport extends GuiScreen
     //Every object in here is a String, so just cast
     private Object[] placeList;
 	
-    public GuiTeleport(int x, int y, int z)
-    {
+    public GuiTeleport(int x, int y, int z) {
+        super();
     	this.initX = x;
     	this.initY = y;
     	this.initZ = z;
+        this.placeList = new Object[] {};
+        this.enabledList = new boolean[] {};
         this.refresh();
     }
     
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
+    public void initGui() {
         this.buttons.clear();
         this.mc.keyboardListener.enableRepeatEvents(true);
         GuiButton refreshButton = new GuiButton(-2, this.width - 100, 0, 98, 20, "Refresh") {
             @Override
             public void onClick(double mouseX, double mouseY) {
                 GuiTeleport.this.refresh();
+                GuiTeleport.this.initGui();
             }
         };
         refreshButton.enabled = false;
         this.addButton(this.peekBtn = new GuiButton(-4, this.width / 2 - 151, this.height - 40, 98, 20, "Peek...") {
             @Override
             public void onClick(double mouseX, double mouseY) {
-                String dest = (String) GuiTeleport.this.placeList[id];
+                String dest = (String) GuiTeleport.this.placeList[GuiTeleport.this.scrollWindow.getSelectedElement()];
                 try {
                     MessagePeekRequest m = new MessagePeekRequest();
                     m.initX = GuiTeleport.this.initX;
@@ -89,7 +92,7 @@ public class GuiTeleport extends GuiScreen
                 int initX = GuiTeleport.this.initX;
                 int initY = GuiTeleport.this.initY;
                 int initZ = GuiTeleport.this.initZ;
-                String dest = (String) GuiTeleport.this.placeList[id];
+                String dest = (String) GuiTeleport.this.placeList[GuiTeleport.this.scrollWindow.getSelectedElement()];
                 try {
                     MessageTeleportEntity m = new MessageTeleportEntity();
                     m.initX = initX;
@@ -115,7 +118,8 @@ public class GuiTeleport extends GuiScreen
         if (receivedLists)
         {
             refreshButton.enabled = true;
-            this.scrollWindow = new PlaceList();
+            this.scrollWindow = new PlaceScrollWindow();
+            this.children.add(this.scrollWindow);
         }
         this.addButton(refreshButton);
     }
@@ -123,8 +127,7 @@ public class GuiTeleport extends GuiScreen
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
         this.mc.keyboardListener.enableRepeatEvents(false);
         proxy.overrideTicker.start();
@@ -188,25 +191,22 @@ public class GuiTeleport extends GuiScreen
         super.render(mousex, mousey, partialticks);
     }
     
-    private void refresh()
-    {
+    private void refresh() {
+        this.children.remove(this.scrollWindow);
+        this.scrollWindow = null;
     	this.placeList = new Object[]{};
     	this.enabledList = new boolean[]{};
     	this.receivedLists = false;
-    	this.initGui();
         PacketHandler.INSTANCE.sendToServer(new MessageFireplaceListRequest());
     }
     
-    public void onFireplaceList(MessageFireplaceList m)
-    {
-        try
-		{
+    public void onFireplaceList(MessageFireplaceList m) {
+        try {
         	this.placeList = m.places;
         	this.enabledList = m.enabledList;
 			this.receivedLists = true;
 		}
-		catch(Exception ex)
-		{
+		catch(Exception ex) {
 			ex.printStackTrace();
 		}
         this.initGui();
@@ -215,7 +215,16 @@ public class GuiTeleport extends GuiScreen
     public void onStartPeek(MessageStartPeek msp) {
         this.mc.displayGuiScreen(
                 new GuiPeek(
-                        (String)GuiTeleport.this.placeList[this.scrollWindow.getSelectedElement()], msp.peekerUUID));
+                        (String)this.placeList[this.scrollWindow.getSelectedElement()], msp.peekerUUID));
+    }
+
+    @Override
+    public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
+        super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
+        if(this.scrollWindow != null) {
+            this.scrollWindow.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
+        }
+        return true;
     }
     
     /**
@@ -227,34 +236,34 @@ public class GuiTeleport extends GuiScreen
         return false;
     }
 
-    //TODO Might not need these
-//    @Override
-//    public void handleMouseEvent() {
-//        try
-//        {
-//            if(this.scrollWindow != null)
-//            {
-//                this.scrollWindow.handleMouseInput();
-//            }
-//            super.handleMouseInput();
-//        }
-//        catch(IOException e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public boolean mouseScrolled(double p_mouseScrolled_1_) {
-//        return this.placeList.mouseScrolled(p_mouseScrolled_1_);
-//    }
+    @OnlyIn(Dist.CLIENT)
+    class GuiPlaceEntry extends GuiListExtended.IGuiListEntry<GuiPlaceEntry> {
+        private int id;
+
+        GuiPlaceEntry(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void drawEntry(int width, int i1, int mouseX, int mouseY, boolean b, float v) {
+            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRenderer, (String)GuiTeleport.this.placeList[this.id], GuiTeleport.this.width / 2, this.getY() + 3, GuiTeleport.this.enabledList[this.id] ? 65280 : 16711680);
+        }
+
+        @Override
+        public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
+            return true;
+        }
+    }
 
     @OnlyIn(Dist.CLIENT)
-    class PlaceList extends GuiSlot
-    {
-        public PlaceList()
-        {
+    class PlaceScrollWindow extends GuiListExtended<GuiPlaceEntry> {
+        PlaceScrollWindow() {
             super(GuiTeleport.this.mc, GuiTeleport.this.width, GuiTeleport.this.height, 32, GuiTeleport.this.height - 64, 18);
             this.setShowSelectionBox(true);
+            for(int i = 0; i < GuiTeleport.this.placeList.length; ++i) {
+                this.addEntry(new GuiPlaceEntry(i));
+            }
+            if(GuiTeleport.this.placeList.length > 0) this.setSelectedEntry(0);
         }
 
         @Override
@@ -263,17 +272,16 @@ public class GuiTeleport extends GuiScreen
             return 380;
         }
 
-        protected int getSize()
-        {
-            return GuiTeleport.this.placeList.length;
-        }
-
         /**
-         * The element in the slot that was clicked, boolean for whether it was double clicked or not
+         * Called when the given entry is selected; sets {@link #selectedElement} to the index and updates {@link
+         * #lastClicked}.
+         *
+         * @param index The index of the entry.
          */
-        protected void elementClicked(int id, boolean isDoubleClick, int mousex, int mousey)
-        {
-            boolean enabled = GuiTeleport.this.enabledList[id];
+        @Override
+        public void setSelectedEntry(int index) {
+            super.setSelectedEntry(index);
+            boolean enabled = GuiTeleport.this.enabledList[index];
             GuiTeleport.this.goBtn.enabled = enabled;
             GuiTeleport.this.peekBtn.enabled = enabled;
         }
@@ -290,8 +298,7 @@ public class GuiTeleport extends GuiScreen
          * Return the height of the content being scrolled
          */
         @Override
-        protected int getContentHeight()
-        {
+        protected int getContentHeight() {
             return this.getSize() * 18;
         }
 
@@ -299,23 +306,16 @@ public class GuiTeleport extends GuiScreen
         protected void drawBackground(){}
 
         @Override
-        protected void drawSlot(int id, int p_148126_2_, int p_148126_3_, int p_148126_4_, int p_148126_6_, int p_148126_7_, float idk)
-        {
-            GuiTeleport.this.drawCenteredString(GuiTeleport.this.fontRenderer, (String)GuiTeleport.this.placeList[id], this.width / 2, p_148126_3_ + 1, GuiTeleport.this.enabledList[id] ? 65280 : 16711680);
-        }
-
-        @Override
-        public void drawScreen(int i, int j, float f)
-        {
+        public void drawScreen(int i, int j, float f) {
             super.drawScreen(i, j, f);
             this.flooverlayBackground(0, this.top);
             this.flooverlayBackground(this.bottom, this.height);
         }
+
         /**
          * Overlays the background to hide scrolled items
          */
-        private void flooverlayBackground(int p_148136_1_, int p_148136_2_)
-        {
+        private void flooverlayBackground(int p_148136_1_, int p_148136_2_) {
             BufferBuilder wr = Tessellator.getInstance().getBuffer();
             GuiTeleport.this.mc.getTextureManager().bindTexture(DataReference.TP_BACKGROUND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -329,12 +329,9 @@ public class GuiTeleport extends GuiScreen
         }
 
         @Override
-        protected void drawContainerBackground(Tessellator tessellator)
-        {
-        }
+        protected void drawContainerBackground(Tessellator tessellator) { }
 
-        public int getSelectedElement()
-        {
+        int getSelectedElement() {
             return this.selectedElement;
         }
     }

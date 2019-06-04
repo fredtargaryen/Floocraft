@@ -5,7 +5,7 @@ import com.fredtargaryen.floocraft.client.gui.GuiFlash;
 import com.fredtargaryen.floocraft.client.renderer.RenderPeekerFactory;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
 import com.fredtargaryen.floocraft.entity.EntityPeeker;
-import com.fredtargaryen.floocraft.entity.TextureStitcherBreathFX;
+import com.fredtargaryen.floocraft.client.particle.TextureStitcher;
 import com.fredtargaryen.floocraft.network.messages.MessagePlayerID;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
@@ -29,9 +29,6 @@ public class ClientProxy implements IProxy {
     }
 
     @Override
-    public void registerModels() {}
-
-    @Override
     public void registerTickHandlers() {
         //Tickers now register and unregister themselves when necessary, improving performance very slightly
         this.overrideTicker = new OverrideTicker();
@@ -41,7 +38,7 @@ public class ClientProxy implements IProxy {
     @Override
     public void registerTextureStitcher() {
         //Register Floo Torch flame texture
-        MinecraftForge.EVENT_BUS.register(new TextureStitcherBreathFX());
+        MinecraftForge.EVENT_BUS.register(new TextureStitcher());
     }
 
     @Override

@@ -1,15 +1,9 @@
 /**
  * CHECKLIST
- * Floo Sign texture does not appear on block or GUI
- * Floo Signs don't drop if the thing they are stuck to breaks
- * Do Peekers spawn and look correct?
- * Can you go in a fire and teleport?
- * What comes out when you break a Floo Sign?
- * Can Floo Torches still face different ways?
- * Do green flames stop fireplace blocks rendering through them?
+ * Do all the sounds play?
+ * Peek chunk doesn't load after one peek
  * Can you peek into an unloaded chunk?
- * net.minecraft.tileentity.TileEntitySign cannot be cast to com.fredtargaryen.floocraft.tileentity.TileEntityFireplace when breaking a Floo Sign
- * Player Test just tried to change non-editable sign
+ * Dropping Floo Powder doesn't create the EntityDroppedFlooPowder (blocked for now)
  */
 package com.fredtargaryen.floocraft;
 
@@ -19,13 +13,13 @@ import com.fredtargaryen.floocraft.config.Config;
 import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
+import com.fredtargaryen.floocraft.item.ItemFlooTorch;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.fredtargaryen.floocraft.proxy.IProxy;
 import com.fredtargaryen.floocraft.proxy.ServerProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
-//import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -36,7 +30,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -58,6 +51,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+
+//import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 
 @Mod(value = DataReference.MODID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -177,7 +172,7 @@ public class FloocraftBase {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> evt) {
         evt.getRegistry().registerAll(
-                new ItemBlock(BLOCK_FLOO_TORCH, new Item.Properties().group(ItemGroup.DECORATIONS))
+                new ItemFlooTorch()
                         .setRegistryName("flootorch"),
                 new ItemBlock(FLOOWER_POT, new Item.Properties().group(ItemGroup.MISC))
                         .setRegistryName("floowerpot"),
@@ -233,18 +228,13 @@ public class FloocraftBase {
      */
     public void postRegistration(FMLCommonSetupEvent event) {
         PacketHandler.init();
-
-        proxy.registerTextureStitcher();
-
         //Proxy registering
-        ResourceLocation peekerLocation = new ResourceLocation(DataReference.MODID, "peeker");
-
+        proxy.registerTextureStitcher();
         proxy.registerTickHandlers();
     }
 
     public void clientSetup(FMLClientSetupEvent event) {
         //mirageInstalled = Loader.isModLoaded("mirage");
-        proxy.registerModels();
         proxy.registerRenderers();
     }
 

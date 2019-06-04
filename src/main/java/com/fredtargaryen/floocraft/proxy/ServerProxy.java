@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 public class ServerProxy implements IProxy
 {
     public void registerRenderers(){}
-    public void registerModels(){}
     public void registerTickHandlers(){}
     public void registerTextureStitcher(){}
     public void setUUIDs(MessagePlayerID message){}

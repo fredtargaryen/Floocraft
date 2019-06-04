@@ -26,6 +26,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
@@ -42,9 +43,7 @@ public abstract class GreenFlamesBase extends Block {
     private static final EnumFacing[] HORIZONTALS = new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST };
     private static final VoxelShape TALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
 
-    GreenFlamesBase(int lightLevel) {
-        super(Properties.create(Material.FIRE).lightValue(lightLevel));
-    }
+    GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).lightValue(lightLevel)); }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
@@ -151,9 +150,6 @@ public abstract class GreenFlamesBase extends Block {
         }
     }
 
-    @Deprecated
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean lolidkwhatthisis) {}
-
     @OnlyIn(Dist.CLIENT)
     public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
@@ -170,9 +166,7 @@ public abstract class GreenFlamesBase extends Block {
         }
     }
 
-    /**
-     * ALL FIREPLACE VALIDATION CODE STARTS HERE
-     */
+    //FIREPLACE VALIDATION CODE STARTS HERE
     private int getTopBlockY(World w, BlockPos pos) {
         BlockPos newPos = pos.offset(EnumFacing.UP, 1);
         int y = newPos.getY();
@@ -349,6 +343,12 @@ public abstract class GreenFlamesBase extends Block {
             }
         }
         return null;
+    }
+
+    //FOR ALLOWING COLLISIONS TO HAPPEN
+    @Deprecated
+    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+        return VoxelShapes.empty();
     }
 
     @Override

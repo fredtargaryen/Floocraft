@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageEndPeek;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
@@ -60,7 +61,7 @@ public class GuiPeek extends GuiScreen {
         this.addButton(this.doneBtn = new GuiButton(0, this.width / 2 - 100, this.height - 40, 200, 20, "Mischief managed") {
             @Override
             public void onClick(double mouseX, double mouseY) {
-                GuiPeek.this.onGuiClosed();
+                Minecraft.getInstance().displayGuiScreen(null);
             }
         });
         this.doneBtn.enabled = true;
@@ -74,22 +75,10 @@ public class GuiPeek extends GuiScreen {
         this.mc.keyboardListener.enableRepeatEvents(false);
         MinecraftForge.EVENT_BUS.unregister(this);
         proxy.overrideTicker.start();
-    }
-
-    /**
-     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
-     */
-    protected void actionPerformed(GuiButton par1GuiButton) {
-        if (par1GuiButton.enabled) {
-            if (par1GuiButton.id == 0) {
-                ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
-                this.mc.displayGuiScreen(null);
-                this.mc.setRenderViewEntity(this.player);
-                MessageEndPeek mep = new MessageEndPeek();
-                mep.peekerUUID = this.peekerID;
-                PacketHandler.INSTANCE.sendToServer(mep);
-            }
-        }
+        this.mc.setRenderViewEntity(this.player);
+        MessageEndPeek mep = new MessageEndPeek();
+        mep.peekerUUID = this.peekerID;
+        PacketHandler.INSTANCE.sendToServer(mep);
     }
 
     /**
@@ -97,7 +86,7 @@ public class GuiPeek extends GuiScreen {
      */
     public boolean charTyped(char par1, int par2) {
         if (par2 == 1) {
-            this.actionPerformed(this.doneBtn);
+            Minecraft.getInstance().displayGuiScreen(null);
         }
         return true;
     }
@@ -125,14 +114,14 @@ public class GuiPeek extends GuiScreen {
     @SubscribeEvent
     public void onHurt(LivingHurtEvent lhe) {
         if(lhe.getEntity() == this.player) {
-            this.actionPerformed(this.doneBtn);
+            Minecraft.getInstance().displayGuiScreen(null);
         }
     }
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent lde) {
         if(lde.getEntity() == this.player) {
-            this.actionPerformed(this.doneBtn);
+            Minecraft.getInstance().displayGuiScreen(null);
         }
     }
 }

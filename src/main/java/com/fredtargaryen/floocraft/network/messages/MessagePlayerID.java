@@ -16,9 +16,9 @@ public class MessagePlayerID {
         ctx.get().setPacketHandled(true);
     }
 
-    public MessagePlayerID(UUID playerUUID, UUID peekerUUID) {
-        this.playerUUID = playerUUID;
+    public MessagePlayerID(UUID peekerUUID, UUID playerUUID) {
         this.peekerUUID = peekerUUID;
+        this.playerUUID = playerUUID;
     }
 
     /**

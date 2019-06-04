@@ -25,8 +25,7 @@ import net.minecraft.util.ResourceLocation;
  *        S
  */
 
-public class DataReference
-{
+public class DataReference {
     //MAIN MOD DETAILS
     public static final String MODID = "floocraftft";
     public static final String MODNAME = "Floocraft";

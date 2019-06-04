@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.tileentity;
 
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.BlockFlooSign;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.PacketHandler;
@@ -83,6 +84,7 @@ public class TileEntityFireplace extends TileEntitySign
 
     public NBTTagCompound write(NBTTagCompound par1) {
         par1 = super.write(par1);
+        par1.setString("id", FloocraftBase.FIREPLACE_TYPE.getRegistryName().toString());
         par1.setBoolean("Connected",this.isConnected);
         par1.setInt("Y", this.y);
         return par1;
