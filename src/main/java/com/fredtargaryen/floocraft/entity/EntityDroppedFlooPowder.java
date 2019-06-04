@@ -12,12 +12,10 @@ import net.minecraft.world.World;
 
 import static com.fredtargaryen.floocraft.FloocraftBase.greened;
 
-public class EntityDroppedFlooPowder extends EntityItem
-{
+public class EntityDroppedFlooPowder extends EntityItem {
     private byte concentration;
 
-	public EntityDroppedFlooPowder(World world, double x, double y, double z, ItemStack stack, byte conc)
-	{
+	public EntityDroppedFlooPowder(World world, double x, double y, double z, ItemStack stack, byte conc) {
 		super(world, x, y, z, stack);
         this.concentration = conc;
 	}
@@ -31,13 +29,10 @@ public class EntityDroppedFlooPowder extends EntityItem
      * Called to update the entity's position/logic.
      */
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         BlockPos pos = this.getPosition();
-        if (this.world.getBlockState(pos).getBlock() == Blocks.FIRE)
-        {
-			if(((GreenFlamesTemp)FloocraftBase.greenFlamesTemp).isInFireplace(this.world, pos) != null)
-			{
+        if (this.world.getBlockState(pos).getBlock() == Blocks.FIRE) {
+			if(((GreenFlamesTemp)FloocraftBase.greenFlamesTemp).isInFireplace(this.world, pos) != null) {
                 this.world.setBlockState(pos, FloocraftBase.greenFlamesBusy.getDefaultState().withProperty(GreenFlamesBusy.AGE, (int) this.concentration), 3);
                 this.playSound(greened, 1.0F, 1.0F);
             }
@@ -47,16 +42,14 @@ public class EntityDroppedFlooPowder extends EntityItem
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound par1)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound par1) {
         par1 = super.writeToNBT(par1);
         par1.setByte("Concentration", this.concentration);
         return par1;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound par1)
-    {
+    public void readFromNBT(NBTTagCompound par1) {
         super.readFromNBT(par1);
         this.concentration = par1.getByte("Concentration");
     }

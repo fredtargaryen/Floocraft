@@ -24,8 +24,7 @@ import java.util.List;
 
 import static com.fredtargaryen.floocraft.FloocraftBase.greened;
 
-public class ItemFlooPowder extends Item
-{
+public class ItemFlooPowder extends Item {
     private final byte concentration;
 
     public byte getConcentration()
@@ -33,15 +32,13 @@ public class ItemFlooPowder extends Item
         return this.concentration;
     }
 
-	public ItemFlooPowder(byte conc)
-	{
+	public ItemFlooPowder(byte conc) {
 		super();
         this.concentration = conc;
 	}
 
     @Override
-	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 	    if(!worldIn.isRemote) {
             BlockPos firePos = pos.offset(EnumFacing.UP, 1);
             if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE) {
@@ -66,10 +63,8 @@ public class ItemFlooPowder extends Item
      * @param itemstack The current item stack
      * @return A new Entity object to spawn or null
      */
-    public Entity createEntity(World world, Entity location, ItemStack itemstack)
-    {
-        if(!world.isRemote)
-        {
+    public Entity createEntity(World world, Entity location, ItemStack itemstack) {
+        if(!world.isRemote) {
             EntityDroppedFlooPowder flp = new EntityDroppedFlooPowder(world, location.posX, location.posY, location.posZ, itemstack, this.concentration);
             flp.setImmunity();
             flp.setPickupDelay(40);
@@ -81,21 +76,17 @@ public class ItemFlooPowder extends Item
         return null;
     }
     
-    public boolean hasCustomEntity(ItemStack stack)
-    {
+    public boolean hasCustomEntity(ItemStack stack) {
         return true;
     }
 
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack par1ItemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
-    {
-		if(this.concentration == 9)
-		{
+    public void addInformation(ItemStack par1ItemStack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
+		if(this.concentration == 9) {
 			tooltip.add(ChatFormatting.GREEN+"Concentration: \u221E tp/p");
             tooltip.add("Creative mode only!");
 		}
-		else
-		{
+		else {
             tooltip.add(ChatFormatting.GREEN+"Concentration: "+this.concentration+" tp/p");
         	if(this.concentration == 1)
 			{

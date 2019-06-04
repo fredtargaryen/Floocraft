@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.entity;
 
+import com.fredtargaryen.floocraft.network.ChunkManager;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageEndPeek;
 import com.fredtargaryen.floocraft.network.messages.MessagePlayerIDRequest;
@@ -80,6 +81,7 @@ public class EntityPeeker extends Entity {
 
     public void setDead() {
         super.setDead();
+        ChunkManager.releaseTicket(this);
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 

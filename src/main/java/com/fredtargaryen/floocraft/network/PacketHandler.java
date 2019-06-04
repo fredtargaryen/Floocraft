@@ -6,12 +6,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class PacketHandler
-{
+public class PacketHandler {
 	public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(DataReference.MODID);
 
-	public static void init()
-	{
+	public static void init() {
 		INSTANCE.registerMessage(MessageFireplaceListRequest.class, MessageFireplaceListRequest.class, 0, Side.SERVER);
 		INSTANCE.registerMessage(MessageTeleportEntity.class, MessageTeleportEntity.class, 1, Side.SERVER);
 		INSTANCE.registerMessage(MessageAddFireplace.class, MessageAddFireplace.class, 2, Side.SERVER);
@@ -26,5 +24,6 @@ public class PacketHandler
 		INSTANCE.registerMessage(MessageEndPeek.class, MessageEndPeek.class, 11, Side.SERVER);
 		INSTANCE.registerMessage(MessagePlayerIDRequest.class, MessagePlayerIDRequest.class, 12, Side.SERVER);
 		INSTANCE.registerMessage(MessagePlayerID.class, MessagePlayerID.class, 13, Side.CLIENT);
+		INSTANCE.registerMessage(MessageDenyPeek.class, MessageDenyPeek.class, 14, Side.CLIENT);
 	}
 }

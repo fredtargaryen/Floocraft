@@ -27,38 +27,32 @@ public class GuiPeek extends GuiScreen {
     private GuiButton doneBtn;
     private Entity player;
     private UUID peekerID;
+    private boolean peekFailedOutOfRange;
 
-    public GuiPeek(String name, UUID peekerID)
-    {
+    public GuiPeek(String name, UUID peekerID) {
         super();
         this.peekerSpawned = false;
         this.fireplaceName = name;
         this.peekerID = peekerID;
         MinecraftForge.EVENT_BUS.register(this);
+        this.peekFailedOutOfRange = false;
     }
 
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui()
-    {
+    public void initGui() {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
         if(!this.peekerSpawned) {
             EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(this.mc.world, this.peekerID);
-            if (ep != null) {
+            if(ep == null) {
+                //Give up. Maybe one day someone can add peeking into chunks outside the view distance?
+                this.peekFailedOutOfRange = true;
+            }
+            else {
                 this.peekerSpawned = true;
                 this.player = this.mc.getRenderViewEntity();
-                int chunkX = ep.chunkCoordX;
-                int chunkZ = ep.chunkCoordZ;
-                Chunk peekerChunk = this.mc.world.getChunkFromChunkCoords(chunkX, chunkZ);
-                if (!peekerChunk.isLoaded()) {
-                    for (int x = chunkX - 1; x < chunkX + 2; ++chunkX) {
-                        for (int z = chunkZ - 1; z < chunkZ + 2; ++chunkZ) {
-                            this.mc.world.getChunkProvider().loadChunk(chunkX, chunkZ);
-                        }
-                    }
-                }
                 this.mc.setRenderViewEntity(ep);
             }
         }
@@ -69,8 +63,7 @@ public class GuiPeek extends GuiScreen {
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
         Keyboard.enableRepeatEvents(false);
         MinecraftForge.EVENT_BUS.unregister(this);
@@ -80,8 +73,7 @@ public class GuiPeek extends GuiScreen {
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
-    protected void actionPerformed(GuiButton par1GuiButton)
-    {
+    protected void actionPerformed(GuiButton par1GuiButton) {
         if (par1GuiButton.enabled) {
             if (par1GuiButton.id == 0) {
                 ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
@@ -110,7 +102,11 @@ public class GuiPeek extends GuiScreen {
     @SideOnly(Side.CLIENT)
     public void drawScreen(int mousex, int mousey, float partialticks) {
         this.drawCenteredString(this.fontRenderer,
-                this.peekerSpawned ? "Peeking into "+this.fireplaceName : "Waiting...",
+                this.peekerSpawned ?
+                        "Peeking into "+this.fireplaceName :
+                        this.peekFailedOutOfRange ?
+                                "Peek failed: you are looking somewhere beyond your render distance" :
+                                "Waiting...",
                 this.width / 2,
                 15,
                 16777215);

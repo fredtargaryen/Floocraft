@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.client.gui.GuiHandler;
 import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
+import com.fredtargaryen.floocraft.network.ChunkManager;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.CommonProxy;
 import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
@@ -263,8 +264,7 @@ public class FloocraftBase {
     }
         
     @EventHandler
-    public void load(FMLInitializationEvent event)
-    {
+    public void load(FMLInitializationEvent event) {
         //Proxy registering
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
         ResourceLocation peekerLocation = new ResourceLocation(DataReference.MODID, "peeker");
@@ -274,33 +274,29 @@ public class FloocraftBase {
     }
         
     @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         mirageInstalled = Loader.isModLoaded("mirage");
+        ChunkManager.setCallback();
     }
 
     @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> evt)
-    {
+    public static void registerBlocks(RegistryEvent.Register<Block> evt) {
         evt.getRegistry().registerAll(blockFlooSign, blockFlooTorch, greenFlamesBusy, greenFlamesIdle, greenFlamesTemp,
                 floowerPot);
     }
 
     @SubscribeEvent
-    public static void registerItems(RegistryEvent.Register<Item> evt)
-    {
+    public static void registerItems(RegistryEvent.Register<Item> evt) {
         evt.getRegistry().registerAll(iFloowerPot, iFlooTorch, floopowder1t, floopowder2t, floopowder4t, floopowder8t,
                 floopowderc, itemFlooSign);
     }
 
     @SubscribeEvent
-    public static void registerModels(ModelRegistryEvent event)
-    {
+    public static void registerModels(ModelRegistryEvent event) {
         proxy.registerModels();
     }
 
-    public static boolean isMirageInstalled()
-    {
+    public static boolean isMirageInstalled() {
         return mirageInstalled;
     }
 
