@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
  * MessageAddFireplace: sends position and unique name of fireplace to be added to server
  * MessageApproval: sends to client whether proposed fireplace name is unique
  * MessageApproveName: sends proposed fireplace name to be approved by server
- * MessageDoGreenFlash: Causes the green flash effect to appear on the client when you teleport
+ * MessageDenyPeek: used to stop a peek from happening when Forge's forced chunk ticket limit has been reached
  * MessageDoGreenFlash: causes the green flash effect to appear on the client when you teleport
  * MessageEndPeek: sent when the "Mischief managed" button is pressed to stop the peek
  * MessageFireplaceList: the lists of fireplace attributes: names; x coordinates; y coordinates; z coordinates; whether they can be teleported to

@@ -226,6 +226,11 @@ public class GuiTeleport extends GuiScreen
                         (String)this.placeList[this.scrollWindow.getSelectedElement()], msp.peekerUUID));
     }
 
+    public void onPeekDenied(MessageDenyPeek mdp) {
+        this.status = "Cannot peek right now; too many chunks being forced.";
+        this.peekAttemptTimer = 180;
+    }
+
     @Override
     public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
         super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);

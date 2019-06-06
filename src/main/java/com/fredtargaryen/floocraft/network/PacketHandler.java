@@ -28,5 +28,6 @@ public class PacketHandler {
 		INSTANCE.registerMessage(11, MessageEndPeek.class, MessageEndPeek::toBytes, MessageEndPeek::new, MessageEndPeek::onMessage);
 		INSTANCE.registerMessage(12, MessagePlayerIDRequest.class, MessagePlayerIDRequest::toBytes, MessagePlayerIDRequest::new, MessagePlayerIDRequest::onMessage);
 		INSTANCE.registerMessage(13, MessagePlayerID.class, MessagePlayerID::toBytes, MessagePlayerID::new ,MessagePlayerID::onMessage);
+		INSTANCE.registerMessage(14, MessageDenyPeek.class, MessageDenyPeek::toBytes, MessageDenyPeek::new, MessageDenyPeek::onMessage);
 	}
 }
