@@ -7,6 +7,7 @@ import com.fredtargaryen.floocraft.entity.EntityPeeker;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.item.ItemFlooTorch;
+import com.fredtargaryen.floocraft.network.ChunkManager;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.fredtargaryen.floocraft.proxy.IProxy;
@@ -224,6 +225,7 @@ public class FloocraftBase {
         //Proxy registering
         proxy.registerTextureStitcher();
         proxy.registerTickHandlers();
+        ChunkManager.setCallback();
     }
 
     public void clientSetup(FMLClientSetupEvent event) {

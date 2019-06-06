@@ -3,6 +3,7 @@ package com.fredtargaryen.floocraft.network.messages;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.entity.EntityPeeker;
+import com.fredtargaryen.floocraft.network.ChunkManager;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
@@ -52,10 +53,18 @@ public class MessagePeekRequest {
                                 //Create peeker
                                 EntityPeeker peeker = new EntityPeeker(world);
                                 peeker.setPeekerData(player, dest, direction);
-                                world.spawnEntity(peeker);
-                                //Create message
-                                MessageStartPeek msp = new MessageStartPeek(peeker.getUniqueID());
-                                PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msp);
+                                //Force the peek chunks to load. They stay loaded until the peeker dies.
+                                if(ChunkManager.loadChunks(world, dest, peeker, direction)) {
+                                    //Spawn the peeker (in one of the forced chunks)
+                                    world.spawnEntity(peeker);
+                                    //Create message
+                                    MessageStartPeek msp = new MessageStartPeek(peeker.getUniqueID());
+                                    PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msp);
+                                }
+                                else {
+                                    MessageDenyPeek mdp = new MessageDenyPeek();
+                                    PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), mdp);
+                                }
                             }
                         }
                     }
