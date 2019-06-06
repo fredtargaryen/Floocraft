@@ -1,10 +1,3 @@
-/**
- * CHECKLIST
- * Do all the sounds play?
- * Peek chunk doesn't load after one peek
- * Can you peek into an unloaded chunk?
- * Dropping Floo Powder doesn't create the EntityDroppedFlooPowder (blocked for now)
- */
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;

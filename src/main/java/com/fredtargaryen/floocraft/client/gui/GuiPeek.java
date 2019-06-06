@@ -25,6 +25,7 @@ public class GuiPeek extends GuiScreen {
     private GuiButton doneBtn;
     private Entity player;
     private UUID peekerID;
+    private boolean peekFailedOutOfRange;
 
     public GuiPeek(String name, UUID peekerID) {
         super();
@@ -32,6 +33,7 @@ public class GuiPeek extends GuiScreen {
         this.fireplaceName = name;
         this.peekerID = peekerID;
         MinecraftForge.EVENT_BUS.register(this);
+        this.peekFailedOutOfRange = false;
     }
 
     /**
@@ -42,19 +44,13 @@ public class GuiPeek extends GuiScreen {
         this.mc.keyboardListener.enableRepeatEvents(true);
         if(!this.peekerSpawned) {
             EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(this.mc.world, this.peekerID);
-            if (ep != null) {
+            if(ep == null) {
+                //Give up. Maybe one day someone can add peeking into chunks outside the view distance?
+                this.peekFailedOutOfRange = true;
+            }
+            else {
                 this.peekerSpawned = true;
                 this.player = this.mc.getRenderViewEntity();
-                int chunkX = ep.chunkCoordX;
-                int chunkZ = ep.chunkCoordZ;
-                Chunk peekerChunk = this.mc.world.getChunk(chunkX, chunkZ);
-                if (!peekerChunk.isLoaded()) {
-                    for (int x = chunkX - 1; x < chunkX + 2; ++chunkX) {
-                        for (int z = chunkZ - 1; z < chunkZ + 2; ++chunkZ) {
-                            this.mc.world.getChunkProvider().provideChunk(chunkX, chunkZ, true, true); //I think p4 means can't be null. Don't know about p3
-                        }
-                    }
-                }
                 this.mc.setRenderViewEntity(ep);
             }
         }
@@ -97,7 +93,11 @@ public class GuiPeek extends GuiScreen {
     @OnlyIn(Dist.CLIENT)
     public void render(int mousex, int mousey, float partialticks) {
         this.drawCenteredString(this.fontRenderer,
-                this.peekerSpawned ? "Peeking into "+this.fireplaceName : "Waiting...",
+                this.peekerSpawned ?
+                        "Peeking into "+this.fireplaceName :
+                        this.peekFailedOutOfRange ?
+                                "Peek failed: you are looking somewhere beyond your render distance" :
+                                "Waiting...",
                 this.width / 2,
                 15,
                 16777215);

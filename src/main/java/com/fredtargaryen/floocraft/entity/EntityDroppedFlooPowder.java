@@ -30,10 +30,8 @@ public class EntityDroppedFlooPowder extends EntityItem {
     @Override
     public void tick() {
         BlockPos pos = this.getPosition();
-        if (this.world.getBlockState(pos).getBlock() == Blocks.FIRE)
-        {
-			if(((GreenFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(this.world, pos) != null)
-			{
+        if (this.world.getBlockState(pos).getBlock() == Blocks.FIRE) {
+			if(((GreenFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(this.world, pos) != null) {
                 this.world.setBlockState(pos, FloocraftBase.GREEN_FLAMES_BUSY.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
                 this.playSound(FloocraftBase.GREENED, 1.0F, 1.0F);
             }

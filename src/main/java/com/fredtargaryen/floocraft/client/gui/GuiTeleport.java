@@ -44,6 +44,8 @@ public class GuiTeleport extends GuiScreen
 
     //Every object in here is a String, so just cast
     private Object[] placeList;
+
+    private int peekAttemptTimer;
 	
     public GuiTeleport(int x, int y, int z) {
         super();
@@ -52,6 +54,7 @@ public class GuiTeleport extends GuiScreen
     	this.initZ = z;
         this.placeList = new Object[] {};
         this.enabledList = new boolean[] {};
+        this.peekAttemptTimer = 0;
         this.refresh();
     }
     
@@ -147,8 +150,13 @@ public class GuiTeleport extends GuiScreen
             if (this.placeList.length == 0) {
                 this.status = "No places found";
             } else {
-                this.status = "";
+                if(this.peekAttemptTimer == 0) {
+                    this.status = "";
+                }
             }
+        }
+        if(this.peekAttemptTimer > 0) {
+            --this.peekAttemptTimer;
         }
     }
 
@@ -231,8 +239,7 @@ public class GuiTeleport extends GuiScreen
      * Returns true if this GUI should pause the game when it is displayed in single-player
      */
     @Override
-    public boolean doesGuiPauseGame()
-    {
+    public boolean doesGuiPauseGame() {
         return false;
     }
 
