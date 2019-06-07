@@ -1,0 +1,17 @@
+/100% accurate
+/BLOCKS
+tile.blockfloosign.name=飞路牌
+tile.flootorch.name=飞路火把
+tile.greenflamesbusy.name=绿色火焰
+tile.greenflamestemp.name=绿色火焰
+tile.greenflamesidle.name=绿色火焰
+tile.floowerpot.name=飞路花盆
+
+/ITEMS
+item.floopowder.name=飞路粉
+item.itemfloosign.name=飞路牌
+
+/SUBTITLES
+subs.greened=用飞路粉击中火焰
+subs.tp=壁炉传送
+subs.flick=飞路火把传送
