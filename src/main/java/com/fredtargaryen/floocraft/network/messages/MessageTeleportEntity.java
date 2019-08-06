@@ -2,19 +2,15 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesBusy;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
-import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.network.MessageHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.IThreadListener;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
@@ -30,7 +26,7 @@ public class MessageTeleportEntity {
 		ctx.get().enqueueWork(() -> {
 		    //Whether it is permitted for the player to travel to the named destination
             boolean validDest = false;
-            EntityPlayerMP player = ctx.get().getSender();
+            ServerPlayerEntity player = ctx.get().getSender();
             World world = player.world;
             //The coordinates of the destination: [x, y, z]
             int[] destCoords = FloocraftWorldData.forWorld(world).placeList.get(this.dest);
@@ -60,14 +56,14 @@ public class MessageTeleportEntity {
                         world.setBlockState(destBlockPos, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
                     }
                     //...then do the teleport...
-                    PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new MessageDoGreenFlash());
+                    MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new MessageDoGreenFlash());
                     if (player.getRidingEntity() != null) {
                         player.stopRiding();
                     }
                     player.connection.setPlayerLocation(destCoords[0] + 0.5D, destCoords[1], destCoords[2] + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
                     player.fallDistance = 0.0F;
                     //...then update the age of the fire.
-                    int m = (Integer) world.getBlockState(initBlockPos).get(BlockStateProperties.AGE_0_15);
+                    int m = world.getBlockState(initBlockPos).get(BlockStateProperties.AGE_0_15);
                     if (m < 2) {
                         world.setBlockState(initBlockPos, Blocks.FIRE.getDefaultState());
                     } else {

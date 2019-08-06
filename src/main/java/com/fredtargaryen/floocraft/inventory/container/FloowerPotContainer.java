@@ -1,18 +1,25 @@
 package com.fredtargaryen.floocraft.inventory.container;
 
+import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.network.IContainerFactory;
 
-public class ContainerFloowerPot extends Container {
-    private final TileEntityFloowerPot potTE;
+public class FloowerPotContainer extends Container {
+    private TileEntity potTE;
 
     private class PowderSlot extends Slot {
         public PowderSlot(IInventory par1IInventory) {
@@ -27,38 +34,40 @@ public class ContainerFloowerPot extends Container {
         }
     }
 
-    public ContainerFloowerPot (InventoryPlayer inventoryPlayer, TileEntityFloowerPot te) {
-        potTE = te;
-        //the Slot constructor takes the IInventory and the slot number in that it binds to
-        //and the x-y coordinates it resides on-screen
-        this.addSlot(new PowderSlot(potTE));
-        //commonly used vanilla code that adds the player's inventory
-        bindPlayerInventory(inventoryPlayer);
+    /**
+     * CLIENT side constructor for the container
+     * @param windowId
+     * @param inv
+     */
+    public FloowerPotContainer(int windowId, PlayerInventory inv, World w, BlockPos pos) {
+        super(FloocraftBase.POT_CONTAINER_TYPE, windowId);
+        this.potTE = w.getTileEntity(pos);
+        if(this.potTE != null) {
+            this.addSlot(new PowderSlot((FloowerPotTileEntity) this.potTE));
+        }
+        this.addPlayerInventorySlots(inv);
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer player)
-    {
-        return potTE.isUsableByPlayer(player);
+    public boolean canInteractWith(PlayerEntity player) {
+        return true;
     }
 
-    private void bindPlayerInventory(InventoryPlayer inventoryPlayer)
-    {
+    private void addPlayerInventorySlots(PlayerInventory playerInventory) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(inventoryPlayer, j + i * 9 + 9,
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9,
                         8 + j * 18, 84 + i * 18));
             }
         }
-        for (int i = 0; i < 9; i++)
-        {
-            this.addSlot(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+        for (int i = 0; i < 9; i++) {
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 
     @Override
     @MethodsReturnNonnullByDefault
-    public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int slot) {
         ItemStack stack = null;
         Slot slotObject = inventorySlots.get(slot);
 
@@ -90,18 +99,5 @@ public class ContainerFloowerPot extends Container {
             slotObject.onTake(player, stackInSlot);
         }
         return stack == null ? ItemStack.EMPTY : stack;
-    }
-
-    /**
-     * Found some error I'll probably never find/reproduce again so thought I'd better deal with it.
-     * returns a list if itemStacks, for each slot.
-     */
-    @Override
-    public NonNullList<ItemStack> getInventory()
-    {
-        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>create();
-        ItemStack is = this.inventorySlots.get(0).getStack();
-        nonnulllist.add(is.isEmpty() ? ItemStack.EMPTY : is);
-        return nonnulllist;
     }
 }

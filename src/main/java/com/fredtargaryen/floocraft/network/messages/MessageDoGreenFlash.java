@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class MessageDoGreenFlash {
 	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> ((ClientProxy) FloocraftBase.proxy).flash.start());
+		ctx.get().enqueueWork(() -> FloocraftBase.proxy.onMessage(this));
 		ctx.get().setPacketHandled(true);
 	}
 

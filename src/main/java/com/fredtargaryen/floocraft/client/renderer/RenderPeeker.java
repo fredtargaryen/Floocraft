@@ -1,14 +1,18 @@
 package com.fredtargaryen.floocraft.client.renderer;
 
-import com.fredtargaryen.floocraft.entity.EntityPeeker;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class RenderPeeker extends Render<EntityPeeker> {
+import javax.annotation.Nonnull;
+
+public class RenderPeeker extends EntityRenderer<PeekerEntity> {
     private static ResourceLocation NULL = new ResourceLocation("minecraft:blocks/glass");
 
     private static final float minx = -0.25F;
@@ -22,15 +26,15 @@ public class RenderPeeker extends Render<EntityPeeker> {
     private static final float maxu = 0.25F;
     private static final float minv = 0.125F;private static final float maxv = 0.25F;
 
-    public RenderPeeker(RenderManager rm) {
+    public RenderPeeker(EntityRendererManager rm) {
         super(rm);
     }
 
-    public void doRender(EntityPeeker par1EntityPeeker, double x, double y, double z, float par8, float partialTicks) {
+    public void doRender(PeekerEntity par1PeekerEntity, double x, double y, double z, float par8, float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translatef((float)x, (float)y, (float)z);
-        GlStateManager.rotatef(180.0F - par1EntityPeeker.rotationYaw, 0.0F, 1.0F, 0.0F);
-        this.bindEntityTexture(par1EntityPeeker);
+        GlStateManager.rotatef(180.0F - par1PeekerEntity.rotationYaw, 0.0F, 1.0F, 0.0F);
+        this.bindEntityTexture(par1PeekerEntity);
         GlStateManager.enableAlphaTest();
         GlStateManager.enableBlend();
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 0.6F);
@@ -46,11 +50,12 @@ public class RenderPeeker extends Render<EntityPeeker> {
         GlStateManager.disableBlend();
         GlStateManager.disableAlphaTest();
         GlStateManager.popMatrix();
-        super.doRender(par1EntityPeeker, x, y, z, par8, partialTicks);
+        super.doRender(par1PeekerEntity, x, y, z, par8, partialTicks);
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityPeeker entity) {
+    @Nonnull
+    protected ResourceLocation getEntityTexture(PeekerEntity entity) {
         try {
             return entity.getTexture();
         }

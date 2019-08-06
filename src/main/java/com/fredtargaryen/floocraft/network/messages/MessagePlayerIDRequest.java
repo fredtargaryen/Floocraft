@@ -1,8 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.entity.EntityPeeker;
-import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import com.fredtargaryen.floocraft.network.MessageHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -15,9 +15,9 @@ public class MessagePlayerIDRequest {
 
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            EntityPeeker ep = (EntityPeeker) FloocraftBase.getEntityWithUUID(ctx.get().getSender().getServerWorld(), this.peekerUUID);
+            PeekerEntity ep = (PeekerEntity) FloocraftBase.getEntityWithUUID(ctx.get().getSender().getServerWorld(), this.peekerUUID);
             MessagePlayerID mpID = new MessagePlayerID(this.peekerUUID, ep.getPlayerUUID());
-            PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> ctx.get().getSender()), mpID);
+            MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> ctx.get().getSender()), mpID);
         });
         ctx.get().setPacketHandled(true);
     }

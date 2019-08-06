@@ -1,33 +1,33 @@
 package com.fredtargaryen.floocraft.tileentity;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.inventory.container.ContainerFloowerPot;
+import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IInteractionObject;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class TileEntityFloowerPot extends TileEntity implements IInventory, IInteractionObject {
+public class FloowerPotTileEntity extends TileEntity implements IInventory, INamedContainerProvider {
     private final ItemStack[] inv;
 
-    public TileEntityFloowerPot() {
+    public FloowerPotTileEntity() {
         super(FloocraftBase.POT_TYPE);
         this.inv = new ItemStack[1];
         this.inv[0] = ItemStack.EMPTY;
@@ -102,7 +102,7 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory, IInt
 
     @Override
     @ParametersAreNonnullByDefault
-    public boolean isUsableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(PlayerEntity player)
     {
         return this.world.getTileEntity(this.pos) == this &&
                 player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) < 64;
@@ -110,13 +110,13 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory, IInt
 
     @Override
     @ParametersAreNonnullByDefault
-    public void openInventory(EntityPlayer player) {
+    public void openInventory(PlayerEntity player) {
 
     }
 
     @Override
     @ParametersAreNonnullByDefault
-    public void closeInventory(EntityPlayer player) {
+    public void closeInventory(PlayerEntity player) {
 
     }
 
@@ -128,34 +128,19 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory, IInt
     }
 
     @Override
-    public int getField(int id) {
-        return 0;
-    }
-
-    @Override
-    public void setField(int id, int value) {
-
-    }
-
-    @Override
-    public int getFieldCount() {
-        return 0;
-    }
-
-    @Override
     public void clear() {
 
     }
 
     @Override
-    public void read(NBTTagCompound tagCompound) {
+    public void read(CompoundNBT tagCompound) {
         super.read(tagCompound);
-        NBTTagList tagList = tagCompound.getList("Inventory", 10);
+        ListNBT tagList = tagCompound.getList("Inventory", 10);
         if(tagList.size() == 0) {
             this.inv[0] = ItemStack.EMPTY;
         }
         else {
-            NBTTagCompound tag = tagList.getCompound(0);
+            CompoundNBT tag = tagList.getCompound(0);
             byte slot = tag.getByte("Slot");
             if (slot == 0) {
                 this.inv[slot] = ItemStack.read(tag);
@@ -164,23 +149,23 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory, IInt
     }
 
     @Override
-    public NBTTagCompound write(NBTTagCompound tagCompound) {
+    public CompoundNBT write(CompoundNBT tagCompound) {
         tagCompound = super.write(tagCompound);
-        NBTTagList itemList = new NBTTagList();
+        ListNBT itemList = new ListNBT();
         ItemStack stack = inv[0];
         if (stack != null && !stack.isEmpty()) {
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setByte("Slot", (byte) 0);
+            CompoundNBT tag = new CompoundNBT();
+            tag.putByte("Slot", (byte) 0);
             stack.write(tag);
             itemList.add(tag);
         }
-        tagCompound.setTag("Inventory", itemList);
+        tagCompound.put("Inventory", itemList);
         return tagCompound;
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 0, this.write(new NBTTagCompound()));
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 0, this.write(new CompoundNBT()));
     }
 
     /**
@@ -194,40 +179,18 @@ public class TileEntityFloowerPot extends TileEntity implements IInventory, IInt
      */
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         this.read(pkt.getNbtCompound());
     }
 
     @Override
-    @MethodsReturnNonnullByDefault
-    public ITextComponent getName() {
-        return null;
-    }
-
-    @Override
-    public boolean hasCustomName() {
-        return true;
-    }
-
-    @Override
-    @MethodsReturnNonnullByDefault
     public ITextComponent getDisplayName() {
-        return new TextComponentString("Floower Pot");
+        return new TranslationTextComponent("block.floocraftft.floowerpot");
     }
 
     @Nullable
     @Override
-    public ITextComponent getCustomName() {
-        return null;
-    }
-
-    @Override
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-        return new ContainerFloowerPot(playerInventory, this);
-    }
-
-    @Override
-    public String getGuiID() {
-        return DataReference.MODID + ":pot";
+    public Container createMenu(int windowId, @Nonnull PlayerInventory inventory, @Nonnull PlayerEntity player) {
+        return new FloowerPotContainer(windowId, inventory, player.world, this.pos);
     }
 }

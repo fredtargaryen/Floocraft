@@ -1,20 +1,20 @@
 package com.fredtargaryen.floocraft.tileentity.renderer;
 
 import com.fredtargaryen.floocraft.DataReference;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityPotRenderer extends TileEntityRenderer<TileEntityFloowerPot>
+public class TileEntityPotRenderer extends TileEntityRenderer<FloowerPotTileEntity>
 {
     @Override
     //"Relative" means distance on this axis from block to player's eye
-    public void render(TileEntityFloowerPot te, double relativeX, double relativeY, double relativeZ, float partialTicks, int destroyStage) {
+    public void render(FloowerPotTileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int destroyStage) {
         ItemStack stack = te.getStackInSlot(0);
         if(stack != null && stack.getCount() > 0) {
             GL11.glPushMatrix();

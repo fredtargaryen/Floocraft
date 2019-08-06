@@ -1,10 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
-import net.minecraft.util.IThreadListener;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.nio.charset.Charset;
@@ -16,14 +13,7 @@ public class MessageFireplaceList {
 	private static final Charset defaultCharset = Charset.defaultCharset();
 
 	public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-		final IThreadListener clientListener = Minecraft.getInstance();
-		clientListener.addScheduledTask(() -> {
-            GuiScreen s = ((Minecraft)clientListener).currentScreen;
-            if(s instanceof GuiTeleport)
-            {
-                ((GuiTeleport) s).onFireplaceList(this);
-            }
-        });
+		ctx.get().enqueueWork(() -> FloocraftBase.proxy.onMessage(this));
 		ctx.get().setPacketHandled(true);
 	}
 

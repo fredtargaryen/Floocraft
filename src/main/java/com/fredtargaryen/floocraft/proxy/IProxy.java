@@ -1,20 +1,17 @@
 package com.fredtargaryen.floocraft.proxy;
 
-import com.fredtargaryen.floocraft.network.messages.MessagePlayerID;
-import net.minecraft.entity.player.EntityPlayer;
+import com.fredtargaryen.floocraft.network.messages.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
-public interface IProxy
-{
+public interface IProxy {
+    void onMessage(MessageApproval ma);
+    void onMessage(MessageDoGreenFlash mdgf);
+    void onMessage(MessageFireplaceList mfl);
+    void onMessage(MessageStartPeek msp);
+    void registerGUIs();
     void registerRenderers();
-
-    void registerTickHandlers();
-
     void registerTextureStitcher();
-
+    void registerTickHandlers();
     void setUUIDs(MessagePlayerID message);
-
-    EntityPlayer getClientPlayer();
-
-    World getClientWorld();
 }

@@ -4,10 +4,8 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * ===DESCRIPTION OF MESSAGE CHANNELS===
- * MessageAddFireplace: sends position and unique name of fireplace to be added to server
- * MessageApproval: sends to client whether proposed fireplace name is unique
- * MessageApproveName: sends proposed fireplace name to be approved by server
- * MessageDoGreenFlash: Causes the green flash effect to appear on the client when you teleport
+ * MessageApproval: sends to client whether proposed fireplace name is valid (i.e. if the sign is decorative OR the name has not been used already). If approved the server will take care of adding the fireplace
+ * MessageApproveFireplace: sends fireplace sign position, proposed fireplace name, and whether the sign is decorative or connected to the Network, to server for approval.
  * MessageDoGreenFlash: causes the green flash effect to appear on the client when you teleport
  * MessageEndPeek: sent when the "Mischief managed" button is pressed to stop the peek
  * MessageFireplaceList: the lists of fireplace attributes: names; x coordinates; y coordinates; z coordinates; whether they can be teleported to
@@ -18,16 +16,12 @@ import net.minecraft.util.ResourceLocation;
  * MessagePlayerIDRequest: sent by the client to retrieve the ID of a Peeker's corresponding player
  * MessageStartPeek: sent by the client when initiating a peek
  * MessageTeleportEntity: teleports player that sent this to (destX, destY, destZ) if possible
- * MessageTileEntityFireplaceFunction: lets the server know whether the sign at those coordinates is decorative or practical
  *
- * When changing version number, change in: DataReference, build.gradle, mods.toml
+ * When changing version number, change in: build.gradle, mods.toml
  */
 
 public class DataReference {
-    //MAIN MOD DETAILS
     public static final String MODID = "floocraftft";
-    public static final String MODNAME = "Floocraft";
-    public static final String VERSION = "1.9.5";
 
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 

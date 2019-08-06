@@ -5,84 +5,79 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FireBlock;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
-import net.minecraft.world.storage.WorldSavedDataStorage;
 
-import java.util.*;
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FloocraftWorldData extends WorldSavedData {
 	/**
-	 * Code inspection will tell you the parameter is redundant and the access can be private, but it isnae and cannae
+	 * Code inspection will tell you the access can be private, but it jolly well can't
 	 */
-	public FloocraftWorldData(String key)
+	public FloocraftWorldData()
 	{
-		super(key);
+		super(DataReference.MODID);
 	}
 
 	/**
-	 * reads in data from the NBTTagCompound into this MapDataBase
+	 * reads in data from the CompoundNBT into this MapDataBase
 	 *
-	 * @param nbt
+	 * @param nbt the compound to be read from
 	 */
 	@Override
-	public void read(NBTTagCompound nbt) {
-		NBTTagList nbttaglist = nbt.getList(DataReference.MODID, 10);
-		for(int i = 0; i < nbttaglist.size(); ++i)
+	public void read(CompoundNBT nbt) {
+		ListNBT ListNBT = nbt.getList(DataReference.MODID, 10);
+		for(int i = 0; i < ListNBT.size(); ++i)
 		{
-			NBTTagCompound nbt1 = nbttaglist.getCompound(i);
+			CompoundNBT nbt1 = ListNBT.getCompound(i);
 			int[] coords = new int[]{nbt1.getInt("X"), nbt1.getInt("Y"), nbt1.getInt("Z")};
 			this.placeList.put(nbt1.getString("NAME"), coords);
 		}
 	}
 
 	@Override
-	public NBTTagCompound write(NBTTagCompound compound) {
-		NBTTagList nbttaglist = new NBTTagList();
+	@Nonnull
+	public CompoundNBT write(@Nonnull CompoundNBT compound) {
+		ListNBT ListNBT = new ListNBT();
 		for(String nextName : this.placeList.keySet()) {
-			NBTTagCompound nbt1 = new NBTTagCompound();
-			nbt1.setString("NAME", nextName);
+			CompoundNBT nbt1 = new CompoundNBT();
+			nbt1.putString("NAME", nextName);
 			int[] coords = this.placeList.get(nextName);
-			nbt1.setInt("X", coords[0]);
-			nbt1.setInt("Y", coords[1]);
-			nbt1.setInt("Z", coords[2]);
-			nbttaglist.add(nbt1);
+			nbt1.putInt("X", coords[0]);
+			nbt1.putInt("Y", coords[1]);
+			nbt1.putInt("Z", coords[2]);
+			ListNBT.add(nbt1);
 		}
-		compound.setTag(DataReference.MODID, nbttaglist);
+		compound.put(DataReference.MODID, ListNBT);
 		return compound;
 	}
 
 	public final ConcurrentHashMap<String, int[]> placeList = new ConcurrentHashMap<>();
 	
 	public static FloocraftWorldData forWorld(World world) {
-        //Retrieves the FloocraftWorldData instance for the given world, creating it if necessary
-		WorldSavedDataStorage storage = world.getMapStorage();
-		DimensionType dt = world.getDimension().getType();
-		FloocraftWorldData data = (FloocraftWorldData)storage.func_212426_a(dt, FloocraftWorldData::new, DataReference.MODID); //getOrLoadData
-		if (data == null) {
-            FloocraftBase.warn("[FLOOCRAFT-SERVER] No fireplace data was found for this world. Creating new fireplace data.");
-			data = new FloocraftWorldData(DataReference.MODID);
-			storage.func_212424_a(dt, DataReference.MODID, data); //setData
-		}
-		return data;
+		ServerWorld serverWorld = world.getServer().getWorld(DimensionType.OVERWORLD);
+		DimensionSavedDataManager storage = serverWorld.getSavedData();
+		return storage.getOrCreate(FloocraftWorldData::new, DataReference.MODID);
 	}
 
-	public void addLocation(String name, BlockPos pos)
-	{
+	public void addLocation(String name, BlockPos pos) {
 		placeList.put(name, new int[]{pos.getX(), pos.getY(), pos.getZ()});
 		FloocraftBase.info("[FLOOCRAFT-SERVER] Added fireplace at " + pos.toString() + ". Name: " + name);
 		markDirty();
 	}
 	
-	public void removeLocation(int x, int y, int z)
-	{
+	public void removeLocation(int x, int y, int z) {
 		int[] coords = new int[]{x, y, z};
 		boolean removedPlace = false;
 		Iterator i = this.placeList.keySet().iterator();
@@ -114,7 +109,7 @@ public class FloocraftWorldData extends WorldSavedData {
             BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
 			Block b = w.getBlockState(dest).getBlock();
             boolean ok;
-            if(b instanceof BlockFire) {
+            if(b instanceof FireBlock) {
                 ok = ((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(w, dest) != null;
                 w.setBlockState(dest, Blocks.FIRE.getDefaultState());
             }

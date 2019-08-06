@@ -1,13 +1,13 @@
 package com.fredtargaryen.floocraft.client.renderer;
 
-import com.fredtargaryen.floocraft.entity.EntityPeeker;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class RenderPeekerFactory implements IRenderFactory<EntityPeeker> {
+public class RenderPeekerFactory implements IRenderFactory<PeekerEntity> {
     @Override
-    public Render<? super EntityPeeker> createRenderFor(RenderManager manager) {
+    public EntityRenderer<? super PeekerEntity> createRenderFor(EntityRendererManager manager) {
         return new RenderPeeker(manager);
     }
 }

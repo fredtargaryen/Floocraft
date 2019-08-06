@@ -1,16 +1,18 @@
 package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.BlockFlooTorch;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import com.fredtargaryen.floocraft.block.FlooTorchBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Nonnull;
 
 public class ItemFlooTorch extends Item {
     public ItemFlooTorch() {
@@ -18,26 +20,27 @@ public class ItemFlooTorch extends Item {
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemUseContext context) {
-        EnumFacing side = context.getFace();
-        if(side == EnumFacing.DOWN) {
-            return EnumActionResult.FAIL;
+    @Nonnull
+    public ActionResultType onItemUse(ItemUseContext context) {
+        Direction side = context.getFace();
+        if(side == Direction.DOWN) {
+            return ActionResultType.FAIL;
         }
         else {
             BlockPos pos = context.getPos();
-            IBlockState blockPlacedOn = context.getWorld().getBlockState(pos);
-            EntityPlayer player = context.getPlayer();
+            BlockState blockPlacedOn = context.getWorld().getBlockState(pos);
+            PlayerEntity player = context.getPlayer();
             ItemStack stack = context.getItem();
             if (player.canPlayerEdit(pos, side, stack)) {
                 if(blockPlacedOn.isSolid()) {
                     context.getWorld().setBlockState(pos.offset(side),
-                            FloocraftBase.BLOCK_FLOO_TORCH.getDefaultState().with(BlockFlooTorch.FACING_EXCEPT_DOWN, side),
+                            FloocraftBase.BLOCK_FLOO_TORCH.getDefaultState().with(FlooTorchBlock.FACING_EXCEPT_DOWN, side),
                             3);
                     stack.grow(-1);
-                    return EnumActionResult.SUCCESS;
+                    return ActionResultType.SUCCESS;
                 }
             }
-            return EnumActionResult.FAIL;
+            return ActionResultType.FAIL;
         }
     }
 }

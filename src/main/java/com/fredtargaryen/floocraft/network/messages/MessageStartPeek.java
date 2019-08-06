@@ -1,9 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
@@ -13,12 +11,7 @@ public class MessageStartPeek {
     public UUID peekerUUID;
 
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            GuiScreen s = Minecraft.getInstance().currentScreen;
-             if(s instanceof GuiTeleport) {
-                 ((GuiTeleport) s).onStartPeek(this);
-             }
-        });
+        ctx.get().enqueueWork(() -> FloocraftBase.proxy.onMessage(this));
         ctx.get().setPacketHandled(true);
     }
 

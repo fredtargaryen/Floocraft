@@ -1,38 +1,38 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.client.gui.GuiTeleport;
+import com.fredtargaryen.floocraft.client.gui.TeleportScreen;
 import com.fredtargaryen.floocraft.config.GeneralConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.init.Particles;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.StateContainer;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,21 +40,22 @@ import java.util.Random;
 import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
 
 public abstract class GreenFlamesBase extends Block {
-    private static final EnumFacing[] HORIZONTALS = new EnumFacing[] { EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.WEST, EnumFacing.EAST };
+    private static final Direction[] HORIZONTALS = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
     private static final VoxelShape TALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
 
     GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).lightValue(lightLevel)); }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder)
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
     {
         builder.add(AGE_0_15);
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) { return TALLBOX; }
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) { return TALLBOX; }
 
     @Override
+    @Nonnull
     @OnlyIn(Dist.CLIENT)
     public BlockRenderLayer getRenderLayer()
     {
@@ -62,7 +63,7 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public void onEntityCollision(IBlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
         if (worldIn.isRemote) {
             if (entityIn == Minecraft.getInstance().player) {
                 doClientGuiTings(pos);
@@ -70,17 +71,17 @@ public abstract class GreenFlamesBase extends Block {
         }
         else {
             //Server side. Players are dealt with on the client because of the GUI
-            if(!(entityIn instanceof EntityPlayer)) {
+            if(!(entityIn instanceof PlayerEntity)) {
                 boolean teleport = false;
                 //Set teleport destination one block outside the fire, instead of in the fire
                 boolean landOutside = false;
 
-                if(GeneralConfig.ITEMS_TELEPORT.get() && entityIn instanceof EntityItem) {
+                if(GeneralConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
                     teleport = true;
                     landOutside = true;
                 }
-                else if(    (GeneralConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof EntityVillager)
-                          ||(GeneralConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof EntityLiving)) {
+                else if(    (GeneralConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
+                          ||(GeneralConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
                     teleport = worldIn.rand.nextFloat() < 0.2;
                 }
                 if(teleport) {
@@ -121,19 +122,19 @@ public abstract class GreenFlamesBase extends Block {
     private void doClientGuiTings(BlockPos pos) {
         ClientProxy proxy = (ClientProxy) FloocraftBase.proxy;
         if (Minecraft.getInstance().currentScreen == null && !proxy.overrideTicker.isOverriding()) {
-            Minecraft.getInstance().displayGuiScreen(new GuiTeleport(pos.getX(), pos.getY(), pos.getZ()));
+            Minecraft.getInstance().displayGuiScreen(new TeleportScreen(pos.getX(), pos.getY(), pos.getZ()));
             proxy.overrideTicker.start();
         }
     }
 
     @Override
-    public int tickRate(IWorldReaderBase par1World)
+    public int tickRate(IWorldReader par1World)
     {
         return 30;
     }
 
     @Override
-    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
         if (isInFireplace(worldIn, pos) != null) {
             worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
         } else {
@@ -142,7 +143,7 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         if (isInFireplace(world, pos) == null || world.getBlockState(pos).get(AGE_0_15).equals(0)) {
             world.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
@@ -151,33 +152,30 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
-    {
-        if (rand.nextInt(24) == 0)
-        {
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if (rand.nextInt(24) == 0) {
             worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
         }
-        for (int i = 0; i < 3; ++i)
-        {
+        for (int i = 0; i < 3; ++i) {
             double d0 = (double)pos.getX() + rand.nextDouble();
             double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
             double d2 = (double)pos.getZ() + rand.nextDouble();
-            worldIn.spawnParticle(Particles.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+            worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
 
     //FIREPLACE VALIDATION CODE STARTS HERE
     private int getTopBlockY(World w, BlockPos pos) {
-        BlockPos newPos = pos.offset(EnumFacing.UP, 1);
+        BlockPos newPos = pos.offset(Direction.UP, 1);
         int y = newPos.getY();
-        IBlockState bs = w.getBlockState(newPos);
+        BlockState bs = w.getBlockState(newPos);
         while (bs.getBlock().isAir(bs, w, newPos) && y < 256) {
-            newPos = newPos.offset(EnumFacing.UP, 1);
+            newPos = newPos.offset(Direction.UP, 1);
             y = newPos.getY();
             bs = w.getBlockState(newPos);
         }
         //When y >= 256 you get an air block, so if b is a solid cube y is implicitly < 256
-        if (bs.getBlock().getMaterial(bs).isSolid()) return y;
+        if (bs.getMaterial().isSolid()) return y;
         return 0;
     }
 
@@ -185,9 +183,9 @@ public abstract class GreenFlamesBase extends Block {
         boolean valid = true;
         BlockPos newBottomPos = bottomPos;
         while (valid && newBottomPos.getY() < topY) {
-            IBlockState bs = w.getBlockState(newBottomPos);
-            if (bs.getBlock().getMaterial(bs).isSolid()) {
-                newBottomPos = newBottomPos.offset(EnumFacing.UP, 1);
+            BlockState bs = w.getBlockState(newBottomPos);
+            if (bs.getMaterial().isSolid()) {
+                newBottomPos = newBottomPos.offset(Direction.UP, 1);
             } else {
                 valid = false;
             }
@@ -195,37 +193,37 @@ public abstract class GreenFlamesBase extends Block {
         return valid;
     }
 
-    private List<EnumFacing> getWalls(World w, BlockPos bottomPos, int topY) {
-        List<EnumFacing> walls = new ArrayList<>();
-        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.NORTH), topY)) {
-            walls.add(EnumFacing.NORTH);
+    private List<Direction> getWalls(World w, BlockPos bottomPos, int topY) {
+        List<Direction> walls = new ArrayList<>();
+        if (this.isWallColumn(w, bottomPos.offset(Direction.NORTH), topY)) {
+            walls.add(Direction.NORTH);
         }
-        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.WEST), topY)) {
-            walls.add(EnumFacing.WEST);
+        if (this.isWallColumn(w, bottomPos.offset(Direction.WEST), topY)) {
+            walls.add(Direction.WEST);
         }
-        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.EAST), topY)) {
-            walls.add(EnumFacing.EAST);
+        if (this.isWallColumn(w, bottomPos.offset(Direction.EAST), topY)) {
+            walls.add(Direction.EAST);
         }
-        if (this.isWallColumn(w, bottomPos.offset(EnumFacing.SOUTH), topY)) {
-            walls.add(EnumFacing.SOUTH);
+        if (this.isWallColumn(w, bottomPos.offset(Direction.SOUTH), topY)) {
+            walls.add(Direction.SOUTH);
         }
         return walls;
     }
 
-    private boolean canLoopToCorner(World w, int x, int y, int z, EnumFacing backWall, EnumFacing oldSideWall, int top) {
+    private boolean canLoopToCorner(World w, int x, int y, int z, Direction backWall, Direction oldSideWall, int top) {
         int oldX = x;
         int oldZ = z;
-        EnumFacing sideWall = oldSideWall.getOpposite();
+        Direction sideWall = oldSideWall.getOpposite();
         boolean stop = false;
         while (!stop) {
-            if (backWall == EnumFacing.NORTH || backWall == EnumFacing.SOUTH) {
-                if (sideWall == EnumFacing.WEST) {
+            if (backWall == Direction.NORTH || backWall == Direction.SOUTH) {
+                if (sideWall == Direction.WEST) {
                     x--;
                 } else {
                     x++;
                 }
             } else {
-                if (sideWall == EnumFacing.NORTH) {
+                if (sideWall == Direction.NORTH) {
                     z--;
                 } else {
                     z++;
@@ -233,7 +231,7 @@ public abstract class GreenFlamesBase extends Block {
             }
             BlockPos newBottomPos = new BlockPos(x, y, z);
             int newTop = this.getTopBlockY(w, newBottomPos);
-            List<EnumFacing> walls = this.getWalls(w, newBottomPos, newTop);
+            List<Direction> walls = this.getWalls(w, newBottomPos, newTop);
             switch (walls.size()) {
                 case 1:
                     if (!walls.contains(backWall)) {
@@ -268,40 +266,36 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     /**
-     * Returns the EnumFacing that points out of the fireplace, if the fireplace is valid.
+     * Returns the Direction that points out of the fireplace, if the fireplace is valid.
      * Not necessarily the direction of the sign.
      * If the fireplace is invalid, returns null.
-     * @return EnumFacing.UP if the fire block is in a corner of a valid fireplace; NORTH, SOUTH, EAST, WEST if the fire
+     * @return Direction.UP if the fire block is in a corner of a valid fireplace; NORTH, SOUTH, EAST, WEST if the fire
      * is in a valid fireplace but not a corner; null if the fireplace is invalid
      */
-    public EnumFacing isInFireplace(World w, BlockPos pos)
-    {
-        if (pos.getY() < 254)
-        {
+    public Direction isInFireplace(World w, BlockPos pos) {
+        if (pos.getY() < 254) {
             int t = this.getTopBlockY(w, pos);
-            if (t > 0)
-            {
-                List<EnumFacing> walls = this.getWalls(w, pos, t);
+            if (t > 0) {
+                List<Direction> walls = this.getWalls(w, pos, t);
                 int x = pos.getX();
                 int y = pos.getY();
                 int z = pos.getZ();
-                switch (walls.size())
-                {
+                switch (walls.size()) {
                     case 3:
                         //One-block-long fireplace
-                        for(EnumFacing ef : HORIZONTALS) {
+                        for(Direction ef : HORIZONTALS) {
                             if(!walls.contains(ef)) return ef;
                         }
                         break;
                     case 2:
-                        if ((walls.contains(EnumFacing.NORTH) && (walls.contains(EnumFacing.WEST) || walls.contains(EnumFacing.EAST))
-                                || (walls.contains(EnumFacing.SOUTH) && (walls.contains(EnumFacing.WEST) || walls.contains(EnumFacing.EAST))))) {
+                        if ((walls.contains(Direction.NORTH) && (walls.contains(Direction.WEST) || walls.contains(Direction.EAST))
+                                || (walls.contains(Direction.SOUTH) && (walls.contains(Direction.WEST) || walls.contains(Direction.EAST))))) {
                             boolean zeroToOne = this.canLoopToCorner(w, x, y, z, walls.get(0), walls.get(1), t);
                             boolean oneToZero = this.canLoopToCorner(w, x, y, z, walls.get(1), walls.get(0), t);
                             if(zeroToOne && oneToZero) {
                                 //Fire is in corner of fireplace. Valid fireplace, but can't put a sign on a corner, so
                                 //return UP
-                                return EnumFacing.UP;
+                                return Direction.UP;
                             }
                             else if(zeroToOne) {
                                 //End of a long fireplace
@@ -319,21 +313,21 @@ public abstract class GreenFlamesBase extends Block {
                         switch (walls.get(0)) {
                             //This will be the back wall. If valid, this is the middle of a long fireplace
                             case NORTH:
-                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.NORTH, EnumFacing.WEST, t)
-                                        &&  this.canLoopToCorner(w, x, y, z, EnumFacing.NORTH, EnumFacing.EAST, t))
-                                    return EnumFacing.SOUTH;
+                                if      (this.canLoopToCorner(w, x, y, z, Direction.NORTH, Direction.WEST, t)
+                                        &&  this.canLoopToCorner(w, x, y, z, Direction.NORTH, Direction.EAST, t))
+                                    return Direction.SOUTH;
                             case WEST:
-                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.WEST, EnumFacing.SOUTH, t)
-                                        &&  this.canLoopToCorner(w, x, y, z, EnumFacing.WEST, EnumFacing.NORTH, t))
-                                    return EnumFacing.EAST;
+                                if      (this.canLoopToCorner(w, x, y, z, Direction.WEST, Direction.SOUTH, t)
+                                        &&  this.canLoopToCorner(w, x, y, z, Direction.WEST, Direction.NORTH, t))
+                                    return Direction.EAST;
                             case EAST:
-                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.EAST, EnumFacing.SOUTH, t)
-                                        &&  this.canLoopToCorner(w, x, y, z, EnumFacing.EAST, EnumFacing.NORTH, t))
-                                    return EnumFacing.WEST;
+                                if      (this.canLoopToCorner(w, x, y, z, Direction.EAST, Direction.SOUTH, t)
+                                        &&  this.canLoopToCorner(w, x, y, z, Direction.EAST, Direction.NORTH, t))
+                                    return Direction.WEST;
                             case SOUTH:
-                                if      (this.canLoopToCorner(w, x, y, z, EnumFacing.SOUTH, EnumFacing.WEST, t)
-                                        &&  this.canLoopToCorner(w, x, y, z, EnumFacing.SOUTH, EnumFacing.EAST, t))
-                                    return EnumFacing.NORTH;
+                                if      (this.canLoopToCorner(w, x, y, z, Direction.SOUTH, Direction.WEST, t)
+                                        &&  this.canLoopToCorner(w, x, y, z, Direction.SOUTH, Direction.EAST, t))
+                                    return Direction.NORTH;
                                 break;
                         }
                         break;
@@ -346,26 +340,21 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     //FOR ALLOWING COLLISIONS TO HAPPEN
-    @Deprecated
-    public VoxelShape getCollisionShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
-        return VoxelShapes.empty();
-    }
-
     @Override
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
+    @Nonnull
+    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.empty();
     }
 
     ////////////////////////
     //MIRAGE COMPATIBILITY//
     ////////////////////////
 //    @Override
-//    public final boolean hasTileEntity(IBlockState ibs)
+//    public final boolean hasTileEntity(BlockState ibs)
 //    {
 //        return FloocraftBase.isMirageInstalled();
 //    }
 //
 //    @Override
-//    public abstract TileEntity createTileEntity(World world, IBlockState state);
+//    public abstract TileEntity createTileEntity(World world, BlockState state);
 }

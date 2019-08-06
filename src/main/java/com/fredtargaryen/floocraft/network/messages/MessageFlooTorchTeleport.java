@@ -2,8 +2,7 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,13 +20,13 @@ public class MessageFlooTorchTeleport {
             int torchX1 = this.torchX;
             int torchY1 = this.torchY;
             int torchZ1 = this.torchZ;
-            EntityPlayerMP player = ctx.get().getSender();
+            ServerPlayerEntity player = ctx.get().getSender();
             World world = player.getServerWorld();
             int minx = torchX1 - 3;
             int maxx = torchX1 + 3;
             int minz = torchZ1 - 3;
             int maxz = torchZ1 + 3;
-            List<BlockPos> coords = new ArrayList<BlockPos>();
+            List<BlockPos> coords = new ArrayList<>();
             for (int x = minx; x <= maxx; x++) {
                 for (int z = minz; z <= maxz; z++) {
                     BlockPos nextPos = new BlockPos(x, torchY1, z);

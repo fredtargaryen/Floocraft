@@ -1,36 +1,34 @@
 package com.fredtargaryen.floocraft.tileentity.renderer;
 
-import com.fredtargaryen.floocraft.block.BlockFlooSign;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
+import com.fredtargaryen.floocraft.block.FlooSignBlock;
+import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
-public class TileEntityFlooSignRenderer extends TileEntityRenderer<TileEntityFireplace> {
+public class TileEntityFlooSignRenderer extends TileEntityRenderer<FireplaceTileEntity> {
     @Override
-    public void render(TileEntityFireplace sign, double x, double y, double z, float partialTicks, int destroyStage){
+    public void render(FireplaceTileEntity sign, double x, double y, double z, float partialTicks, int destroyStage){
         GL11.glPushMatrix();
         float f1 = 0.6666667F;
         float f2;
 
-        EnumFacing i = sign.getBlockState().get(BlockFlooSign.FACING);
+        Direction i = sign.getBlockState().get(FlooSignBlock.FACING);
         f2 = 0.0F;
 
-        if (i == EnumFacing.NORTH) {
+        if (i == Direction.NORTH) {
             f2 = 180.0F;
         }
 
-        if (i == EnumFacing.WEST)
-        {
+        if (i == Direction.WEST) {
             f2 = 90.0F;
         }
 
-        if (i == EnumFacing.EAST)
-        {
+        if (i == Direction.EAST) {
             f2 = -90.0F;
         }
 
@@ -47,15 +45,13 @@ public class TileEntityFlooSignRenderer extends TileEntityRenderer<TileEntityFir
         byte b0 = 0;
 
         for (int j = 0; j < sign.signText.length; ++j) {
-            String s = sign.signText[j].getUnformattedComponentText();
+            String s = sign.signText[j];
 
-            if (j == sign.lineBeingEdited)
-            {
+            if (j == sign.getLineBeingEdited()) {
                 s = "> " + s + " <";
                 fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, j * 10 - sign.signText.length * 5, b0);
             }
-            else
-            {
+            else {
                 fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, j * 10 - sign.signText.length * 5, b0);
             }
         }

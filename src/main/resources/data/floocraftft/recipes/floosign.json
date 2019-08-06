@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients":
   [
-    {"item": "minecraft:sign"},
+    {"tag": "minecraft:signs"},
     {"item": "floocraftft:floopowder_one"}
   ],
   "result":

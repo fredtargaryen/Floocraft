@@ -1,34 +1,43 @@
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
-import com.fredtargaryen.floocraft.client.gui.GuiHandler;
 import com.fredtargaryen.floocraft.config.Config;
-import com.fredtargaryen.floocraft.entity.EntityPeeker;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import com.fredtargaryen.floocraft.item.ItemFlooSign;
 import com.fredtargaryen.floocraft.item.ItemFlooTorch;
-import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.fredtargaryen.floocraft.proxy.IProxy;
 import com.fredtargaryen.floocraft.proxy.ServerProxy;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFireplace;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
+import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import net.minecraft.block.Block;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -42,7 +51,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 //import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
@@ -92,6 +100,10 @@ public class FloocraftBase {
     @ObjectHolder("floopowder_infinite")
     public static Item ITEM_FLOO_POWDER_INFINITE;
 
+    //Declare containers here
+    @ObjectHolder("pot")
+    public static ContainerType POT_CONTAINER_TYPE;
+
     //Declare sounds here
     /**
      * When a fire makes contact with Floo Powder
@@ -113,6 +125,10 @@ public class FloocraftBase {
     @ObjectHolder("peeker")
     public static EntityType PEEKER_TYPE;
 
+    //Declare ParticleTypes here
+    @ObjectHolder("greenflame")
+    public static ParticleType GREEN_FLAME;
+
     //Declare TileEntityTypes here
     @ObjectHolder("fireplace")
     public static TileEntityType FIREPLACE_TYPE;
@@ -129,8 +145,6 @@ public class FloocraftBase {
     public FloocraftBase() {
         //Register the config
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG_SPEC);
-        //GUI stuff
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> GuiHandler::getClientGuiElement);
 
         //Event bus
         IEventBus loadingBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -148,7 +162,7 @@ public class FloocraftBase {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> evt) {
         evt.getRegistry().registerAll(
-                new BlockFlooTorch()
+                new FlooTorchBlock()
                         .setRegistryName("flootorch"),
                 new GreenFlamesBusy()
                         .setRegistryName("greenflamesbusy"),
@@ -156,7 +170,7 @@ public class FloocraftBase {
                         .setRegistryName("greenflamesidle"),
                 new GreenFlamesTemp()
                         .setRegistryName("greenflamestemp"),
-                new BlockFlooSign()
+                new FlooSignBlock()
                         .setRegistryName("floosign"),
                 new BlockFloowerPot()
                         .setRegistryName("floowerpot"));
@@ -167,7 +181,7 @@ public class FloocraftBase {
         evt.getRegistry().registerAll(
                 new ItemFlooTorch()
                         .setRegistryName("flootorch"),
-                new ItemBlock(FLOOWER_POT, new Item.Properties().group(ItemGroup.MISC))
+                new BlockItem(FLOOWER_POT, new Item.Properties().group(ItemGroup.MISC))
                         .setRegistryName("floowerpot"),
                 new ItemFlooPowder((byte)1)
                         .setRegistryName("floopowder_one"),
@@ -184,13 +198,31 @@ public class FloocraftBase {
     }
 
     @SubscribeEvent
+    public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
+        event.getRegistry().register(IForgeContainerType.create((windowId, inv, data) -> new FloowerPotContainer(windowId, inv, inv.player.world, data.readBlockPos())).setRegistryName("pot"));
+    }
+
+    @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
-        event.getRegistry().register(
-                EntityType.Builder.create(EntityPeeker.class, EntityPeeker::new)
-                        .tracker(32, 1, false)
+        event.getRegistry().registerAll(
+                EntityType.Builder.create((type, world) -> new PeekerEntity(world), EntityClassification.MISC)
+                        .setTrackingRange(32)
+                        .setUpdateInterval(10)
+                        .setShouldReceiveVelocityUpdates(false)
+                        .immuneToFire()
+                        .size(0.5F, 0.5F)
+                        .setCustomClientFactory((spawnEntity, world) -> new PeekerEntity(world))
                         .build(DataReference.MODID)
-                        .setRegistryName(new ResourceLocation(DataReference.MODID, "peeker"))
+                        .setRegistryName("peeker")
         );
+    }
+
+    @SubscribeEvent
+    public static void registerParticleTypes(RegistryEvent.Register<ParticleType<?>> event) {
+        //TODO FOR TORCH FLAME PARTICLE
+//        event.getRegistry().register(
+//                new BasicParticleType(false).setRegistryName("greenflame")
+//        );
     }
 
     @SubscribeEvent
@@ -204,15 +236,35 @@ public class FloocraftBase {
     @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().registerAll(
-                TileEntityType.Builder.create(TileEntityFireplace::new)
+                TileEntityType.Builder.create(FireplaceTileEntity::new, FloocraftBase.BLOCK_FLOO_SIGN)
                         .build(null)
-                        .setRegistryName(new ResourceLocation(DataReference.MODID, "fireplace")),
-                TileEntityType.Builder.create(TileEntityFloowerPot::new)
+                        .setRegistryName("fireplace"),
+                TileEntityType.Builder.create(FloowerPotTileEntity::new, FloocraftBase.FLOOWER_POT)
                         .build(null)
-                        .setRegistryName(new ResourceLocation(DataReference.MODID, "pot")));
+                        .setRegistryName("pot"));
                 //TileEntityType.Builder.create(TileEntityMirageFire::new)
                 //        .build(null)
-                //        .setRegistryName(new ResourceLocation(DataReference.MODID, "greenlight")));
+                //        .setRegistryName("greenlight"));
+    }
+
+    //TODO CHANGE BACK WHEN CREATEENTITY IS RESTORED
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        if(!event.getWorld().isRemote) {
+            Entity entity = event.getEntity();
+            if (entity.getClass().equals(ItemEntity.class)) {
+                ItemStack stack = ((ItemEntity) entity).getItem();
+                Item item = stack.getItem();
+                if (item instanceof ItemFlooPowder) {
+                    Entity newEntity = item.createEntity(event.getWorld(), entity, stack);
+                    if (newEntity != null) {
+                        entity.remove();
+                        event.setCanceled(true);
+                        event.getWorld().addEntity(newEntity);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -220,7 +272,7 @@ public class FloocraftBase {
      * @param event
      */
     public void postRegistration(FMLCommonSetupEvent event) {
-        PacketHandler.init();
+        MessageHandler.init();
         //Proxy registering
         proxy.registerTextureStitcher();
         proxy.registerTickHandlers();
@@ -228,6 +280,7 @@ public class FloocraftBase {
 
     public void clientSetup(FMLClientSetupEvent event) {
         //mirageInstalled = Loader.isModLoaded("mirage");
+        proxy.registerGUIs();
         proxy.registerRenderers();
     }
 
@@ -236,13 +289,17 @@ public class FloocraftBase {
     //Common entity access method
     public static Entity getEntityWithUUID(World world, UUID uuid) {
         if (world == null || uuid == null) return null;
-        List<Entity> entities = world.loadedEntityList;
-        Iterator<Entity> eIter = entities.iterator();
-        while (eIter.hasNext()) {
-            Entity nextEntity = eIter.next();
-            if (nextEntity.getUniqueID().equals(uuid)) return nextEntity;
+        if(world.isRemote) {
+            Iterator<Entity> iterator = ((ClientWorld) world).getAllEntities().iterator();
+            while(iterator.hasNext()) {
+                Entity next = iterator.next();
+                if(next.getUniqueID().equals(uuid)) return next;
+            }
+            return null;
         }
-        return null;
+        else {
+            return ((ServerWorld) world).getEntityByUuid(uuid);
+        }
     }
 
     ////////////////////////

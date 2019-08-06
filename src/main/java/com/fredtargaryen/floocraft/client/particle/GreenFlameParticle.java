@@ -2,18 +2,22 @@ package com.fredtargaryen.floocraft.client.particle;
 
 import com.fredtargaryen.floocraft.DataReference;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.world.World;
 
 /**
  * ALL CODE HERE GRABBED FROM MinecraftByExample BY TheGreyGhost (and very slightly adjusted). THANK YOU!
  */
-public class ParticleGreenFlame extends Particle {
+public class GreenFlameParticle extends SpriteTexturedParticle {
     /**
      * Construct a new FlameFX at the given [x,y,z] position with the given initial velocity.
      */
-    public ParticleGreenFlame(World world, double x, double y, double z) {
-        super(world, x, y, z, 0.0D, 0.0D, 0.0D);
+    public GreenFlameParticle(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
 
         this.particleAlpha = 0.99F;  // a value less than 1 turns on alpha blending. Otherwise, alpha blending is off
         // and the particle won't be transparent.
@@ -25,22 +29,7 @@ public class ParticleGreenFlame extends Particle {
 
         // set the texture to the flame texture, which we have previously added using TextureStitchEvent
         //   (see TextureStitcher)
-        this.setParticleTexture(Minecraft.getInstance().getTextureMap().getAtlasSprite(DataReference.FLAMERL.toString()));
-    }
-
-    /**
-     * Used to control what texture and lighting is used for the EntityFX.
-     * Returns 1, which means "use a texture from the blocks + items texture sheet"
-     * The vanilla layers are:
-     * normal particles: ignores world brightness lighting map
-     *   Layer 0 - uses the particles texture sheet (textures\particle\particles.png)
-     *   Layer 1 - uses the blocks + items texture sheet
-     * lit particles: changes brightness depending on world lighting i.e. block light + sky light
-     *   Layer 3 - uses the blocks + items texture sheet (I think)
-     */
-    @Override
-    public int getFXLayer() {
-        return 1;
+        //this.setTexture(Minecraft.getInstance().getTextureMap().getAtlasSprite(DataReference.FLAMERL.toString()));
     }
 
     // can be used to change the brightness of the rendered EntityFX.
@@ -59,14 +48,20 @@ public class ParticleGreenFlame extends Particle {
         prevPosX = posX;
         prevPosY = posY;
         prevPosZ = posZ;
-
-        move(motionX, 0.001, motionZ);  // simple linear motion.  You can change speed by changing motionX, motionY,
-        // motionZ every tick.  For example - you can make the particle accelerate downwards due to gravity by
-        // final double GRAVITY_ACCELERATION_PER_TICK = -0.02;
-        // motionY += GRAVITY_ACCELERATION_PER_TICK;
-        this.particleScale *= 0.99;
+        move(motionX, 0.001, motionZ);
+        this.setSize(this.width * 0.99F, this.height * 0.99F);
         if (this.maxAge-- <= 0) {
             this.setExpired();
         }
+    }
+
+    @Override
+    public void renderParticle(BufferBuilder bufferBuilder, ActiveRenderInfo activeRenderInfo, float v, float v1, float v2, float v3, float v4, float v5) {
+        super.renderParticle(bufferBuilder, activeRenderInfo, v, v1, v2, v3, v4, v5);
+    }
+
+    @Override
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 }

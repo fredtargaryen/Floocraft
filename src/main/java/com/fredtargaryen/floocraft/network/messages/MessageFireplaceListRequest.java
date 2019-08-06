@@ -1,9 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
-import com.fredtargaryen.floocraft.network.PacketHandler;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.IThreadListener;
+import com.fredtargaryen.floocraft.network.MessageHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -16,7 +14,7 @@ public class MessageFireplaceListRequest {
 		ctx.get().enqueueWork(() -> {
 			World w = ctx.get().getSender().world;
 			MessageFireplaceList mfl = FloocraftWorldData.forWorld(w).assembleNewFireplaceList(w);
-			PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> ctx.get().getSender()), mfl);
+			MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> ctx.get().getSender()), mfl);
 		});
 		ctx.get().setPacketHandled(true);
 	}

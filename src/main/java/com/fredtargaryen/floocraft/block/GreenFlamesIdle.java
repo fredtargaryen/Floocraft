@@ -4,8 +4,9 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 //import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -20,10 +21,10 @@ public class GreenFlamesIdle extends GreenFlamesBase {
 	public GreenFlamesIdle() { super(12); }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) { return SMALLBOX; }
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) { return SMALLBOX; }
 
     @Override
-    public void tick(IBlockState state, World w, BlockPos pos, Random rand) {
+    public void tick(BlockState state, World w, BlockPos pos, Random rand) {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE, false) != null)
         {
             w.setBlockState(pos, FloocraftBase.GREEN_FLAMES_BUSY.getDefaultState().with(AGE_0_15, state.get(AGE_0_15)));
@@ -35,7 +36,7 @@ public class GreenFlamesIdle extends GreenFlamesBase {
     //MIRAGE COMPATIBILITY//
     ////////////////////////
 //    @Override
-//    public TileEntity createTileEntity(World world, IBlockState state) {
+//    public TileEntity createTileEntity(World world, BlockState state) {
 //        TileEntityMirageFire temf = null;
 //        if(FloocraftBase.isMirageInstalled())
 //        {

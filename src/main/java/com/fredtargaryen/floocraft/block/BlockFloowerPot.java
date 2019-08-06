@@ -2,83 +2,79 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
-import com.fredtargaryen.floocraft.tileentity.TileEntityFloowerPot;
+import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.*;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.TickPriority;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockFloowerPot extends Block {
-    protected static final VoxelShape POTBOX = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
+    private static final VoxelShape POTBOX = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
 
     public BlockFloowerPot()
     {
-        super(Block.Properties.create(Material.CIRCUITS).hardnessAndResistance(0F));
+        super(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0F));
     }
 
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    @Override
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return POTBOX;
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState ibs)
+    public boolean hasTileEntity(BlockState ibs)
     {
         return true;
     }
 
     @Override
-    public TileEntity createTileEntity(IBlockState state, IBlockReader world)
+    public TileEntity createTileEntity(BlockState state, IBlockReader world)
     {
-        return new TileEntityFloowerPot();
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
+        return new FloowerPotTileEntity();
     }
 
     /**
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity == null || player.isSneaking())
         {
             return false;
         }
-        NetworkHooks.openGui((EntityPlayerMP) player, (IInteractionObject) tileEntity, buf -> {
-            BlockPos blockPos = tileEntity.getPos();
-            buf.writeInt(blockPos.getX());
-            buf.writeInt(blockPos.getY());
-            buf.writeInt(blockPos.getZ());
-        });
+        if(!worldIn.isRemote)
+            NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
         return true;
     }
 
     @Override
-    public void onReplaced(IBlockState state, World worldIn, BlockPos pos, IBlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         this.dropItems(worldIn, pos);
         super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
@@ -100,35 +96,37 @@ public class BlockFloowerPot extends Block {
                 float ry = rand.nextFloat() * 0.8F + 0.1F;
                 float rz = rand.nextFloat() * 0.8F + 0.1F;
 
-                EntityItem entityItem = new EntityItem(world,
+                ItemEntity ItemEntity = new ItemEntity(world,
                         pos.getX() + rx, pos.getY() + ry, pos.getZ() + rz,
                         new ItemStack(item.getItem(), item.getCount(), item.getTag()));
 
                 if (item.hasTag()) {
-                    entityItem.getItem().setTag(item.getTag().copy());
+                    ItemEntity.getItem().setTag(item.getTag().copy());
                 }
 
                 float factor = 0.05F;
-                entityItem.motionX = rand.nextGaussian() * factor;
-                entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
-                entityItem.motionZ = rand.nextGaussian() * factor;
-                world.spawnEntity(entityItem);
+                ItemEntity.setMotion(
+                        rand.nextGaussian() * factor,
+                        rand.nextGaussian() * factor + 0.2F,
+                        rand.nextGaussian() * factor
+                );
+                world.addEntity(ItemEntity);
                 item.setCount(0);
             }
         }
     }
 
     @Override
-    public int tickRate(IWorldReaderBase par1World)
+    public int tickRate(IWorldReader par1World)
     {
         return 50;
     }
 
     @Override
-    public void tick(IBlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         super.tick(state, world, pos, rand);
         if(!world.isRemote) {
-            TileEntityFloowerPot pot = (TileEntityFloowerPot) world.getTileEntity(pos);
+            FloowerPotTileEntity pot = (FloowerPotTileEntity) world.getTileEntity(pos);
             ItemStack stack = pot.getStackInSlot(0);
             if (stack != null && stack.getCount() > 0) {
                 int par2 = pos.getX();
@@ -164,32 +162,34 @@ public class BlockFloowerPot extends Block {
     }
 
     @Override
-    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
         worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), this.tickRate(worldIn), TickPriority.EXTREMELY_LOW);
     }
 
     /**
-     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
+     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
+     * @deprecated call via IBlockState#getRenderType() whenever possible. Implementing/overriding is fine.
      */
-    public EnumBlockRenderType getRenderType(IBlockState state)
+    public BlockRenderType getRenderType(BlockState state)
     {
-        return EnumBlockRenderType.MODEL;
+        return BlockRenderType.MODEL;
     }
 
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, pos
      */
     @Override
-    public boolean isValidPosition(IBlockState state, IWorldReaderBase worldIn, BlockPos pos) {
-        return super.isValidPosition(state, worldIn, pos) && worldIn.getBlockState(pos.down()).getBlockFaceShape(worldIn, pos, EnumFacing.UP) == BlockFaceShape.SOLID;
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        return super.isValidPosition(state, worldIn, pos);
     }
 
     /**
      * Called when a neighboring block changes.
      */
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos someOtherPos) {
-        if (worldIn.getBlockState(pos.down()).getBlockFaceShape(worldIn, pos, EnumFacing.UP) != BlockFaceShape.SOLID) {
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
+        if (!this.isValidPosition(state, worldIn, pos)) {
             this.onReplaced(state, worldIn, pos, Blocks.AIR.getDefaultState(), false);
         }
     }

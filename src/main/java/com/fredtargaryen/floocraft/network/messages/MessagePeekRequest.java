@@ -2,15 +2,14 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
-import com.fredtargaryen.floocraft.entity.EntityPeeker;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
-import com.fredtargaryen.floocraft.network.PacketHandler;
+import com.fredtargaryen.floocraft.network.MessageHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -29,7 +28,7 @@ public class MessagePeekRequest {
             int initX = this.initX;
             int initY = this.initY;
             int initZ = this.initZ;
-            EntityPlayerMP player = ctx.get().getSender();
+            ServerPlayerEntity player = ctx.get().getSender();
             World world = player.world;
             Block initBlock = world.getBlockState(new BlockPos(initX, initY, initZ)).getBlock();
             int[] destCoords = FloocraftWorldData.forWorld(world).placeList.get(this.dest);
@@ -45,17 +44,17 @@ public class MessagePeekRequest {
                     //Checks whether the destination is fire
                     if (destBlock == Blocks.FIRE || destBlock == FloocraftBase.GREEN_FLAMES_BUSY
                             || destBlock == FloocraftBase.GREEN_FLAMES_IDLE) {
-                        EnumFacing direction = ((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, dest);
+                        Direction direction = ((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, dest);
                         if (direction != null) {
-                            EnumFacing.Axis axis = direction.getAxis();
-                            if (axis == EnumFacing.Axis.X || axis == EnumFacing.Axis.Z) {
+                            Direction.Axis axis = direction.getAxis();
+                            if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {
                                 //Create peeker
-                                EntityPeeker peeker = new EntityPeeker(world);
+                                PeekerEntity peeker = new PeekerEntity(world);
                                 peeker.setPeekerData(player, dest, direction);
-                                world.spawnEntity(peeker);
+                                world.addEntity(peeker);
                                 //Create message
                                 MessageStartPeek msp = new MessageStartPeek(peeker.getUniqueID());
-                                PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msp);
+                                MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msp);
                             }
                         }
                     }
