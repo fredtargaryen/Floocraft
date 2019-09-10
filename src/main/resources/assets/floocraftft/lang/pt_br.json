@@ -1,0 +1,24 @@
+{
+    "": "Tradução 100% completa",
+    "": "BLOCOS",
+    "block.floocraftft.floosign": "Placa de flu",
+    "block.floocraftft.flootorch": "Tocha de flu",
+    "block.floocraftft.greenflamesbusy": "Chamas verdes-esmeralda",
+    "block.floocraftft.greenflamestemp": "Chamas verdes-esmeralda",
+    "block.floocraftft.greenflamesidle": "Chamas verdes-esmeralda",
+    "block.floocraftft.floowerpot": "Vaso de flu",
+
+    "": "ITENS",
+    "item.floocraftft.floopowder_one": "Pó de flu",
+    "item.floocraftft.floopowder_two": "Pó de flu",
+    "item.floocraftft.floopowder_four": "Pó de flu",
+    "item.floocraftft.floopowder_eight": "Pó de flu",
+    "item.floocraftft.floopowder_infinite": "Pó de flu",
+    "item.floocraftft.floosign": "Placa de flu",
+    "item.floocraftft.flootorch": "Tocha de flu",
+
+    "": "LEGENDAS",
+    "subs.floocraftft.greened": "O pó de flu atinge o fogo",
+    "subs.floocraftft.tp": "A lareira teleporta",
+    "subs.floocraftft.flick": "A tocha de flu teleporta"
+}
