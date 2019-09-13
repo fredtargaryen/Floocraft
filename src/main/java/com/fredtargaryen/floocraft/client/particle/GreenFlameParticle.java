@@ -1,38 +1,28 @@
 package com.fredtargaryen.floocraft.client.particle;
 
-import com.fredtargaryen.floocraft.DataReference;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.world.World;
 
-/**
- * ALL CODE HERE GRABBED FROM MinecraftByExample BY TheGreyGhost (and very slightly adjusted). THANK YOU!
- */
 public class GreenFlameParticle extends SpriteTexturedParticle {
-    /**
-     * Construct a new FlameFX at the given [x,y,z] position with the given initial velocity.
-     */
-    public GreenFlameParticle(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    private GreenFlameParticle(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
-
-        this.particleAlpha = 0.99F;  // a value less than 1 turns on alpha blending. Otherwise, alpha blending is off
-        // and the particle won't be transparent.
-
-        //the vanilla EntityFX constructor added random variation to our starting velocity.  Undo it!
-        motionX = 0.0D;
-        motionY = 0.0D;
-        motionZ = 0.0D;
-
-        // set the texture to the flame texture, which we have previously added using TextureStitchEvent
-        //   (see TextureStitcher)
-        //this.setTexture(Minecraft.getInstance().getTextureMap().getAtlasSprite(DataReference.FLAMERL.toString()));
+        this.setSprite(spriteSet.get(0, 50));
+        this.maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
     }
 
-    // can be used to change the brightness of the rendered EntityFX.
+    public float getScale(float p_217561_1_) {
+        float f = ((float)this.age + p_217561_1_) / (float)this.maxAge;
+        return this.particleScale * (1.0F - f * f * 0.5F);
+    }
+
+    @Override
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    }
+
     @Override
     public int getBrightnessForRender(float partialTick) {
         //Full brightness
@@ -44,13 +34,7 @@ public class GreenFlameParticle extends SpriteTexturedParticle {
      */
     @Override
     public void tick() {
-        super.tick();
-        prevPosX = posX;
-        prevPosY = posY;
-        prevPosZ = posZ;
-        move(motionX, 0.001, motionZ);
-        this.setSize(this.width * 0.99F, this.height * 0.99F);
-        if (this.maxAge-- <= 0) {
+        if (this.age++ >= this.maxAge) {
             this.setExpired();
         }
     }
@@ -60,8 +44,15 @@ public class GreenFlameParticle extends SpriteTexturedParticle {
         super.renderParticle(bufferBuilder, activeRenderInfo, v, v1, v2, v3, v4, v5);
     }
 
-    @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public static class Factory implements IParticleFactory<BasicParticleType> {
+        private IAnimatedSprite sprites;
+
+        public Factory(IAnimatedSprite sprites) {
+            this.sprites = sprites;
+        }
+
+        public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new GreenFlameParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites);
+        }
     }
 }

@@ -11,7 +11,6 @@ public interface IProxy {
     void onMessage(MessageStartPeek msp);
     void registerGUIs();
     void registerRenderers();
-    void registerTextureStitcher();
     void registerTickHandlers();
     void setUUIDs(MessagePlayerID message);
 }

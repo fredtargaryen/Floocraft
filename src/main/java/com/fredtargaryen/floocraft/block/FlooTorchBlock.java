@@ -1,7 +1,6 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-//import com.fredtargaryen.floocraft.client.particle.GreenFlameParticle;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
 import net.minecraft.block.Block;
@@ -9,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -89,8 +89,7 @@ public class FlooTorchBlock extends TorchBlock {
                 break;
         }
         worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-        //TODO FLAME PARTICLE
-        //Minecraft.getInstance().particles.addEffect(new GreenFlameParticle(worldIn, d0, d1, d2));
+        Minecraft.getInstance().particles.addParticle(FloocraftBase.GREEN_FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 
     @Override

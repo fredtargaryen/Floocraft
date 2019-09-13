@@ -1,6 +1,7 @@
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
+import com.fredtargaryen.floocraft.client.particle.GreenFlameParticle;
 import com.fredtargaryen.floocraft.config.Config;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
@@ -14,6 +15,7 @@ import com.fredtargaryen.floocraft.proxy.ServerProxy;
 import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
 import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -24,12 +26,14 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
@@ -127,7 +131,7 @@ public class FloocraftBase {
 
     //Declare ParticleTypes here
     @ObjectHolder("greenflame")
-    public static ParticleType GREEN_FLAME;
+    public static BasicParticleType GREEN_FLAME;
 
     //Declare TileEntityTypes here
     @ObjectHolder("fireplace")
@@ -220,9 +224,14 @@ public class FloocraftBase {
     @SubscribeEvent
     public static void registerParticleTypes(RegistryEvent.Register<ParticleType<?>> event) {
         //TODO FOR TORCH FLAME PARTICLE
-//        event.getRegistry().register(
-//                new BasicParticleType(false).setRegistryName("greenflame")
-//        );
+        event.getRegistry().register(
+                new BasicParticleType(false).setRegistryName("greenflame")
+        );
+    }
+
+    @SubscribeEvent
+    public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
+        Minecraft.getInstance().particles.registerFactory(FloocraftBase.GREEN_FLAME, GreenFlameParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -273,8 +282,6 @@ public class FloocraftBase {
      */
     public void postRegistration(FMLCommonSetupEvent event) {
         MessageHandler.init();
-        //Proxy registering
-        proxy.registerTextureStitcher();
         proxy.registerTickHandlers();
     }
 

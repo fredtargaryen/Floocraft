@@ -1,8 +1,6 @@
 package com.fredtargaryen.floocraft.proxy;
 
 import com.fredtargaryen.floocraft.network.messages.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
 
 public class ServerProxy implements IProxy {
     @Override
@@ -17,8 +15,6 @@ public class ServerProxy implements IProxy {
     public void registerGUIs() {}
     @Override
     public void registerRenderers(){}
-    @Override
-    public void registerTextureStitcher(){}
     @Override
     public void registerTickHandlers(){}
     @Override

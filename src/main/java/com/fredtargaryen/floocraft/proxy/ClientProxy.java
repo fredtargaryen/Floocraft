@@ -5,7 +5,6 @@ import com.fredtargaryen.floocraft.client.gui.FlashScreen;
 import com.fredtargaryen.floocraft.client.gui.FlooSignScreen;
 import com.fredtargaryen.floocraft.client.gui.FloowerPotScreen;
 import com.fredtargaryen.floocraft.client.gui.TeleportScreen;
-import com.fredtargaryen.floocraft.client.particle.TextureStitcher;
 import com.fredtargaryen.floocraft.client.renderer.RenderPeekerFactory;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
@@ -17,9 +16,6 @@ import com.fredtargaryen.floocraft.tileentity.renderer.TileEntityPotRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -64,12 +60,6 @@ public class ClientProxy implements IProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(FireplaceTileEntity.class, new TileEntityFlooSignRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(FloowerPotTileEntity.class, new TileEntityPotRenderer());
         RenderingRegistry.registerEntityRenderingHandler(PeekerEntity.class, new RenderPeekerFactory());
-    }
-
-    @Override
-    public void registerTextureStitcher() {
-        //Register Floo Torch flame texture
-        MinecraftForge.EVENT_BUS.register(new TextureStitcher());
     }
 
     @Override
