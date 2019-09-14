@@ -1,7 +1,7 @@
 package com.fredtargaryen.floocraft.proxy;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.client.gui.FlashScreen;
+import com.fredtargaryen.floocraft.client.gui.Flash;
 import com.fredtargaryen.floocraft.client.gui.FlooSignScreen;
 import com.fredtargaryen.floocraft.client.gui.FloowerPotScreen;
 import com.fredtargaryen.floocraft.client.gui.TeleportScreen;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy implements IProxy {
     public OverrideTicker overrideTicker;
-    public FlashScreen flash;
+    public Flash flash;
 
     @Override
     public void onMessage(MessageApproval ma) {
@@ -66,7 +66,7 @@ public class ClientProxy implements IProxy {
     public void registerTickHandlers() {
         //Tickers now register and unregister themselves when necessary, improving performance very slightly
         this.overrideTicker = new OverrideTicker();
-        this.flash = new FlashScreen(Minecraft.getInstance());
+        this.flash = new Flash();
     }
 
     @Override
