@@ -19,10 +19,11 @@ import net.minecraftforge.event.TickEvent;
 import org.lwjgl.opengl.GL11;
 
 public class Flash {
-    private byte ticks;
+    private double ticks;
     private Minecraft minecraft;
     private static final ResourceLocation texloc = new ResourceLocation(DataReference.MODID, "textures/gui/flash.png");
     private TextureManager textureManager;
+    private long startTime;
 	
     public Flash(){
         this.ticks = -1;
@@ -35,18 +36,20 @@ public class Flash {
             this.textureManager = this.minecraft.getTextureManager();
             MinecraftForge.EVENT_BUS.register(this);
             Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(FloocraftBase.TP, 1.0F));
+            this.startTime = System.currentTimeMillis();
         }
     }
 
     @SubscribeEvent
     public void flash(TickEvent.RenderTickEvent event) {
         if(event.phase == TickEvent.Phase.END) {
-            this.ticks += 5;
+            //this.ticks += 5;
+            this.ticks = System.currentTimeMillis() - this.startTime;
             GlStateManager.disableAlphaTest();
             GlStateManager.disableDepthTest();
             GlStateManager.depthMask(false);
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.toRadians(this.ticks - 10)));
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.toRadians(this.ticks * 90 / 1000.0)));
             this.textureManager.bindTexture(texloc);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
@@ -64,7 +67,7 @@ public class Flash {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         }
-        if(this.ticks > 89) {
+        if(this.ticks > 999) {
             this.ticks = -1;
             MinecraftForge.EVENT_BUS.unregister(this);
         }
