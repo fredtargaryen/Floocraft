@@ -4,6 +4,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.entity.DroppedFlooPowderEntity;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
@@ -91,13 +92,13 @@ public class ItemFlooPowder extends Item {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		if(this.concentration == 9) {
-			tooltip.add(new StringTextComponent("Concentration: \u221E tp/p").applyTextStyle(TextFormatting.GREEN));
-            tooltip.add(new StringTextComponent("Creative mode only!"));
+			tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration", '\u221E')).applyTextStyle(TextFormatting.GREEN));
+            tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.creativeonly")));
 		}
 		else {
-            tooltip.add(new StringTextComponent("Concentration: "+this.concentration+" tp/p").applyTextStyle(TextFormatting.GREEN));
+            tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration",this.concentration)).applyTextStyle(TextFormatting.GREEN));
         	if(this.concentration == 1) {
-                tooltip.add(new StringTextComponent("Can use in crafting"));
+                tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.craftable")));
 			}
         }
     }

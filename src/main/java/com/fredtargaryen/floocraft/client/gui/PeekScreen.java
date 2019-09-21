@@ -8,6 +8,7 @@ import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -96,10 +97,10 @@ public class PeekScreen extends Screen {
     public void render(int mousex, int mousey, float partialticks) {
         this.drawCenteredString(this.font,
                 this.peekerSpawned ?
-                        "Peeking into "+this.fireplaceName :
+                        I18n.format("gui.peek.peeking", this.fireplaceName) :// + " " + this.fireplaceName :
                         this.peekFailedOutOfRange ?
-                                "Peek failed: you are looking somewhere beyond your render distance" :
-                                "Waiting...",
+                                I18n.format("gui.peek.outofrange") :
+                                I18n.format("gui.peek.waiting"),
                 this.width / 2,
                 15,
                 16777215);

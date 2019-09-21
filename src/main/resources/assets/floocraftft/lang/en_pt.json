@@ -16,9 +16,30 @@
     "item.floocraftft.floopowder_infinite": "Traveller's Snuff",
     "item.floocraftft.floosign": "Traveller's Plank",
     "item.floocraftft.flootorch": "Rod o' Green Flames",
+    "item.floocraftft.concentration": "Concentration: %s tp/p",
+    "item.floocraftft.creativeonly": "Only fer creatives!",
+    "item.floocraftft.craftable": "Ye can craft wi' this one",
 
     "": "SUBTITLES",
     "subs.floocraftft.greened": "\"St Elmo's Fire appears\"",
     "subs.floocraftft.tp": "\"Ye be transported!\"",
-    "subs.floocraftft.flick": "\"Travel by Rod\""
+    "subs.floocraftft.flick": "\"Travel by Rod\"",
+
+    "": "MENUS",
+    "gui.floosign.title": "Name yer Ship",
+    "gui.floosign.approvalwait": "Waitin' fer approval...",
+    "gui.floosign.decoration": "Just a bit o' timber",
+    "gui.floosign.connect": "Connect to yon Network",
+    "gui.floosign.nameinuse": "Some scallywag's pilfered that name already",
+    "gui.peek.peeking": "Peeking into %s",
+    "gui.peek.outofrange": "Peek failed: ye can't see that far away from the crow's nest",
+    "gui.peek.waiting": "Waitin'...",
+    "gui.peek.done": "Climb down from the crow's nest",
+    "gui.teleport.title": "Pick a Port",
+    "gui.teleport.refresh": "Refresh",
+    "gui.teleport.peek": "Peek...",
+    "gui.teleport.go": "Anchors aweigh!",
+    "gui.teleport.cancel": "Cancel",
+    "gui.teleport.loading": "Loadin'...",
+    "gui.teleport.empty": "The seas be empty"
 }

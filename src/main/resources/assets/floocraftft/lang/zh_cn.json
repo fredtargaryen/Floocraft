@@ -16,9 +16,30 @@
     "item.floocraftft.floopowder_infinite": "飞路粉",
     "item.floocraftft.floosign": "飞路牌",
     "item.floocraftft.flootorch": "飞路火把",
+    "item.floocraftft.concentration": "浓度: %s tp/p",
+    "item.floocraftft.creativeonly": "仅创意模式!",
+    "item.floocraftft.craftable": "可用于制作",
 
     "": "SUBTITLES",
     "subs.floocraftft.greened": "对火焰使用飞路粉",
     "subs.floocraftft.tp": "壁炉传送",
-    "subs.floocraftft.flick": "飞路火把传送"
+    "subs.floocraftft.flick": "飞路火把传送",
+
+    "": "MENUS",
+    "gui.floosign.title": "编辑洪水标志",
+    "gui.floosign.approvalwait": "等待批准...",
+    "gui.floosign.decoration": "用作装饰",
+    "gui.floosign.connect": "连接到网络",
+    "gui.floosign.nameinuse": "已经有一个这个名字的地方",
+    "gui.peek.peeking": "展望 %s",
+    "gui.peek.outofrange": "看起来失败：您试图在渲染距离之外看",
+    "gui.peek.waiting": "等候...",
+    "gui.peek.done": "恶作剧管理!",
+    "gui.teleport.title": "选择目的地",
+    "gui.teleport.refresh": "刷新",
+    "gui.teleport.peek": "看...",
+    "gui.teleport.go": "走!",
+    "gui.teleport.cancel": "取消",
+    "gui.teleport.loading": "载入中...",
+    "gui.teleport.empty": "找不到地点"
 }

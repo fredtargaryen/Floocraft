@@ -12,11 +12,13 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -39,7 +41,7 @@ public class FlooSignScreen extends Screen {
     private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID, "textures/blocks/floosign.png");
 
     public FlooSignScreen(FireplaceTileEntity par1FireplaceTileEntity) {
-        super(new StringTextComponent("===Floo Network Setup Wizard==="));
+        super(new StringTextComponent(I18n.format("gui.floosign.title")));
         this.fireplaceTE = par1FireplaceTileEntity;
     }
 
@@ -52,7 +54,7 @@ public class FlooSignScreen extends Screen {
         maf.attemptingToConnect = attemptingToConnect;
         maf.name = this.fireplaceTE.signText;
         MessageHandler.INSTANCE.sendToServer(maf);
-        this.sameNameError = "Waiting for approval...";
+        this.sameNameError = I18n.format("Waiting for approval...");
     }
 
     /**
@@ -61,12 +63,12 @@ public class FlooSignScreen extends Screen {
     public void init() {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        this.decorButton = new Button(this.width / 2 - 100, this.height / 4 + 120, 98, 20, "Use as decoration", button -> {
+        this.decorButton = new Button(this.width / 2 - 100, this.height / 4 + 120, 98, 20, I18n.format("gui.floosign.decoration"), button -> {
             FlooSignScreen.this.sendApprovalMessage(false);
             FlooSignScreen.this.minecraft.displayGuiScreen(null);
         });
         this.addButton(this.decorButton);
-        this.addButton(new Button(this.width / 2 + 2, this.height / 4 + 120, 98, 20, "Connect to Network", button -> {
+        this.addButton(new Button(this.width / 2 + 2, this.height / 4 + 120, 98, 20, I18n.format("gui.floosign.connect"), button -> {
             FlooSignScreen.this.sendApprovalMessage(true);
         }));
     }
@@ -127,7 +129,7 @@ public class FlooSignScreen extends Screen {
     public void render(int mouseX, int mouseY, float partialTicks) {
     	super.renderBackground();
         this.drawCenteredString(this.font,
-                "===Floo Network Setup Wizard===",
+                I18n.format("gui.floosign.title"),
         		this.width / 2,
         		40,
         		16777215);
@@ -192,7 +194,7 @@ public class FlooSignScreen extends Screen {
         }
         else {
             //The sign is for connecting but the name has already been used.
-            this.sameNameError = "There is already a fireplace with this name";
+            this.sameNameError = I18n.format("gui.floosign.nameinuse");
         }
     }
 
