@@ -16,9 +16,30 @@
     "item.floocraftft.floopowder_infinite": "Floo Powder",
     "item.floocraftft.floosign": "Floo Sign",
     "item.floocraftft.flootorch": "Floo Torch",
+    "item.floocraftft.concentration": "Concentration: %s tp/p",
+    "item.floocraftft.creativeonly": "Creative mode only!",
+    "item.floocraftft.craftable": "Can use in crafting",
 
     "": "SUBTITLES",
     "subs.floocraftft.greened": "Floo Powder hits fire",
     "subs.floocraftft.tp": "Fireplace teleport",
-    "subs.floocraftft.flick": "Floo torch teleport"
+    "subs.floocraftft.flick": "Floo torch teleport",
+
+    "": "MENUS",
+    "gui.floosign.title": "Floo Sign Setup Wizard",
+    "gui.floosign.approvalwait": "Waiting for approval...",
+    "gui.floosign.decoration": "Use as decoration",
+    "gui.floosign.connect": "Connect to Network",
+    "gui.floosign.nameinuse": "There is already a fireplace with this name",
+    "gui.peek.peeking": "Peeking into %s",
+    "gui.peek.outofrange": "Peek failed: you are looking somewhere beyond your render distance",
+    "gui.peek.waiting": "Waiting...",
+    "gui.peek.done": "Mischief managed",
+    "gui.teleport.title": "Choose a Destination",
+    "gui.teleport.refresh": "Refresh",
+    "gui.teleport.peek": "Peek...",
+    "gui.teleport.go": "Go!",
+    "gui.teleport.cancel": "Cancel",
+    "gui.teleport.loading": "Loading...",
+    "gui.teleport.empty": "No places found"
 }

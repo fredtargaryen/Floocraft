@@ -12,6 +12,7 @@ import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 @OnlyIn(Dist.CLIENT)
 public class TeleportScreen extends Screen {
     /** The title string that is displayed in the top-centre of the screen. */
-    private static final String screenTitle = "===Choose a destination===";
+    private static final String screenTitle = I18n.format("gui.teleport.title");
     private String status;
 
     //"Peek..."
@@ -64,12 +65,12 @@ public class TeleportScreen extends Screen {
     public void init() {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        Button refreshButton = new Button(this.width - 100, 0, 98, 20, "Refresh", button -> {
+        Button refreshButton = new Button(this.width - 100, 0, 98, 20, I18n.format("gui.teleport.refresh"), button -> {
             TeleportScreen.this.refresh();
             TeleportScreen.this.init();
         });
         refreshButton.active = false;
-        this.addButton(this.peekBtn = new Button(this.width / 2 - 151, this.height - 40, 98, 20, "Peek...", button -> {
+        this.addButton(this.peekBtn = new Button(this.width / 2 - 151, this.height - 40, 98, 20, I18n.format("gui.teleport.peek"), button -> {
             String dest = (String) TeleportScreen.this.placeList[TeleportScreen.this.scrollWindow.getSelected().id];
             try {
                 MessagePeekRequest m = new MessagePeekRequest();
@@ -83,7 +84,7 @@ public class TeleportScreen extends Screen {
             }
         }));
         this.peekBtn.active = false;
-        this.addButton(this.goBtn = new Button(this.width / 2 - 49, this.height - 40, 98, 20, "Go!", button -> {
+        this.addButton(this.goBtn = new Button(this.width / 2 - 49, this.height - 40, 98, 20, I18n.format("gui.teleport.go"), button -> {
             int initX = TeleportScreen.this.initX;
             int initY = TeleportScreen.this.initY;
             int initZ = TeleportScreen.this.initZ;
@@ -102,7 +103,7 @@ public class TeleportScreen extends Screen {
             TeleportScreen.this.cancelBtn.onClick(0.0, 0.0);
         }));
         this.goBtn.active = false;
-        this.addButton(this.cancelBtn = new Button(this.width / 2 + 53, this.height - 40, 98, 20, "Cancel", button -> {
+        this.addButton(this.cancelBtn = new Button(this.width / 2 + 53, this.height - 40, 98, 20, I18n.format("gui.teleport.cancel"), button -> {
             ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
             TeleportScreen.this.minecraft.displayGuiScreen(null);
         }));
@@ -132,12 +133,12 @@ public class TeleportScreen extends Screen {
     public void tick() {
         super.tick();
         if (!this.receivedLists) {
-            this.status = "Loading...";
+            this.status = I18n.format("gui.teleport.loading");
         }
         else {//if the lists were received...
             //if they are empty...
             if (this.placeList.length == 0) {
-                this.status = "No places found";
+                this.status = I18n.format("gui.teleport.empty");
             } else {
                 if(this.peekAttemptTimer == 0) {
                     this.status = "";

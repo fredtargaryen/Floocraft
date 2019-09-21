@@ -16,9 +16,30 @@
     "item.floocraftft.floopowder_infinite": "Pó de flu",
     "item.floocraftft.floosign": "Placa de flu",
     "item.floocraftft.flootorch": "Tocha de flu",
+    "item.floocraftft.concentration": "Concentração: %s tp/p",
+    "item.floocraftft.creativeonly": "Apenas no modo criativo!",
+    "item.floocraftft.craftable": "Pode ser usado na criação",
 
     "": "LEGENDAS",
     "subs.floocraftft.greened": "O pó de flu atinge o fogo",
     "subs.floocraftft.tp": "A lareira teleporta",
-    "subs.floocraftft.flick": "A tocha de flu teleporta"
+    "subs.floocraftft.flick": "A tocha de flu teleporta",
+
+    "": "MENUS",
+    "gui.floosign.title": "Configurações da rede de flu",
+    "gui.floosign.approvalwait": "Esperando por aprovação...",
+    "gui.floosign.decoration": "Usar como decoração",
+    "gui.floosign.connect": "Conectar à rede de flu",
+    "gui.floosign.nameinuse": "Já existe uma lareira com esse nome",
+    "gui.peek.peeking": "Espreitando %s",
+    "gui.peek.outofrange": "Falha ao espreitar: você está olhando em algum lugar além da sua distância de renderização",
+    "gui.peek.waiting": "Esperando...",
+    "gui.peek.done": "Malfeito feito!",
+    "gui.teleport.title": "Escolha um local de destino",
+    "gui.teleport.refresh": "Atualizar",
+    "gui.teleport.peek": "Dê uma espreitada...",
+    "gui.teleport.go": "Ir!",
+    "gui.teleport.cancel": "Cancelar",
+    "gui.teleport.loading": "Carregando...",
+    "gui.teleport.empty": "Nenhum local encontrado"
 }
