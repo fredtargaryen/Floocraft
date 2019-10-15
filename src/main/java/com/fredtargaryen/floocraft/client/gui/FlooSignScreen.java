@@ -54,7 +54,7 @@ public class FlooSignScreen extends Screen {
         maf.attemptingToConnect = attemptingToConnect;
         maf.name = this.fireplaceTE.signText;
         MessageHandler.INSTANCE.sendToServer(maf);
-        this.sameNameError = I18n.format("Waiting for approval...");
+        this.sameNameError = I18n.format("gui.floosign.approvalwait");
     }
 
     /**

@@ -55,7 +55,7 @@ public class PeekScreen extends Screen {
                 this.minecraft.setRenderViewEntity(ep);
             }
         }
-        this.addButton(this.doneBtn = new Button(this.width / 2 - 100, this.height - 40, 200, 20, "Mischief managed",
+        this.addButton(this.doneBtn = new Button(this.width / 2 - 100, this.height - 40, 200, 20, I18n.format("gui.peek.done"),
                 button -> {
                     PeekScreen.this.onClose();
                     Minecraft.getInstance().displayGuiScreen(null);
