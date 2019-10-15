@@ -90,28 +90,29 @@ public abstract class GreenFlamesBase extends Block {
                     MessageFireplaceList mfl = fwd.assembleNewFireplaceList(worldIn);
                     ArrayList<String> possibleLocations = new ArrayList<>();
                     //Add the enabled locations to possibleLocations
-                    for(int i = 0; i < mfl.places.length; ++i) {
-                        if(mfl.enabledList[i]) possibleLocations.add((String) mfl.places[i]);
+                    for (int i = 0; i < mfl.places.length; ++i) {
+                        if (mfl.enabledList[i]) possibleLocations.add((String) mfl.places[i]);
                     }
-                    //Pick a random location from possibleLocations
-                    int destNo = worldIn.rand.nextInt(possibleLocations.size());
-                    //Teleport to that location
-                    String destName = possibleLocations.get(destNo);
-                    //Get location coords
-                    int[] coords = fwd.placeList.get(destName);
-                    BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
-                    //Set a temporary Floo fire here
-                    if(worldIn.getBlockState(dest).getBlock() == Blocks.FIRE) {
-                        worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
-                    }
-                    if(landOutside) {
-                        dest = dest.offset(this.isInFireplace(worldIn, dest));
-                        entityIn.setLocationAndAngles(
-                                dest.getX(), coords[1], dest.getZ(), entityIn.rotationYaw, entityIn.rotationPitch);
-                    }
-                    else {
-                        entityIn.setLocationAndAngles(
-                                   coords[0], coords[1], coords[2], entityIn.rotationYaw, entityIn.rotationPitch);
+                    if(!possibleLocations.isEmpty()) {
+                        //Pick a random location from possibleLocations
+                        int destNo = worldIn.rand.nextInt(possibleLocations.size());
+                        //Teleport to that location
+                        String destName = possibleLocations.get(destNo);
+                        //Get location coords
+                        int[] coords = fwd.placeList.get(destName);
+                        BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
+                        //Set a temporary Floo fire here
+                        if (worldIn.getBlockState(dest).getBlock() == Blocks.FIRE) {
+                            worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
+                        }
+                        if (landOutside) {
+                            dest = dest.offset(this.isInFireplace(worldIn, dest));
+                            entityIn.setLocationAndAngles(
+                                    dest.getX(), coords[1], dest.getZ(), entityIn.rotationYaw, entityIn.rotationPitch);
+                        } else {
+                            entityIn.setLocationAndAngles(
+                                    coords[0], coords[1], coords[2], entityIn.rotationYaw, entityIn.rotationPitch);
+                        }
                     }
                 }
             }
