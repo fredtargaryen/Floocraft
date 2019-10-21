@@ -127,6 +127,8 @@ public class BlockFloowerPot extends Block {
         super.tick(state, world, pos, rand);
         if(!world.isRemote) {
             FloowerPotTileEntity pot = (FloowerPotTileEntity) world.getTileEntity(pos);
+            int hRange = pot.getHRange();
+            int vRange = pot.getVRange();
             ItemStack stack = pot.getStackInSlot(0);
             if (stack != null && stack.getCount() > 0) {
                 int par2 = pos.getX();
@@ -134,9 +136,9 @@ public class BlockFloowerPot extends Block {
                 int par4 = pos.getZ();
                 BlockPos currentPos;
                 Block currentBlock;
-                for (int x = par2 - 5; x < par2 + 6; x++) {
-                    for (int y = par3 - 5; y < par3 + 6; y++) {
-                        for (int z = par4 - 5; z < par4 + 6; z++) {
+                for (int x = par2 - hRange; x <= par2 + hRange; x++) {
+                    for (int y = par3 - vRange; y <= par3 + vRange; y++) {
+                        for (int z = par4 - hRange; z <= par4 + hRange; z++) {
                             if(stack != null && stack.getCount() > 0) {
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = world.getBlockState(currentPos).getBlock();
@@ -146,8 +148,6 @@ public class BlockFloowerPot extends Block {
                                         world.setBlockState(currentPos, FloocraftBase.GREEN_FLAMES_IDLE.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration()), 3);
                                         world.playSound(null, currentPos, FloocraftBase.GREENED, SoundCategory.BLOCKS, 1.0F, 1.0F);
                                         stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
-                                    } else {
-                                        world.setBlockState(currentPos, Blocks.FIRE.getDefaultState());
                                     }
                                 }
                             }

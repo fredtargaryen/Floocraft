@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.tileentity;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
@@ -25,12 +26,17 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class FloowerPotTileEntity extends TileEntity implements IInventory, INamedContainerProvider {
+    public boolean justUpdated;
     private final ItemStack[] inv;
+    private int hRange;
+    private int vRange;
 
     public FloowerPotTileEntity() {
         super(FloocraftBase.POT_TYPE);
         this.inv = new ItemStack[1];
         this.inv[0] = ItemStack.EMPTY;
+        this.hRange = DataReference.POT_MAX_H_RANGE;
+        this.vRange = 5;
     }
 
     @Override
@@ -146,6 +152,9 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
                 this.inv[slot] = ItemStack.read(tag);
             }
         }
+        //Clamp ranges between 2 and 5 inclusive
+        this.hRange = Math.max(DataReference.POT_MIN_H_RANGE, Math.min(DataReference.POT_MAX_H_RANGE, tagCompound.getInt("hRange")));
+        this.vRange = Math.max(DataReference.POT_MIN_V_RANGE, Math.min(DataReference.POT_MAX_V_RANGE, tagCompound.getInt("vRange")));
     }
 
     @Override
@@ -160,6 +169,8 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
             itemList.add(tag);
         }
         tagCompound.put("Inventory", itemList);
+        tagCompound.putInt("hRange", this.hRange);
+        tagCompound.putInt("vRange", this.vRange);
         return tagCompound;
     }
 
@@ -181,6 +192,7 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
     @OnlyIn(Dist.CLIENT)
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         this.read(pkt.getNbtCompound());
+        this.justUpdated = true;
     }
 
     @Override
@@ -193,4 +205,23 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
     public Container createMenu(int windowId, @Nonnull PlayerInventory inventory, @Nonnull PlayerEntity player) {
         return new FloowerPotContainer(windowId, inventory, player.world, this.pos);
     }
+
+    public void adjustPotRange(char range, int amount) {
+        if(range == 'h') {
+            //Adjust horizontal range
+            if(amount == 1 && this.hRange < DataReference.POT_MAX_H_RANGE) ++this.hRange;
+            else if(amount == -1 && this.hRange > DataReference.POT_MIN_H_RANGE) --this.hRange;
+            this.markDirty();
+        }
+        else if(range == 'v') {
+            //Adjust horizontal range
+            if(amount == 1 && this.vRange < DataReference.POT_MAX_V_RANGE) ++this.vRange;
+            else if(amount == -1 && this.vRange > DataReference.POT_MIN_V_RANGE) --this.vRange;
+            this.markDirty();
+        }
+    }
+
+    public int getHRange() { return this.hRange; }
+
+    public int getVRange() { return this.vRange; }
 }

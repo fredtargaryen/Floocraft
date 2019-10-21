@@ -25,6 +25,11 @@ public class DataReference {
 
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 
+    public static final int POT_MIN_H_RANGE = 2;
+    public static final int POT_MAX_H_RANGE = 5;
+    public static final int POT_MIN_V_RANGE = 2;
+    public static final int POT_MAX_V_RANGE = 5;
+
     public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID, "textures/blocks/tp_background.png");
     //idk why the format of this ResourceLocation is different
     public static final ResourceLocation FLAMERL = new ResourceLocation(MODID, "particle/torchflame");

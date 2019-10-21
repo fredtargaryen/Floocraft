@@ -100,4 +100,8 @@ public class FloowerPotContainer extends Container {
         }
         return stack == null ? ItemStack.EMPTY : stack;
     }
+
+    public TileEntity getTileEntity() {
+        return this.potTE;
+    }
 }

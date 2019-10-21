@@ -26,5 +26,6 @@ public class MessageHandler {
 		INSTANCE.registerMessage(9, MessageEndPeek.class, 					MessageEndPeek::toBytes, 						MessageEndPeek::new, 						MessageEndPeek::onMessage);
 		INSTANCE.registerMessage(10, MessagePlayerIDRequest.class, 			MessagePlayerIDRequest::toBytes, 				MessagePlayerIDRequest::new, 				MessagePlayerIDRequest::onMessage);
 		INSTANCE.registerMessage(11, MessagePlayerID.class, 					MessagePlayerID::toBytes, 						MessagePlayerID::new,						MessagePlayerID::onMessage);
+		INSTANCE.registerMessage(12, MessagePotRange.class, 					MessagePotRange::toBytes,						MessagePotRange::new,						MessagePotRange::onMessage);
 	}
 }

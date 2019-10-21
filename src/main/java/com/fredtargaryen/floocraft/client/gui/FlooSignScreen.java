@@ -60,6 +60,7 @@ public class FlooSignScreen extends Screen {
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
+    @Override
     public void init() {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
