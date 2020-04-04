@@ -2,40 +2,62 @@ package com.fredtargaryen.floocraft.tileentity.renderer;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix3f;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
-import org.lwjgl.opengl.GL11;
 
 public class TileEntityPotRenderer extends TileEntityRenderer<FloowerPotTileEntity>
 {
+    public TileEntityPotRenderer(TileEntityRendererDispatcher terd)
+    {
+        super(terd);
+    }
+
+    /**
+     *
+     * @param te
+     * @param partialTicks
+     * @param matrixStackIn the current view transformations
+     * @param bufferIn A map from RenderTypes to buffers
+     * @param combinedLightIn The "block light" and "sky light" packed into the space of an int
+     * @param combinedOverlayIn Points to an overlay texture that modifies the bound texture
+     */
     @Override
-    //"Relative" means distance on this axis from block to player's eye
-    public void render(FloowerPotTileEntity te, double relativeX, double relativeY, double relativeZ, float partialTicks, int destroyStage) {
+    public void render(FloowerPotTileEntity te, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         ItemStack stack = te.getStackInSlot(0);
         if(stack != null && stack.getCount() > 0) {
-            GL11.glPushMatrix();
-            GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-            GlStateManager.translated(relativeX, relativeY, relativeZ);
-            Tessellator t = Tessellator.getInstance();
-            BufferBuilder r = t.getBuffer();
+            matrixStackIn.push(); // Pushes the current transform and normal matrices. Origin is the (0, 0, 0) corner of the block to be rendered
+            IVertexBuilder ivb = bufferIn.getBuffer(RenderType.getEntitySolid(DataReference.TP_BACKGROUND));
             // set the key rendering flags appropriately...
-            GL11.glDisable(GL11.GL_LIGHTING);     // turn off "item" lighting (face brightness depends on which direction it is facing)
-            GL11.glDisable(GL11.GL_BLEND);        // turn off "alpha" transparency blending
-            GL11.glDepthMask(true);               // quad is hidden behind other objects
-            this.bindTexture(DataReference.TP_BACKGROUND);
-            r.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-            double level = (((float)stack.getCount() / 64) * 0.3125) + 0.0625;
-            r.pos(0.625, level, 0.625).tex(1.0, 1.0).endVertex();
-            r.pos(0.625, level, 0.375).tex(1.0, 0.0).endVertex();
-            r.pos(0.375, level, 0.375).tex(0.0, 0.0).endVertex();
-            r.pos(0.375, level, 0.625).tex(0.0, 1.0).endVertex();
-            t.draw();
-            GL11.glPopAttrib();
-            GL11.glPopMatrix();
+            RenderSystem.disableLighting(); // turn off "item" lighting (face brightness depends on which direction it is facing)
+            RenderSystem.disableBlend(); // turn off "alpha" transparency blending
+            RenderSystem.depthMask(true); // quad is hidden behind other objects
+            Matrix4f pos = matrixStackIn.getLast().getMatrix();
+            Matrix3f norm = matrixStackIn.getLast().getNormal();
+            float level = (((float)stack.getCount() / 64f) * 0.3125f) + 0.0625f;
+            this.doAVertex(ivb, pos, norm, 0.625f, level, 0.625f, 1f, 1f, combinedLightIn);
+            this.doAVertex(ivb, pos, norm, 0.625f, level, 0.375f, 1f, 0f, combinedLightIn);
+            this.doAVertex(ivb, pos, norm, 0.375f, level, 0.375f, 0f, 0f, combinedLightIn);
+            this.doAVertex(ivb, pos, norm, 0.375f, level, 0.625f, 0f, 1f, combinedLightIn);
+            matrixStackIn.pop();
         }
+    }
+
+    private void doAVertex(IVertexBuilder ivb, Matrix4f pos, Matrix3f norm, float x, float y, float z, float u, float v, int lightLevel) {
+        ivb.pos(pos, x, y, z)
+                .color(1f, 1f, 1f, 1f)
+                .tex(u, v)
+                .overlay(OverlayTexture.NO_OVERLAY)
+                .lightmap(lightLevel)
+                .normal(norm, 0f, 1f, 0f)
+                .endVertex();
     }
 }

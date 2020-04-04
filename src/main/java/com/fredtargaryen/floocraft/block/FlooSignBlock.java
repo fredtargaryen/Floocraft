@@ -3,10 +3,7 @@ package com.fredtargaryen.floocraft.block;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.WallSignBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +19,7 @@ public class FlooSignBlock extends WallSignBlock {
 		super(Properties.create(Material.WOOD)
                 .doesNotBlockMovement()
                 .hardnessAndResistance(1.0F)
-                .sound(SoundType.WOOD));
+                .sound(SoundType.WOOD), WoodType.OAK);
 		this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
 	}
 

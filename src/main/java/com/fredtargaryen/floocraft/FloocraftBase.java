@@ -1,3 +1,7 @@
+/**
+ * Floo Powder not appearing in pot model
+ */
+
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
@@ -16,16 +20,15 @@ import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
 import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntityType;
@@ -34,11 +37,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -106,7 +108,7 @@ public class FloocraftBase {
 
     //Declare containers here
     @ObjectHolder("pot")
-    public static ContainerType POT_CONTAINER_TYPE;
+    public static ContainerType<FloowerPotContainer> POT_CONTAINER_TYPE;
 
     //Declare sounds here
     /**
@@ -127,7 +129,7 @@ public class FloocraftBase {
 
     //Declare EntityTypes here
     @ObjectHolder("peeker")
-    public static EntityType PEEKER_TYPE;
+    public static EntityType<PeekerEntity> PEEKER_TYPE;
 
     //Declare ParticleTypes here
     @ObjectHolder("greenflame")
@@ -135,9 +137,9 @@ public class FloocraftBase {
 
     //Declare TileEntityTypes here
     @ObjectHolder("fireplace")
-    public static TileEntityType FIREPLACE_TYPE;
+    public static TileEntityType<FireplaceTileEntity> FIREPLACE_TYPE;
     @ObjectHolder("pot")
-    public static TileEntityType POT_TYPE;
+    public static TileEntityType<FloowerPotTileEntity> POT_TYPE;
     //@ObjectHolder("greenlight")
     //public static TileEntityType MIRAGE_GREEN_LIGHT;
 
@@ -223,7 +225,6 @@ public class FloocraftBase {
 
     @SubscribeEvent
     public static void registerParticleTypes(RegistryEvent.Register<ParticleType<?>> event) {
-        //TODO FOR TORCH FLAME PARTICLE
         event.getRegistry().register(
                 new BasicParticleType(false).setRegistryName("greenflame")
         );
@@ -256,26 +257,6 @@ public class FloocraftBase {
                 //        .setRegistryName("greenlight"));
     }
 
-    //TODO CHANGE BACK WHEN CREATEENTITY IS RESTORED
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if(!event.getWorld().isRemote) {
-            Entity entity = event.getEntity();
-            if (entity.getClass().equals(ItemEntity.class)) {
-                ItemStack stack = ((ItemEntity) entity).getItem();
-                Item item = stack.getItem();
-                if (item instanceof ItemFlooPowder) {
-                    Entity newEntity = item.createEntity(event.getWorld(), entity, stack);
-                    if (newEntity != null) {
-                        entity.remove();
-                        event.setCanceled(true);
-                        event.getWorld().addEntity(newEntity);
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * Called after all registry events. Runs in parallel with other SetupEvent handlers.
      * @param event
@@ -289,6 +270,19 @@ public class FloocraftBase {
         //mirageInstalled = Loader.isModLoaded("mirage");
         proxy.registerGUIs();
         proxy.registerRenderers();
+        proxy.setupRenderTypes();
+    }
+
+    /**
+     * For texture stitching
+     */
+    @SubscribeEvent
+    public static void stitchTextures(TextureStitchEvent.Pre tse)
+    {
+        if(tse.getMap().getTextureLocation().equals((Atlases.SIGN_ATLAS)))
+        {
+            tse.addSprite(DataReference.SIGN_TEX_LOC);
+        }
     }
 
     //public static boolean isMirageInstalled() { return mirageInstalled; }

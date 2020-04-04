@@ -18,7 +18,6 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -29,6 +28,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -43,7 +43,7 @@ public abstract class GreenFlamesBase extends Block {
     private static final Direction[] HORIZONTALS = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
     private static final VoxelShape TALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
 
-    GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).lightValue(lightLevel)); }
+    GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).lightValue(lightLevel).notSolid()); }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
@@ -53,14 +53,6 @@ public abstract class GreenFlamesBase extends Block {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) { return TALLBOX; }
-
-    @Override
-    @Nonnull
-    @OnlyIn(Dist.CLIENT)
-    public BlockRenderLayer getRenderLayer()
-    {
-        return BlockRenderLayer.CUTOUT_MIPPED;
-    }
 
     @Override
     public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
@@ -144,7 +136,7 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         if (isInFireplace(world, pos) == null || world.getBlockState(pos).get(AGE_0_15).equals(0)) {
             world.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
@@ -163,6 +155,12 @@ public abstract class GreenFlamesBase extends Block {
             double d2 = (double)pos.getZ() + rand.nextDouble();
             worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
+    }
+
+    @Override
+    public boolean isTransparent(BlockState state)
+    {
+        return true;
     }
 
     //FIREPLACE VALIDATION CODE STARTS HERE

@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
@@ -14,7 +15,7 @@ public class GreenFlamesBusy extends GreenFlamesBase {
     public GreenFlamesBusy() { super(15); }
 
 	@Override
-    public void tick(BlockState state, World w, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld w, BlockPos pos, Random rand) {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE, false) == null) {
             w.setBlockState(pos, FloocraftBase.GREEN_FLAMES_IDLE.getDefaultState().with(AGE_0_15, state.get(AGE_0_15)));
         }

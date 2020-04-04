@@ -7,7 +7,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -17,16 +16,13 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -75,7 +71,8 @@ public class ItemFlooPowder extends Item {
 	@Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack) {
         if(!world.isRemote) {
-            DroppedFlooPowderEntity flp = new DroppedFlooPowderEntity(world, location.posX, location.posY, location.posZ, itemstack, this.concentration);
+            Vec3d pos = location.getPositionVector();
+            DroppedFlooPowderEntity flp = new DroppedFlooPowderEntity(world, pos.x, pos.y, pos.z, itemstack, this.concentration);
             //Set immune to fire in type;
             flp.setPickupDelay(40);
             flp.setMotion(location.getMotion());

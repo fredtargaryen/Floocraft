@@ -13,4 +13,5 @@ public interface IProxy {
     void registerRenderers();
     void registerTickHandlers();
     void setUUIDs(MessagePlayerID message);
+    void setupRenderTypes();
 }

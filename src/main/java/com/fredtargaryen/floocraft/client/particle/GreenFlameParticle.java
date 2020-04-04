@@ -1,8 +1,6 @@
 package com.fredtargaryen.floocraft.client.particle;
 
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.world.World;
 
@@ -37,11 +35,6 @@ public class GreenFlameParticle extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         }
-    }
-
-    @Override
-    public void renderParticle(BufferBuilder bufferBuilder, ActiveRenderInfo activeRenderInfo, float v, float v1, float v2, float v3, float v4, float v5) {
-        super.renderParticle(bufferBuilder, activeRenderInfo, v, v1, v2, v3, v4, v5);
     }
 
     public static class Factory implements IParticleFactory<BasicParticleType> {

@@ -9,13 +9,13 @@ import com.fredtargaryen.floocraft.client.renderer.RenderPeekerFactory;
 import com.fredtargaryen.floocraft.client.ticker.OverrideTicker;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.network.messages.*;
-import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
-import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import com.fredtargaryen.floocraft.tileentity.renderer.TileEntityFlooSignRenderer;
 import com.fredtargaryen.floocraft.tileentity.renderer.TileEntityPotRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -57,9 +57,9 @@ public class ClientProxy implements IProxy {
 
     @Override
     public void registerRenderers() {
-        ClientRegistry.bindTileEntitySpecialRenderer(FireplaceTileEntity.class, new TileEntityFlooSignRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(FloowerPotTileEntity.class, new TileEntityPotRenderer());
-        RenderingRegistry.registerEntityRenderingHandler(PeekerEntity.class, new RenderPeekerFactory());
+        ClientRegistry.bindTileEntityRenderer(FloocraftBase.FIREPLACE_TYPE, TileEntityFlooSignRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(FloocraftBase.POT_TYPE, TileEntityPotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FloocraftBase.PEEKER_TYPE, new RenderPeekerFactory());
     }
 
     @Override
@@ -73,5 +73,14 @@ public class ClientProxy implements IProxy {
     public void setUUIDs(MessagePlayerID message) {
         PeekerEntity ep = (PeekerEntity) FloocraftBase.getEntityWithUUID(Minecraft.getInstance().world, message.peekerUUID);
         ep.setPlayerUUID(message.playerUUID);
+    }
+
+    @Override
+    public void setupRenderTypes()
+    {
+        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_BUSY, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_IDLE, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_TEMP, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.BLOCK_FLOO_TORCH, RenderType.getCutoutMipped());
     }
 }

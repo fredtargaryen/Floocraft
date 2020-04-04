@@ -6,6 +6,7 @@ import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.*;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.ExtendedList;
@@ -303,11 +304,11 @@ public class TeleportScreen extends Screen {
         public void render(int mouseX, int mouseY, float partialTicks) {
             int i = this.getScrollbarPosition();
             int j = i + 6;
-            GlStateManager.disableLighting();
-            GlStateManager.disableFog();
+            RenderSystem.disableLighting();
+            RenderSystem.disableFog();
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int k = this.getRowLeft();
             int l = this.y0 + 4 - (int)this.getScrollAmount();
             if (this.renderHeader) {
@@ -315,24 +316,24 @@ public class TeleportScreen extends Screen {
             }
 
             this.renderList(k, l, mouseX, mouseY, partialTicks);
-            GlStateManager.disableDepthTest();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
-            GlStateManager.disableAlphaTest();
-            GlStateManager.shadeModel(7425);
-            GlStateManager.disableTexture();
+            RenderSystem.disableDepthTest();
+            RenderSystem.enableBlend();
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ZERO.param, GlStateManager.DestFactor.ONE.param);
+            RenderSystem.disableAlphaTest();
+            RenderSystem.shadeModel(7425);
+            RenderSystem.disableTexture();
             int i1 = 4;
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            bufferbuilder.pos((double)this.x0, (double)(this.y0 + 4), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 0).endVertex();
-            bufferbuilder.pos((double)this.x1, (double)(this.y0 + 4), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 0).endVertex();
-            bufferbuilder.pos((double)this.x1, (double)this.y0, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.pos((double)this.x0, (double)this.y0, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.x0, (double)(this.y0 + 4), 0.0D).tex(0f, 1f).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.x1, (double)(this.y0 + 4), 0.0D).tex(1f, 1f).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.x1, (double)this.y0, 0.0D).tex(1f, 0f).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.x0, (double)this.y0, 0.0D).tex(0f, 0f).color(0, 0, 0, 255).endVertex();
             tessellator.draw();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            bufferbuilder.pos((double)this.x0, (double)this.y1, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.pos((double)this.x1, (double)this.y1, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-            bufferbuilder.pos((double)this.x1, (double)(this.y1 - 4), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
-            bufferbuilder.pos((double)this.x0, (double)(this.y1 - 4), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.x0, (double)this.y1, 0.0D).tex(0f, 1f).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.x1, (double)this.y1, 0.0D).tex(1f, 1f).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.x1, (double)(this.y1 - 4), 0.0D).tex(1f, 0f).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.x0, (double)(this.y1 - 4), 0.0D).tex(0f, 0f).color(0, 0, 0, 0).endVertex();
             tessellator.draw();
             int j1 = Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
             if (j1 > 0) {
@@ -344,30 +345,30 @@ public class TeleportScreen extends Screen {
                 }
 
                 bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-                bufferbuilder.pos((double)i, (double)this.y1, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-                bufferbuilder.pos((double)j, (double)this.y1, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-                bufferbuilder.pos((double)j, (double)this.y0, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
-                bufferbuilder.pos((double)i, (double)this.y0, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)this.y1, 0.0D).tex(0f, 1f).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)this.y1, 0.0D).tex(1f, 1f).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)this.y0, 0.0D).tex(1f, 0f).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)this.y0, 0.0D).tex(0f, 0f).color(0, 0, 0, 255).endVertex();
                 tessellator.draw();
                 bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-                bufferbuilder.pos((double)i, (double)(l1 + k1), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
-                bufferbuilder.pos((double)j, (double)(l1 + k1), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
-                bufferbuilder.pos((double)j, (double)l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
-                bufferbuilder.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)(l1 + k1), 0.0D).tex(0f, 1f).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)(l1 + k1), 0.0D).tex(1f, 1f).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)l1, 0.0D).tex(1f, 0f).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)l1, 0.0D).tex(0f, 0f).color(128, 128, 128, 255).endVertex();
                 tessellator.draw();
                 bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-                bufferbuilder.pos((double)i, (double)(l1 + k1 - 1), 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
-                bufferbuilder.pos((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
-                bufferbuilder.pos((double)(j - 1), (double)l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
-                bufferbuilder.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)(l1 + k1 - 1), 0.0D).tex(0f, 1f).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).tex(1f, 1f).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)(j - 1), (double)l1, 0.0D).tex(1f, 0f).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)l1, 0.0D).tex(0f, 0f).color(192, 192, 192, 255).endVertex();
                 tessellator.draw();
             }
 
             this.renderDecorations(mouseX, mouseY);
-            GlStateManager.enableTexture();
-            GlStateManager.shadeModel(7424);
-            GlStateManager.enableAlphaTest();
-            GlStateManager.disableBlend();
+            RenderSystem.enableTexture();
+            RenderSystem.shadeModel(7424);
+            RenderSystem.enableAlphaTest();
+            RenderSystem.disableBlend();
             this.flooverlayBackground(0, this.getTop());
             this.flooverlayBackground(this.getBottom(), this.height);
         }
@@ -381,10 +382,10 @@ public class TeleportScreen extends Screen {
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             float f = 32.0F;
             wr.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-            wr.pos(0.0, (double)p_148136_2_, 0.0D).tex(0.0D, (double)((float)p_148136_2_ / f)).endVertex();
-            wr.pos(this.width, (double)p_148136_2_, 0.0D).tex((double)((float)this.width / f), (double)((float)p_148136_2_ / f)).endVertex();
-            wr.pos(this.width, (double) p_148136_1_, 0.0D).tex((double) ((float) this.width / f), (double) ((float)p_148136_1_ / f)).endVertex();
-            wr.pos(0.0, (double) p_148136_1_, 0.0D).tex(0.0D, (double) ((float)p_148136_1_ / f)).endVertex();
+            wr.pos(0.0, (double)p_148136_2_, 0.0D).tex(0f, (float)p_148136_2_ / f).endVertex();
+            wr.pos(this.width, (double)p_148136_2_, 0.0D).tex((float)this.width / f, (float)p_148136_2_ / f).endVertex();
+            wr.pos(this.width, (double) p_148136_1_, 0.0D).tex((float) this.width / f, (float)p_148136_1_ / f).endVertex();
+            wr.pos(0.0, (double) p_148136_1_, 0.0D).tex(0f, (float)p_148136_1_ / f).endVertex();
             Tessellator.getInstance().draw();
         }
     }

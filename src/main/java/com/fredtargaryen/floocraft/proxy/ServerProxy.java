@@ -19,4 +19,6 @@ public class ServerProxy implements IProxy {
     public void registerTickHandlers(){}
     @Override
     public void setUUIDs(MessagePlayerID message){}
+    @Override
+    public void setupRenderTypes(){}
 }

@@ -1,19 +1,5 @@
 {
     "textures": {
-        "particle": "floocraftft:blocks/floosign_front",
-        "sign": "floocraftft:blocks/floosign"
-    },
-    "elements": [
-        {   "from": [ 0.333, 4.333, 0 ],
-            "to": [ 1.666, 12.333, 16 ],
-            "faces": {
-                "down":  { "uv": [ 6.5, 0, 12.5, 0.5 ], "texture": "#sign"},
-                "up":    { "uv": [ 0.5, 0, 6.5, 0.5 ], "texture": "#sign" },
-                "north": { "uv": [ 6.5, 0.5, 7, 3.5 ], "texture": "#sign" },
-                "south": { "uv": [ 0, 0.5, 0.5, 3.5 ], "texture": "#sign" },
-                "west":  { "uv": [ 7, 0.5, 13, 3.5 ], "texture": "#sign" },
-                "east":  { "uv": [ 0.5, 0.5, 6.5, 3.5 ], "texture": "#sign" }
-            }
-        }
-    ]
+        "particle": "floocraftft:blocks/floosign_front"
+    }
 }

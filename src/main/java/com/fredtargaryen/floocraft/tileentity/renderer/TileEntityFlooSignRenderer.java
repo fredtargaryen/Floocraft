@@ -1,63 +1,80 @@
 package com.fredtargaryen.floocraft.tileentity.renderer;
 
-import com.fredtargaryen.floocraft.block.FlooSignBlock;
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.WallSignBlock;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.Atlases;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.util.Direction;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.lwjgl.opengl.GL11;
 
 @OnlyIn(Dist.CLIENT)
 public class TileEntityFlooSignRenderer extends TileEntityRenderer<FireplaceTileEntity> {
-    @Override
-    public void render(FireplaceTileEntity sign, double x, double y, double z, float partialTicks, int destroyStage){
-        GL11.glPushMatrix();
-        float f1 = 0.6666667F;
-        float f2;
+    private final FlooSignModel model = new FlooSignModel();
 
-        Direction i = sign.getBlockState().get(FlooSignBlock.FACING);
-        f2 = 0.0F;
+    public TileEntityFlooSignRenderer(TileEntityRendererDispatcher terd)
+    {
+        super(terd);
+    }
 
-        if (i == Direction.NORTH) {
-            f2 = 180.0F;
-        }
+    public void render(FireplaceTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        BlockState blockstate = tileEntityIn.getBlockState();
+        //The position of matrixStackIn is currently the BlockPos.
+        matrixStackIn.push();
+        // Move to the middle of the BlockPos, to rotate around the middle according to the direction.
+        matrixStackIn.translate(0.5D, 0.5D, 0.5D);
+        float yAngle = -blockstate.get(WallSignBlock.FACING).getHorizontalAngle();
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(yAngle));
+        matrixStackIn.translate(0.0D, -0.3125D, -0.4375D);
 
-        if (i == Direction.WEST) {
-            f2 = 90.0F;
-        }
+        matrixStackIn.push();
+        // Final transform to render the board correctly
+        matrixStackIn.scale(0.6666667F, -0.6666667F, -0.6666667F);
+        IVertexBuilder ivertexbuilder = FlooSignModel.MATERIAL.getBuffer(bufferIn, this.model::getRenderType);
+        this.model.board.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn);
+        matrixStackIn.pop();
 
-        if (i == Direction.EAST) {
-            f2 = -90.0F;
-        }
-
-        GL11.glTranslatef((float)x + 0.5F, (float)y + 0.75F * f1, (float)z + 0.5F);
-        GL11.glRotatef(-f2, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslatef(0.0F, -0.3125F, -0.4375F);
-
-        FontRenderer fontrenderer = this.getFontRenderer();
-        f2 = 0.016666668F * f1;
-        GL11.glTranslatef(0.0F, 0.5F * f1, 0.07F * f1);
-        GL11.glScalef(f2, -f2, f2);
-        GL11.glNormal3f(0.0F, 0.0F, -1.0F * f2);
-        GL11.glDepthMask(false);
-        byte b0 = 0;
-
-        for (int j = 0; j < sign.signText.length; ++j) {
-            String s = sign.signText[j];
-
-            if (j == sign.getLineBeingEdited()) {
-                s = "> " + s + " <";
-                fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, j * 10 - sign.signText.length * 5, b0);
-            }
-            else {
-                fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, j * 10 - sign.signText.length * 5, b0);
+        // Render the text
+        FontRenderer fontrenderer = this.renderDispatcher.getFontRenderer();
+        matrixStackIn.translate(0.0D, (double)0.33333334F, (double)0.046666667F);
+        matrixStackIn.scale(0.010416667F, -0.010416667F, 0.010416667F);
+        // Makes black text
+        int colour = 0;
+        for(int i = 0; i < 4; ++i) {
+            String s = tileEntityIn.getString(i);
+            if (s != null) {
+                // Draw the string with centred alignment
+                float left = (float)(-fontrenderer.getStringWidth(s) / 2);
+                fontrenderer.renderString(s, left, (float)(i * 10 - tileEntityIn.signText.length * 5), colour, false, matrixStackIn.getLast().getMatrix(), bufferIn, false, 0, combinedLightIn);
             }
         }
 
-        GL11.glDepthMask(true);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glPopMatrix();
+        matrixStackIn.pop();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static final class FlooSignModel extends Model {
+        public final ModelRenderer board = new ModelRenderer(64, 32, 0, 0);
+        public static final Material MATERIAL = new Material(Atlases.SIGN_ATLAS, DataReference.SIGN_TEX_LOC);
+
+        public FlooSignModel() {
+            super(RenderType::getEntityCutoutNoCull);
+            this.board.addBox(-12.0F, -14.0F, -1.0F, 24.0F, 12.0F, 2.0F, 0.0F);
+        }
+
+        public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+            this.board.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
     }
 }

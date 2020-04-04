@@ -17,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
@@ -62,15 +63,15 @@ public class BlockFloowerPot extends Block {
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity == null || player.isSneaking())
+        if (tileEntity == null || player.isShiftKeyDown())
         {
-            return false;
+            return ActionResultType.FAIL;
         }
         if(!worldIn.isRemote)
             NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -123,7 +124,7 @@ public class BlockFloowerPot extends Block {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         super.tick(state, world, pos, rand);
         if(!world.isRemote) {
             FloowerPotTileEntity pot = (FloowerPotTileEntity) world.getTileEntity(pos);
