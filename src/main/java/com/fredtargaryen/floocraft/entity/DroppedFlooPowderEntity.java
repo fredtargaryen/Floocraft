@@ -7,6 +7,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -55,5 +56,10 @@ public class DroppedFlooPowderEntity extends ItemEntity {
     public void read(CompoundNBT par1) {
         super.read(par1);
         this.concentration = par1.getByte("Concentration");
+    }
+
+    @Override
+    public SoundCategory getSoundCategory() {
+        return SoundCategory.BLOCKS;
     }
 }
