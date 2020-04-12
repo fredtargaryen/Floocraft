@@ -15,7 +15,7 @@ public class MessagePlayerIDRequest {
 
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PeekerEntity ep = (PeekerEntity) FloocraftBase.getEntityWithUUID(ctx.get().getSender().getServerWorld(), this.peekerUUID);
+            PeekerEntity ep = (PeekerEntity) FloocraftBase.proxy.getEntityWithUUID(ctx.get().getSender().getServerWorld(), this.peekerUUID);
             MessagePlayerID mpID = new MessagePlayerID(this.peekerUUID, ep.getPlayerUUID());
             MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> ctx.get().getSender()), mpID);
         });

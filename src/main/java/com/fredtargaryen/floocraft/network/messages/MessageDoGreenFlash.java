@@ -1,7 +1,6 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.proxy.ClientProxy;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 

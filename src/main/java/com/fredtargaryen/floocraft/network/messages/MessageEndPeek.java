@@ -13,7 +13,7 @@ public class MessageEndPeek {
 
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PeekerEntity ep = (PeekerEntity) FloocraftBase.getEntityWithUUID(ctx.get().getSender().world, this.peekerUUID);
+            PeekerEntity ep = (PeekerEntity) FloocraftBase.proxy.getEntityWithUUID(ctx.get().getSender().world, this.peekerUUID);
             if (ep != null) ep.remove();
         });
         ctx.get().setPacketHandled(true);

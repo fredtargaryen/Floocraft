@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.proxy;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.Flash;
 import com.fredtargaryen.floocraft.client.gui.FlooSignScreen;
@@ -14,11 +15,24 @@ import com.fredtargaryen.floocraft.tileentity.renderer.TileEntityPotRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
 
+import java.util.Iterator;
+import java.util.UUID;
+
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy implements IProxy {
     public OverrideTicker overrideTicker;
     public Flash flash;
@@ -70,8 +84,9 @@ public class ClientProxy implements IProxy {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void setUUIDs(MessagePlayerID message) {
-        PeekerEntity ep = (PeekerEntity) FloocraftBase.getEntityWithUUID(Minecraft.getInstance().world, message.peekerUUID);
+        PeekerEntity ep = (PeekerEntity) FloocraftBase.proxy.getEntityWithUUID(Minecraft.getInstance().world, message.peekerUUID);
         ep.setPlayerUUID(message.playerUUID);
     }
 
@@ -82,5 +97,29 @@ public class ClientProxy implements IProxy {
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_IDLE, RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_TEMP, RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.BLOCK_FLOO_TORCH, RenderType.getCutoutMipped());
+    }
+
+    @Override
+    public Entity getEntityWithUUID(World world, UUID uuid) {
+        if(world != null && uuid != null) {
+            Iterator<Entity> iterator = ((ClientWorld) world).getAllEntities().iterator();
+            while (iterator.hasNext()) {
+                Entity next = iterator.next();
+                if (next.getUniqueID().equals(uuid)) return next;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * For texture stitching
+     */
+    @SubscribeEvent
+    public void stitchTextures(TextureStitchEvent.Pre tse)
+    {
+        if(tse.getMap().getTextureLocation().equals((Atlases.SIGN_ATLAS)))
+        {
+            tse.addSprite(DataReference.SIGN_TEX_LOC);
+        }
     }
 }

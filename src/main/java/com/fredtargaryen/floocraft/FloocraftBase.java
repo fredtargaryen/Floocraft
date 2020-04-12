@@ -20,9 +20,6 @@ import com.fredtargaryen.floocraft.tileentity.FireplaceTileEntity;
 import com.fredtargaryen.floocraft.tileentity.FloowerPotTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.container.ContainerType;
@@ -34,10 +31,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
@@ -55,9 +49,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Iterator;
-import java.util.UUID;
 
 //import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
 
@@ -273,35 +264,7 @@ public class FloocraftBase {
         proxy.setupRenderTypes();
     }
 
-    /**
-     * For texture stitching
-     */
-    @SubscribeEvent
-    public static void stitchTextures(TextureStitchEvent.Pre tse)
-    {
-        if(tse.getMap().getTextureLocation().equals((Atlases.SIGN_ATLAS)))
-        {
-            tse.addSprite(DataReference.SIGN_TEX_LOC);
-        }
-    }
-
     //public static boolean isMirageInstalled() { return mirageInstalled; }
-
-    //Common entity access method
-    public static Entity getEntityWithUUID(World world, UUID uuid) {
-        if (world == null || uuid == null) return null;
-        if(world.isRemote) {
-            Iterator<Entity> iterator = ((ClientWorld) world).getAllEntities().iterator();
-            while(iterator.hasNext()) {
-                Entity next = iterator.next();
-                if(next.getUniqueID().equals(uuid)) return next;
-            }
-            return null;
-        }
-        else {
-            return ((ServerWorld) world).getEntityByUuid(uuid);
-        }
-    }
 
     ////////////////////////
     //FOR THE MODID CHANGE//

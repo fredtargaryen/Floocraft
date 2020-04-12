@@ -44,7 +44,7 @@ public class PeekScreen extends Screen {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
         if(!this.peekerSpawned) {
-            PeekerEntity ep = (PeekerEntity) FloocraftBase.getEntityWithUUID(this.minecraft.world, this.peekerID);
+            PeekerEntity ep = (PeekerEntity) FloocraftBase.proxy.getEntityWithUUID(this.minecraft.world, this.peekerID);
             if(ep == null) {
                 //Give up. TODO Maybe one day someone can add peeking into chunks outside the view distance?
                 this.peekFailedOutOfRange = true;

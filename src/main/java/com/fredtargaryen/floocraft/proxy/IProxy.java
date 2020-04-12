@@ -1,8 +1,10 @@
 package com.fredtargaryen.floocraft.proxy;
 
 import com.fredtargaryen.floocraft.network.messages.*;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public interface IProxy {
     void onMessage(MessageApproval ma);
@@ -14,4 +16,5 @@ public interface IProxy {
     void registerTickHandlers();
     void setUUIDs(MessagePlayerID message);
     void setupRenderTypes();
+    Entity getEntityWithUUID(World world, UUID uuid);
 }
