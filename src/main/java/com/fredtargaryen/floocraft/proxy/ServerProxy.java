@@ -3,7 +3,6 @@ package com.fredtargaryen.floocraft.proxy;
 import com.fredtargaryen.floocraft.network.messages.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.UUID;
 
@@ -28,9 +27,6 @@ public class ServerProxy implements IProxy {
     public void setupRenderTypes(){}
     @Override
     public Entity getEntityWithUUID(World world, UUID uuid){
-        if(world != null && uuid != null) {
-            return ((ServerWorld) world).getEntityByUuid(uuid);
-        }
         return null;
     }
 }

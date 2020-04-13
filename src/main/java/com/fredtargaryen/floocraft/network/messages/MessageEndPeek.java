@@ -1,8 +1,8 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.UUID;
@@ -13,8 +13,11 @@ public class MessageEndPeek {
 
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PeekerEntity ep = (PeekerEntity) FloocraftBase.proxy.getEntityWithUUID(ctx.get().getSender().world, this.peekerUUID);
-            if (ep != null) ep.remove();
+            ServerWorld sw = ctx.get().getSender().getServerWorld();
+            if(this.peekerUUID != null) {
+                PeekerEntity pe = (PeekerEntity) sw.getEntityByUuid(this.peekerUUID);
+                if (pe != null) pe.remove();
+            }
         });
         ctx.get().setPacketHandled(true);
     }

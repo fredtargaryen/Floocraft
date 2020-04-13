@@ -115,6 +115,7 @@ public class ClientProxy implements IProxy {
      * For texture stitching
      */
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public static void stitchTextures(TextureStitchEvent.Pre tse)
     {
         if(tse.getMap().getTextureLocation().equals((Atlases.SIGN_ATLAS)))
