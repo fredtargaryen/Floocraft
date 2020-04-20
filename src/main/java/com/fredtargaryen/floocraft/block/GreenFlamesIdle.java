@@ -4,11 +4,15 @@ import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
@@ -31,6 +35,17 @@ public class GreenFlamesIdle extends GreenFlamesBase {
             w.setBlockState(pos, FloocraftBase.GREEN_FLAMES_BUSY.getDefaultState().with(AGE_0_15, state.get(AGE_0_15)));
         }
         super.tick(state, w, pos, rand);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    protected void doSmokeParticles(BlockState stateIn, World world, BlockPos pos, Random rand) {
+        for (int i = 0; i < 3; ++i) {
+            double d0 = (double)pos.getX() + rand.nextDouble();
+            double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
+            double d2 = (double)pos.getZ() + rand.nextDouble();
+            world.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        }
     }
 
     ////////////////////////

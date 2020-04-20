@@ -149,11 +149,16 @@ public abstract class GreenFlamesBase extends Block {
         if (rand.nextInt(24) == 0) {
             worldIn.playSound((double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F), (double)((float)pos.getZ() + 0.5F), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
         }
-        for (int i = 0; i < 3; ++i) {
+        this.doSmokeParticles(stateIn, worldIn, pos, rand);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected void doSmokeParticles(BlockState stateIn, World world, BlockPos pos, Random rand) {
+        if(rand.nextInt(8) == 0) {
             double d0 = (double)pos.getX() + rand.nextDouble();
             double d1 = (double)pos.getY() + rand.nextDouble() * 0.5D + 0.5D;
             double d2 = (double)pos.getZ() + rand.nextDouble();
-            worldIn.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+            world.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
 
