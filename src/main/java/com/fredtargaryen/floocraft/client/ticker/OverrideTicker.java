@@ -31,7 +31,7 @@ public class OverrideTicker
 			{
 				this.ticks++;
             }
-			if (this.ticks > 94)
+			if (this.ticks > 89)
 			{
                 this.ticks = -1;
 				MinecraftForge.EVENT_BUS.unregister(this);
