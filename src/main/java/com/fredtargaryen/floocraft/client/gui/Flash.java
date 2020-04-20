@@ -13,10 +13,13 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.event.TickEvent;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 public class Flash {
     private double ticks;
@@ -24,6 +27,10 @@ public class Flash {
     private static final ResourceLocation texloc = new ResourceLocation(DataReference.MODID, "textures/gui/flash.png");
     private TextureManager textureManager;
     private long startTime;
+
+    private float yawDirectionStrength;
+    private float pitchDirectionStrength;
+    private float rollDirectionStrength;
 	
     public Flash(){
         this.ticks = -1;
@@ -37,6 +44,12 @@ public class Flash {
             MinecraftForge.EVENT_BUS.register(this);
             Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(FloocraftBase.TP, 1.0F));
             this.startTime = System.currentTimeMillis();
+
+            //Determine roll parameters
+            Random rand = this.minecraft.world.rand;
+            this.yawDirectionStrength = (rand.nextBoolean() ? 1f : -1f) * (45f + rand.nextFloat() * 30f);
+            this.pitchDirectionStrength = (rand.nextBoolean() ? 1f : -1f) * (45f + rand.nextFloat() * 30f);
+            this.rollDirectionStrength = (rand.nextBoolean() ? 1f : -1f) * (45f + rand.nextFloat() * 30f);
         }
     }
 
@@ -67,9 +80,20 @@ public class Flash {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         }
-        if(this.ticks > 999) {
+        if(this.ticks > 2999) {
             this.ticks = -1;
             MinecraftForge.EVENT_BUS.unregister(this);
         }
+    }
+
+    @SubscribeEvent
+    public void dizzy(EntityViewRenderEvent.CameraSetup event) {
+        float angle = (float) ((this.ticks / 3000.0) * Math.PI * 3);
+        this.yawDirectionStrength *= 0.995f;
+        this.pitchDirectionStrength *= 0.995f;
+        this.rollDirectionStrength *= 0.995f;
+        event.setYaw((float) (this.minecraft.player.rotationYaw + this.yawDirectionStrength * Math.sin(angle)));
+        event.setPitch((float) (this.minecraft.player.rotationPitch + this.pitchDirectionStrength * Math.sin(angle)));
+        event.setRoll((float) (this.rollDirectionStrength * Math.sin(angle)));
     }
 }
