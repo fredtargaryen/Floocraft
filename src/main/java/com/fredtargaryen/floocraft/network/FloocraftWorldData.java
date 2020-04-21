@@ -66,7 +66,7 @@ public class FloocraftWorldData extends WorldSavedData {
 	public final ConcurrentHashMap<String, int[]> placeList = new ConcurrentHashMap<>();
 	
 	public static FloocraftWorldData forWorld(World world) {
-		ServerWorld serverWorld = world.getServer().getWorld(DimensionType.OVERWORLD);
+		ServerWorld serverWorld = world.getServer().getWorld(world.dimension.getType());
 		DimensionSavedDataManager storage = serverWorld.getSavedData();
 		return storage.getOrCreate(FloocraftWorldData::new, DataReference.MODID);
 	}
