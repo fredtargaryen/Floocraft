@@ -65,7 +65,7 @@ public class BlockFloowerPot extends Block {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity == null || player.isShiftKeyDown())
+        if (tileEntity == null || player.isSneaking())
         {
             return ActionResultType.FAIL;
         }
