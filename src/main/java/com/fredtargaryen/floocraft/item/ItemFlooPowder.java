@@ -7,7 +7,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -23,10 +22,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -84,9 +79,14 @@ public class ItemFlooPowder extends Item {
         return null;
     }
 
+    /**
+     * Unfortunately if you return true here, drop a Floo Powder in the world, then go back into the world, it will freeze indefinitely. Cause still not found
+     * @param stack
+     * @return
+     */
     @Override
     public boolean hasCustomEntity(ItemStack stack) {
-        return true;
+	    return false;
     }
 
     @OnlyIn(Dist.CLIENT)

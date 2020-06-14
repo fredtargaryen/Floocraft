@@ -223,7 +223,6 @@ public class FloocraftBase {
 
     @SubscribeEvent
     public static void registerParticleTypes(RegistryEvent.Register<ParticleType<?>> event) {
-        //TODO FOR TORCH FLAME PARTICLE
         event.getRegistry().register(
                 new BasicParticleType(false).setRegistryName("greenflame")
         );
@@ -254,26 +253,6 @@ public class FloocraftBase {
                 //TileEntityType.Builder.create(TileEntityMirageFire::new)
                 //        .build(null)
                 //        .setRegistryName("greenlight"));
-    }
-
-    //TODO CHANGE BACK WHEN CREATEENTITY IS RESTORED
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if(!event.getWorld().isRemote) {
-            Entity entity = event.getEntity();
-            if (entity.getClass().equals(ItemEntity.class)) {
-                ItemStack stack = ((ItemEntity) entity).getItem();
-                Item item = stack.getItem();
-                if (item instanceof ItemFlooPowder) {
-                    Entity newEntity = item.createEntity(event.getWorld(), entity, stack);
-                    if (newEntity != null) {
-                        entity.remove();
-                        event.setCanceled(true);
-                        event.getWorld().addEntity(newEntity);
-                    }
-                }
-            }
-        }
     }
 
     /**
