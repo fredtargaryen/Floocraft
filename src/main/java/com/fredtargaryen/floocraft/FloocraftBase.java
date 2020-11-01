@@ -1,7 +1,3 @@
-/**
- * Floo Powder not appearing in pot model
- */
-
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;

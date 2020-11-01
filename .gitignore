@@ -7,7 +7,6 @@ bin
 .project
 
 # idea
-classes
 out
 *.ipr
 *.iws
@@ -17,11 +16,14 @@ out
 # gradle
 build
 .gradle
-gradle
-gradle.properties
-gradlew
-gradlew.bat
+gradle/wrapper/gradle-wrapper.jar
+gradlew*
 
 # other
 eclipse
 run
+
+# Files from Forge MDK
+forge*changelog.txt
+
+logs*

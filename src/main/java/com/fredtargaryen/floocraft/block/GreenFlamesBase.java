@@ -43,7 +43,7 @@ public abstract class GreenFlamesBase extends Block {
     private static final Direction[] HORIZONTALS = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
     private static final VoxelShape TALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
 
-    GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).lightValue(lightLevel).notSolid()); }
+    GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).setLightLevel(state -> lightLevel).notSolid()); }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
@@ -121,15 +121,9 @@ public abstract class GreenFlamesBase extends Block {
     }
 
     @Override
-    public int tickRate(IWorldReader par1World)
-    {
-        return 30;
-    }
-
-    @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
         if (isInFireplace(worldIn, pos) != null) {
-            worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(worldIn));
+            worldIn.getPendingBlockTicks().scheduleTick(pos, this, 30);
         } else {
             worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
         }
@@ -140,7 +134,7 @@ public abstract class GreenFlamesBase extends Block {
         if (isInFireplace(world, pos) == null || world.getBlockState(pos).get(AGE_0_15).equals(0)) {
             world.setBlockState(pos, Blocks.FIRE.getDefaultState());
         } else {
-            world.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(world) + rand.nextInt(10));
+            world.getPendingBlockTicks().scheduleTick(pos, this, 30 + rand.nextInt(10));
         }
     }
 

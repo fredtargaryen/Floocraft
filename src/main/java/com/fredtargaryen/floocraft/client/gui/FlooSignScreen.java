@@ -13,13 +13,15 @@ import net.minecraft.client.gui.fonts.TextInputUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -43,8 +45,13 @@ public class FlooSignScreen extends Screen {
 
     private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID, "textures/blocks/floosign.png");
 
+    private static final TranslationTextComponent TITLE = new TranslationTextComponent("gui.floosign.title");
+    private static final TranslationTextComponent DECOR_BUTTON = new TranslationTextComponent("gui.floosign.decoration");
+    private static final TranslationTextComponent CONNECT_BUTTON = new TranslationTextComponent("gui.floosign.connect");
+    private static final TranslationTextComponent SAME_NAME_ERROR = new TranslationTextComponent("gui.floosign.approvalwait");
+
     public FlooSignScreen(FireplaceTileEntity par1FireplaceTileEntity) {
-        super(new StringTextComponent(I18n.format("gui.floosign.title")));
+        super(TITLE);
         this.fireplaceTE = par1FireplaceTileEntity;
     }
 
@@ -67,16 +74,20 @@ public class FlooSignScreen extends Screen {
     public void init() {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        this.decorButton = new Button(this.width / 2 - 100, this.height / 4 + 120, 98, 20, I18n.format("gui.floosign.decoration"), button -> {
+        this.decorButton = new Button(this.width / 2 - 100, this.height / 4 + 120, 98, 20, DECOR_BUTTON, button -> {
             FlooSignScreen.this.sendApprovalMessage(false);
             FlooSignScreen.this.minecraft.displayGuiScreen(null);
         });
         this.addButton(this.decorButton);
-        this.addButton(new Button(this.width / 2 + 2, this.height / 4 + 120, 98, 20, I18n.format("gui.floosign.connect"), button -> {
+        this.addButton(new Button(this.width / 2 + 2, this.height / 4 + 120, 98, 20, CONNECT_BUTTON, button -> {
             FlooSignScreen.this.sendApprovalMessage(true);
         }));
-        this.textInputUtil = new TextInputUtil(this.minecraft, () -> this.fireplaceTE.getString(this.editLine),
-                (p_214265_1_) -> this.fireplaceTE.setString(this.editLine, p_214265_1_), 90);
+        this.textInputUtil = new TextInputUtil(
+                () -> this.fireplaceTE.getString(this.editLine),
+                stringToSet -> this.fireplaceTE.setString(this.editLine, stringToSet),
+                TextInputUtil.getClipboardTextSupplier(this.minecraft),
+                TextInputUtil.getClipboardTextSetter(this.minecraft),
+                stringToLimit -> this.minecraft.fontRenderer.getStringWidth(stringToLimit) <= 90);
     }
 
     /**
@@ -85,7 +96,7 @@ public class FlooSignScreen extends Screen {
     @Override
     public void onClose() {
         this.minecraft.keyboardListener.enableRepeatEvents(false);
-        this.decorButton.onPress();
+        FlooSignScreen.this.sendApprovalMessage(false);
     }
 
     /**
@@ -97,20 +108,20 @@ public class FlooSignScreen extends Screen {
     }
 
     public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_) {
-        this.textInputUtil.func_216894_a(p_charTyped_1_);
+        this.textInputUtil.putChar(p_charTyped_1_);
         return true;
     }
 
-    public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-        if (p_keyPressed_1_ == 265) {
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == 265) {
             this.editLine = this.editLine - 1 & 3;
-            this.textInputUtil.func_216899_b();
+            this.textInputUtil.moveCursorToEnd();
             return true;
-        } else if (p_keyPressed_1_ != 264 && p_keyPressed_1_ != 257 && p_keyPressed_1_ != 335) {
-            return this.textInputUtil.func_216897_a(p_keyPressed_1_) ? true : super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+        } else if (keyCode != 264 && keyCode != 257 && keyCode != 335) {
+            return this.textInputUtil.specialKeyPressed(keyCode) ? true : super.keyPressed(keyCode, scanCode, modifiers);
         } else {
             this.editLine = this.editLine + 1 & 3;
-            this.textInputUtil.func_216899_b();
+            this.textInputUtil.moveCursorToEnd();
             return true;
         }
     }
@@ -119,15 +130,19 @@ public class FlooSignScreen extends Screen {
      * Draws the screen and all the components in it.
      */
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
         RenderHelper.setupGuiFlatDiffuseLighting();
-        this.renderBackground();
-        this.drawCenteredString(this.font,
-                I18n.format("gui.floosign.title"),
+        this.renderBackground(stack);
+        drawCenteredString(
+                stack,
+                this.font,
+                TITLE,
         		this.width / 2,
         		40,
         		16777215);
-        this.drawCenteredString(this.font,
+        drawCenteredString(
+                stack,
+                this.font,
             	this.sameNameError,
             	this.width / 2,
             	this.height / 4 + 100,
@@ -147,7 +162,7 @@ public class FlooSignScreen extends Screen {
         matrixstack.push();
         matrixstack.scale(scale2, -scale2, -scale2);
         IRenderTypeBuffer.Impl irendertypebuffer$impl = this.minecraft.getRenderTypeBuffers().getBufferSource();
-        Material material = TileEntityFlooSignRenderer.FlooSignModel.MATERIAL;
+        RenderMaterial material = TileEntityFlooSignRenderer.FlooSignModel.MATERIAL;
         IVertexBuilder ivertexbuilder = material.getBuffer(irendertypebuffer$impl, this.model::getRenderType);
         this.model.board.render(matrixstack, ivertexbuilder, 15728880, OverlayTexture.NO_OVERLAY);
         matrixstack.pop();
@@ -162,8 +177,8 @@ public class FlooSignScreen extends Screen {
         }
 
         Matrix4f matrix4f = matrixstack.getLast().getMatrix();
-        int k = this.textInputUtil.func_216896_c();
-        int l = this.textInputUtil.func_216898_d();
+        int k = this.textInputUtil.getStartIndex();
+        int l = this.textInputUtil.getEndIndex();
         int i1 = this.minecraft.fontRenderer.getBidiFlag() ? -1 : 1;
         int j1 = this.editLine * 10 - this.fireplaceTE.signText.length * 5;
 
@@ -190,7 +205,7 @@ public class FlooSignScreen extends Screen {
                 int l3 = this.minecraft.fontRenderer.getStringWidth(s1.substring(0, Math.max(Math.min(k, s1.length()), 0)));
                 int i4 = (l3 - this.minecraft.fontRenderer.getStringWidth(s1) / 2) * i1;
                 if (showCursorThisFrame && k < s1.length()) {
-                    fill(matrix4f, i4, j1 - 1, i4 + 1, j1 + 9, -16777216);
+                    fill(stack, i4, j1 - 1, i4 + 1, j1 + 9, -16777216);
                 }
 
                 if (l != k) {
@@ -220,7 +235,7 @@ public class FlooSignScreen extends Screen {
 
         matrixstack.pop();
         RenderHelper.setupGui3DDiffuseLighting();
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(stack, mouseX, mouseY, partialTicks);
     }
 
     public void dealWithAnswer(boolean answer) {

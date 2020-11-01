@@ -1,11 +1,12 @@
 package com.fredtargaryen.floocraft.client.particle;
 
 import net.minecraft.client.particle.*;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.world.World;
 
 public class GreenFlameParticle extends SpriteTexturedParticle {
-    private GreenFlameParticle(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
+    private GreenFlameParticle(ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.setSprite(spriteSet.get(0, 50));
         this.maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
@@ -44,7 +45,7 @@ public class GreenFlameParticle extends SpriteTexturedParticle {
             this.sprites = sprites;
         }
 
-        public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new GreenFlameParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites);
         }
     }

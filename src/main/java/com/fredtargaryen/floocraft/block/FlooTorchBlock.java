@@ -38,8 +38,9 @@ public class FlooTorchBlock extends TorchBlock {
 		super(Block.Properties.create(Material.MISCELLANEOUS)
                 .doesNotBlockMovement()
                 .hardnessAndResistance(0F)
-                .lightValue(14)
-                .sound(SoundType.WOOD));
+                .setLightLevel(state -> 14)
+                .sound(SoundType.WOOD),
+                FloocraftBase.GREEN_FLAME);
 	}
 
 	@Override

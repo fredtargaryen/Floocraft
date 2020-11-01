@@ -4,6 +4,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooSignBlock;
 import com.fredtargaryen.floocraft.block.GreenFlamesBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -42,8 +43,8 @@ public class FireplaceTileEntity extends TileEntity {
         return par1;
     }
 
-    public void read(CompoundNBT par1) {
-        super.read(par1);
+    public void read(BlockState state, CompoundNBT par1) {
+        super.read(state, par1);
         this.isConnected = par1.getBoolean("Connected");
         this.y = par1.getInt("Y");
         for(int i = 0; i < 4; ++i) this.setString(i, par1.getString(String.valueOf(i)));
@@ -101,7 +102,7 @@ public class FireplaceTileEntity extends TileEntity {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        this.read(pkt.getNbtCompound());
+        this.read(null, pkt.getNbtCompound());
     }
 
     //////////////////

@@ -12,7 +12,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
@@ -66,7 +65,7 @@ public class FloocraftWorldData extends WorldSavedData {
 	public final ConcurrentHashMap<String, int[]> placeList = new ConcurrentHashMap<>();
 	
 	public static FloocraftWorldData forWorld(World world) {
-		ServerWorld serverWorld = world.getServer().getWorld(world.dimension.getType());
+		ServerWorld serverWorld = world.getServer().getWorld(world.getDimensionKey());
 		DimensionSavedDataManager storage = serverWorld.getSavedData();
 		return storage.getOrCreate(FloocraftWorldData::new, DataReference.MODID);
 	}

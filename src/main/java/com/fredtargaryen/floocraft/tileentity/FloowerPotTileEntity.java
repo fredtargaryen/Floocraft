@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -139,8 +140,8 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
     }
 
     @Override
-    public void read(CompoundNBT tagCompound) {
-        super.read(tagCompound);
+    public void read(BlockState state, CompoundNBT tagCompound) {
+        super.read(state, tagCompound);
         ListNBT tagList = tagCompound.getList("Inventory", 10);
         if(tagList.size() == 0) {
             this.inv[0] = ItemStack.EMPTY;
@@ -191,7 +192,7 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
     @Override
     @OnlyIn(Dist.CLIENT)
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        this.read(pkt.getNbtCompound());
+        this.read(null, pkt.getNbtCompound());
         this.justUpdated = true;
     }
 

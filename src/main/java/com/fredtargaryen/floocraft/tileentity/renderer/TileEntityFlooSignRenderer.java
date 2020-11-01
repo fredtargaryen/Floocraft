@@ -10,12 +10,12 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -66,7 +66,7 @@ public class TileEntityFlooSignRenderer extends TileEntityRenderer<FireplaceTile
     @OnlyIn(Dist.CLIENT)
     public static final class FlooSignModel extends Model {
         public final ModelRenderer board = new ModelRenderer(64, 32, 0, 0);
-        public static final Material MATERIAL = new Material(Atlases.SIGN_ATLAS, DataReference.SIGN_TEX_LOC);
+        public static final RenderMaterial MATERIAL = new RenderMaterial(Atlases.SIGN_ATLAS, DataReference.SIGN_TEX_LOC);
 
         public FlooSignModel() {
             super(RenderType::getEntityCutoutNoCull);

@@ -1,8 +1,11 @@
-# mods.toml file for Floocraft 1.15.2
+# mods.toml file for Floocraft
 # The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
-modLoader="javafml"
+modLoader="javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[31.2]" #(31.2 is current forge version)
+loaderVersion="[34,]" #(34 is current forge version)
+# The license for your mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="GNU GPLv3"
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/fredtargaryen/Floocraft/issues"
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -21,22 +24,22 @@ displayName="Floocraft"
 authors="FredTargaryen"
 # A text field displayed in the mod UI
 credits='''
-Pinz714: Brazilian localisation
-XuyuEre: Chinese localisation
-@Hi_ItsPaul: Floo Torch linking
-Knito58: adjustable pot radius
-mindy15963: Korean localisation
+    Pinz714: Brazilian localisation
+            XuyuEre: Chinese localisation
+            @Hi_ItsPaul: Floo Torch linking
+            Knito58: adjustable pot radius
+            mindy15963: Korean localisation
 More credits here: http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2225329-floocraft
 '''
 # A URL to query for updates for this mod. See the JSON update specification <here>
 # updateJSONURL="http://myurl.me/" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Floocraft is a Minecraft Forge mod which adds content themed around Floo Powder, from the Harry Potter franchise:
-* Players build fireplaces to teleport to and from, which are connected to the Floo Network using Floo Signs.
-* Floo Powder, when thrown into fire, turns it green and allows the user to walk in and teleport, or peek into the fire and see what's on the other side.
-* Floo Torches are torches which emit green light and cause random short-range teleportation on contact.
-* Floower Pots automatically transform nearby fires if they contain Floo Powder.
+    Floocraft is a Minecraft Forge mod which adds content themed around Floo Powder, from the Harry Potter franchise:
+    * Players build fireplaces to teleport to and from, which are connected to the Floo Network using Floo Signs.
+    * Floo Powder, when thrown into fire, turns it green and allows the user to walk in and teleport, or peek into the fire and see what's on the other side.
+    * Floo Torches are torches which emit green light and cause random short-range teleportation on contact.
+    * Floower Pots automatically transform nearby fires if they contain Floo Powder.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.examplemod]] #optional

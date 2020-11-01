@@ -16,7 +16,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -71,7 +71,7 @@ public class ItemFlooPowder extends Item {
 	@Override
     public Entity createEntity(World world, Entity location, ItemStack itemstack) {
         if(!world.isRemote) {
-            Vec3d pos = location.getPositionVector();
+            Vector3d pos = location.getPositionVec();
             DroppedFlooPowderEntity flp = new DroppedFlooPowderEntity(world, pos.x, pos.y, pos.z, itemstack, this.concentration);
             //Set immune to fire in type;
             flp.setPickupDelay(40);
@@ -89,11 +89,11 @@ public class ItemFlooPowder extends Item {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		if(this.concentration == 9) {
-			tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration", '\u221E')).applyTextStyle(TextFormatting.GREEN));
+			tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration", '\u221E')).mergeStyle(TextFormatting.GREEN));
             tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.creativeonly")));
 		}
 		else {
-            tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration",this.concentration)).applyTextStyle(TextFormatting.GREEN));
+            tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration",this.concentration)).mergeStyle(TextFormatting.GREEN));
         	if(this.concentration == 1) {
                 tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.craftable")));
 			}

@@ -5,12 +5,14 @@ import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.MessageEndPeek;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,6 +29,8 @@ public class PeekScreen extends Screen {
     private Entity player;
     private UUID peekerID;
     private boolean peekFailedOutOfRange;
+
+    private static final TranslationTextComponent PEEK_DONE = new TranslationTextComponent("gui.peek.done");
 
     public PeekScreen(String name, UUID peekerID) {
         super(new StringTextComponent(name));
@@ -55,7 +59,7 @@ public class PeekScreen extends Screen {
                 this.minecraft.setRenderViewEntity(ep);
             }
         }
-        this.addButton(this.doneBtn = new Button(this.width / 2 - 100, this.height - 40, 200, 20, I18n.format("gui.peek.done"),
+        this.addButton(this.doneBtn = new Button(this.width / 2 - 100, this.height - 40, 200, 20, PEEK_DONE,
                 button -> {
                     PeekScreen.this.onClose();
                     Minecraft.getInstance().displayGuiScreen(null);
@@ -94,8 +98,8 @@ public class PeekScreen extends Screen {
      */
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(int mousex, int mousey, float partialticks) {
-        this.drawCenteredString(this.font,
+    public void render(MatrixStack stack, int mousex, int mousey, float partialticks) {
+        this.drawCenteredString(stack, this.font,
                 this.peekerSpawned ?
                         I18n.format("gui.peek.peeking", this.fireplaceName) :// + " " + this.fireplaceName :
                         this.peekFailedOutOfRange ?
@@ -104,7 +108,7 @@ public class PeekScreen extends Screen {
                 this.width / 2,
                 15,
                 16777215);
-        super.render(mousex, mousey, partialticks);
+        super.render(stack, mousex, mousey, partialticks);
     }
 
     /**

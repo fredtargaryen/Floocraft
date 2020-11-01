@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.*;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
@@ -47,6 +49,11 @@ public class TeleportScreen extends Screen {
     private Object[] placeList;
 
     private int peekAttemptTimer;
+
+    private static final TranslationTextComponent REFRESH = new TranslationTextComponent("gui.teleport.refresh");
+    private static final TranslationTextComponent PEEK = new TranslationTextComponent("gui.teleport.peek");
+    private static final TranslationTextComponent TELEPORT = new TranslationTextComponent("gui.teleport.go");
+    private static final TranslationTextComponent CANCEL = new TranslationTextComponent("gui.teleport.cancel");
 	
     public TeleportScreen(int x, int y, int z) {
         super(new StringTextComponent(screenTitle));
@@ -66,12 +73,12 @@ public class TeleportScreen extends Screen {
     public void init() {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
-        Button refreshButton = new Button(this.width - 100, 0, 98, 20, I18n.format("gui.teleport.refresh"), button -> {
+        Button refreshButton = new Button(this.width - 100, 0, 98, 20, REFRESH, button -> {
             TeleportScreen.this.refresh();
             TeleportScreen.this.init();
         });
         refreshButton.active = false;
-        this.addButton(this.peekBtn = new Button(this.width / 2 - 151, this.height - 40, 98, 20, I18n.format("gui.teleport.peek"), button -> {
+        this.addButton(this.peekBtn = new Button(this.width / 2 - 151, this.height - 40, 98, 20, PEEK, button -> {
             String dest = (String) TeleportScreen.this.placeList[TeleportScreen.this.scrollWindow.getSelected().id];
             try {
                 MessagePeekRequest m = new MessagePeekRequest();
@@ -85,7 +92,7 @@ public class TeleportScreen extends Screen {
             }
         }));
         this.peekBtn.active = false;
-        this.addButton(this.goBtn = new Button(this.width / 2 - 49, this.height - 40, 98, 20, I18n.format("gui.teleport.go"), button -> {
+        this.addButton(this.goBtn = new Button(this.width / 2 - 49, this.height - 40, 98, 20, TELEPORT, button -> {
             int initX = TeleportScreen.this.initX;
             int initY = TeleportScreen.this.initY;
             int initZ = TeleportScreen.this.initZ;
@@ -104,7 +111,7 @@ public class TeleportScreen extends Screen {
             TeleportScreen.this.cancelBtn.onClick(0.0, 0.0);
         }));
         this.goBtn.active = false;
-        this.addButton(this.cancelBtn = new Button(this.width / 2 + 53, this.height - 40, 98, 20, I18n.format("gui.teleport.cancel"), button -> {
+        this.addButton(this.cancelBtn = new Button(this.width / 2 + 53, this.height - 40, 98, 20, CANCEL, button -> {
             ((ClientProxy) FloocraftBase.proxy).overrideTicker.start();
             TeleportScreen.this.minecraft.displayGuiScreen(null);
         }));
@@ -166,8 +173,8 @@ public class TeleportScreen extends Screen {
      */
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(int mousex, int mousey, float partialticks) {
-        this.drawCenteredString(this.font,
+    public void render(MatrixStack stack, int mousex, int mousey, float partialticks) {
+        this.drawCenteredString(stack, this.font,
                 this.status,
                 this.width / 2,
                 this.height / 4 + 48,
@@ -179,14 +186,14 @@ public class TeleportScreen extends Screen {
         GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
         GL11.glPopMatrix();
         if (this.scrollWindow != null) {
-            this.scrollWindow.render(mousex, mousey, partialticks);
+            this.scrollWindow.render(stack, mousex, mousey, partialticks);
         }
-        this.drawCenteredString(this.font,
+        this.drawCenteredString(stack, this.font,
                 screenTitle,
                 this.width / 2,
                 15,
                 16777215);
-        super.render(mousex, mousey, partialticks);
+        super.render(stack, mousex, mousey, partialticks);
     }
     
     private void refresh() {
@@ -242,8 +249,8 @@ public class TeleportScreen extends Screen {
         }
 
         @Override
-        public void render(int entryId, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean b, float partialTicks) {
-            TeleportScreen.this.drawCenteredString(TeleportScreen.this.font, (String) TeleportScreen.this.placeList[this.id], TeleportScreen.this.width / 2, top + 3, TeleportScreen.this.enabledList[this.id] ? 65280 : 16711680);
+        public void render(MatrixStack stack, int entryId, int top, int left, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean b, float partialTicks) {
+            TeleportScreen.this.drawCenteredString(stack, TeleportScreen.this.font, (String) TeleportScreen.this.placeList[this.id], TeleportScreen.this.width / 2, top + 3, TeleportScreen.this.enabledList[this.id] ? 65280 : 16711680);
         }
 
         @Override
@@ -299,9 +306,10 @@ public class TeleportScreen extends Screen {
         }
 
         @Override
-        protected void renderBackground(){}
+        protected void renderBackground(MatrixStack stack){}
 
-        public void render(int mouseX, int mouseY, float partialTicks) {
+        @Override
+        public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
             int i = this.getScrollbarPosition();
             int j = i + 6;
             RenderSystem.disableLighting();
@@ -311,11 +319,8 @@ public class TeleportScreen extends Screen {
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int k = this.getRowLeft();
             int l = this.y0 + 4 - (int)this.getScrollAmount();
-            if (this.renderHeader) {
-                this.renderHeader(k, l, tessellator);
-            }
 
-            this.renderList(k, l, mouseX, mouseY, partialTicks);
+            this.renderList(stack, k, l, mouseX, mouseY, partialTicks);
             RenderSystem.disableDepthTest();
             RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ZERO.param, GlStateManager.DestFactor.ONE.param);
@@ -364,7 +369,7 @@ public class TeleportScreen extends Screen {
                 tessellator.draw();
             }
 
-            this.renderDecorations(mouseX, mouseY);
+            this.renderDecorations(stack, mouseX, mouseY);
             RenderSystem.enableTexture();
             RenderSystem.shadeModel(7424);
             RenderSystem.enableAlphaTest();

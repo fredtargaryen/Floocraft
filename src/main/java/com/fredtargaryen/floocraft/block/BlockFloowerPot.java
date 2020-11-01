@@ -118,12 +118,6 @@ public class BlockFloowerPot extends Block {
     }
 
     @Override
-    public int tickRate(IWorldReader par1World)
-    {
-        return 50;
-    }
-
-    @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         super.tick(state, world, pos, rand);
         if(!world.isRemote) {
@@ -158,13 +152,13 @@ public class BlockFloowerPot extends Block {
             }
             pot.setInventorySlotContents(0, stack);
             world.notifyBlockUpdate(pos, state, state, 3);
-            world.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), this.tickRate(world) + rand.nextInt(100), TickPriority.EXTREMELY_LOW);
+            world.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 50 + rand.nextInt(100), TickPriority.EXTREMELY_LOW);
         }
     }
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
-        worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), this.tickRate(worldIn), TickPriority.EXTREMELY_LOW);
+        worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 50, TickPriority.EXTREMELY_LOW);
     }
 
     /**

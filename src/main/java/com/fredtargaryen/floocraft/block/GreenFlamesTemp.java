@@ -14,12 +14,6 @@ public class GreenFlamesTemp extends GreenFlamesBusy {
     public GreenFlamesTemp() { super(); }
 
     @Override
-    public int tickRate(IWorldReader par1World)
-    {
-        return 100;
-    }
-
-    @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         world.setBlockState(pos, Blocks.FIRE.getDefaultState());
     }
