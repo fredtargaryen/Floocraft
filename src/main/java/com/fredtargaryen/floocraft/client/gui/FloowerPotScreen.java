@@ -28,6 +28,9 @@ public class FloowerPotScreen extends ContainerScreen<FloowerPotContainer> {
     private int hRangeCache;
     private int vRangeCache;
 
+    private static final StringTextComponent MINUS = new StringTextComponent("-");
+    private static final StringTextComponent PLUS = new StringTextComponent("+");
+
     public FloowerPotScreen(FloowerPotContainer container, PlayerInventory inv, ITextComponent itc) {
         super(container, inv, itc);
         this.fpte = (FloowerPotTileEntity) container.getTileEntity();
@@ -42,22 +45,22 @@ public class FloowerPotScreen extends ContainerScreen<FloowerPotContainer> {
     public void init() {
         super.init();
         this.buttons.clear();
-        this.hLess = new Button(guiLeft + 8, guiTop + ySize - 96 - 30, 10, 10, I18n.format("<"), button -> {
+        this.hLess = new Button(guiLeft + 8, guiTop + ySize - 96 - 30, 10, 10, MINUS, button -> {
             this.hRangeCache -= 1;
             FloowerPotScreen.this.sendPotRangeMessage('h', -1);
         });
         this.addButton(this.hLess);
-        this.hMore = new Button(guiLeft + 28, guiTop + ySize - 96 - 30, 10, 10, I18n.format(">"), button -> {
+        this.hMore = new Button(guiLeft + 28, guiTop + ySize - 96 - 30, 10, 10, PLUS, button -> {
             this.hRangeCache += 1;
             FloowerPotScreen.this.sendPotRangeMessage('h', 1);
         });
         this.addButton(this.hMore);
-        this.vLess = new Button(guiLeft + 8, guiTop + ySize - 96 - 10, 10, 10, I18n.format("<"), button -> {
+        this.vLess = new Button(guiLeft + 8, guiTop + ySize - 96 - 10, 10, 10, MINUS, button -> {
             this.vRangeCache -= 1;
             FloowerPotScreen.this.sendPotRangeMessage('v', -1);
         });
         this.addButton(this.vLess);
-        this.vMore = new Button(guiLeft + 28, guiTop + ySize - 96 - 10, 10, 10, I18n.format(">"), button -> {
+        this.vMore = new Button(guiLeft + 28, guiTop + ySize - 96 - 10, 10, 10, PLUS, button -> {
             this.vRangeCache += 1;
             FloowerPotScreen.this.sendPotRangeMessage('v', 1);
         });
