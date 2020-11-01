@@ -46,20 +46,17 @@ import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-//import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
-
 @Mod(value = DataReference.MODID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(DataReference.MODID)
 public class FloocraftBase {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
-
-    //private static boolean mirageInstalled;
     
     //Declare all blocks here
     @ObjectHolder("flootorch")
     public static Block BLOCK_FLOO_TORCH;
+
     @ObjectHolder("greenflamesbusy")
     public static Block GREEN_FLAMES_BUSY;
     @ObjectHolder("greenflamesidle")
@@ -127,8 +124,6 @@ public class FloocraftBase {
     public static TileEntityType<FireplaceTileEntity> FIREPLACE_TYPE;
     @ObjectHolder("pot")
     public static TileEntityType<FloowerPotTileEntity> POT_TYPE;
-    //@ObjectHolder("greenlight")
-    //public static TileEntityType MIRAGE_GREEN_LIGHT;
 
     /**   
      * Says where the client and server 'proxy' code is loaded.
@@ -239,9 +234,6 @@ public class FloocraftBase {
                 TileEntityType.Builder.create(FloowerPotTileEntity::new, FloocraftBase.FLOOWER_POT)
                         .build(null)
                         .setRegistryName("pot"));
-                //TileEntityType.Builder.create(TileEntityMirageFire::new)
-                //        .build(null)
-                //        .setRegistryName("greenlight"));
     }
 
     /**
@@ -254,13 +246,10 @@ public class FloocraftBase {
     }
 
     public void clientSetup(FMLClientSetupEvent event) {
-        //mirageInstalled = Loader.isModLoaded("mirage");
         proxy.registerGUIs();
         proxy.registerRenderers();
         proxy.setupRenderTypes();
     }
-
-    //public static boolean isMirageInstalled() { return mirageInstalled; }
 
     ////////////////////////
     //FOR THE MODID CHANGE//

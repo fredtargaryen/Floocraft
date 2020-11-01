@@ -110,25 +110,4 @@ public class FlooTorchBlock extends TorchBlock {
     @Override
     @Nonnull
     public Item asItem() { return FloocraftBase.ITEM_FLOO_TORCH; }
-
-    ////////////////////////
-    //MIRAGE COMPATIBILITY//
-    ////////////////////////
-//    @Override
-//    public boolean hasTileEntity(BlockState ibs)
-//    {
-//        return FloocraftBase.isMirageInstalled();
-//    }
-//
-//    @Override
-//    public TileEntity createTileEntity(World world, BlockState state)
-//    {
-//        TileEntityMirageFire temf = null;
-//        if(FloocraftBase.isMirageInstalled())
-//        {
-//            temf = new TileEntityMirageFire();
-//            temf.setRadius(4.0F);
-//        }
-//        return temf;
-//    }
 }
