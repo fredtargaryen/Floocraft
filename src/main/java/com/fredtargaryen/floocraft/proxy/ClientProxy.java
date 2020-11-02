@@ -46,7 +46,7 @@ public class ClientProxy implements IProxy {
     }
 
     @Override
-    public void onMessage(MessageDoGreenFlash mdgf) { this.flash.start(); }
+    public void onMessage(MessageDoGreenFlash mdgf) { this.flash.start(mdgf.soul); }
 
     @Override
     public void onMessage(MessageFireplaceList mfl) {
@@ -96,6 +96,9 @@ public class ClientProxy implements IProxy {
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_BUSY, RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_IDLE, RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_TEMP, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_BUSY, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_IDLE, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_TEMP, RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.BLOCK_FLOO_TORCH, RenderType.getCutoutMipped());
     }
 

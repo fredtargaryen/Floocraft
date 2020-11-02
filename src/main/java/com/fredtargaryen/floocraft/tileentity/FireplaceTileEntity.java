@@ -2,14 +2,14 @@ package com.fredtargaryen.floocraft.tileentity;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooSignBlock;
-import com.fredtargaryen.floocraft.block.GreenFlamesBase;
+import com.fredtargaryen.floocraft.block.FlooFlamesBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -129,7 +129,7 @@ public class FireplaceTileEntity extends TileEntity {
     {
         //The block below the block at the top of the fireplace
         pos = pos.offset(w.getBlockState(pos).get(FlooSignBlock.FACING).getOpposite()).offset(Direction.DOWN, 1);
-        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock() == Blocks.FIRE || w.getBlockState(pos).getBlock() instanceof GreenFlamesBase) && pos.getY() > -1)
+        while((w.isAirBlock(pos) || w.getBlockState(pos).getBlock().isIn(BlockTags.FIRE) || w.getBlockState(pos).getBlock() instanceof FlooFlamesBase) && pos.getY() > -1)
         {
             pos = pos.offset(Direction.DOWN, 1);
         }

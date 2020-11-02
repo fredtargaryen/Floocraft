@@ -1,0 +1,12 @@
+{
+    "multipart":
+    [
+        {
+            "apply": [
+                {
+                    "model": "floocraftft:block/mf_busy"
+                }
+            ]
+        }
+    ]
+}

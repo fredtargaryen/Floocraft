@@ -1,12 +1,15 @@
 package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesTemp;
-import net.minecraft.block.Blocks;
+import com.fredtargaryen.floocraft.block.FlooFlamesTemp;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoulFireBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,22 +23,6 @@ public class DroppedFlooPowderEntity extends ItemEntity {
 		super(world, x, y, z, stack);
         this.concentration = conc;
 	}
-
-	/**
-     * Called to update the entity's position/logic.
-     */
-    @Override
-    public void tick() {
-        BlockPos pos = this.getPosition();
-        if (this.world.getBlockState(pos).getBlock() == Blocks.FIRE) {
-			if(((GreenFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(this.world, pos) != null) {
-                this.world.setBlockState(pos, FloocraftBase.GREEN_FLAMES_BUSY.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
-                this.playSound(FloocraftBase.GREENED, 1.0F, 1.0F);
-            }
-            this.remove();
-        }
-        super.tick();
-    }
 
     /**
      * Writes this entity to NBT, unless it has been removed or it is a passenger. Also writes this entity's passengers,
@@ -61,5 +48,30 @@ public class DroppedFlooPowderEntity extends ItemEntity {
     @Override
     public SoundCategory getSoundCategory() {
         return SoundCategory.BLOCKS;
+    }
+
+    /**
+     * Called when the entity is attacked.
+     */
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if(source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE) {
+            BlockPos pos = this.getPosition();
+            if (this.world.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
+                if(((FlooFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(this.world, pos) != null) {
+                    Block fireBlock = SoulFireBlock.shouldLightSoulFire(this.world.getBlockState(pos.down()).getBlock()) ?
+                            FloocraftBase.MAGENTA_FLAMES_BUSY : FloocraftBase.GREEN_FLAMES_BUSY;
+                    this.world.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
+                    this.playSound(FloocraftBase.GREENED, 1.0F, 1.0F);
+                }
+                this.remove();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return super.attackEntityFrom(source, amount);
     }
 }

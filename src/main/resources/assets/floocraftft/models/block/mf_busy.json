@@ -1,6 +1,6 @@
 {
     "parent": "floocraftft:block/template_busy",
     "textures": {
-        "fire": "floocraftft:blocks/gf"
+        "fire": "floocraftft:blocks/mf"
     }
 }

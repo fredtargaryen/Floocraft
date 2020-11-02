@@ -67,6 +67,15 @@ public class FloocraftBase {
      */
     @ObjectHolder("greenflamestemp")
     public static Block GREEN_FLAMES_TEMP;
+
+    //Sadly they have to be separate blocks
+    @ObjectHolder("magentaflamesbusy")
+    public static Block MAGENTA_FLAMES_BUSY;
+    @ObjectHolder("magentaflamesidle")
+    public static Block MAGENTA_FLAMES_IDLE;
+    @ObjectHolder("magentaflamestemp")
+    public static Block MAGENTA_FLAMES_TEMP;
+
     @ObjectHolder("floosign")
     public static Block BLOCK_FLOO_SIGN;
     @ObjectHolder("floowerpot")
@@ -152,12 +161,18 @@ public class FloocraftBase {
         evt.getRegistry().registerAll(
                 new FlooTorchBlock()
                         .setRegistryName("flootorch"),
-                new GreenFlamesBusy()
+                new FlooFlamesBusy()
                         .setRegistryName("greenflamesbusy"),
-                new GreenFlamesIdle()
+                new FlooFlamesIdle()
                         .setRegistryName("greenflamesidle"),
-                new GreenFlamesTemp()
+                new FlooFlamesTemp()
                         .setRegistryName("greenflamestemp"),
+                new FlooFlamesBusy()
+                        .setRegistryName("magentaflamesbusy"),
+                new FlooFlamesIdle()
+                        .setRegistryName("magentaflamesidle"),
+                new FlooFlamesTemp()
+                        .setRegistryName("magentaflamestemp"),
                 new FlooSignBlock()
                         .setRegistryName("floosign"),
                 new BlockFloowerPot()

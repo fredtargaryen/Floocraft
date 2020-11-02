@@ -2,13 +2,12 @@ package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesBase;
+import com.fredtargaryen.floocraft.block.FlooFlamesBase;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FireBlock;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
@@ -108,12 +107,11 @@ public class FloocraftWorldData extends WorldSavedData {
             BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
 			Block b = w.getBlockState(dest).getBlock();
             boolean ok;
-            if(b instanceof FireBlock) {
-                ok = ((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(w, dest) != null;
-                w.setBlockState(dest, Blocks.FIRE.getDefaultState());
+            if(b.isIn(BlockTags.FIRE)) {
+                ok = ((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(w, dest) != null;
             }
 			else {
-				ok = b instanceof GreenFlamesBase;
+				ok = b instanceof FlooFlamesBase;
 			}
             l[keyCount] = ok;
 			++keyCount;

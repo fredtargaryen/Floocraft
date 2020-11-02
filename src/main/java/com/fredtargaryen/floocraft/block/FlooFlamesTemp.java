@@ -1,21 +1,23 @@
 package com.fredtargaryen.floocraft.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoulFireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
-public class GreenFlamesTemp extends GreenFlamesBusy {
-    public GreenFlamesTemp() { super(); }
+public class FlooFlamesTemp extends FlooFlamesBusy {
+    public FlooFlamesTemp() { super(); }
 
     @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
-        world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+        Block fireBlock = SoulFireBlock.shouldLightSoulFire(world.getBlockState(pos.down()).getBlock()) ? Blocks.SOUL_FIRE : Blocks.FIRE;
+        world.setBlockState(pos, fireBlock.getDefaultState());
     }
 
     @Override

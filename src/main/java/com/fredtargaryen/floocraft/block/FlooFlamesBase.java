@@ -6,9 +6,7 @@ import com.fredtargaryen.floocraft.config.GeneralConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -18,6 +16,7 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -39,11 +38,11 @@ import java.util.Random;
 
 import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
 
-public abstract class GreenFlamesBase extends Block {
+public abstract class FlooFlamesBase extends Block {
     private static final Direction[] HORIZONTALS = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
     private static final VoxelShape TALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
 
-    GreenFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).setLightLevel(state -> lightLevel).notSolid()); }
+    FlooFlamesBase(int lightLevel) { super(Properties.create(Material.FIRE).setLightLevel(state -> lightLevel).notSolid()); }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
@@ -94,8 +93,17 @@ public abstract class GreenFlamesBase extends Block {
                         int[] coords = fwd.placeList.get(destName);
                         BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
                         //Set a temporary Floo fire here
-                        if (worldIn.getBlockState(dest).getBlock() == Blocks.FIRE) {
-                            worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
+                        Block blockOnTop = worldIn.getBlockState(dest).getBlock();
+                        if(blockOnTop.isIn(BlockTags.FIRE))
+                        {
+                            if(SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(dest.down()).getBlock()))
+                            {
+                                worldIn.setBlockState(dest, FloocraftBase.MAGENTA_FLAMES_TEMP.getDefaultState());
+                            }
+                            else
+                            {
+                                worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
+                            }
                         }
                         if (landOutside) {
                             dest = dest.offset(this.isInFireplace(worldIn, dest));
@@ -125,14 +133,16 @@ public abstract class GreenFlamesBase extends Block {
         if (isInFireplace(worldIn, pos) != null) {
             worldIn.getPendingBlockTicks().scheduleTick(pos, this, 30);
         } else {
-            worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState());
+            boolean soul = SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(pos.down()).getBlock());
+            worldIn.setBlockState(pos, (soul ? Blocks.SOUL_FIRE : Blocks.FIRE).getDefaultState());
         }
     }
 
     @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         if (isInFireplace(world, pos) == null || world.getBlockState(pos).get(AGE_0_15).equals(0)) {
-            world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+            boolean soul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(pos.down()).getBlock());
+            world.setBlockState(pos, (soul ? Blocks.SOUL_FIRE : Blocks.FIRE).getDefaultState());
         } else {
             world.getPendingBlockTicks().scheduleTick(pos, this, 30 + rand.nextInt(10));
         }

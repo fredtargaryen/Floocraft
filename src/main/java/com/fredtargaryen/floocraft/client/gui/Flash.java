@@ -24,20 +24,25 @@ import java.util.Random;
 public class Flash {
     private double ticks;
     private Minecraft minecraft;
-    private static final ResourceLocation texloc = new ResourceLocation(DataReference.MODID, "textures/gui/flash.png");
+    private static final ResourceLocation texLoc = new ResourceLocation(DataReference.MODID, "textures/gui/flash.png");
+    private static final ResourceLocation soulTexLoc = new ResourceLocation(DataReference.MODID, "textures/gui/soulflash.png");
     private TextureManager textureManager;
     private long startTime;
 
     private float yawDirectionStrength;
     private float pitchDirectionStrength;
     private float rollDirectionStrength;
+
+    private boolean soul;
 	
-    public Flash(){
+    public Flash() {
         this.ticks = -1;
+        this.soul = false;
     }
 
-    public void start() {
+    public void start(boolean soul) {
         if(this.ticks == -1) {
+            this.soul = soul;
             this.ticks = 0;
             this.minecraft = Minecraft.getInstance();
             this.textureManager = this.minecraft.getTextureManager();
@@ -56,14 +61,13 @@ public class Flash {
     @SubscribeEvent
     public void flash(TickEvent.RenderTickEvent event) {
         if(event.phase == TickEvent.Phase.END) {
-            //this.ticks += 5;
             this.ticks = System.currentTimeMillis() - this.startTime;
             GlStateManager.disableAlphaTest();
             GlStateManager.disableDepthTest();
             GlStateManager.depthMask(false);
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ONE.param, GlStateManager.DestFactor.ZERO.param);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.toRadians(this.ticks * 90 / 1000.0)));
-            this.textureManager.bindTexture(texloc);
+            this.textureManager.bindTexture(this.soul ? soulTexLoc : texLoc);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);

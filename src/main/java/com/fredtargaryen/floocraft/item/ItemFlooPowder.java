@@ -1,9 +1,10 @@
 package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.GreenFlamesBase;
+import com.fredtargaryen.floocraft.block.FlooFlamesBase;
 import com.fredtargaryen.floocraft.entity.DroppedFlooPowderEntity;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoulFireBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -12,8 +13,8 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
@@ -45,11 +46,11 @@ public class ItemFlooPowder extends Item {
         World worldIn = context.getWorld();
         BlockPos pos = context.getPos();
 	    if(!worldIn.isRemote) {
-            BlockPos firePos = pos.offset(Direction.UP, 1);
-            if (worldIn.getBlockState(firePos).getBlock() == Blocks.FIRE) {
-                if (((GreenFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(worldIn, firePos) != null) {
-                    worldIn.setBlockState(firePos, FloocraftBase.GREEN_FLAMES_BUSY.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
-                    worldIn.playSound(null, firePos, FloocraftBase.GREENED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (worldIn.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
+                if (((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(worldIn, pos) != null) {
+                    Block fireBlock = SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(pos.down()).getBlock()) ? FloocraftBase.MAGENTA_FLAMES_BUSY : FloocraftBase.GREEN_FLAMES_BUSY;
+                    worldIn.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
+                    worldIn.playSound(null, pos, FloocraftBase.GREENED, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
                 context.getItem().grow(-1);
                 return ActionResultType.SUCCESS;
