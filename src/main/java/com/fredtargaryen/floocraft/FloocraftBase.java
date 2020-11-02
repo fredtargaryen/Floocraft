@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.particle.GreenFlameParticle;
+import com.fredtargaryen.floocraft.command.CommandsBase;
 import com.fredtargaryen.floocraft.config.Config;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
@@ -30,6 +31,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -249,6 +251,14 @@ public class FloocraftBase {
                 TileEntityType.Builder.create(FloowerPotTileEntity::new, FloocraftBase.FLOOWER_POT)
                         .build(null)
                         .setRegistryName("pot"));
+    }
+
+    /**
+     * Register the mod's commands.
+     */
+    @SubscribeEvent
+    public void registerCommands(RegisterCommandsEvent event) {
+        CommandsBase.registerCommands(event.getDispatcher());
     }
 
     /**
