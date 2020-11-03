@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooFlamesBase;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
@@ -12,6 +13,9 @@ import net.minecraft.block.SoulFireBlock;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ITagCollection;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -33,28 +37,25 @@ public class MessageTeleportEntity {
             World world = player.world;
             //The coordinates of the destination: [x, y, z]
             int[] destCoords = FloocraftWorldData.forWorld(world).placeList.get(this.dest);
-
             //Stop everything if the destination has the same coordinates as where the player is
             if(!(destCoords[0] == this.initX && destCoords[1] == this.initY && destCoords[2] == this.initZ))
             {
                 BlockPos destBlockPos = new BlockPos(destCoords[0], destCoords[1], destCoords[2]);
                 Block destBlock = world.getBlockState(destBlockPos).getBlock();
 
-                //Checks whether the destination is fire and in a valid fireplace
-                if (destBlock.isIn(BlockTags.FIRE)) {
-                    validDest = ((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, destBlockPos) != null;
-                }
-                //Checks whether the destination is busy or idle green flames (implying valid fireplace)
-                else if (this.isBusyOrIdleFlooBlock(destBlock)) {
-                    validDest = true;
+                ITagCollection<Block> blockTags = BlockTags.getCollection();
+                ITag<Block> arrivalBlocks = blockTags.get(DataReference.VALID_ARRIVAL_BLOCKS);
+                ITag<Block> departureBlocks = blockTags.get(DataReference.VALID_DEPARTURE_BLOCKS);
+                //Checks whether the destination has a block that can be arrived in, and is in a valid fireplace
+                if (destBlock.isIn(arrivalBlocks)) {
+                    validDest = ((FlooFlamesBase) GREEN_FLAMES_TEMP).isInFireplace(world, destBlockPos) != null;
                 }
 
                 BlockPos initBlockPos = new BlockPos(this.initX, this.initY, this.initZ);
                 BlockState initBlockState = world.getBlockState(initBlockPos);
                 Block initBlock = initBlockState.getBlock();
-
-                //If destination is valid, checks whether the player is currently in busy or idle green flames
-                if (validDest && (this.isBusyOrIdleFlooBlock(initBlock))) {
+                //If destination is valid, checks whether the player is currently in a valid departure block
+                if (validDest && (initBlock.isIn(departureBlocks))) {
                     boolean initSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(initBlockPos.down()).getBlock());
                     boolean destSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(destBlockPos.down()).getBlock());
                     //Get the fire ready...
@@ -99,12 +100,4 @@ public class MessageTeleportEntity {
         buf.writeInt(dest.length());
         buf.writeBytes(dest.getBytes());
 	}
-
-	private boolean isBusyOrIdleFlooBlock(Block b)
-    {
-        return b == FloocraftBase.GREEN_FLAMES_BUSY
-                || b == FloocraftBase.GREEN_FLAMES_IDLE
-                || b == FloocraftBase.MAGENTA_FLAMES_BUSY
-                || b == FloocraftBase.MAGENTA_FLAMES_IDLE;
-    }
 }

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:fire",
+    "#floocraftft:valid_departure_blocks"
+  ]
+}

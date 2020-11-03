@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooFlamesBase;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
@@ -9,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITagCollection;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -38,15 +40,12 @@ public class MessagePeekRequest {
                 int destY = destCoords[1];
                 int destZ = destCoords[2];
                 //Checks whether the player is currently in busy or idle green flames
-                if (initBlock == FloocraftBase.GREEN_FLAMES_BUSY || initBlock == FloocraftBase.GREEN_FLAMES_IDLE) {
+                ITagCollection<Block> blockTags = BlockTags.getCollection();
+                if (initBlock.isIn(blockTags.get(DataReference.VALID_DEPARTURE_BLOCKS))) {
                     BlockPos dest = new BlockPos(destX, destY, destZ);
                     Block destBlock = world.getBlockState(dest).getBlock();
                     //Checks whether the destination is fire
-                    if (destBlock.isIn(BlockTags.FIRE)
-                            || destBlock == FloocraftBase.GREEN_FLAMES_BUSY
-                            || destBlock == FloocraftBase.GREEN_FLAMES_IDLE
-                            || destBlock == FloocraftBase.MAGENTA_FLAMES_BUSY
-                            || destBlock == FloocraftBase.MAGENTA_FLAMES_IDLE) {
+                    if (destBlock.isIn(blockTags.get(DataReference.VALID_ARRIVAL_BLOCKS))) {
                         Direction direction = ((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, dest);
                         if (direction != null) {
                             Direction.Axis axis = direction.getAxis();

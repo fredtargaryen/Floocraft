@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
  * ===DESCRIPTION OF MESSAGE CHANNELS===
  * MessageApproval: sends to client whether proposed fireplace name is valid (i.e. if the sign is decorative OR the name has not been used already). If approved the server will take care of adding the fireplace
  * MessageApproveFireplace: sends fireplace sign position, proposed fireplace name, and whether the sign is decorative or connected to the Network, to server for approval.
- * MessageDoGreenFlash: causes the green flash effect to appear on the client when you teleport
+ * MessageDoGreenFlash: causes the green/magenta flash effect to appear on the client when you teleport
  * MessageEndPeek: sent when the "Mischief managed" button is pressed to stop the peek
  * MessageFireplaceList: the lists of fireplace attributes: names; x coordinates; y coordinates; z coordinates; whether they can be teleported to
  * MessageFireplaceListRequest: empty packet. When this is received, server sends back MessageFireplaceList
@@ -32,4 +32,7 @@ public class DataReference {
 
     public static final ResourceLocation SIGN_TEX_LOC = new ResourceLocation(MODID, "blocks/floosign");
     public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID, "textures/blocks/tp_background.png");
+
+    public static final ResourceLocation VALID_ARRIVAL_BLOCKS = new ResourceLocation(MODID, "blocks/valid_arrival_blocks");
+    public static final ResourceLocation VALID_DEPARTURE_BLOCKS = new ResourceLocation(MODID, "blocks/valid_departure_blocks");
 }
