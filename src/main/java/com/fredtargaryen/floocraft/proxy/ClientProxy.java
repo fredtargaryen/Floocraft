@@ -66,14 +66,14 @@ public class ClientProxy implements IProxy {
 
     @Override
     public void registerGUIs() {
-        ScreenManager.registerFactory(FloocraftBase.POT_CONTAINER_TYPE, FloowerPotScreen::new);
+        ScreenManager.registerFactory(FloocraftBase.POT_CONTAINER_TYPE.get(), FloowerPotScreen::new);
     }
 
     @Override
     public void registerRenderers() {
-        ClientRegistry.bindTileEntityRenderer(FloocraftBase.FIREPLACE_TYPE, TileEntityFlooSignRenderer::new);
-        ClientRegistry.bindTileEntityRenderer(FloocraftBase.POT_TYPE, TileEntityPotRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(FloocraftBase.PEEKER_TYPE, new RenderPeekerFactory());
+        ClientRegistry.bindTileEntityRenderer(FloocraftBase.FIREPLACE_TYPE.get(), TileEntityFlooSignRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(FloocraftBase.POT_TYPE.get(), TileEntityPotRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(FloocraftBase.PEEKER_TYPE.get(), new RenderPeekerFactory());
     }
 
     @Override
@@ -93,13 +93,13 @@ public class ClientProxy implements IProxy {
     @Override
     public void setupRenderTypes()
     {
-        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_BUSY, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_IDLE, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_TEMP, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_BUSY, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_IDLE, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_TEMP, RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(FloocraftBase.BLOCK_FLOO_TORCH, RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_BUSY.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_IDLE.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_TEMP.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_BUSY.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_IDLE.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_TEMP.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.BLOCK_FLOO_TORCH.get(), RenderType.getCutoutMipped());
     }
 
     @Override

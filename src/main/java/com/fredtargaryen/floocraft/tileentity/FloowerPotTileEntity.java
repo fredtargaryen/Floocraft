@@ -33,7 +33,7 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
     private int vRange;
 
     public FloowerPotTileEntity() {
-        super(FloocraftBase.POT_TYPE);
+        super(FloocraftBase.POT_TYPE.get());
         this.inv = new ItemStack[1];
         this.inv[0] = ItemStack.EMPTY;
         this.hRange = DataReference.POT_MAX_H_RANGE;

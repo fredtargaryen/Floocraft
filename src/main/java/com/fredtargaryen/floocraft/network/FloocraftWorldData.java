@@ -3,6 +3,7 @@ package com.fredtargaryen.floocraft.network;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooFlamesBase;
+import com.fredtargaryen.floocraft.block.FlooFlamesTemp;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.CompoundNBT;
@@ -102,13 +103,14 @@ public class FloocraftWorldData extends WorldSavedData {
 		m.places = this.placeList.keySet().toArray();
 		boolean[] l = new boolean[m.places.length];
 		int keyCount = 0;
+		FlooFlamesBase greenTemp = (FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP.get();
 		for(String nextName : this.placeList.keySet()) {
 			int[] coords = this.placeList.get(nextName);
             BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
 			Block b = w.getBlockState(dest).getBlock();
             boolean ok;
             if(b.isIn(BlockTags.FIRE)) {
-                ok = ((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(w, dest) != null;
+                ok = greenTemp.isInFireplace(w, dest) != null;
             }
 			else {
 				ok = b instanceof FlooFlamesBase;

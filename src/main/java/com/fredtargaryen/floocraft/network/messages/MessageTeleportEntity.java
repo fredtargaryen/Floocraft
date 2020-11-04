@@ -47,8 +47,9 @@ public class MessageTeleportEntity {
                 ITag<Block> arrivalBlocks = blockTags.get(DataReference.VALID_ARRIVAL_BLOCKS);
                 ITag<Block> departureBlocks = blockTags.get(DataReference.VALID_DEPARTURE_BLOCKS);
                 //Checks whether the destination has a block that can be arrived in, and is in a valid fireplace
+                FlooFlamesBase greenTemp = (FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP.get();
                 if (destBlock.isIn(arrivalBlocks)) {
-                    validDest = ((FlooFlamesBase) GREEN_FLAMES_TEMP).isInFireplace(world, destBlockPos) != null;
+                    validDest = greenTemp.isInFireplace(world, destBlockPos) != null;
                 }
 
                 BlockPos initBlockPos = new BlockPos(this.initX, this.initY, this.initZ);
@@ -59,7 +60,7 @@ public class MessageTeleportEntity {
                     boolean initSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(initBlockPos.down()).getBlock());
                     boolean destSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(destBlockPos.down()).getBlock());
                     //Get the fire ready...
-                    world.setBlockState(destBlockPos, destSoul ? FloocraftBase.MAGENTA_FLAMES_TEMP.getDefaultState() : FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
+                    world.setBlockState(destBlockPos, destSoul ? FloocraftBase.MAGENTA_FLAMES_TEMP.get().getDefaultState() : greenTemp.getDefaultState());
                     //...then do the teleport...
                     MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new MessageDoGreenFlash(initSoul));
                     if (player.getRidingEntity() != null) {

@@ -98,11 +98,11 @@ public abstract class FlooFlamesBase extends Block {
                         {
                             if(SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(dest.down()).getBlock()))
                             {
-                                worldIn.setBlockState(dest, FloocraftBase.MAGENTA_FLAMES_TEMP.getDefaultState());
+                                worldIn.setBlockState(dest, FloocraftBase.MAGENTA_FLAMES_TEMP.get().getDefaultState());
                             }
                             else
                             {
-                                worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.getDefaultState());
+                                worldIn.setBlockState(dest, FloocraftBase.GREEN_FLAMES_TEMP.get().getDefaultState());
                             }
                         }
                         if (landOutside) {

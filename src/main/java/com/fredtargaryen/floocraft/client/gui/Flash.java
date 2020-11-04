@@ -47,7 +47,7 @@ public class Flash {
             this.minecraft = Minecraft.getInstance();
             this.textureManager = this.minecraft.getTextureManager();
             MinecraftForge.EVENT_BUS.register(this);
-            Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(FloocraftBase.TP, 1.0F));
+            Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(FloocraftBase.TP.get(), 1.0F));
             this.startTime = System.currentTimeMillis();
 
             //Determine roll parameters

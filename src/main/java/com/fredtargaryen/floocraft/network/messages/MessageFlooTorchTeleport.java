@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +41,7 @@ public class MessageFlooTorchTeleport {
             int maxz = torchZ1 + 3;
             List<BlockPos> coords = new ArrayList<>();
             List<BlockPos> torchCoords = new ArrayList<>();
+            Block flooTorchBlock = FloocraftBase.BLOCK_FLOO_TORCH.get();
             for (int x = minx; x <= maxx; x++) {
                 for (int z = minz; z <= maxz; z++) {
                     //Prevent the player from teleporting onto the torch again
@@ -50,7 +52,7 @@ public class MessageFlooTorchTeleport {
                             if (world.isAirBlock(nextPos)) {
                                 //There is enough legroom
                                 coords.add(nextPos);
-                            } else if (world.getBlockState(nextPos).getBlock() == FloocraftBase.BLOCK_FLOO_TORCH) {
+                            } else if (world.getBlockState(nextPos).getBlock() == flooTorchBlock) {
                                 //There is a Floo Torch nearby
                                 torchCoords.add(nextPos);
                             }
@@ -81,32 +83,15 @@ public class MessageFlooTorchTeleport {
             if(finalCoords.size() > 0)
             {
                 BlockPos chosenCoord = finalCoords.get(world.rand.nextInt(finalCoords.size()));
-//                double x = chosenCoord.getX();
-//                if(x < torchX1)
-//                {
-//                    x += 0.5;
-//                }
-//                else if(x > torchX1) {
-//                    x -= 0.5;
-//                }
                 double x = chosenCoord.getX() + 0.5;
                 double y = chosenCoord.getY();
                 double z = chosenCoord.getZ() + 0.5;
-//                double z = chosenCoord.getZ();
-//                if(z < torchZ1)
-//                {
-//                    z += 0.5;
-//                }
-//                else if(z > torchZ1)
-//                {
-//                    z -= 0.5;
-//                }
                 if(player.getRidingEntity() != null) {
                     player.stopRiding();
                 }
                 player.connection.setPlayerLocation(x, y, z, player.rotationYaw, player.rotationPitch);
                 player.fallDistance = 0.0F;
-                world.playSound(null, new BlockPos(torchX1, torchY1, torchZ1), FloocraftBase.FLICK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, new BlockPos(torchX1, torchY1, torchZ1), FloocraftBase.FLICK.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         });
 

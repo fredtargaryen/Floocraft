@@ -30,7 +30,7 @@ public class PeekerEntity extends Entity {
     private boolean sentRequest;
 
     public PeekerEntity(World w) {
-        super(FloocraftBase.PEEKER_TYPE, w);
+        super(FloocraftBase.PEEKER_TYPE.get(), w);
         MinecraftForge.EVENT_BUS.register(this);
         this.texture = null;
         this.sentRequest = false;

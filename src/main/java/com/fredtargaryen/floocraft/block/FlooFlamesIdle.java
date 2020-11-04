@@ -31,7 +31,7 @@ public class FlooFlamesIdle extends FlooFlamesBase {
     public void tick(BlockState state, ServerWorld w, BlockPos pos, Random rand) {
         if(w.getClosestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, (double) DataReference.FLOO_FIRE_DETECTION_RANGE, false) != null)
         {
-            Block fireBlock = SoulFireBlock.shouldLightSoulFire(w.getBlockState(pos.down()).getBlock()) ? FloocraftBase.MAGENTA_FLAMES_BUSY : FloocraftBase.GREEN_FLAMES_BUSY;
+            Block fireBlock = SoulFireBlock.shouldLightSoulFire(w.getBlockState(pos.down()).getBlock()) ? FloocraftBase.MAGENTA_FLAMES_BUSY.get() : FloocraftBase.GREEN_FLAMES_BUSY.get();
             w.setBlockState(pos, fireBlock.getDefaultState().with(AGE_0_15, state.get(AGE_0_15)));
         }
         super.tick(state, w, pos, rand);

@@ -58,11 +58,11 @@ public class DroppedFlooPowderEntity extends ItemEntity {
         if(source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE) {
             BlockPos pos = this.getPosition();
             if (this.world.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
-                if(((FlooFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(this.world, pos) != null) {
+                if(((FlooFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP.get()).isInFireplace(this.world, pos) != null) {
                     Block fireBlock = SoulFireBlock.shouldLightSoulFire(this.world.getBlockState(pos.down()).getBlock()) ?
-                            FloocraftBase.MAGENTA_FLAMES_BUSY : FloocraftBase.GREEN_FLAMES_BUSY;
+                            FloocraftBase.MAGENTA_FLAMES_BUSY.get() : FloocraftBase.GREEN_FLAMES_BUSY.get();
                     this.world.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
-                    this.playSound(FloocraftBase.GREENED, 1.0F, 1.0F);
+                    this.playSound(FloocraftBase.GREENED.get(), 1.0F, 1.0F);
                 }
                 this.remove();
                 return true;

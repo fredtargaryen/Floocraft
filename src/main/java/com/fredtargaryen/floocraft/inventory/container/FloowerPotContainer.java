@@ -40,7 +40,7 @@ public class FloowerPotContainer extends Container {
      * @param inv
      */
     public FloowerPotContainer(int windowId, PlayerInventory inv, World w, BlockPos pos) {
-        super(FloocraftBase.POT_CONTAINER_TYPE, windowId);
+        super(FloocraftBase.POT_CONTAINER_TYPE.get(), windowId);
         this.potTE = w.getTileEntity(pos);
         if(this.potTE != null) {
             this.addSlot(new PowderSlot((FloowerPotTileEntity) this.potTE));

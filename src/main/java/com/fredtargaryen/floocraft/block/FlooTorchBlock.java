@@ -27,11 +27,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class FlooTorchBlock extends TorchBlock {
+public class FlooTorchBlock extends Block {
     private static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(6.0D, 3.0D, 12.0D, 10.0D, 13.0D, 16.0D);
     private static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(6.0D, 3.0D, 0.0D, 10.0D, 13.0D, 4.0D);
     private static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(12.0D, 3.0D, 6.0D, 16.0D, 13.0D, 10.0D);
     private static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(0.0D, 3.0D, 6.0D, 4.0D, 13.0D, 10.0D);
+    private static final VoxelShape STANDING_SHAPE = Block.makeCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
     public static final DirectionProperty FACING_EXCEPT_DOWN = DirectionProperty.create("facing", (p_208125_0_) -> p_208125_0_ != Direction.DOWN);
 
 	public FlooTorchBlock() {
@@ -39,8 +40,7 @@ public class FlooTorchBlock extends TorchBlock {
                 .doesNotBlockMovement()
                 .hardnessAndResistance(0F)
                 .setLightLevel(state -> 14)
-                .sound(SoundType.WOOD),
-                FloocraftBase.GREEN_FLAME);
+                .sound(SoundType.WOOD));
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class FlooTorchBlock extends TorchBlock {
             case EAST:
                 return EAST_SHAPE;
             default:
-                return SHAPE;
+                return STANDING_SHAPE;
         }
     }
 
@@ -90,7 +90,7 @@ public class FlooTorchBlock extends TorchBlock {
                 break;
         }
         worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-        Minecraft.getInstance().particles.addParticle(FloocraftBase.GREEN_FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+        Minecraft.getInstance().particles.addParticle(FloocraftBase.GREEN_FLAME.get(), d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 
     @Override
@@ -109,5 +109,5 @@ public class FlooTorchBlock extends TorchBlock {
 
     @Override
     @Nonnull
-    public Item asItem() { return FloocraftBase.ITEM_FLOO_TORCH; }
+    public Item asItem() { return FloocraftBase.ITEM_FLOO_TORCH.get(); }
 }

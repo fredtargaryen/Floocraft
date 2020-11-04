@@ -18,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -129,6 +130,10 @@ public class BlockFloowerPot extends Block {
                 int par4 = pos.getZ();
                 BlockPos currentPos;
                 Block currentBlock;
+                Block greenBusy = FloocraftBase.GREEN_FLAMES_BUSY.get();
+                BlockState greenState = greenBusy.getDefaultState();
+                BlockState magentaState = FloocraftBase.MAGENTA_FLAMES_BUSY.get().getDefaultState();
+                SoundEvent greened = FloocraftBase.GREENED.get();
                 for (int x = par2 - hRange; x <= par2 + hRange; x++) {
                     for (int y = par3 - vRange; y <= par3 + vRange; y++) {
                         for (int z = par4 - hRange; z <= par4 + hRange; z++) {
@@ -136,12 +141,12 @@ public class BlockFloowerPot extends Block {
                                 currentPos = new BlockPos(x, y, z);
                                 currentBlock = world.getBlockState(currentPos).getBlock();
                                 if (currentBlock.isIn(BlockTags.FIRE)) {
-                                    if (((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, currentPos) != null) {
+                                    if (((FlooFlamesBase) greenBusy).isInFireplace(world, currentPos) != null) {
                                         Item i = stack.getItem();
                                         boolean soul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(currentPos.down()).getBlock());
-                                        BlockState stateToSet = soul ? FloocraftBase.MAGENTA_FLAMES_IDLE.getDefaultState() : FloocraftBase.GREEN_FLAMES_IDLE.getDefaultState();
+                                        BlockState stateToSet = soul ? magentaState : greenState;
                                         world.setBlockState(currentPos, stateToSet.with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration()), 3);
-                                        world.playSound(null, currentPos, FloocraftBase.GREENED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                                        world.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
                                         stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
                                     }
                                 }

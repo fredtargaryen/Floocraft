@@ -19,7 +19,7 @@ public class MessagePotRange {
         ctx.get().enqueueWork(() -> {
             ServerWorld sw = ctx.get().getSender().getServerWorld();
             TileEntity te = sw.getTileEntity(MessagePotRange.this.pos);
-            if(te.getType() == FloocraftBase.POT_TYPE)
+            if(te.getType() == FloocraftBase.POT_TYPE.get())
                 ((FloowerPotTileEntity) te).adjustPotRange(this.range, this.amount);
         });
         ctx.get().setPacketHandled(true);

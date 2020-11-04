@@ -47,10 +47,10 @@ public class ItemFlooPowder extends Item {
         BlockPos pos = context.getPos();
 	    if(!worldIn.isRemote) {
             if (worldIn.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
-                if (((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(worldIn, pos) != null) {
-                    Block fireBlock = SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(pos.down()).getBlock()) ? FloocraftBase.MAGENTA_FLAMES_BUSY : FloocraftBase.GREEN_FLAMES_BUSY;
+                if (((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP.get()).isInFireplace(worldIn, pos) != null) {
+                    Block fireBlock = SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(pos.down()).getBlock()) ? FloocraftBase.MAGENTA_FLAMES_BUSY.get() : FloocraftBase.GREEN_FLAMES_BUSY.get();
                     worldIn.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
-                    worldIn.playSound(null, pos, FloocraftBase.GREENED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    worldIn.playSound(null, pos, FloocraftBase.GREENED.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
                 context.getItem().grow(-1);
                 return ActionResultType.SUCCESS;

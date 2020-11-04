@@ -30,7 +30,7 @@ public class FireplaceTileEntity extends TileEntity {
 	private PlayerEntity writer;
 
     public FireplaceTileEntity() {
-        super(FloocraftBase.FIREPLACE_TYPE);
+        super(FloocraftBase.FIREPLACE_TYPE.get());
     }
 
     @Override

@@ -38,7 +38,7 @@ public class FlooSignBlock extends WallSignBlock {
 
     @Override
     @Nonnull
-    public Item asItem() { return FloocraftBase.ITEM_FLOO_SIGN; }
+    public Item asItem() { return FloocraftBase.ITEM_FLOO_SIGN.get(); }
 
     @Override
     @Nonnull

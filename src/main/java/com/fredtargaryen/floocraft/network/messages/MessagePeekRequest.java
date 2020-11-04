@@ -36,6 +36,7 @@ public class MessagePeekRequest {
             int[] destCoords = FloocraftWorldData.forWorld(world).placeList.get(this.dest);
             //Stop everything if the destination has the same coordinates as where the player is
             if(!(destCoords[0] == this.initX && destCoords[1] == this.initY && destCoords[2] == this.initZ)) {
+                Block greenBusy = FloocraftBase.GREEN_FLAMES_BUSY.get();
                 int destX = destCoords[0];
                 int destY = destCoords[1];
                 int destZ = destCoords[2];
@@ -46,7 +47,7 @@ public class MessagePeekRequest {
                     Block destBlock = world.getBlockState(dest).getBlock();
                     //Checks whether the destination is fire
                     if (destBlock.isIn(blockTags.get(DataReference.VALID_ARRIVAL_BLOCKS))) {
-                        Direction direction = ((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP).isInFireplace(world, dest);
+                        Direction direction = ((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP.get()).isInFireplace(world, dest);
                         if (direction != null) {
                             Direction.Axis axis = direction.getAxis();
                             if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {

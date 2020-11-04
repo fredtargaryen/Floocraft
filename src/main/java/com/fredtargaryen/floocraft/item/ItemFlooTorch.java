@@ -34,7 +34,7 @@ public class ItemFlooTorch extends Item {
             if (player.canPlayerEdit(pos, side, stack)) {
                 if(blockPlacedOn.isSolid()) {
                     context.getWorld().setBlockState(pos.offset(side),
-                            FloocraftBase.BLOCK_FLOO_TORCH.getDefaultState().with(FlooTorchBlock.FACING_EXCEPT_DOWN, side),
+                            FloocraftBase.BLOCK_FLOO_TORCH.get().getDefaultState().with(FlooTorchBlock.FACING_EXCEPT_DOWN, side),
                             3);
                     stack.grow(-1);
                     return ActionResultType.SUCCESS;

@@ -35,4 +35,8 @@ public class DataReference {
 
     public static final ResourceLocation VALID_ARRIVAL_BLOCKS = new ResourceLocation(MODID, "blocks/valid_arrival_blocks");
     public static final ResourceLocation VALID_DEPARTURE_BLOCKS = new ResourceLocation(MODID, "blocks/valid_departure_blocks");
+
+    public static final ResourceLocation GREENED_RL = new ResourceLocation(MODID, "greened");
+    public static final ResourceLocation TP_RL = new ResourceLocation(MODID, "tp");
+    public static final ResourceLocation FLICK_RL = new ResourceLocation(MODID, "flick");
 }
