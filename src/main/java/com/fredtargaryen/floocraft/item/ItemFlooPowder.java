@@ -81,9 +81,13 @@ public class ItemFlooPowder extends Item {
         return null;
     }
 
+    /**
+     * TODO Temporarily disabled. Entering a world with DroppedFlooPowderEntities in it causes the server to freeze.
+     * This is a known Forge issue.
+     */
     @Override
     public boolean hasCustomEntity(ItemStack stack) {
-        return true;
+        return false;
     }
 
     @OnlyIn(Dist.CLIENT)

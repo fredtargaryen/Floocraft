@@ -6,8 +6,7 @@ Floocraft is a Minecraft Forge mod which adds content themed around Floo Powder,
 * Floower Pots automatically transform nearby fires if they contain Floo Powder.
 
 ## Information for Players and Pack Developers
-Floocraft is compatible with the [Mirage](https://ci.elytradev.com/job/elytra/job/Mirage/) coloured lighting mod.
-It has no world generation.
+Floocraft has no world generation.
 
 ### Helpful Links
 For the Minecraft Forum page [click here](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2225329-floocraft-teleport-like-harry-potter-last-update-8).

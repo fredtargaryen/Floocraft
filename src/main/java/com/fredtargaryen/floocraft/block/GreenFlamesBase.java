@@ -349,16 +349,4 @@ public abstract class GreenFlamesBase extends Block {
     public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, ISelectionContext context) {
         return VoxelShapes.empty();
     }
-
-    ////////////////////////
-    //MIRAGE COMPATIBILITY//
-    ////////////////////////
-//    @Override
-//    public final boolean hasTileEntity(BlockState ibs)
-//    {
-//        return FloocraftBase.isMirageInstalled();
-//    }
-//
-//    @Override
-//    public abstract TileEntity createTileEntity(World world, BlockState state);
 }

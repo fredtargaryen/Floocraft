@@ -21,19 +21,4 @@ public class GreenFlamesBusy extends GreenFlamesBase {
         }
         super.tick(state, w, pos, rand);
     }
-
-    ////////////////////////
-    //MIRAGE COMPATIBILITY//
-    ////////////////////////
-//    @Override
-//    public TileEntity createTileEntity(World world, BlockState state)
-//    {
-//        TileEntityMirageFire temf = null;
-//        if(FloocraftBase.isMirageInstalled())
-//        {
-//            temf = new TileEntityMirageFire();
-//            temf.setRadius(7.0F);
-//        }
-//        return temf;
-//    }
 }

@@ -18,8 +18,6 @@ import java.util.Random;
 
 import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
 
-//import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
-
 public class GreenFlamesIdle extends GreenFlamesBase {
     private static final VoxelShape SMALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
@@ -47,19 +45,4 @@ public class GreenFlamesIdle extends GreenFlamesBase {
             world.addParticle(ParticleTypes.LARGE_SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
-
-    ////////////////////////
-    //MIRAGE COMPATIBILITY//
-    ////////////////////////
-//    @Override
-//    public TileEntity createTileEntity(World world, BlockState state) {
-//        TileEntityMirageFire temf = null;
-//        if(FloocraftBase.isMirageInstalled())
-//        {
-//            temf = new TileEntityMirageFire();
-//            temf.setRadius(6.0F);
-//        }
-//        return temf;
-//        return null;
-//    }
 }

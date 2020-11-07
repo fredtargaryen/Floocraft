@@ -1,11 +1,8 @@
-/**
- * Floo Powder not appearing in pot model
- */
-
 package com.fredtargaryen.floocraft;
 
 import com.fredtargaryen.floocraft.block.*;
 import com.fredtargaryen.floocraft.client.particle.GreenFlameParticle;
+import com.fredtargaryen.floocraft.command.CommandsBase;
 import com.fredtargaryen.floocraft.config.Config;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
@@ -43,6 +40,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -50,16 +48,12 @@ import net.minecraftforge.registries.ObjectHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-//import com.fredtargaryen.floocraft.tileentity.TileEntityMirageFire;
-
 @Mod(value = DataReference.MODID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(DataReference.MODID)
 public class FloocraftBase {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
-
-    //private static boolean mirageInstalled;
     
     //Declare all blocks here
     @ObjectHolder("flootorch")
@@ -131,8 +125,6 @@ public class FloocraftBase {
     public static TileEntityType<FireplaceTileEntity> FIREPLACE_TYPE;
     @ObjectHolder("pot")
     public static TileEntityType<FloowerPotTileEntity> POT_TYPE;
-    //@ObjectHolder("greenlight")
-    //public static TileEntityType MIRAGE_GREEN_LIGHT;
 
     /**   
      * Says where the client and server 'proxy' code is loaded.
@@ -243,9 +235,14 @@ public class FloocraftBase {
                 TileEntityType.Builder.create(FloowerPotTileEntity::new, FloocraftBase.FLOOWER_POT)
                         .build(null)
                         .setRegistryName("pot"));
-                //TileEntityType.Builder.create(TileEntityMirageFire::new)
-                //        .build(null)
-                //        .setRegistryName("greenlight"));
+    }
+
+    /**
+     * Register the mod's commands.
+     */
+    @SubscribeEvent
+    public void registerCommands(FMLServerStartingEvent event) {
+        CommandsBase.registerCommands(event.getCommandDispatcher());
     }
 
     /**
@@ -258,13 +255,10 @@ public class FloocraftBase {
     }
 
     public void clientSetup(FMLClientSetupEvent event) {
-        //mirageInstalled = Loader.isModLoaded("mirage");
         proxy.registerGUIs();
         proxy.registerRenderers();
         proxy.setupRenderTypes();
     }
-
-    //public static boolean isMirageInstalled() { return mirageInstalled; }
 
     ////////////////////////
     //FOR THE MODID CHANGE//
