@@ -161,7 +161,8 @@ public class FloocraftBase {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG_SPEC);
 
         //Load the config
-        Config.loadConfig(FMLPaths.CONFIGDIR.get().resolve(DataReference.MODID + ".toml"));
+        Config.loadConfig(Config.CLIENT_CONFIG_SPEC, FMLPaths.CONFIGDIR.get().resolve(DataReference.MODID + "-client.toml"));
+        Config.loadConfig(Config.SERVER_CONFIG_SPEC, FMLPaths.CONFIGDIR.get().resolve(DataReference.MODID + ".toml"));
     }
 
     @SubscribeEvent

@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.client.gui;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.config.ClientConfig;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
@@ -61,28 +62,29 @@ public class Flash {
     @SubscribeEvent
     public void flash(TickEvent.RenderTickEvent event) {
         if(event.phase == TickEvent.Phase.END) {
-            this.ticks = System.currentTimeMillis() - this.startTime;
-            GlStateManager.disableAlphaTest();
-            GlStateManager.disableDepthTest();
-            GlStateManager.depthMask(false);
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ONE.param, GlStateManager.DestFactor.ZERO.param);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.toRadians(this.ticks * 90 / 1000.0)));
-            this.textureManager.bindTexture(this.soul ? soulTexLoc : texLoc);
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferbuilder = tessellator.getBuffer();
-            bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-            double width = this.minecraft.getMainWindow().getScaledWidth();
-            double height = this.minecraft.getMainWindow().getScaledHeight();
-            bufferbuilder.pos(width, height, -90.0).tex(1f, 1f).endVertex();
-            bufferbuilder.pos(width, 0.0, -90.0).tex(1f, 0f).endVertex();
-            bufferbuilder.pos(0.0, 0.0, -90.0).tex(0f, 0f).endVertex();
-            bufferbuilder.pos(0.0, height, -90.0).tex(0f, 1f).endVertex();
-            tessellator.draw();
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepthTest();
-            GlStateManager.enableAlphaTest();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-
+            if(ClientConfig.ENABLE_FLASH.get()) {
+                this.ticks = System.currentTimeMillis() - this.startTime;
+                GlStateManager.disableAlphaTest();
+                GlStateManager.disableDepthTest();
+                GlStateManager.depthMask(false);
+                GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ONE.param, GlStateManager.DestFactor.ZERO.param);
+                GlStateManager.color4f(1.0F, 1.0F, 1.0F, (float) Math.cos(Math.toRadians(this.ticks * 90 / 1000.0)));
+                this.textureManager.bindTexture(this.soul ? soulTexLoc : texLoc);
+                Tessellator tessellator = Tessellator.getInstance();
+                BufferBuilder bufferbuilder = tessellator.getBuffer();
+                bufferbuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+                double width = this.minecraft.getMainWindow().getScaledWidth();
+                double height = this.minecraft.getMainWindow().getScaledHeight();
+                bufferbuilder.pos(width, height, -90.0).tex(1f, 1f).endVertex();
+                bufferbuilder.pos(width, 0.0, -90.0).tex(1f, 0f).endVertex();
+                bufferbuilder.pos(0.0, 0.0, -90.0).tex(0f, 0f).endVertex();
+                bufferbuilder.pos(0.0, height, -90.0).tex(0f, 1f).endVertex();
+                tessellator.draw();
+                GlStateManager.depthMask(true);
+                GlStateManager.enableDepthTest();
+                GlStateManager.enableAlphaTest();
+                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            }
         }
         if(this.ticks > 2999) {
             this.ticks = -1;
@@ -92,12 +94,14 @@ public class Flash {
 
     @SubscribeEvent
     public void dizzy(EntityViewRenderEvent.CameraSetup event) {
-        float angle = (float) ((this.ticks / 3000.0) * Math.PI * 3);
-        this.yawDirectionStrength *= 0.995f;
-        this.pitchDirectionStrength *= 0.995f;
-        this.rollDirectionStrength *= 0.995f;
-        event.setYaw((float) (this.minecraft.player.rotationYaw + this.yawDirectionStrength * Math.sin(angle)));
-        event.setPitch((float) (this.minecraft.player.rotationPitch + this.pitchDirectionStrength * Math.sin(angle)));
-        event.setRoll((float) (this.rollDirectionStrength * Math.sin(angle)));
+        if(ClientConfig.ENABLE_DIZZY.get()) {
+            float angle = (float) ((this.ticks / 3000.0) * Math.PI * 3);
+            this.yawDirectionStrength *= 0.995f;
+            this.pitchDirectionStrength *= 0.995f;
+            this.rollDirectionStrength *= 0.995f;
+            event.setYaw((float) (this.minecraft.player.rotationYaw + this.yawDirectionStrength * Math.sin(angle)));
+            event.setPitch((float) (this.minecraft.player.rotationPitch + this.pitchDirectionStrength * Math.sin(angle)));
+            event.setRoll((float) (this.rollDirectionStrength * Math.sin(angle)));
+        }
     }
 }

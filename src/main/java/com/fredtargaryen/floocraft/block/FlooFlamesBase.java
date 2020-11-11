@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.TeleportScreen;
-import com.fredtargaryen.floocraft.config.GeneralConfig;
+import com.fredtargaryen.floocraft.config.ServerConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
@@ -25,7 +25,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -67,12 +66,12 @@ public abstract class FlooFlamesBase extends Block {
                 //Set teleport destination one block outside the fire, instead of in the fire
                 boolean landOutside = false;
 
-                if(GeneralConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
+                if(ServerConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
                     teleport = true;
                     landOutside = true;
                 }
-                else if(    (GeneralConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
-                          ||(GeneralConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
+                else if(    (ServerConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
+                          ||(ServerConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
                     teleport = worldIn.rand.nextFloat() < 0.2;
                 }
                 if(teleport) {
