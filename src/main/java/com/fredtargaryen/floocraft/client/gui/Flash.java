@@ -62,8 +62,8 @@ public class Flash {
     @SubscribeEvent
     public void flash(TickEvent.RenderTickEvent event) {
         if(event.phase == TickEvent.Phase.END) {
+            this.ticks = System.currentTimeMillis() - this.startTime;
             if(ClientConfig.ENABLE_FLASH.get()) {
-                this.ticks = System.currentTimeMillis() - this.startTime;
                 GlStateManager.disableAlphaTest();
                 GlStateManager.disableDepthTest();
                 GlStateManager.depthMask(false);
