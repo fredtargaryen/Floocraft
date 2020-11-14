@@ -80,7 +80,7 @@ public class FloocraftBase {
     public static final RegistryObject<Block> MAGENTA_FLAMES_IDLE = BLOCKS.register("magentaflamesidle", FlooFlamesIdle::new);
     public static final RegistryObject<Block> MAGENTA_FLAMES_TEMP = BLOCKS.register("magentaflamestemp", FlooFlamesTemp::new);
 
-    public static final RegistryObject<Block> BLOCK_FLOO_SIGN = BLOCKS.register("floosign", BlockFloowerPot::new);
+    public static final RegistryObject<Block> BLOCK_FLOO_SIGN = BLOCKS.register("floosign", FlooSignBlock::new);
     public static final RegistryObject<Block> FLOOWER_POT = BLOCKS.register("floowerpot", BlockFloowerPot::new);
 
     //Declare all items here
