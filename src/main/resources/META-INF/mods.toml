@@ -23,12 +23,12 @@ displayName="Floocraft"
 # A text field displayed in the mod UI
 authors="FredTargaryen"
 # A text field displayed in the mod UI
-credits='''
-    Pinz714: Brazilian localisation
+credits='''  Pinz714: Brazilian localisation
             XuyuEre: Chinese localisation
             @Hi_ItsPaul: Floo Torch linking
             Knito58: adjustable pot radius
             mindy15963: Korean localisation
+            And the numerous bug reporters
 More credits here: http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2225329-floocraft
 '''
 # A URL to query for updates for this mod. See the JSON update specification <here>
