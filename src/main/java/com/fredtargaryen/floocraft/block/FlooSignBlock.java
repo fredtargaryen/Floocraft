@@ -45,7 +45,7 @@ public class FlooSignBlock extends WallSignBlock {
     public void onReplaced(BlockState state, World w, BlockPos pos, BlockState newState, boolean isMoving) {
         if(!w.isRemote) {
             FireplaceTileEntity tef = (FireplaceTileEntity) w.getTileEntity(pos);
-            if (tef.getConnected()) {
+            if (tef != null && tef.getConnected()) {
                 //Finds the fireplace position from the sign position and rotation
                 //The block below the block at the top of the fireplace
                 BlockPos locationPos = pos.offset(state.get(FACING).getOpposite());

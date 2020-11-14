@@ -24,26 +24,32 @@ public class MessageApproveFireplace {
             ServerPlayerEntity spe = ctx.get().getSender();
             ServerWorld w = spe.getServerWorld();
             FireplaceTileEntity fte = (FireplaceTileEntity) (w.getTileEntity(new BlockPos(this.x, this.y, this.z)));
-            fte.setConnected(this.attemptingToConnect);
-            if(this.attemptingToConnect) {
-                boolean approved = !FloocraftWorldData.forWorld(w).placeList.containsKey(FireplaceTileEntity.getSignTextAsLine(this.name));
-                MessageApproval ma = new MessageApproval(approved);
-                MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> spe), ma);
-                if(approved) {
+            if(fte != null) {
+                if (this.attemptingToConnect) {
+                    boolean approved = !FloocraftWorldData.forWorld(w).placeList.containsKey(FireplaceTileEntity.getSignTextAsLine(this.name));
+                    MessageApproval ma = new MessageApproval(approved);
+                    MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> spe), ma);
+                    if (approved) {
+                        fte.setString(0, this.name[0]);
+                        fte.setString(1, this.name[1]);
+                        fte.setString(2, this.name[2]);
+                        fte.setString(3, this.name[3]);
+                        fte.addLocation();
+                        fte.setConnected(true);
+                    }
+                    else
+                    {
+                        fte.setConnected(false);
+                    }
+                } else {
+                    MessageApproval ma = new MessageApproval(true);
+                    MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> spe), ma);
                     fte.setString(0, this.name[0]);
                     fte.setString(1, this.name[1]);
                     fte.setString(2, this.name[2]);
                     fte.setString(3, this.name[3]);
-                    fte.addLocation();
+                    fte.setConnected(false);
                 }
-            }
-            else {
-                MessageApproval ma = new MessageApproval(true);
-                MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> spe), ma);
-                fte.setString(0, this.name[0]);
-                fte.setString(1, this.name[1]);
-                fte.setString(2, this.name[2]);
-                fte.setString(3, this.name[3]);
             }
         });
         ctx.get().setPacketHandled(true);

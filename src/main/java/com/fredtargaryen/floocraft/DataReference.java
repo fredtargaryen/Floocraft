@@ -33,8 +33,8 @@ public class DataReference {
     public static final ResourceLocation SIGN_TEX_LOC = new ResourceLocation(MODID, "blocks/floosign");
     public static final ResourceLocation TP_BACKGROUND = new ResourceLocation(MODID, "textures/blocks/tp_background.png");
 
-    public static final ResourceLocation VALID_ARRIVAL_BLOCKS = new ResourceLocation(MODID, "blocks/valid_arrival_blocks");
-    public static final ResourceLocation VALID_DEPARTURE_BLOCKS = new ResourceLocation(MODID, "blocks/valid_departure_blocks");
+    public static final ResourceLocation VALID_ARRIVAL_BLOCKS = new ResourceLocation(MODID, "valid_arrival_blocks");
+    public static final ResourceLocation VALID_DEPARTURE_BLOCKS = new ResourceLocation(MODID, "valid_departure_blocks");
 
     public static final ResourceLocation GREENED_RL = new ResourceLocation(MODID, "greened");
     public static final ResourceLocation TP_RL = new ResourceLocation(MODID, "tp");

@@ -147,5 +147,6 @@ public class FireplaceTileEntity extends TileEntity {
     public void setConnected(boolean b)
     {
         this.isConnected = b;
+        this.markDirty();
     }
 }

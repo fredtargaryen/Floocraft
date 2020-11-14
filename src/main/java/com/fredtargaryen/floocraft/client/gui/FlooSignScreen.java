@@ -27,7 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class FlooSignScreen extends Screen {
-    private String sameNameError = "";
+    private String namingStatus = "";
 
     /** Reference to the sign object. */
     private final FireplaceTileEntity fireplaceTE;
@@ -43,16 +43,18 @@ public class FlooSignScreen extends Screen {
 
     private final TileEntityFlooSignRenderer.FlooSignModel model = new TileEntityFlooSignRenderer.FlooSignModel();
 
+    private boolean sendDefaultMessageOnClose;
+
     private static final ResourceLocation floosigntexloc = new ResourceLocation(DataReference.MODID, "textures/blocks/floosign.png");
 
     private static final TranslationTextComponent TITLE = new TranslationTextComponent("gui.floosign.title");
     private static final TranslationTextComponent DECOR_BUTTON = new TranslationTextComponent("gui.floosign.decoration");
     private static final TranslationTextComponent CONNECT_BUTTON = new TranslationTextComponent("gui.floosign.connect");
-    private static final TranslationTextComponent SAME_NAME_ERROR = new TranslationTextComponent("gui.floosign.approvalwait");
 
     public FlooSignScreen(FireplaceTileEntity par1FireplaceTileEntity) {
         super(TITLE);
         this.fireplaceTE = par1FireplaceTileEntity;
+        this.sendDefaultMessageOnClose = true;
     }
 
     private void sendApprovalMessage(boolean attemptingToConnect) {
@@ -64,7 +66,8 @@ public class FlooSignScreen extends Screen {
         maf.attemptingToConnect = attemptingToConnect;
         maf.name = this.fireplaceTE.signText;
         MessageHandler.INSTANCE.sendToServer(maf);
-        this.sameNameError = I18n.format("gui.floosign.approvalwait");
+        this.namingStatus = I18n.format("gui.floosign.approvalwait");
+        this.sendDefaultMessageOnClose = false;
     }
 
     /**
@@ -75,7 +78,6 @@ public class FlooSignScreen extends Screen {
         this.buttons.clear();
         this.minecraft.keyboardListener.enableRepeatEvents(true);
         this.decorButton = new Button(this.width / 2 - 100, this.height / 4 + 120, 98, 20, DECOR_BUTTON, button -> {
-            FlooSignScreen.this.sendApprovalMessage(false);
             FlooSignScreen.this.minecraft.displayGuiScreen(null);
         });
         this.addButton(this.decorButton);
@@ -96,7 +98,9 @@ public class FlooSignScreen extends Screen {
     @Override
     public void onClose() {
         this.minecraft.keyboardListener.enableRepeatEvents(false);
-        FlooSignScreen.this.sendApprovalMessage(false);
+        if(this.sendDefaultMessageOnClose) {
+            FlooSignScreen.this.sendApprovalMessage(false);
+        }
     }
 
     /**
@@ -143,7 +147,7 @@ public class FlooSignScreen extends Screen {
         drawCenteredString(
                 stack,
                 this.font,
-            	this.sameNameError,
+            	this.namingStatus,
             	this.width / 2,
             	this.height / 4 + 100,
             	16777215);
@@ -241,13 +245,14 @@ public class FlooSignScreen extends Screen {
     public void dealWithAnswer(boolean answer) {
         if(answer) {
             //Either the sign is for decoration, or it's for connecting and the name is valid
-            this.sameNameError = "";
+            this.namingStatus = "";
             this.fireplaceTE.markDirty();
             this.minecraft.displayGuiScreen(null);
         }
         else {
             //The sign is for connecting but the name has already been used.
-            this.sameNameError = I18n.format("gui.floosign.nameinuse");
+            this.namingStatus = I18n.format("gui.floosign.nameinuse");
+            this.sendDefaultMessageOnClose = true;
         }
     }
 
