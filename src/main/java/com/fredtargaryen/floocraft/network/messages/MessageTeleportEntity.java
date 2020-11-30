@@ -3,6 +3,7 @@ package com.fredtargaryen.floocraft.network.messages;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooFlamesBase;
+import com.fredtargaryen.floocraft.config.ServerConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import io.netty.buffer.ByteBuf;
@@ -68,12 +69,14 @@ public class MessageTeleportEntity {
                     }
                     player.connection.setPlayerLocation(destCoords[0] + 0.5D, destCoords[1], destCoords[2] + 0.5D, player.getRNG().nextFloat() * 360, player.rotationPitch);
                     player.fallDistance = 0.0F;
-                    //...then update the age of the fire.
-                    int m = initBlockState.get(BlockStateProperties.AGE_0_15);
-                    if (m < 2) {
-                        world.setBlockState(initBlockPos, initSoul ? Blocks.SOUL_FIRE.getDefaultState() : Blocks.FIRE.getDefaultState());
-                    } else {
-                        world.setBlockState(initBlockPos, initBlockState.with(BlockStateProperties.AGE_0_15, m == 9 ? 9 : m - 1), 2);
+                    //...then update the age of the fire, if configured that way.
+                    if(ServerConfig.DEPLETE_FLOO.get()) {
+                        int m = initBlockState.get(BlockStateProperties.AGE_0_15);
+                        if (m < 2) {
+                            world.setBlockState(initBlockPos, initSoul ? Blocks.SOUL_FIRE.getDefaultState() : Blocks.FIRE.getDefaultState());
+                        } else {
+                            world.setBlockState(initBlockPos, initBlockState.with(BlockStateProperties.AGE_0_15, m == 9 ? 9 : m - 1), 2);
+                        }
                     }
                 }
             }
