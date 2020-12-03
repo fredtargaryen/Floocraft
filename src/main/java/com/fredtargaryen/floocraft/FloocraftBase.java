@@ -64,18 +64,21 @@ public class FloocraftBase {
     
     //Declare all blocks here
     public static final RegistryObject<Block> BLOCK_FLOO_TORCH = BLOCKS.register("flootorch", FlooTorchBlock::new);
-    public static final RegistryObject<Block> GREEN_FLAMES_BUSY = BLOCKS.register("greenflamesbusy", FlooFlamesBusy::new);
-    public static final RegistryObject<Block> GREEN_FLAMES_IDLE = BLOCKS.register("greenflamesidle", FlooFlamesIdle::new);
+    public static final RegistryObject<Block> GREEN_FLAMES_BUSY = BLOCKS.register("greenflamesbusy", () -> new FlooFlamesBusy(15));
+    public static final RegistryObject<Block> GREEN_FLAMES_IDLE = BLOCKS.register("greenflamesidle", () -> new FlooFlamesIdle(12));
     /**
      * Temporary green flames which replace any normal fire at the destination fireplace, so that players aren't
      * burnt on arrival. Disappear after 100 ticks.
      */
-    public static final RegistryObject<Block> GREEN_FLAMES_TEMP = BLOCKS.register("greenflamestemp", FlooFlamesTemp::new);
+    public static final RegistryObject<Block> GREEN_FLAMES_TEMP = BLOCKS.register("greenflamestemp", () -> new FlooFlamesTemp(15));
 
     //Sadly they have to be separate blocks
-    public static final RegistryObject<Block> MAGENTA_FLAMES_BUSY = BLOCKS.register("magentaflamesbusy", FlooFlamesBusy::new);
-    public static final RegistryObject<Block> MAGENTA_FLAMES_IDLE = BLOCKS.register("magentaflamesidle", FlooFlamesIdle::new);
-    public static final RegistryObject<Block> MAGENTA_FLAMES_TEMP = BLOCKS.register("magentaflamestemp", FlooFlamesTemp::new);
+    public static final RegistryObject<Block> MAGENTA_FLAMES_BUSY = BLOCKS.register("magentaflamesbusy", () -> new FlooFlamesBusy(10));
+    public static final RegistryObject<Block> MAGENTA_FLAMES_IDLE = BLOCKS.register("magentaflamesidle", () -> new FlooFlamesIdle(7));
+    public static final RegistryObject<Block> MAGENTA_FLAMES_TEMP = BLOCKS.register("magentaflamestemp", () -> new FlooFlamesTemp(10));
+
+    public static final RegistryObject<Block> FLOO_CAMPFIRE = BLOCKS.register("floo_campfire", () -> new FlooCampfireBlock(15));
+    public static final RegistryObject<Block> FLOO_SOUL_CAMPFIRE = BLOCKS.register("floo_soul_campfire", () -> new FlooCampfireBlock(10));
 
     public static final RegistryObject<Block> BLOCK_FLOO_SIGN = BLOCKS.register("floosign", FlooSignBlock::new);
     public static final RegistryObject<Block> FLOOWER_POT = BLOCKS.register("floowerpot", BlockFloowerPot::new);

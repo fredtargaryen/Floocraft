@@ -16,7 +16,6 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ITagCollection;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -58,7 +57,20 @@ public class MessageTeleportEntity {
                 Block initBlock = initBlockState.getBlock();
                 //If destination is valid, checks whether the player is currently in a valid departure block
                 if (validDest && (initBlock.isIn(departureBlocks))) {
-                    boolean initSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(initBlockPos.down()).getBlock());
+                    //Is the player teleporting from a soul block?
+                    boolean initSoul;
+                    if(initBlock == FloocraftBase.FLOO_CAMPFIRE.get())
+                    {
+                        initSoul = false; //No
+                    }
+                    else if(initBlock == FloocraftBase.FLOO_SOUL_CAMPFIRE.get())
+                    {
+                        initSoul = true; //Yes
+                    }
+                    else {
+                        //Assume a fire block
+                        initSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(initBlockPos.down()).getBlock()); //Yes, if there's a soul-y block underneath
+                    }
                     boolean destSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(destBlockPos.down()).getBlock());
                     //Get the fire ready...
                     world.setBlockState(destBlockPos, destSoul ? FloocraftBase.MAGENTA_FLAMES_TEMP.get().getDefaultState() : greenTemp.getDefaultState());
@@ -73,7 +85,15 @@ public class MessageTeleportEntity {
                     if(ServerConfig.DEPLETE_FLOO.get()) {
                         int m = initBlockState.get(BlockStateProperties.AGE_0_15);
                         if (m < 2) {
-                            world.setBlockState(initBlockPos, initSoul ? Blocks.SOUL_FIRE.getDefaultState() : Blocks.FIRE.getDefaultState());
+                            if(initBlock == FloocraftBase.FLOO_CAMPFIRE.get()) {
+                                world.setBlockState(initBlockPos, Blocks.CAMPFIRE.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, initBlockState.get(BlockStateProperties.HORIZONTAL_FACING)));
+                            }
+                            else if(initBlock == FloocraftBase.FLOO_SOUL_CAMPFIRE.get()) {
+                                world.setBlockState(initBlockPos, Blocks.SOUL_CAMPFIRE.getDefaultState().with(BlockStateProperties.HORIZONTAL_FACING, initBlockState.get(BlockStateProperties.HORIZONTAL_FACING)));
+                            }
+                            else {
+                                world.setBlockState(initBlockPos, initSoul ? Blocks.SOUL_FIRE.getDefaultState() : Blocks.FIRE.getDefaultState());
+                            }
                         } else {
                             world.setBlockState(initBlockPos, initBlockState.with(BlockStateProperties.AGE_0_15, m == 9 ? 9 : m - 1), 2);
                         }

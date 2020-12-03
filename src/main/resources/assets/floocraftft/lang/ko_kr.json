@@ -1,5 +1,4 @@
 {
-    "": "100% 정확합니다.",
     "": "블록",
     "block.floocraftft.floosign": "플루 표지판",
     "block.floocraftft.flootorch": "플루 횃불",
@@ -9,6 +8,8 @@
     "block.floocraftft.magentaflamesbusy": "초록색 불꽃",
     "block.floocraftft.magentaflamestemp": "초록색 불꽃",
     "block.floocraftft.magentaflamesidle": "초록색 불꽃",
+    "block.floocraftft.floo_campfire": "Floo Campfire",
+    "block.floocraftft.floo_soul_campfire": "Floo Soul Campfire",
     "block.floocraftft.floowerpot": "플로워 화분",
 
     "": "아이템",
