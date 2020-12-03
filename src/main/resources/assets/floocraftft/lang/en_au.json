@@ -1,5 +1,4 @@
 {
-    "": "100% accurate",
     "": "BLOCKS",
     "block.floocraftft.floosign": "Floo Sign",
     "block.floocraftft.flootorch": "Floo Torch",
@@ -9,6 +8,8 @@
     "block.floocraftft.magentaflamesbusy": "Floo Flames",
     "block.floocraftft.magentaflamestemp": "Floo Flames",
     "block.floocraftft.magentaflamesidle": "Floo Flames",
+    "block.floocraftft.floo_campfire": "Floo Campfire",
+    "block.floocraftft.floo_soul_campfire": "Floo Soul Campfire",
     "block.floocraftft.floowerpot": "Floower Pot",
 
     "": "ITEMS",

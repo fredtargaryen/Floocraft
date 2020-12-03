@@ -1,5 +1,4 @@
 {
-    "": "100% accurate",
     "": "BLOCKS",
     "block.floocraftft.floosign": "Traveller's Plank",
     "block.floocraftft.flootorch": "Rod o' Green Flames",
@@ -9,6 +8,8 @@
     "block.floocraftft.magentaflamesbusy": "St Elmo's Fire",
     "block.floocraftft.magentaflamestemp": "St Elmo's Fire",
     "block.floocraftft.magentaflamesidle": "St Elmo's Fire",
+    "block.floocraftft.floo_campfire": "Floo Campfire",
+    "block.floocraftft.floo_soul_campfire": "Floo Soul Campfire",
     "block.floocraftft.floowerpot": "Pot o' Traveller's Snuff",
 
     "": "ITEMS",

@@ -1,5 +1,4 @@
 {
-    "": "Tradução 100% completa",
     "": "BLOCOS",
     "block.floocraftft.floosign": "Placa de flu",
     "block.floocraftft.flootorch": "Tocha de flu",
@@ -9,6 +8,8 @@
     "block.floocraftft.magentaflamesbusy": "Chamas de flu",
     "block.floocraftft.magentaflamestemp": "Chamas de flu",
     "block.floocraftft.magentaflamesidle": "Chamas de flu",
+    "block.floocraftft.floo_campfire": "Fogueira de flu",
+    "block.floocraftft.floo_soul_campfire": "Fogueira flu das almas",
     "block.floocraftft.floowerpot": "Vaso de flu",
 
     "": "ITENS",
