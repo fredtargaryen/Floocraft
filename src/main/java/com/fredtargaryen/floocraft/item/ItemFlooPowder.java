@@ -4,6 +4,8 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooFlamesBase;
 import com.fredtargaryen.floocraft.entity.DroppedFlooPowderEntity;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoulFireBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -46,7 +48,27 @@ public class ItemFlooPowder extends Item {
         World worldIn = context.getWorld();
         BlockPos pos = context.getPos();
 	    if(!worldIn.isRemote) {
-            if (worldIn.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
+	        BlockState state = worldIn.getBlockState(pos);
+	        Block b = state.getBlock();
+	        if(b == Blocks.CAMPFIRE)
+            {
+                worldIn.setBlockState(pos, FloocraftBase.FLOO_CAMPFIRE.get().getDefaultState()
+                        .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING))
+                        .with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
+                worldIn.playSound(null, pos, FloocraftBase.GREENED.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                context.getItem().grow(-1);
+                return ActionResultType.SUCCESS;
+            }
+            else if(b == Blocks.SOUL_CAMPFIRE)
+            {
+                worldIn.setBlockState(pos, FloocraftBase.FLOO_SOUL_CAMPFIRE.get().getDefaultState()
+                        .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING))
+                        .with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
+                worldIn.playSound(null, pos, FloocraftBase.GREENED.get(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                context.getItem().grow(-1);
+                return ActionResultType.SUCCESS;
+            }
+            else if (b.isIn(BlockTags.FIRE)) {
                 if (((FlooFlamesBase) FloocraftBase.GREEN_FLAMES_TEMP.get()).isInFireplace(worldIn, pos) != null) {
                     Block fireBlock = SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(pos.down()).getBlock()) ? FloocraftBase.MAGENTA_FLAMES_BUSY.get() : FloocraftBase.GREEN_FLAMES_BUSY.get();
                     worldIn.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "floocraftft:block/floo_soul_campfire",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "floocraftft:block/floo_soul_campfire",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "floocraftft:block/floo_soul_campfire"
+    },
+    "facing=west": {
+      "model": "floocraftft:block/floo_soul_campfire",
+      "y": 90
+    }
+  }
+}

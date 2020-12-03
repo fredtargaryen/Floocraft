@@ -12,7 +12,7 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Random;
 
 public class FlooFlamesTemp extends FlooFlamesBusy {
-    public FlooFlamesTemp() { super(); }
+    public FlooFlamesTemp(int lightLevel) { super(lightLevel); }
 
     @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {

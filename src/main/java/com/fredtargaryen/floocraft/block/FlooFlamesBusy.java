@@ -13,7 +13,7 @@ import java.util.Random;
 import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
 
 public class FlooFlamesBusy extends FlooFlamesBase {
-    public FlooFlamesBusy() { super(15); }
+    public FlooFlamesBusy(int lightLevel) { super(lightLevel); }
 
 	@Override
     public void tick(BlockState state, ServerWorld w, BlockPos pos, Random rand) {

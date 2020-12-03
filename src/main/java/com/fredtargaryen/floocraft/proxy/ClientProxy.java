@@ -91,14 +91,15 @@ public class ClientProxy implements IProxy {
     }
 
     @Override
-    public void setupRenderTypes()
-    {
+    public void setupRenderTypes() {
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_BUSY.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_IDLE.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.GREEN_FLAMES_TEMP.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_BUSY.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_IDLE.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.MAGENTA_FLAMES_TEMP.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.FLOO_CAMPFIRE.get(), RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(FloocraftBase.FLOO_SOUL_CAMPFIRE.get(), RenderType.getCutoutMipped());
         RenderTypeLookup.setRenderLayer(FloocraftBase.BLOCK_FLOO_TORCH.get(), RenderType.getCutoutMipped());
     }
 

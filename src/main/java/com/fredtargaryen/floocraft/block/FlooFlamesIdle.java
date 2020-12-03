@@ -22,7 +22,7 @@ import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
 public class FlooFlamesIdle extends FlooFlamesBase {
     private static final VoxelShape SMALLBOX = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
 
-	public FlooFlamesIdle() { super(12); }
+	public FlooFlamesIdle(int lightLevel) { super(lightLevel); }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) { return SMALLBOX; }

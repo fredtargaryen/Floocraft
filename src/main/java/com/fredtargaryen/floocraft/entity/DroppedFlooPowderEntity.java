@@ -52,6 +52,7 @@ public class DroppedFlooPowderEntity extends ItemEntity {
 
     /**
      * Called when the entity is attacked.
+     * TODO Add a case for campfires whenever this works again
      */
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
