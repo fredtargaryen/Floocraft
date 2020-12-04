@@ -142,19 +142,23 @@ public class BlockFloowerPot extends Block {
                                 currentPos = new BlockPos(x, y, z);
                                 currentState = world.getBlockState(currentPos);
                                 currentBlock = currentState.getBlock();
-                                if(currentBlock == Blocks.CAMPFIRE && state.get(BlockStateProperties.LIT)) {
+                                if(currentBlock == Blocks.CAMPFIRE && currentState.get(BlockStateProperties.LIT)) {
                                     Item i = stack.getItem();
                                     world.setBlockState(currentPos, FloocraftBase.FLOO_CAMPFIRE.get().getDefaultState()
                                             .with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration())
-                                            .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING)));
+                                            .with(BlockStateProperties.HORIZONTAL_FACING, currentState.get(BlockStateProperties.HORIZONTAL_FACING)));
+                                    world.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                                    stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
                                 }
-                                else if(currentBlock == Blocks.SOUL_CAMPFIRE && state.get(BlockStateProperties.LIT)) {
+                                else if(currentBlock == Blocks.SOUL_CAMPFIRE && currentState.get(BlockStateProperties.LIT)) {
                                     Item i = stack.getItem();
                                     world.setBlockState(currentPos, FloocraftBase.FLOO_SOUL_CAMPFIRE.get().getDefaultState()
                                             .with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration())
-                                            .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING)));
+                                            .with(BlockStateProperties.HORIZONTAL_FACING, currentState.get(BlockStateProperties.HORIZONTAL_FACING)));
+                                    world.playSound(null, currentPos, greened, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                                    stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
                                 }
-                                if (currentBlock.isIn(BlockTags.FIRE)) {
+                                else if (currentBlock.isIn(BlockTags.FIRE)) {
                                     if (((FlooFlamesBase) greenBusy).isInFireplace(world, currentPos) != null) {
                                         Item i = stack.getItem();
                                         boolean soul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(currentPos.down()).getBlock());
