@@ -50,7 +50,7 @@ public class ItemFlooPowder extends Item {
 	    if(!worldIn.isRemote) {
 	        BlockState state = worldIn.getBlockState(pos);
 	        Block b = state.getBlock();
-	        if(b == Blocks.CAMPFIRE)
+	        if(b == Blocks.CAMPFIRE && state.get(BlockStateProperties.LIT))
             {
                 worldIn.setBlockState(pos, FloocraftBase.FLOO_CAMPFIRE.get().getDefaultState()
                         .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING))
@@ -59,7 +59,7 @@ public class ItemFlooPowder extends Item {
                 context.getItem().grow(-1);
                 return ActionResultType.SUCCESS;
             }
-            else if(b == Blocks.SOUL_CAMPFIRE)
+            else if(b == Blocks.SOUL_CAMPFIRE && state.get(BlockStateProperties.LIT))
             {
                 worldIn.setBlockState(pos, FloocraftBase.FLOO_SOUL_CAMPFIRE.get().getDefaultState()
                         .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING))
