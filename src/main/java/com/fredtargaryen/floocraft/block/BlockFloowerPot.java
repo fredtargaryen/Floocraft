@@ -129,6 +129,7 @@ public class BlockFloowerPot extends Block {
                 int par3 = pos.getY();
                 int par4 = pos.getZ();
                 BlockPos currentPos;
+                BlockState currentState;
                 Block currentBlock;
                 Block greenBusy = FloocraftBase.GREEN_FLAMES_BUSY.get();
                 BlockState greenState = greenBusy.getDefaultState();
@@ -139,7 +140,20 @@ public class BlockFloowerPot extends Block {
                         for (int z = par4 - hRange; z <= par4 + hRange; z++) {
                             if(stack != null && stack.getCount() > 0) {
                                 currentPos = new BlockPos(x, y, z);
-                                currentBlock = world.getBlockState(currentPos).getBlock();
+                                currentState = world.getBlockState(currentPos);
+                                currentBlock = currentState.getBlock();
+                                if(currentBlock == Blocks.CAMPFIRE && state.get(BlockStateProperties.LIT)) {
+                                    Item i = stack.getItem();
+                                    world.setBlockState(currentPos, FloocraftBase.FLOO_CAMPFIRE.get().getDefaultState()
+                                            .with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration())
+                                            .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING)));
+                                }
+                                else if(currentBlock == Blocks.SOUL_CAMPFIRE && state.get(BlockStateProperties.LIT)) {
+                                    Item i = stack.getItem();
+                                    world.setBlockState(currentPos, FloocraftBase.FLOO_SOUL_CAMPFIRE.get().getDefaultState()
+                                            .with(BlockStateProperties.AGE_0_15, (int) ((ItemFlooPowder) i).getConcentration())
+                                            .with(BlockStateProperties.HORIZONTAL_FACING, state.get(BlockStateProperties.HORIZONTAL_FACING)));
+                                }
                                 if (currentBlock.isIn(BlockTags.FIRE)) {
                                     if (((FlooFlamesBase) greenBusy).isInFireplace(world, currentPos) != null) {
                                         Item i = stack.getItem();
