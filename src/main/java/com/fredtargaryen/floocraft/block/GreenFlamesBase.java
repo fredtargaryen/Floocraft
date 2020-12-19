@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.TeleportScreen;
-import com.fredtargaryen.floocraft.config.ServerConfig;
+import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
@@ -68,12 +68,12 @@ public abstract class GreenFlamesBase extends Block {
                 //Set teleport destination one block outside the fire, instead of in the fire
                 boolean landOutside = false;
 
-                if(ServerConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
+                if(CommonConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
                     teleport = true;
                     landOutside = true;
                 }
-                else if(    (ServerConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
-                          ||(ServerConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
+                else if(    (CommonConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
+                          ||(CommonConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
                     teleport = worldIn.rand.nextFloat() < 0.2;
                 }
                 if(teleport) {

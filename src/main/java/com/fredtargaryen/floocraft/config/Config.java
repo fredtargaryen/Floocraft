@@ -15,16 +15,16 @@ import java.nio.file.Path;
 @Mod.EventBusSubscriber
 public class Config {
     private static final ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
-    private static final ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+    private static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
 
     public static final ForgeConfigSpec CLIENT_CONFIG_SPEC;
-    public static final ForgeConfigSpec SERVER_CONFIG_SPEC;
+    public static final ForgeConfigSpec COMMON_CONFIG_SPEC;
 
     static {
         ClientConfig.init(CLIENT_BUILDER);
-        ServerConfig.init(SERVER_BUILDER);
+        CommonConfig.init(COMMON_BUILDER);
         CLIENT_CONFIG_SPEC = CLIENT_BUILDER.build();
-        SERVER_CONFIG_SPEC = SERVER_BUILDER.build();
+        COMMON_CONFIG_SPEC = COMMON_BUILDER.build();
     }
 
     public static void loadConfig(ForgeConfigSpec spec, Path path)

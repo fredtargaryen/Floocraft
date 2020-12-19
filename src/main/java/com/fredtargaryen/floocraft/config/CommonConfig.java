@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class ServerConfig {
+public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue VILLAGERS_TELEPORT;
 
     public static ForgeConfigSpec.BooleanValue ITEMS_TELEPORT;
