@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.client.gui.TeleportScreen;
-import com.fredtargaryen.floocraft.config.ServerConfig;
+import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.network.FloocraftWorldData;
 import com.fredtargaryen.floocraft.network.messages.MessageFireplaceList;
 import com.fredtargaryen.floocraft.proxy.ClientProxy;
@@ -15,20 +15,17 @@ import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.Random;
 
 import static net.minecraft.state.properties.BlockStateProperties.AGE_0_15;
 
@@ -59,12 +56,12 @@ public abstract class FlooMainTeleporterBase extends Block {
                 //Set teleport destination one block outside the fire, instead of in the fire
                 boolean landOutside = false;
 
-                if(ServerConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
+                if(CommonConfig.ITEMS_TELEPORT.get() && entityIn instanceof ItemEntity) {
                     teleport = true;
                     landOutside = true;
                 }
-                else if(    (ServerConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
-                          ||(ServerConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
+                else if(    (CommonConfig.VILLAGERS_TELEPORT.get() && entityIn instanceof VillagerEntity)
+                          ||(CommonConfig.MISC_MOBS_TELEPORT.get() && entityIn instanceof LivingEntity)) {
                     teleport = worldIn.rand.nextFloat() < 0.2;
                 }
                 if(teleport) {
