@@ -174,6 +174,7 @@ public class TeleportScreen extends Screen {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(MatrixStack stack, int mousex, int mousey, float partialticks) {
+        this.renderBackground(stack);
         this.drawCenteredString(stack, this.font,
                 this.status,
                 this.width / 2,

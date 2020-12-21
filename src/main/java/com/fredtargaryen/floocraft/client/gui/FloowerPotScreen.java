@@ -69,6 +69,7 @@ public class FloowerPotScreen extends ContainerScreen<FloowerPotContainer> {
 
     @Override
     public void render(MatrixStack stack, int x, int y, float partialTicks) {
+        this.renderBackground(stack);
         super.render(stack, x, y, partialTicks);
         this.renderHoveredTooltip(stack, x, y);
     }
