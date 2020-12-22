@@ -72,8 +72,10 @@ public class MessageTeleportEntity {
                         initSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(initBlockPos.down()).getBlock()); //Yes, if there's a soul-y block underneath
                     }
                     boolean destSoul = SoulFireBlock.shouldLightSoulFire(world.getBlockState(destBlockPos.down()).getBlock());
-                    //Get the fire ready...
-                    world.setBlockState(destBlockPos, destSoul ? FloocraftBase.MAGENTA_FLAMES_TEMP.get().getDefaultState() : greenTemp.getDefaultState());
+                    //Get the fire ready. If it's already a busy or idle Floo fire, leave it as is. Otherwise, set a temp. Floo fire
+                    if(!destBlock.isIn(departureBlocks)) {
+                        world.setBlockState(destBlockPos, destSoul ? FloocraftBase.MAGENTA_FLAMES_TEMP.get().getDefaultState() : greenTemp.getDefaultState());
+                    }
                     //...then do the teleport...
                     MessageHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new MessageDoGreenFlash(initSoul));
                     if (player.getRidingEntity() != null) {
