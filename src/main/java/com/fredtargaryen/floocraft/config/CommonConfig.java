@@ -12,7 +12,7 @@ public class CommonConfig {
     public static ForgeConfigSpec.BooleanValue MISC_MOBS_TELEPORT;
 
     public static void init(ForgeConfigSpec.Builder commonBuilder) {
-        DEPLETE_FLOO = commonBuilder.comment("If true, teleporting will decrease the number of remaining teleports in a Floo fire until it reverts to normal fire.")
+        DEPLETE_FLOO = commonBuilder.comment("If true, fires from craftable Floo Powder will allow a limited number of teleports before reverting to normal fire.")
                 .define("tp.deplete", true);
         VILLAGERS_TELEPORT = commonBuilder.comment("If true, villagers who wander into Floo fires MAY teleport to a random fireplace. Never consumes Floo Powder.")
                 .define("tp.villagers", false);

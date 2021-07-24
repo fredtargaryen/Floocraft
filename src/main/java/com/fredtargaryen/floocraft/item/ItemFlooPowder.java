@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.block.FlooFlamesBase;
+import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.entity.DroppedFlooPowderEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -120,7 +121,13 @@ public class ItemFlooPowder extends Item {
             tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.creativeonly")));
 		}
 		else {
-            tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration",this.concentration)).mergeStyle(TextFormatting.GREEN));
+		    if(CommonConfig.DEPLETE_FLOO.get()) {
+                tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration", this.concentration)).mergeStyle(TextFormatting.GREEN));
+            }
+		    else
+            {
+                tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.concentration", '\u221E')).mergeStyle(TextFormatting.GREEN));
+            }
         	if(this.concentration == 1) {
                 tooltip.add(new StringTextComponent(I18n.format("item.floocraftft.craftable")));
 			}
