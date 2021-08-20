@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.config.CommonConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,4 +23,13 @@ public class FlooFlamesTemp extends FlooFlamesBusy {
 
     @Override
     public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) { }
+
+    /**
+     * When placed, when should the next tick start?
+     * @return the number of ticks to wait before the first tick
+     */
+    @Override
+    protected int getTimeToFirstTick() {
+        return CommonConfig.FLOO_SAFETY_TIME.get();
+    }
 }

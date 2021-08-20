@@ -45,7 +45,7 @@ public abstract class FlooFlamesBase extends FlooMainTeleporterBase {
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
         if (isInFireplace(worldIn, pos) != null) {
-            worldIn.getPendingBlockTicks().scheduleTick(pos, this, 30);
+            worldIn.getPendingBlockTicks().scheduleTick(pos, this, this.getTimeToFirstTick());
         } else {
             boolean soul = SoulFireBlock.shouldLightSoulFire(worldIn.getBlockState(pos.down()).getBlock());
             worldIn.setBlockState(pos, (soul ? Blocks.SOUL_FIRE : Blocks.FIRE).getDefaultState());
@@ -84,6 +84,14 @@ public abstract class FlooFlamesBase extends FlooMainTeleporterBase {
     public boolean isTransparent(BlockState state)
     {
         return true;
+    }
+
+    /**
+     * When placed, when should the next tick start?
+     * @return the number of ticks to wait before the first tick
+     */
+    protected int getTimeToFirstTick() {
+        return 30;
     }
 
     //FIREPLACE VALIDATION CODE STARTS HERE
