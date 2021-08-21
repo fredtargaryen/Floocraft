@@ -48,5 +48,15 @@
     "gui.teleport.go": "Go!",
     "gui.teleport.cancel": "Cancel",
     "gui.teleport.loading": "Loading...",
-    "gui.teleport.empty": "No places found"
+    "gui.teleport.empty": "No places found",
+
+    "": "CONFIG VARIABLE DESCRIPTIONS",
+    "config.client.dizzy": "If true, there is a disorienting camera-wobbling effect when you teleport with Floo Powder.",
+    "config.client.flash": "If true, there is a green or magenta flash when you teleport with Floo Powder.",
+
+    "config.common.deplete": "If true, fires from craftable Floo Powder will allow a limited number of teleports before reverting to normal fire.",
+    "config.common.villagertp": "If true, villagers who wander into Floo fires MAY teleport to a random fireplace. Never consumes Floo Powder.",
+    "config.common.itemtp": "If true, dropped items that touch Floo fires WILL teleport to a random fireplace. Never consumes Floo Powder.",
+    "config.common.mobtp": "As with villagers, but for Sheep, Cows, Spiders, Silverfish, Zombies etc. Never consumes Floo Powder.",
+    "config.common.safety": "When arriving in a normal fire, the fire converts to Floo fire temporarily. It will stay like that for this many ticks, before returning to normal."
 }

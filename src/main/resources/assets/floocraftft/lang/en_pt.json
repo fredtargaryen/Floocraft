@@ -48,5 +48,15 @@
     "gui.teleport.go": "Anchors aweigh!",
     "gui.teleport.cancel": "Cancel",
     "gui.teleport.loading": "Loadin'...",
-    "gui.teleport.empty": "The seas be empty"
+    "gui.teleport.empty": "The seas be empty",
+
+    "": "CONFIG VARIABLE DESCRIPTIONS",
+    "config.client.dizzy": "If true, ye be forgettin' yer sea legs when ye disembark.",
+    "config.client.flash": "If true, there be a blindin' green or magenta flash when ye travel.",
+
+    "config.common.deplete": "If true, ye can only travel a few times with each pinch of Traveller's Snuff.",
+    "config.common.villagertp": "If true, them big-nosed landlubbers MIGHT use a fireplace fer travel. You won't lose yer Snuff though.",
+    "config.common.itemtp": "If true, yer dropped plunder WILL disappear somewhere else if it touches St Elmo's Fire. You won't lose yer Snuff though.",
+    "config.common.mobtp": "As with the landlubbers, but for every sort of common beast ye can think of. You won't lose yer Snuff though.",
+    "config.common.safety": "When ye step out of a fireplace, the fire will be safe for this many ticks before turnin' back to normal and settin' yer stern alight."
 }
