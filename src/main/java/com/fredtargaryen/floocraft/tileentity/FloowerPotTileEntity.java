@@ -6,9 +6,11 @@ import com.fredtargaryen.floocraft.inventory.container.FloowerPotContainer;
 import com.fredtargaryen.floocraft.item.ItemFlooPowder;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
@@ -17,20 +19,27 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class FloowerPotTileEntity extends TileEntity implements IInventory, INamedContainerProvider {
+public class FloowerPotTileEntity extends TileEntity implements IInventory, ISidedInventory, INamedContainerProvider {
     public boolean justUpdated;
     private final ItemStack[] inv;
     private int hRange;
     private int vRange;
+
+    private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> itemHandler;
 
     public FloowerPotTileEntity() {
         super(FloocraftBase.POT_TYPE.get());
@@ -225,4 +234,47 @@ public class FloowerPotTileEntity extends TileEntity implements IInventory, INam
     public int getHRange() { return this.hRange; }
 
     public int getVRange() { return this.vRange; }
+
+    @Override
+    @Nonnull
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
+    {
+        if (!this.removed && facing == Direction.DOWN && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (this.itemHandler == null)
+                this.itemHandler = net.minecraftforge.items.wrapper.SidedInvWrapper.create(this, Direction.DOWN)[0];
+            return this.itemHandler.cast();
+        }
+        return super.getCapability(capability, facing);
+    }
+
+    /**
+     * invalidates a tile entity
+     */
+    @Override
+    public void remove() {
+        super.remove();
+        this.itemHandler.invalidate();
+    }
+
+    /////////////////////////////
+    //ISidedInventory overrides//
+    /////////////////////////////
+    @Override
+    public int[] getSlotsForFace(Direction side) {
+        return side == Direction.DOWN ? new int[] { 0 } : new int[0];
+    }
+
+    @Override
+    public boolean canInsertItem(int index, ItemStack itemStackIn, Direction direction) {
+        if(index == 0 && direction == Direction.DOWN)
+        {
+            return this.isItemValidForSlot(index, itemStackIn);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+        return index == 0 && direction == Direction.DOWN;
+    }
 }
