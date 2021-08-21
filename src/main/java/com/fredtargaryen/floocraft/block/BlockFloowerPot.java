@@ -15,10 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -175,13 +172,14 @@ public class BlockFloowerPot extends Block {
             }
             pot.setInventorySlotContents(0, stack);
             world.notifyBlockUpdate(pos, state, state, 3);
-            world.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 50 + rand.nextInt(100), TickPriority.EXTREMELY_LOW);
+            world.notifyNeighborsOfStateChange(pos, this);
+            world.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 40, TickPriority.EXTREMELY_LOW);
         }
     }
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
-        worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 50, TickPriority.EXTREMELY_LOW);
+        worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 40, TickPriority.EXTREMELY_LOW);
     }
 
     /**
@@ -210,5 +208,40 @@ public class BlockFloowerPot extends Block {
         if (!this.isValidPosition(state, worldIn, pos)) {
             this.onReplaced(state, worldIn, pos, Blocks.AIR.getDefaultState(), false);
         }
+    }
+
+    @Override
+    public boolean canProvidePower(BlockState state) { return true; }
+
+    /**
+     * @deprecated call via {@link IBlockState#getWeakPower(IBlockAccess,BlockPos,EnumFacing)} whenever possible.
+     * Implementing/overriding is fine.
+     */
+    @Override
+    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        TileEntity te = blockAccess.getTileEntity(pos);
+        if(te instanceof FloowerPotTileEntity)
+        {
+            FloowerPotTileEntity fpte = (FloowerPotTileEntity) te;
+            int flooCount = fpte.getStackInSlot(0).getCount();
+            if(flooCount == 64)
+            {
+                return 0;
+            }
+            else
+            {
+                return (int) ((64 - flooCount) * 14 / 64f + 1);
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @deprecated call via {@link IBlockState#getStrongPower(IBlockAccess,BlockPos,EnumFacing)} whenever possible.
+     * Implementing/overriding is fine.
+     */
+    @Override
+    public int getStrongPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        return 0;
     }
 }
