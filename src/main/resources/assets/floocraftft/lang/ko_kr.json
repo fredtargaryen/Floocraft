@@ -1,6 +1,4 @@
 {
-    "": "100% 정확합니다.",
-    "": "블록",
     "block.floocraftft.floosign": "플루 표지판",
     "block.floocraftft.flootorch": "플루 횃불",
     "block.floocraftft.greenflamesbusy": "초록색 불꽃",
@@ -8,7 +6,6 @@
     "block.floocraftft.greenflamesidle": "초록색 불꽃",
     "block.floocraftft.floowerpot": "플로워 화분",
 
-    "": "아이템",
     "item.floocraftft.floopowder_one": "플루 가루",
     "item.floocraftft.floopowder_two": "플루 가루",
     "item.floocraftft.floopowder_four": "플루 가루",
@@ -20,12 +17,10 @@
     "item.floocraftft.creativeonly": "크리에이티브 모드 한정!",
     "item.floocraftft.craftable": "조합에 사용할 수 있습니다.",
 
-    "": "자막",
     "subs.floocraftft.greened": "플루 가루가 불을 뿜습니다.",
     "subs.floocraftft.tp": "벽난로가 순간 이동합니다.",
     "subs.floocraftft.flick": "플루 횃불이 순간 이동합니다.",
 
-    "": "메뉴",
     "gui.floosign.title": "플루 표지판 설정 마법사",
     "gui.floosign.approvalwait": "승인을 기다리는 중...",
     "gui.floosign.decoration": "장식으로 사용",

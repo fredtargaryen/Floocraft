@@ -1,6 +1,4 @@
 {
-    "": "100% accurate",
-    "": "BLOCKS",
     "block.floocraftft.floosign": "Traveller's Plank",
     "block.floocraftft.flootorch": "Rod o' Green Flames",
     "block.floocraftft.greenflamesbusy": "St Elmo's Fire",
@@ -8,7 +6,6 @@
     "block.floocraftft.greenflamesidle": "St Elmo's Fire",
     "block.floocraftft.floowerpot": "Pot o' Traveller's Snuff",
 
-    "": "ITEMS",
     "item.floocraftft.floopowder_one": "Traveller's Snuff",
     "item.floocraftft.floopowder_two": "Traveller's Snuff",
     "item.floocraftft.floopowder_four": "Traveller's Snuff",
@@ -20,12 +17,10 @@
     "item.floocraftft.creativeonly": "Only fer creatives!",
     "item.floocraftft.craftable": "Ye can craft wi' this one",
 
-    "": "SUBTITLES",
     "subs.floocraftft.greened": "\"St Elmo's Fire appears\"",
     "subs.floocraftft.tp": "\"Ye be transported!\"",
     "subs.floocraftft.flick": "\"Travel by Rod\"",
 
-    "": "MENUS",
     "gui.floosign.title": "Name yer Ship",
     "gui.floosign.approvalwait": "Waitin' fer approval...",
     "gui.floosign.decoration": "Just a bit o' timber",

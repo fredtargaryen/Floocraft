@@ -113,7 +113,9 @@ public class PeekerEntity extends Entity {
             return null;
         }
         if (this.texture == null && this.world.isRemote) {
-            this.texture = ((AbstractClientPlayerEntity) this.world.getPlayerByUuid(this.playerUUID)).getLocationSkin();
+            AbstractClientPlayerEntity acpe = (AbstractClientPlayerEntity) this.world.getPlayerByUuid(this.playerUUID);
+            // If we can't find the player with this UUID they probably don't exist now, so we shouldn't render their peeker
+            this.texture = acpe == null ? null : acpe.getLocationSkin();
         }
         return this.texture;
     }

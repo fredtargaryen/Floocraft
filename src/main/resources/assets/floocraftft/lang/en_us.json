@@ -1,6 +1,4 @@
 {
-    "": "100% accurate",
-    "": "BLOCKS",
     "block.floocraftft.floosign": "Floo Sign",
     "block.floocraftft.flootorch": "Floo Torch",
     "block.floocraftft.greenflamesbusy": "Green Flames",
@@ -8,7 +6,6 @@
     "block.floocraftft.greenflamesidle": "Green Flames",
     "block.floocraftft.floowerpot": "Floower Pot",
 
-    "": "ITEMS",
     "item.floocraftft.floopowder_one": "Floo Powder",
     "item.floocraftft.floopowder_two": "Floo Powder",
     "item.floocraftft.floopowder_four": "Floo Powder",
@@ -20,12 +17,10 @@
     "item.floocraftft.creativeonly": "Creative mode only!",
     "item.floocraftft.craftable": "Can use in crafting",
 
-    "": "SUBTITLES",
     "subs.floocraftft.greened": "Floo Powder hits fire",
     "subs.floocraftft.tp": "Fireplace teleport",
     "subs.floocraftft.flick": "Floo torch teleport",
 
-    "": "MENUS",
     "gui.floosign.title": "Floo Sign Setup Wizard",
     "gui.floosign.approvalwait": "Waiting for approval...",
     "gui.floosign.decoration": "Use as decoration",
