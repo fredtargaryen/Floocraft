@@ -1,5 +1,4 @@
 {
-    "": "BLOCOS",
     "block.floocraftft.floosign": "Placa de flu",
     "block.floocraftft.flootorch": "Tocha de flu",
     "block.floocraftft.greenflamesbusy": "Chamas de flu",
@@ -12,7 +11,6 @@
     "block.floocraftft.floo_soul_campfire": "Fogueira flu das almas",
     "block.floocraftft.floowerpot": "Vaso de flu",
 
-    "": "ITENS",
     "item.floocraftft.floopowder_one": "Pó de flu",
     "item.floocraftft.floopowder_two": "Pó de flu",
     "item.floocraftft.floopowder_four": "Pó de flu",
@@ -24,12 +22,10 @@
     "item.floocraftft.creativeonly": "Apenas no modo criativo!",
     "item.floocraftft.craftable": "Pode ser usado na criação",
 
-    "": "LEGENDAS",
     "subs.floocraftft.greened": "O pó de flu atinge o fogo",
     "subs.floocraftft.tp": "A lareira teleporta",
     "subs.floocraftft.flick": "A tocha de flu teleporta",
 
-    "": "MENUS",
     "gui.floosign.title": "Configurações da rede de flu",
     "gui.floosign.approvalwait": "Esperando por aprovação...",
     "gui.floosign.decoration": "Usar como decoração",
@@ -50,7 +46,6 @@
     "gui.teleport.loading": "Carregando...",
     "gui.teleport.empty": "Nenhum local encontrado",
 
-    "": "CONFIG VARIABLE DESCRIPTIONS",
     "config.client.dizzy": "If true, there is a disorienting camera-wobbling effect when you teleport with Floo Powder.",
     "config.client.flash": "If true, there is a green or magenta flash when you teleport with Floo Powder.",
 

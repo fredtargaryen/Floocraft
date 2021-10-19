@@ -1,5 +1,4 @@
 {
-    "": "BLOCKS",
     "block.floocraftft.floosign": "Traveller's Plank",
     "block.floocraftft.flootorch": "Rod o' Green Flames",
     "block.floocraftft.greenflamesbusy": "St Elmo's Fire",
@@ -12,7 +11,6 @@
     "block.floocraftft.floo_soul_campfire": "Floo Soul Campfire",
     "block.floocraftft.floowerpot": "Pot o' Traveller's Snuff",
 
-    "": "ITEMS",
     "item.floocraftft.floopowder_one": "Traveller's Snuff",
     "item.floocraftft.floopowder_two": "Traveller's Snuff",
     "item.floocraftft.floopowder_four": "Traveller's Snuff",
@@ -24,12 +22,10 @@
     "item.floocraftft.creativeonly": "Only fer creatives!",
     "item.floocraftft.craftable": "Ye can craft wi' this one",
 
-    "": "SUBTITLES",
     "subs.floocraftft.greened": "\"St Elmo's Fire appears\"",
     "subs.floocraftft.tp": "\"Ye be transported!\"",
     "subs.floocraftft.flick": "\"Travel by Rod\"",
 
-    "": "MENUS",
     "gui.floosign.title": "Name yer Ship",
     "gui.floosign.approvalwait": "Waitin' fer approval...",
     "gui.floosign.decoration": "Just a bit o' timber",
@@ -50,7 +46,6 @@
     "gui.teleport.loading": "Loadin'...",
     "gui.teleport.empty": "The seas be empty",
 
-    "": "CONFIG VARIABLE DESCRIPTIONS",
     "config.client.dizzy": "If true, ye be forgettin' yer sea legs when ye disembark.",
     "config.client.flash": "If true, there be a blindin' green or magenta flash when ye travel.",
 
