@@ -25,7 +25,7 @@ public class MessageFlooTorchTeleport {
     private static boolean isAdjacent(BlockPos pos1, BlockPos pos2) {
         int xDiff = Math.abs(pos1.getX() - pos2.getX());
         int zDiff = Math.abs(pos1.getZ() - pos2.getZ());
-        return (xDiff == 0 && zDiff == 1) || xDiff == 1 && zDiff == 0;
+        return xDiff + zDiff == 1;
     }
 
     public void onMessage(Supplier<NetworkEvent.Context> ctx) {

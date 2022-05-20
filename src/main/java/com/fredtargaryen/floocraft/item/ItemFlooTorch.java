@@ -11,6 +11,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
@@ -22,25 +23,27 @@ public class ItemFlooTorch extends Item {
     @Override
     @Nonnull
     public ActionResultType onItemUse(ItemUseContext context) {
-        Direction side = context.getFace();
-        if(side == Direction.DOWN) {
-            return ActionResultType.FAIL;
-        }
-        else {
-            BlockPos pos = context.getPos();
-            BlockState blockPlacedOn = context.getWorld().getBlockState(pos);
-            PlayerEntity player = context.getPlayer();
-            ItemStack stack = context.getItem();
-            if (player.canPlayerEdit(pos, side, stack)) {
-                if(blockPlacedOn.isSolid()) {
-                    context.getWorld().setBlockState(pos.offset(side),
-                            FloocraftBase.BLOCK_FLOO_TORCH.get().getDefaultState().with(FlooTorchBlock.FACING_EXCEPT_DOWN, side),
-                            3);
-                    stack.grow(-1);
-                    return ActionResultType.SUCCESS;
+        World w = context.getWorld();
+        if(!w.isRemote) {
+            Direction side = context.getFace();
+            if (side == Direction.DOWN) {
+                return ActionResultType.PASS;
+            } else {
+                BlockPos pos = context.getPos();
+                BlockState blockPlacedOn = w.getBlockState(pos);
+                PlayerEntity player = context.getPlayer();
+                ItemStack stack = context.getItem();
+                if (player != null && player.canPlayerEdit(pos, side, stack)) {
+                    if (blockPlacedOn.isSolidSide(w, pos, side)) {
+                        w.setBlockState(pos.offset(side),
+                                FloocraftBase.BLOCK_FLOO_TORCH.get().getDefaultState().with(FlooTorchBlock.FACING_EXCEPT_DOWN, side),
+                                3);
+                        stack.grow(-1);
+                        return ActionResultType.CONSUME;
+                    }
                 }
             }
-            return ActionResultType.FAIL;
         }
+        return ActionResultType.PASS;
     }
 }
