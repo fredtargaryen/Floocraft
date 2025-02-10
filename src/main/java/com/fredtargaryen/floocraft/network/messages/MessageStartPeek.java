@@ -1,18 +1,16 @@
 package com.fredtargaryen.floocraft.network.messages;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
-import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public class MessageStartPeek {
     public UUID peekerUUID;
 
-    public void onMessage(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> FloocraftBase.proxy.onMessage(this));
-        ctx.get().setPacketHandled(true);
+    public void handle(CustomPayloadEvent.Context context) {
+        //context.enqueueWork(() -> FloocraftBase.proxy.onMessage(this));
+        context.setPacketHandled(true);
     }
 
     public MessageStartPeek(UUID peekerUUID) {
@@ -22,11 +20,11 @@ public class MessageStartPeek {
     /**
      * Effectively fromBytes from 1.12.2
      */
-    public MessageStartPeek(ByteBuf buf) {
+    public MessageStartPeek(FriendlyByteBuf buf) {
         this.peekerUUID = new UUID(buf.readLong(), buf.readLong());
     }
 
-    public void toBytes(ByteBuf buf) {
+    public void encode(FriendlyByteBuf buf) {
         buf.writeLong(this.peekerUUID.getMostSignificantBits());
         buf.writeLong(this.peekerUUID.getLeastSignificantBits());
     }

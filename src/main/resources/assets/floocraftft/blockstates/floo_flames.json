@@ -1,0 +1,59 @@
+{
+  "multipart":
+  [
+    {
+      "when": {
+          "ominous": "false",
+          "age": 0
+      },
+      "apply": {
+          "model": "floocraftft:block/green_flames_tall"
+      }
+    },
+    {
+      "when": {
+        "ominous": "false",
+        "age": 1
+      },
+      "apply": {
+        "model": "floocraftft:block/green_flames_small"
+      }
+    },
+    {
+      "when": {
+        "ominous": "false",
+        "age": 2
+      },
+      "apply": {
+        "model": "floocraftft:block/green_flames_tall"
+      }
+    },
+    {
+      "when": {
+        "ominous": "true",
+        "age": 0
+      },
+      "apply": {
+        "model": "floocraftft:block/magenta_flames_tall"
+      }
+    },
+    {
+      "when": {
+        "ominous": "true",
+        "age": 1
+      },
+      "apply": {
+        "model": "floocraftft:block/magenta_flames_small"
+      }
+    },
+    {
+      "when": {
+        "ominous": "true",
+        "age": 2
+      },
+      "apply": {
+        "model": "floocraftft:block/magenta_flames_tall"
+      }
+    }
+  ]
+}

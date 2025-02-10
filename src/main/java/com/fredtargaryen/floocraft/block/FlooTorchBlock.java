@@ -1,113 +1,52 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.FloocraftParticleTypes;
 import com.fredtargaryen.floocraft.network.MessageHandler;
-import com.fredtargaryen.floocraft.network.messages.MessageFlooTorchTeleport;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.TorchBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import com.fredtargaryen.floocraft.network.messages.TeleportByTorchMessage;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TorchBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import java.util.Random;
-
-public class FlooTorchBlock extends Block {
-    private static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(6.0D, 3.0D, 12.0D, 10.0D, 13.0D, 16.0D);
-    private static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(6.0D, 3.0D, 0.0D, 10.0D, 13.0D, 4.0D);
-    private static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(12.0D, 3.0D, 6.0D, 16.0D, 13.0D, 10.0D);
-    private static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(0.0D, 3.0D, 6.0D, 4.0D, 13.0D, 10.0D);
-    private static final VoxelShape STANDING_SHAPE = Block.makeCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 10.0D, 10.0D);
-    public static final DirectionProperty FACING_EXCEPT_DOWN = DirectionProperty.create("facing", (p_208125_0_) -> p_208125_0_ != Direction.DOWN);
-
-	public FlooTorchBlock() {
-		super(Block.Properties.create(Material.MISCELLANEOUS)
-                .doesNotBlockMovement()
-                .hardnessAndResistance(0F)
-                .setLightLevel(state -> 14)
-                .sound(SoundType.WOOD));
-	}
-
-	@Override
-    @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        switch(state.get(FACING_EXCEPT_DOWN)) {
-            case NORTH:
-                return NORTH_SHAPE;
-            case SOUTH:
-                return SOUTH_SHAPE;
-            case WEST:
-                return WEST_SHAPE;
-            case EAST:
-                return EAST_SHAPE;
-            default:
-                return STANDING_SHAPE;
-        }
+/**
+ * TODO:
+ * No sound played
+ * Get green flame
+ */
+public class FlooTorchBlock extends TorchBlock {
+    public FlooTorchBlock() {
+        //super((SimpleParticleType) FloocraftParticleTypes.FLOO_TORCH_FLAME.get(), Block.Properties.of()
+                super(ParticleTypes.FLAME, Block.Properties.of()
+                .noCollission()
+                .instabreak()
+                .lightLevel(state -> 14)
+                .sound(SoundType.WOOD)
+                .pushReaction(PushReaction.DESTROY));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING_EXCEPT_DOWN);
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+        attemptFlooTorchTeleport(state, level, pos, entity);
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, World worldIn, BlockPos pos, Random rand) {
-        double d0 = (double)pos.getX() + 0.5D;
-        double d1 = (double)pos.getY() + 0.7D;
-        double d2 = (double)pos.getZ() + 0.5D;
-        switch(state.get(FACING_EXCEPT_DOWN)) {
-            case NORTH:
-                d1 += 0.145D;
-                d2 += 0.25D;
-                break;
-            case SOUTH:
-                d1 += 0.145D;
-                d2 -= 0.25D;
-                break;
-            case WEST:
-                d1 += 0.145D;
-                d0 += 0.25D;
-                break;
-            case EAST:
-                d1 += 0.145D;
-                d0 -= 0.25D;
-                break;
-        }
-        worldIn.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-        Minecraft.getInstance().particles.addParticle(FloocraftBase.GREEN_FLAME.get(), d0, d1, d2, 0.0D, 0.0D, 0.0D);
-    }
-
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (world.isRemote) {
-            if (entity instanceof PlayerEntity) {
-                //Triggered by a player on the client side.
-                MessageFlooTorchTeleport mftt = new MessageFlooTorchTeleport();
-                mftt.torchX = pos.getX();
-                mftt.torchY = pos.getY();
-                mftt.torchZ = pos.getZ();
-                MessageHandler.INSTANCE.sendToServer(mftt);
+    public static void attemptFlooTorchTeleport(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+        if (level.isClientSide) {
+            if (!FloocraftBase.ClientModEvents.torchTicker.isRunning()) {
+                if (entity instanceof Player) {
+                    FloocraftBase.info("Sending tp message");
+                    MessageHandler.sendToServer(new TeleportByTorchMessage());
+                    FloocraftBase.ClientModEvents.torchTicker.start();
+                }
             }
         }
     }
-
-    @Override
-    @Nonnull
-    public Item asItem() { return FloocraftBase.ITEM_FLOO_TORCH.get(); }
 }

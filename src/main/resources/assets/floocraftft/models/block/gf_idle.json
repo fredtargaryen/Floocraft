@@ -1,6 +1,0 @@
-{
-    "parent": "floocraftft:block/template_idle",
-    "textures": {
-        "fire": "floocraftft:blocks/gf"
-    }
-}

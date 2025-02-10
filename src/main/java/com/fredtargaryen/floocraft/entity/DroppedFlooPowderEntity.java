@@ -1,78 +1,109 @@
 package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
-import com.fredtargaryen.floocraft.block.FlooFlamesTemp;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoulFireBlock;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.BlockStateProperties;
+import com.fredtargaryen.floocraft.FloocraftBlocks;
+import com.fredtargaryen.floocraft.FloocraftSounds;
+import com.fredtargaryen.floocraft.block.FlooFlames;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nonnull;
+import static com.fredtargaryen.floocraft.block.FlooCampfireBlock.FACING;
+import static com.fredtargaryen.floocraft.block.FlooFlames.BEHAVIOUR;
+import static com.fredtargaryen.floocraft.block.FlooFlames.BUSY;
+import static com.fredtargaryen.floocraft.block.FlooMainTeleporterBase.*;
+import static net.minecraft.world.level.block.CampfireBlock.WATERLOGGED;
 
 public class DroppedFlooPowderEntity extends ItemEntity {
     private byte concentration;
 
-	public DroppedFlooPowderEntity(World world, double x, double y, double z, ItemStack stack, byte conc) {
-		super(world, x, y, z, stack);
+    public DroppedFlooPowderEntity(Level level, double x, double y, double z, ItemStack stack, byte conc) {
+        super(level, x, y, z, stack);
         this.concentration = conc;
-	}
-
-    /**
-     * Writes this entity to NBT, unless it has been removed or it is a passenger. Also writes this entity's passengers,
-     * and the entity type ID (so the produced NBT is sufficient to recreate the entity).
-     * To always write the entity, use {@link #writeWithoutTypeId}.
-     *
-     * @return True if the entity was written (and the passed compound should be saved); false if the entity was not
-     * written.
-     */
-    @Override
-    public boolean writeUnlessPassenger(@Nonnull CompoundNBT compound) {
-        super.writeUnlessPassenger(compound);
-        compound.putByte("Concentration", this.concentration);
-        return true;
     }
 
     @Override
-    public void read(CompoundNBT par1) {
-        super.read(par1);
-        this.concentration = par1.getByte("Concentration");
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putByte("Concentration", this.concentration);
     }
 
     @Override
-    public SoundCategory getSoundCategory() {
-        return SoundCategory.BLOCKS;
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.concentration = tag.getByte("Concentration");
+    }
+
+    @Override
+    public void tick() {
+        BlockPos location = this.blockPosition();
+        BlockState bs = this.level().getBlockState(location);
+        if (bs.is(BlockTags.FIRE)) {
+            FlooFlames flames = ((FlooFlames) FloocraftBlocks.FLOO_FLAMES.get());
+            if (flames.isInFireplace(this.level(), location) != null) {
+                this.level().setBlockAndUpdate(location, flames.defaultBlockState()
+                        .setValue(TPS_REMAINING, (int) this.concentration)
+                        .setValue(COLOUR, this.level().getBlockState(location.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS))
+                        .setValue(BEHAVIOUR, BUSY));
+                this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+            }
+            this.kill();
+        } else {
+            Block b = bs.getBlock();
+            if (b == Blocks.CAMPFIRE) {
+                this.level().setBlockAndUpdate(location,
+                        FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
+                                .setValue(FACING, bs.getValue(FACING))
+                                .setValue(WATERLOGGED, bs.getValue(WATERLOGGED))
+                                .setValue(TPS_REMAINING, (int) this.concentration)
+                                .setValue(COLOUR, STANDARD)
+                                .setValue(BEHAVIOUR, BUSY));
+                this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+                this.kill();
+            } else if (b == Blocks.SOUL_CAMPFIRE) {
+                this.level().setBlockAndUpdate(location,
+                        FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
+                                .setValue(FACING, bs.getValue(FACING))
+                                .setValue(WATERLOGGED, bs.getValue(WATERLOGGED))
+                                .setValue(TPS_REMAINING, (int) this.concentration)
+                                .setValue(COLOUR, SOUL)
+                                .setValue(BEHAVIOUR, BUSY));
+                this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+                this.kill();
+            }
+        }
+        super.tick();
     }
 
     /**
      * Called when the entity is attacked.
      * TODO Add a case for campfires whenever this works again
      */
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if(source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE) {
-            BlockPos pos = this.getPosition();
-            if (this.world.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
-                if(((FlooFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP.get()).isInFireplace(this.world, pos) != null) {
-                    Block fireBlock = SoulFireBlock.shouldLightSoulFire(this.world.getBlockState(pos.down()).getBlock()) ?
-                            FloocraftBase.MAGENTA_FLAMES_BUSY.get() : FloocraftBase.GREEN_FLAMES_BUSY.get();
-                    this.world.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
-                    this.playSound(FloocraftBase.GREENED.get(), 1.0F, 1.0F);
-                }
-                this.remove();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return super.attackEntityFrom(source, amount);
-    }
+//    @Override
+//    public boolean attackEntityFrom(DamageSource source, float amount) {
+//        if(source.type() == DamageType.IN_FIRE || source == DamageSource.ON_FIRE) {
+//            BlockPos pos = this.getPosition();
+//            if (this.world.getBlockState(pos).getBlock().isIn(BlockTags.FIRE)) {
+//                if(((FlooFlamesTemp)FloocraftBase.GREEN_FLAMES_TEMP.get()).isInFireplace(this.world, pos) != null) {
+//                    Block fireBlock = SoulFireBlock.shouldLightSoulFire(this.world.getBlockState(pos.down()).getBlock()) ?
+//                            FloocraftBase.MAGENTA_FLAMES_BUSY.get() : FloocraftBase.GREEN_FLAMES_BUSY.get();
+//                    this.world.setBlockState(pos, fireBlock.getDefaultState().with(BlockStateProperties.AGE_0_15, (int) this.concentration), 3);
+//                    this.playSound(FloocraftBase.GREENED.get(), 1.0F, 1.0F);
+//                }
+//                this.remove();
+//                return true;
+//            }
+//            else
+//            {
+//                return false;
+//            }
+//        }
+//        return super.attackEntityFrom(source, amount);
+//    }
 }
