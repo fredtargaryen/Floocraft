@@ -56,8 +56,7 @@ import org.slf4j.Logger;
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
  *
  * TODO Floower Pot
- *      TODO Block invisible
- *      TODO Block does nothing on right-click
+ *      TODO Block does nothing on right-click (check)
  *      TODO Gui (check)
  *          TODO titles draw? (check)
  *          TODO Get pot BlockEntity somehow

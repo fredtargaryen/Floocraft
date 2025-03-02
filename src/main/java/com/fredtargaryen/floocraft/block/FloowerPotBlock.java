@@ -148,14 +148,12 @@ public class FloowerPotBlock extends BaseEntityBlock {
 //    }
 
     /**
-     * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
-     * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
-     *
-     * @deprecated call via IBlockState#getRenderType() whenever possible. Implementing/overriding is fine.
+     * BaseEntityBlock doesn't render the block model by default, so this is needed
      */
-//    public BlockRenderType getRenderType(BlockState state) {
-//        return BlockRenderType.MODEL;
-//    }
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
 
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, pos
