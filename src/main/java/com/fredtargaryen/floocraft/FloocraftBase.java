@@ -4,6 +4,7 @@ import com.fredtargaryen.floocraft.blockentity.FlooSignBlockEntity;
 import com.fredtargaryen.floocraft.client.Ticker;
 import com.fredtargaryen.floocraft.client.gui.TeleportEffects;
 import com.fredtargaryen.floocraft.client.gui.screens.inventory.FlooSignEditScreen;
+import com.fredtargaryen.floocraft.client.gui.screens.inventory.FloowerPotScreen;
 import com.fredtargaryen.floocraft.client.gui.screens.teleport.TeleportScreen;
 import com.fredtargaryen.floocraft.client.particle.FlooTorchFlameParticle;
 import com.fredtargaryen.floocraft.client.renderer.blockentity.FlooSignRenderer;
@@ -31,6 +32,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -80,6 +82,7 @@ public class FloocraftBase {
         FloocraftItems.register(eventBus);
         FloocraftBlockEntityTypes.register(eventBus);
         FloocraftCreativeTabs.register(eventBus);
+        FloocraftMenuTypes.register(eventBus);
         FloocraftParticleTypes.register(eventBus);
         FloocraftSounds.register(eventBus);
 
@@ -167,13 +170,18 @@ public class FloocraftBase {
         }
 
         @SubscribeEvent
+        public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            event.registerLayerDefinition(FlooSignRenderer.FLOO_SIGN_MODEL_LOCATION, FlooSignRenderer::createSignLayer);
+        }
+
+        @SubscribeEvent
         public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOO_SIGN.get(), FlooSignRenderer::new);
         }
 
         @SubscribeEvent
-        public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-            event.registerLayerDefinition(FlooSignRenderer.FLOO_SIGN_MODEL_LOCATION, FlooSignRenderer::createSignLayer);
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(FloocraftMenuTypes.FLOOWER_POT.get(), FloowerPotScreen::new);
         }
 
         @SubscribeEvent
