@@ -3,35 +3,36 @@ package com.fredtargaryen.floocraft.inventory;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftMenuTypes;
 import com.fredtargaryen.floocraft.item.FlooPowderItem;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class FloowerPotMenu extends AbstractContainerMenu {
-    private final Container pot;
+    //private final Container pot;
 
     /**
      * Client-side constructor
      */
     public FloowerPotMenu(int containerId, Inventory playerInventory) {
-        this(containerId, playerInventory, new SimpleContainer(1));
+        this(containerId, playerInventory, new ItemStackHandler(1), DataSlot.standalone(), DataSlot.standalone());
     }
 
     /**
      * Server-side constructor
      */
-    public FloowerPotMenu(int containerId, Inventory playerInventory, Container container) {
+    public FloowerPotMenu(int containerId, Inventory playerInventory, IItemHandler dataInventory, DataSlot hRangeSlot, DataSlot vRangeSlot) {
         super(FloocraftMenuTypes.FLOOWER_POT.get(), containerId);
-        checkContainerSize(container, 1);
-        this.pot = container;
-        container.startOpen(playerInventory.player);
-
+        this.addSlot(new SlotItemHandler(dataInventory, 0, 80, 35));
         this.addSlot(new PowderSlot(playerInventory));
+        this.addDataSlot(hRangeSlot);
+        this.addDataSlot(vRangeSlot);
     }
 
     // AbstractContainerMenu overrides

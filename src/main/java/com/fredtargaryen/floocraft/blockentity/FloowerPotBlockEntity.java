@@ -2,24 +2,56 @@ package com.fredtargaryen.floocraft.blockentity;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlockEntityTypes;
+import com.fredtargaryen.floocraft.inventory.FloowerPotMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class FloowerPotBlockEntity extends BlockEntity {
+public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
+    private NonNullList<ItemStack> powderStack = NonNullList.withSize(1, ItemStack.EMPTY);
+
     public FloowerPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FloocraftBlockEntityTypes.FLOOWER_POT.get(), pPos, pBlockState);
         this.inv = new ItemStack[1];
         this.inv[0] = ItemStack.EMPTY;
         this.hRange = DataReference.POT_MAX_H_RANGE;
-        this.vRange = 5;
-    }// implements IInventory, ISidedInventory, INamedContainerProvider {
+        this.vRange = DataReference.POT_MAX_V_RANGE;
+    }
 
     //    public boolean justUpdated;
     private ItemStack[] inv;
     private int hRange;
     private int vRange;
+
+    // BaseContainerBlockEntity overrides
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("block.floocraftft.floower_pot");
+    }
+
+    @Override
+    protected AbstractContainerMenu createMenu(int windowId, Inventory inventory) {
+        return new FloowerPotMenu(windowId, inventory);
+    }
+
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return this.powderStack;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> items) {
+        this.powderStack = items;
+    }@Override
+
+    public int getContainerSize() {
+        return 1;
+    }
 //
 //    private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> itemHandler;
 //
@@ -180,16 +212,7 @@ public class FloowerPotBlockEntity extends BlockEntity {
 //        this.justUpdated = true;
 //    }
 //
-//    @Override
-//    public ITextComponent getDisplayName() {
-//        return new TranslationTextComponent("block.floocraftft.floower_pot");
-//    }
-//
-//    @Nullable
-//    @Override
-//    public Container createMenu(int windowId, @Nonnull PlayerInventory inventory, @Nonnull PlayerEntity player) {
-//        return new FloowerPotContainer(windowId, inventory, player.world, this.pos);
-//    }
+
 
     public void adjustPotRange(boolean useVerticalRange, int amount) {
         if (useVerticalRange) {

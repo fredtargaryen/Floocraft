@@ -56,9 +56,11 @@ import org.slf4j.Logger;
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
  *
  * TODO Floower Pot
- *      TODO Block does nothing on right-click (check)
- *      TODO Gui (check)
- *          TODO titles draw? (check)
+ *      TODO Gui
+ *          TODO Labels draw with shadow
+ *          TODO Labels are very dark
+ *          TODO Slot contains whatever player has in hotbar slot 1
+ *          TODO Can't interact with slot
  *          TODO Get pot BlockEntity somehow
  *      TODO Codec instead of sending packets?
  *      TODO Powder updates

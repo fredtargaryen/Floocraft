@@ -106,16 +106,16 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
 
     @Override
     public void containerTick() {
-        this.decrementHorizontalRangeButton.active = this.hRangeCache > DataReference.POT_MIN_H_RANGE;
-        this.incrementHorizontalRangeButton.active = this.hRangeCache < DataReference.POT_MAX_H_RANGE;
-        this.decrementVerticalRangeButton.active = this.vRangeCache > DataReference.POT_MIN_V_RANGE;
-        this.incrementVerticalRangeButton.active = this.vRangeCache < DataReference.POT_MAX_V_RANGE;
-
 //        if (this.fpbe.justUpdated) {
 //            this.hRangeCache = this.fpbe.getHRange();
 //            this.vRangeCache = this.fpbe.getVRange();
 //            this.fpbe.justUpdated = false;
 //        }
+        this.decrementHorizontalRangeButton.active = this.hRangeCache > DataReference.POT_MIN_H_RANGE;
+        this.incrementHorizontalRangeButton.active = this.hRangeCache < DataReference.POT_MAX_H_RANGE;
+        this.decrementVerticalRangeButton.active = this.vRangeCache > DataReference.POT_MIN_V_RANGE;
+        this.incrementVerticalRangeButton.active = this.vRangeCache < DataReference.POT_MAX_V_RANGE;
+
     }
 
     /**
