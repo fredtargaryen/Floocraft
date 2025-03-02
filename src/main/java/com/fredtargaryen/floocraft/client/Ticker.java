@@ -1,8 +1,9 @@
 package com.fredtargaryen.floocraft.client;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class Ticker {
     private byte ticks;
@@ -16,19 +17,17 @@ public class Ticker {
     public void start() {
         if (!this.isRunning()) {
             this.ticks++;
-            MinecraftForge.EVENT_BUS.register(this);
+            NeoForge.EVENT_BUS.register(this);
         }
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event) {
+    public void onClientTick(ClientTickEvent.Pre event) {
         if (this.ticks > -1) {
-            if (event.phase == TickEvent.Phase.START) {
-                this.ticks++;
-            }
+            this.ticks++;
             if (this.ticks >= this.maxTicks) {
                 this.ticks = -1;
-                MinecraftForge.EVENT_BUS.unregister(this);
+                NeoForge.EVENT_BUS.unregister(this);
             }
         }
     }

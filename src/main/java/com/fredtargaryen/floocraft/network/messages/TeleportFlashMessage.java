@@ -1,30 +1,34 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 /**
  * Begins the flashing and dizziness effect when received.
  * Direction: server to client
+ *
+ * @param soul Whether to do a magenta soul flash or a green normal flash
  */
-public class TeleportFlashMessage {
-    public boolean soul;
+public record TeleportFlashMessage(Boolean soul) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<TeleportFlashMessage> TYPE =
+            new CustomPacketPayload.Type<>(DataReference.getResourceLocation("flash"));
 
-    public void handle(CustomPayloadEvent.Context context) {
-        context.enqueueWork(() -> FloocraftBase.ClientModEvents.handleMessage(this));
-        context.setPacketHandled(true);
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public TeleportFlashMessage(boolean soul) {
-        this.soul = soul;
-    }
+    public static final StreamCodec<FriendlyByteBuf, TeleportFlashMessage> STREAM_CODEC =
+            StreamCodec.composite(
+                    ByteBufCodecs.BOOL, TeleportFlashMessage::soul,
+                    TeleportFlashMessage::new);
 
-    public TeleportFlashMessage(FriendlyByteBuf buf) {
-        this.soul = buf.readBoolean();
-    }
-
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeBoolean(this.soul);
+    public static void handle(final TeleportFlashMessage message, final IPayloadContext context) {
+        context.enqueueWork(() -> FloocraftBase.ClientModEvents.handleMessage(message));
     }
 }

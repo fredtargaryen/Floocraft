@@ -1,30 +1,37 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Sent when a Floo Sign is placed and opens the sign edit GUI
  * Direction: server to client
+ *
+ * @param signPos The position of the sign
  */
-public class OpenFlooSignEditScreenMessage {
-    public BlockPos signPos;
+public record OpenFlooSignEditScreenMessage(BlockPos signPos) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<OpenFlooSignEditScreenMessage> TYPE =
+            new CustomPacketPayload.Type<>(DataReference.getResourceLocation("open_floo_sign_edit_screen"));
 
-    public void handle(CustomPayloadEvent.Context context) {
-        context.enqueueWork(() -> FloocraftBase.ClientModEvents.handleMessage(this));
-        context.setPacketHandled(true);
+    @Override
+    public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public OpenFlooSignEditScreenMessage() {
+    public static final StreamCodec<FriendlyByteBuf, OpenFlooSignEditScreenMessage> STREAM_CODEC =
+            StreamCodec.composite(
+                    BlockPos.STREAM_CODEC, OpenFlooSignEditScreenMessage::signPos,
+                    OpenFlooSignEditScreenMessage::new);
+
+    public static void handle(final OpenFlooSignEditScreenMessage message, final IPayloadContext context) {
+        context.enqueueWork(() -> FloocraftBase.ClientModEvents.handleMessage(message));
     }
 
-    public OpenFlooSignEditScreenMessage(FriendlyByteBuf buf) {
-        this.signPos = buf.readBlockPos();
-    }
-
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeBlockPos(this.signPos);
-    }
+    public BlockPos getSignPos() { return signPos; }
 }

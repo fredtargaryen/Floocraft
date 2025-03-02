@@ -3,7 +3,7 @@ package com.fredtargaryen.floocraft.network;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
-import com.fredtargaryen.floocraft.block.FlooFlames;
+import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.network.messages.FireplaceListResponseMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -18,6 +18,8 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -71,18 +73,18 @@ public class FloocraftLevelData extends SavedData {
     }
 
     public void removeLocation(String locationName) {
-        int[] coords = this.placeList.remove(locationName);
-        FloocraftBase.info(String.format("[FLOOCRAFT-SERVER] Removed fireplace '%s' at {%d, %d, %d}", locationName, coords[0], coords[1], coords[2]));
-        setDirty();
+        if (this.placeList.containsKey(locationName)) {
+            int[] coords = this.placeList.remove(locationName);
+            FloocraftBase.info(String.format("[FLOOCRAFT-SERVER] Removed fireplace '%s' at {%d, %d, %d}", locationName, coords[0], coords[1], coords[2]));
+            setDirty();
+        }
     }
 
     public FireplaceListResponseMessage assembleNewFireplaceList(Level level, Optional<BlockPos> playerLocation) {
-        FireplaceListResponseMessage m = new FireplaceListResponseMessage();
-        m.places = this.placeList.keySet().toArray();
-        boolean[] l = new boolean[m.places.length];
+        List<Boolean> l = new ArrayList<>();
         int playerPlaceIndex = -1;
         int index = -1;
-        FlooFlames flooFlames = (FlooFlames) FloocraftBlocks.FLOO_FLAMES.get();
+        FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
         for (String nextName : this.placeList.keySet()) {
             ++index;
             int[] coords = this.placeList.get(nextName);
@@ -101,13 +103,15 @@ public class FloocraftLevelData extends SavedData {
                 if (destBlockState.is(BlockTags.FIRE)) {
                     ok = flooFlames.isInFireplace(level, dest) != null;
                 } else {
-                    ok = destBlockState.getBlock() instanceof FlooFlames;
+                    ok = destBlockState.getBlock() instanceof FlooFlamesBlock;
                 }
             }
-            l[index] = ok;
+            l.add(ok);
         }
-        m.enabledList = l;
-        m.playerPlaceIndex = playerPlaceIndex;
-        return m;
+        return new FireplaceListResponseMessage(
+                this.placeList.keySet().stream().toList(),
+                l,
+                playerPlaceIndex
+        );
     }
 }

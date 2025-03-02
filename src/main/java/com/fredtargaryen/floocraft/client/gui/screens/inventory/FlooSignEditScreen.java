@@ -18,11 +18,14 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,7 +45,7 @@ public class FlooSignEditScreen extends Screen {
     @Nullable
     private TextFieldHelper signField;
 
-    private String[] signCandidateName;
+    private List<String> signCandidateName;
 
     private StringWidget status;
     private static final Component WAITING_STATUS = Component.translatable("gui.floo_sign.approval_wait");
@@ -65,7 +68,7 @@ public class FlooSignEditScreen extends Screen {
         this.font = this.minecraft.font;
         this.sign = blockEntity;
         this.signModel = SignRenderer.createSignModel(this.minecraft.getEntityModels(), WoodType.OAK);
-        this.signCandidateName = new String[]{"", "", "", ""};
+        this.signCandidateName = new ArrayList<>(Arrays.asList("", "", "", ""));
     }
 
     @Override
@@ -87,10 +90,10 @@ public class FlooSignEditScreen extends Screen {
         this.connectButton = this.addRenderableWidget(
                 Button.builder(CONNECT_BUTTON, button -> {
                             this.setStatusAndCentre(WAITING_STATUS);
-                            FlooSignNameRequestMessage fsnrm = new FlooSignNameRequestMessage();
-                            fsnrm.signPos = this.sign.getBlockPos();
-                            fsnrm.attemptingToConnect = true;
-                            fsnrm.name = this.signCandidateName;
+                            FlooSignNameRequestMessage fsnrm = new FlooSignNameRequestMessage(
+                                    this.sign.getBlockPos(),
+                                    true,
+                                    this.signCandidateName);
                             MessageHandler.sendToServer(fsnrm);
                         })
                         .bounds(this.width / 2 + 4,
@@ -101,8 +104,8 @@ public class FlooSignEditScreen extends Screen {
 
         assert this.minecraft != null;
         this.signField = new TextFieldHelper(
-                () -> this.signCandidateName[this.line],
-                newString -> this.signCandidateName[this.line] = newString,
+                () -> this.signCandidateName.get(this.line),
+                newString -> this.signCandidateName.set(this.line, newString),
                 TextFieldHelper.createClipboardGetter(this.minecraft),
                 TextFieldHelper.createClipboardSetter(this.minecraft),
                 stringToLimit -> this.font.width(stringToLimit) <= 90
@@ -179,10 +182,10 @@ public class FlooSignEditScreen extends Screen {
 
     private void sendMessageAsDecoration() {
         if (!this.sign.getConnected()) {
-            FlooSignNameRequestMessage fsnrm = new FlooSignNameRequestMessage();
-            fsnrm.signPos = this.sign.getBlockPos();
-            fsnrm.attemptingToConnect = false;
-            fsnrm.name = this.signCandidateName;
+            FlooSignNameRequestMessage fsnrm = new FlooSignNameRequestMessage(
+                    this.sign.getBlockPos(),
+                    false,
+                    this.signCandidateName);
             MessageHandler.sendToServer(fsnrm);
         }
     }
@@ -226,7 +229,7 @@ public class FlooSignEditScreen extends Screen {
         int $$16;
         int $$17;
         for (lineNumber = 0; lineNumber < 4; ++lineNumber) {
-            $$14 = this.signCandidateName[lineNumber];
+            $$14 = this.signCandidateName.get(lineNumber);
             if ($$14 != null) {
                 if (this.font.isBidirectional()) {
                     $$14 = this.font.bidirectionalShaping($$14);
@@ -245,7 +248,7 @@ public class FlooSignEditScreen extends Screen {
         }
 
         for (lineNumber = 0; lineNumber < 4; ++lineNumber) {
-            $$14 = this.signCandidateName[lineNumber];
+            $$14 = this.signCandidateName.get(lineNumber);
             if ($$14 != null && lineNumber == this.line && cursorPos >= 0) {
                 $$15 = this.font.width($$14.substring(0, Math.max(Math.min(cursorPos, $$14.length()), 0)));
                 $$16 = $$15 - this.font.width($$14) / 2;

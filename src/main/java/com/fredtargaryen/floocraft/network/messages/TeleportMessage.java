@@ -1,26 +1,30 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
-import com.fredtargaryen.floocraft.block.FlooFlames;
+import com.fredtargaryen.floocraft.FloocraftSounds;
+import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooMainTeleporterBase;
 import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.network.FloocraftLevelData;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoulFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.nio.charset.Charset;
-
-import static com.fredtargaryen.floocraft.block.FlooFlames.BEHAVIOUR;
-import static com.fredtargaryen.floocraft.block.FlooFlames.TEMP;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.TEMP;
 import static com.fredtargaryen.floocraft.block.FlooMainTeleporterBase.*;
 import static net.minecraft.world.level.block.CampfireBlock.FACING;
 import static net.minecraft.world.level.block.CampfireBlock.WATERLOGGED;
@@ -28,33 +32,51 @@ import static net.minecraft.world.level.block.CampfireBlock.WATERLOGGED;
 /**
  * Teleports player that sent this to (destX, destY, destZ) if departure and arrival points are valid
  * Direction: client to server
+ *
+ * @param initPos Position of the block the player has stepped into
+ * @param dest    The name of the fireplace the player wants to go to
  */
-public class TeleportMessage {
-    public int initX, initY, initZ;
-    public String dest;
-    private static final Charset defaultCharset = Charset.defaultCharset();
+public record TeleportMessage(BlockPos initPos, String dest) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<TeleportMessage> TYPE =
+            new CustomPacketPayload.Type<>(DataReference.getResourceLocation("tp"));
 
-    public void handle(CustomPayloadEvent.Context context) {
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+
+    public static final StreamCodec<FriendlyByteBuf, TeleportMessage> STREAM_CODEC =
+            StreamCodec.composite(
+                    BlockPos.STREAM_CODEC, TeleportMessage::initPos,
+                    ByteBufCodecs.STRING_UTF8, TeleportMessage::dest,
+                    TeleportMessage::new);
+
+    public static void handle(final TeleportMessage message, final IPayloadContext context) {
+        ServerPlayer sender = (ServerPlayer) context.player();
+        ServerLevel level = sender.serverLevel();
         context.enqueueWork(() -> {
             //Determine whether the destination is valid
-            ServerPlayer player = context.getSender();
-            ServerLevel level = (ServerLevel) player.level();
             //The coordinates of the destination: [x, y, z]
-            int[] destCoords = FloocraftLevelData.getForLevel(level).placeList.get(this.dest);
+            int[] destCoords = FloocraftLevelData.getForLevel(level).placeList.get(message.dest);
+            BlockPos initBlockPos = message.initPos;
+            int initX = initBlockPos.getX();
+            int initY = initBlockPos.getY();
+            int initZ = initBlockPos.getZ();
+
             //Stop everything if the destination has the same coordinates as where the player is
-            if (destCoords[0] != this.initX || destCoords[1] != this.initY || destCoords[2] != this.initZ) return;
+            if (destCoords[0] == initX && destCoords[1] == initY && destCoords[2] == initZ)
+                return;
             //Checks whether the destination has a block that can be arrived in, and is in a valid fireplace
             BlockPos destBlockPos = new BlockPos(destCoords[0], destCoords[1], destCoords[2]);
             BlockState destBlockState = level.getBlockState(destBlockPos);
             boolean validDest = false;
-            FlooFlames flooFlames = (FlooFlames) FloocraftBlocks.FLOO_FLAMES.get();
+            FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
             if (destBlockState.is(FloocraftBlocks.ARRIVAL_BLOCKS)) {
                 validDest = flooFlames.isInFireplace(level, destBlockPos) != null;
             }
             if (!validDest) return;
 
             // Determine whether block to depart from is valid
-            BlockPos initBlockPos = new BlockPos(this.initX, this.initY, this.initZ);
             BlockState initBlockState = level.getBlockState(initBlockPos);
             Block initBlock = initBlockState.getBlock();
             if (!(initBlock instanceof FlooMainTeleporterBase)) return;
@@ -72,12 +94,13 @@ public class TeleportMessage {
             }
 
             // Then do the teleport
-            MessageHandler.sendToPlayer(new TeleportFlashMessage(initSoul), player);
-            if (player.getVehicle() != null) {
-                player.stopRiding();
+            MessageHandler.sendToPlayer(new TeleportFlashMessage(initSoul), sender);
+            if (sender.getVehicle() != null) {
+                sender.stopRiding();
             }
-            player.connection.teleport(destCoords[0] + 0.5D, destCoords[1], destCoords[2] + 0.5D, player.getRandom().nextFloat() * 360, player.getXRot());
-            player.fallDistance = 0.0F;
+            sender.connection.teleport(destCoords[0] + 0.5D, destCoords[1], destCoords[2] + 0.5D, sender.getRandom().nextFloat() * 360, sender.getXRot());
+            sender.fallDistance = 0.0F;
+            level.playSound(null, destBlockPos, FloocraftSounds.TP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
             // Then update the age of the departure fire, if configured that way
             if (!CommonConfig.DEPLETE_FLOO) return;
@@ -104,24 +127,5 @@ public class TeleportMessage {
                         .setValue(TPS_REMAINING, initBlockState.getValue(TPS_REMAINING) - 1));
             }
         });
-        context.setPacketHandled(true);
-    }
-
-    public TeleportMessage() {
-    }
-
-    public TeleportMessage(FriendlyByteBuf buf) {
-        this.initX = buf.readInt();
-        this.initY = buf.readInt();
-        this.initZ = buf.readInt();
-        this.dest = buf.readBytes(buf.readInt()).toString(defaultCharset);
-    }
-
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeInt(initX);
-        buf.writeInt(initY);
-        buf.writeInt(initZ);
-        buf.writeInt(dest.length());
-        buf.writeBytes(dest.getBytes());
     }
 }

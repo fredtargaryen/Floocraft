@@ -1,9 +1,8 @@
 package com.fredtargaryen.floocraft.entity;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftSounds;
-import com.fredtargaryen.floocraft.block.FlooFlames;
+import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
@@ -15,8 +14,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static com.fredtargaryen.floocraft.block.FlooCampfireBlock.FACING;
-import static com.fredtargaryen.floocraft.block.FlooFlames.BEHAVIOUR;
-import static com.fredtargaryen.floocraft.block.FlooFlames.BUSY;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BUSY;
 import static com.fredtargaryen.floocraft.block.FlooMainTeleporterBase.*;
 import static net.minecraft.world.level.block.CampfireBlock.WATERLOGGED;
 
@@ -45,7 +44,7 @@ public class DroppedFlooPowderEntity extends ItemEntity {
         BlockPos location = this.blockPosition();
         BlockState bs = this.level().getBlockState(location);
         if (bs.is(BlockTags.FIRE)) {
-            FlooFlames flames = ((FlooFlames) FloocraftBlocks.FLOO_FLAMES.get());
+            FlooFlamesBlock flames = FloocraftBlocks.FLOO_FLAMES.get();
             if (flames.isInFireplace(this.level(), location) != null) {
                 this.level().setBlockAndUpdate(location, flames.defaultBlockState()
                         .setValue(TPS_REMAINING, (int) this.concentration)

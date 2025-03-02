@@ -19,14 +19,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlooFlames extends FlooMainTeleporterBase {
+public class FlooFlamesBlock extends FlooMainTeleporterBase {
     private static final Direction[] HORIZONTALS = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
     private static final VoxelShape SMALLBOX = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
     private static final VoxelShape TALLBOX = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
@@ -45,7 +43,7 @@ public class FlooFlames extends FlooMainTeleporterBase {
         BEHAVIOUR = BlockStateProperties.AGE_2; // "age"
     }
 
-    public FlooFlames() {
+    public FlooFlamesBlock() {
         super(Block.Properties.of()
                 .lightLevel(state -> {
                     if (state.getValue(COLOUR) == STANDARD) {
@@ -123,7 +121,6 @@ public class FlooFlames extends FlooMainTeleporterBase {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, RandomSource rand) {
         if (rand.nextInt(24) == 0) {
             level.playLocalSound(pos, SoundEvents.FIRE_AMBIENT, SoundSource.BLOCKS, 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
@@ -131,7 +128,6 @@ public class FlooFlames extends FlooMainTeleporterBase {
         this.doSmokeParticles(state, level, pos, rand);
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void doSmokeParticles(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, RandomSource rand) {
         if(rand.nextInt(8) == 0) {
             double d0 = (double)pos.getX() + rand.nextDouble();

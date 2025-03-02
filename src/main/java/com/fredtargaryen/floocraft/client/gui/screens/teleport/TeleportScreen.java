@@ -1,21 +1,26 @@
 package com.fredtargaryen.floocraft.client.gui.screens.teleport;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.FireplaceListRequestMessage;
 import com.fredtargaryen.floocraft.network.messages.FireplaceListResponseMessage;
-import com.fredtargaryen.floocraft.network.messages.PeekStartMessage;
 import com.fredtargaryen.floocraft.network.messages.TeleportMessage;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class TeleportScreen extends Screen {
@@ -29,16 +34,13 @@ public class TeleportScreen extends Screen {
 
     private FireplaceSelectionList fireplaces;
 
-    private boolean[] enabledList;
+    private List<Boolean> enabledList;
 
     private boolean receivedLists;
 
-    private final int initX;
-    private final int initY;
-    private final int initZ;
+    private final BlockPos initPos;
 
-    //Every object in here is a String, so just cast
-    private Object[] placeList;
+    private List<String> placeList;
 
     // Localised text
     private static final MutableComponent TITLE = Component.translatable("gui.teleport.title");
@@ -58,14 +60,12 @@ public class TeleportScreen extends Screen {
 
     private int peekAttemptTimer;
 
-    public TeleportScreen(Screen lastScreen, int x, int y, int z) {
+    public TeleportScreen(Screen lastScreen, BlockPos pos) {
         super(Component.translatable("gui.teleport.title"));
         this.lastScreen = lastScreen;
-        this.initX = x;
-        this.initY = y;
-        this.initZ = z;
-        this.placeList = new Object[]{};
-        this.enabledList = new boolean[]{};
+        this.initPos = pos.immutable();
+        this.placeList = new ArrayList<>();
+        this.enabledList = new ArrayList<>();
         this.peekAttemptTimer = 0;
         this.status = LOADING;
     }
@@ -97,12 +97,12 @@ public class TeleportScreen extends Screen {
                 Button.builder(PEEK, button -> {
                             this.fireplaces.getSelectedOpt().ifPresent(entry -> {
                                 try {
-                                    PeekStartMessage psm = new PeekStartMessage();
-                                    psm.initX = TeleportScreen.this.initX;
-                                    psm.initY = TeleportScreen.this.initY;
-                                    psm.initZ = TeleportScreen.this.initZ;
-                                    psm.dest = entry.placeName;
-                                    MessageHandler.sendToServer(psm);
+//                                    PeekStartMessage psm = new PeekStartMessage();
+//                                    psm.initX = TeleportScreen.this.initX;
+//                                    psm.initY = TeleportScreen.this.initY;
+//                                    psm.initZ = TeleportScreen.this.initZ;
+//                                    psm.dest = entry.placeName;
+//                                    MessageHandler.sendToServer(psm);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -119,11 +119,9 @@ public class TeleportScreen extends Screen {
                 Button.builder(TELEPORT, button -> {
                             this.fireplaces.getSelectedOpt().ifPresent(entry -> {
                                 try {
-                                    TeleportMessage tm = new TeleportMessage();
-                                    tm.initX = this.initX;
-                                    tm.initY = this.initY;
-                                    tm.initZ = this.initZ;
-                                    tm.dest = entry.placeName;
+                                    TeleportMessage tm = new TeleportMessage(
+                                            this.initPos,
+                                            entry.placeName);
                                     MessageHandler.sendToServer(tm);
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -212,20 +210,20 @@ public class TeleportScreen extends Screen {
     }
 
     private void getPlaceList() {
-        this.placeList = new Object[]{};
-        this.enabledList = new boolean[]{};
+        this.placeList.clear();
+        this.enabledList.clear();
         this.receivedLists = false;
         this.status = LOADING;
-        MessageHandler.sendToServer(new FireplaceListRequestMessage());
+        MessageHandler.sendToServer(new FireplaceListRequestMessage(this.initPos));
     }
 
     public void receiveFireplaceList(FireplaceListResponseMessage flrm) {
         try {
-            this.placeList = flrm.places;
-            this.enabledList = flrm.enabledList;
+            this.placeList = flrm.places();
+            this.enabledList = flrm.enabledList();
             this.receivedLists = true;
             this.fireplaces.receiveFireplaceList(flrm);
-            this.status = this.placeList.length == 0 ?
+            this.status = this.placeList.isEmpty() ?
                     PLACE_LIST_EMPTY :
                     Component.empty();
             this.refreshButton.active = true;

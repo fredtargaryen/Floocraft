@@ -26,8 +26,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -64,7 +62,6 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
      * this method is unrelated to randomTick and needsRandomTick, and will always be called regardless
      * of whether the block can receive random update ticks
      */
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, RandomSource rand) {
         int randomInt = rand.nextInt(10);
