@@ -57,13 +57,10 @@ import org.slf4j.Logger;
  *
  * TODO Floower Pot
  *      TODO Gui
- *          TODO Labels draw with shadow
- *          TODO Labels are very dark
- *          TODO Slot contains whatever player has in hotbar slot 1
- *          TODO Can't interact with slot
  *          TODO Get pot BlockEntity somehow
- *      TODO Codec instead of sending packets?
- *      TODO Powder updates
+ *      TODO Codec/DataSlots instead of sending packets? (check)
+ *      TODO Data persists between sessions? (check)
+ *      TODO Powder level
  * TODO Peeking
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen

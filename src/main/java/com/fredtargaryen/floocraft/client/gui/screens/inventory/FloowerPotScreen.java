@@ -136,13 +136,11 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
     protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
         super.renderLabels(graphics, mouseX, mouseY);
         int ySize = this.getYSize();
-        //graphics.drawString(this.font, I18n.format("block.floocraftft.floower_pot"), 8, 6, 4210752);
-        //graphics.drawString(this.font, I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
-        graphics.drawString(this.font, POT_RANGE, 8, ySize - 96 - 48, 4210752);
-        graphics.drawString(this.font, HORIZONTAL_TEXT, 8, ySize - 96 - 38, 4210752);
-        graphics.drawString(this.font, "" + this.hRangeCache, 20, ySize - 96 - 28, 4210752);
-        graphics.drawString(this.font, VERTICAL_TEXT, 8, ySize - 96 - 18, 4210752);
-        graphics.drawString(this.font, "" + this.vRangeCache, 20, ySize - 96 - 8, 4210752);
+        graphics.drawString(this.font, POT_RANGE, 8, ySize - 96 - 48, 4210752, false);
+        graphics.drawString(this.font, HORIZONTAL_TEXT, 8, ySize - 96 - 38, 4210752, false);
+        graphics.drawString(this.font, "" + this.hRangeCache, 20, ySize - 96 - 28, 4210752, false);
+        graphics.drawString(this.font, VERTICAL_TEXT, 8, ySize - 96 - 18, 4210752, false);
+        graphics.drawString(this.font, "" + this.vRangeCache, 20, ySize - 96 - 8, 4210752, false);
     }
 
     @Override
