@@ -65,7 +65,7 @@ import org.slf4j.Logger;
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen
  */
-// The value here should match an entry in the META-INF/mods.toml file
+// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
 public class FloocraftBase {
     // Directly reference a slf4j logger
