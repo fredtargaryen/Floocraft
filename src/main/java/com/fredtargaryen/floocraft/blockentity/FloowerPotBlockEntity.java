@@ -20,9 +20,25 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 
 public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
+    /**
+     * Internal powder stack, interfaced with via @code{powderStackHandler}
+     */
     private NonNullList<ItemStack> powderStack;
 
-    private ItemStackHandler powderStackHandler;
+    /**
+     * For syncing the powder type and amount via @link{FloowerPotMenu}
+     */
+    private final ItemStackHandler powderStackHandler;
+
+    /**
+     * For syncing the horizontal range to search for fire blocks
+     */
+    private final DataSlot hRangeSlot;
+
+    /**
+     * For syncing the vertical range to search for fire blocks
+     */
+    private final DataSlot vRangeSlot;
 
     public FloowerPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FloocraftBlockEntityTypes.FLOOWER_POT.get(), pPos, pBlockState);
@@ -33,9 +49,6 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
         this.vRangeSlot = DataSlot.standalone();
         this.vRangeSlot.set(DataReference.POT_MAX_V_RANGE);
     }
-
-    private DataSlot hRangeSlot;
-    private DataSlot vRangeSlot;
 
     // BaseContainerBlockEntity overrides
     @Override

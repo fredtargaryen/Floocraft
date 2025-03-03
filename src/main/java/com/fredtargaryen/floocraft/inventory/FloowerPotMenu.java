@@ -15,9 +15,9 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 public class FloowerPotMenu extends AbstractContainerMenu {
     // Need to save any objects from the constructor that are used to interface with other code;
     // in this case, Screen and Message code
-    private DataSlot hRangeSlot;
-    private DataSlot vRangeSlot;
-    private ContainerData pos;
+    private final DataSlot hRangeSlot;
+    private final DataSlot vRangeSlot;
+    private final ContainerData pos;
 
     /**
      * Client-side constructor, which calls the other one with placeholder args

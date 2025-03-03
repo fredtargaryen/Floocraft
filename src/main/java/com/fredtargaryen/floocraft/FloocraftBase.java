@@ -57,7 +57,6 @@ import org.slf4j.Logger;
  *
  * TODO Floower Pot
  *      TODO Powder level
- *      TODO Can FloowerPotMenu properties be final?
  * TODO Peeking
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen
