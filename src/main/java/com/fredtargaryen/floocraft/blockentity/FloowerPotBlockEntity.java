@@ -76,118 +76,10 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
         return 1;
     }
 
-    //
-//    private net.minecraftforge.common.util.LazyOptional<net.minecraftforge.items.IItemHandlerModifiable> itemHandler;
-//
-//
-//    @Override
-//    public int getSizeInventory()
-//    {
-//        return this.inv.length;
-//    }
-//
-//    @Override
-//    public boolean isEmpty()
-//    {
-//        return this.inv[0].isEmpty();
-//    }
-//
-//    @Override
-//    @MethodsReturnNonnullByDefault
-//    public ItemStack getStackInSlot(int slot)
-//    {
-//        return this.inv[slot];
-//    }
-//
-//    @Override
-//    @MethodsReturnNonnullByDefault
-//    public ItemStack decrStackSize(int slot, int amt)
-//    {
-//        ItemStack stack = getStackInSlot(slot);
-//        if (!stack.isEmpty())
-//        {
-//            if (stack.getCount() <= amt)
-//            {
-//                setInventorySlotContents(slot, ItemStack.EMPTY);
-//            }
-//            else
-//            {
-//                stack = stack.split(amt);
-//                if (stack.getCount() == 0)
-//                {
-//                    setInventorySlotContents(slot, ItemStack.EMPTY);
-//                }
-//            }
-//        }
-//        return stack;
-//    }
-//
-//    @Override
-//    @MethodsReturnNonnullByDefault
-//    public ItemStack removeStackFromSlot(int index) {
-//        return ItemStack.EMPTY;
-//    }
-//
-//    @Override
-//    @ParametersAreNonnullByDefault
-//    public void setInventorySlotContents(int slot, ItemStack stack)
-//    {
-//        ItemStack nonnullstack = stack == null ? ItemStack.EMPTY : stack;
-//        this.inv[slot] = nonnullstack;
-//
-//        if (!nonnullstack.isEmpty() && nonnullstack.getCount() > this.getInventoryStackLimit())
-//        {
-//            nonnullstack.setCount(this.getInventoryStackLimit());
-//        }
-//        this.markDirty();
-//    }
-//
-//    @Override
-//    public int getInventoryStackLimit() {
-//        return 64;
-//    }
-//
-//    @Override
-//    @ParametersAreNonnullByDefault
-//    public boolean isUsableByPlayer(PlayerEntity player)
-//    {
-//        return this.world.getTileEntity(this.pos) == this &&
-//                player.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) < 64;
-//    }
-//
-//    @Override
-//    @ParametersAreNonnullByDefault
-//    public void openInventory(PlayerEntity player) {
-//
-//    }
-//
-//    @Override
-//    @ParametersAreNonnullByDefault
-//    public void closeInventory(PlayerEntity player) {
-//
-//    }
-//
-//    @Override
-//    @ParametersAreNonnullByDefault
-//    public boolean isItemValidForSlot(int slot, ItemStack stack)
-//    {
-//        return stack.getItem() instanceof ItemFlooPowder;
-//    }
-//
-//    @Override
-//    public void clear() {
-//
-//    }
-//
     @Override
     public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        //boolean stackNullOrEmpty = tag.getBoolean("StackNullOrEmpty");
-        //this.inv[0] = stackNullOrEmpty ? ItemStack.EMPTY : ItemStack.EMPTY;
-        //DynamicOps<Tag> dynamicOps = provider.createSerializationContext(NbtOps.INSTANCE);
-        //DataResult<ItemStack> result = ItemStack.OPTIONAL_CODEC.parse(dynamicOps, tag.getCompound("stack"));
         this.powderStackHandler.deserializeNBT(provider, tag.getCompound("stack"));
-        //Clamp ranges between 2 and 5 inclusive
         this.hRangeSlot.set(Math.clamp(tag.getInt("hRange"), DataReference.POT_MIN_H_RANGE, DataReference.POT_MAX_H_RANGE));
         this.vRangeSlot.set(Math.clamp(tag.getInt("vRange"), DataReference.POT_MIN_V_RANGE, DataReference.POT_MAX_V_RANGE));
     }
@@ -195,41 +87,10 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
     @Override
     public void saveAdditional(CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.saveAdditional(tag, provider);
-        //ItemStack stack = inv[0];
-        //boolean stackNullOrEmpty = stack == null || stack.isEmpty();
-        //DynamicOps<Tag> dynamicOps = provider.createSerializationContext(NbtOps.INSTANCE);
-        //tag.putBoolean("StackNullOrEmpty", stackNullOrEmpty);
-        //if (!stackNullOrEmpty) {
-        //DataResult<Tag> result = ItemStack.OPTIONAL_CODEC.encodeStart(dynamicOps, stack);
-        //result.resultOrPartial(LOGGER::error).ifPresent(encodedStack -> tag.put("stack", encodedStack));
-        //}
         tag.put("stack", this.powderStackHandler.serializeNBT(provider));
         tag.putInt("hRange", this.hRangeSlot.get());
         tag.putInt("vRange", this.vRangeSlot.get());
     }
-
-//    @Override
-//    public SUpdateTileEntityPacket getUpdatePacket() {
-//        return new SUpdateTileEntityPacket(this.pos, 0, this.write(new CompoundNBT()));
-//    }
-//
-//    /**
-//     * Called when you receive a TileEntityData packet for the location this
-//     * TileEntity is currently in. On the client, the NetworkManager will always
-//     * be the remote server. On the server, it will be whomever is responsible for
-//     * sending the packet.
-//     *
-//     * @param net The NetworkManager the packet originated from
-//     * @param pkt The data packet
-//     */
-//    @Override
-//    @OnlyIn(Dist.CLIENT)
-//    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-//        this.read(null, pkt.getNbtCompound());
-//        this.justUpdated = true;
-//    }
-//
-
 
     public void adjustPotRange(boolean useVerticalRange, int amount) {
         if (useVerticalRange) {

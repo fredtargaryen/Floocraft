@@ -13,11 +13,11 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class FloowerPotMenu extends AbstractContainerMenu {
-    // Need to save any objects from the constructor that have to be exposed to other code;
+    // Need to save any objects from the constructor that are used to interface with other code;
     // in this case, Screen and Message code
     private DataSlot hRangeSlot;
     private DataSlot vRangeSlot;
-    private BlockPos pos;
+    private ContainerData pos;
 
     /**
      * Client-side constructor, which calls the other one with placeholder args
@@ -53,10 +53,8 @@ public class FloowerPotMenu extends AbstractContainerMenu {
         this.addDataSlot(vRangeSlot);
 
         // Position of pot block entity, for updating range info
-        this.pos = new BlockPos(
-                pos.get(0),
-                pos.get(1),
-                pos.get(2));
+        this.pos = pos;
+        this.addDataSlots(this.pos);
     }
 
     // AbstractContainerMenu overrides
@@ -116,15 +114,27 @@ public class FloowerPotMenu extends AbstractContainerMenu {
         }
     }
 
+    /**
+     * Used by @link{FloowerPotScreen} to update the displayed value of the pot's horizontal range
+     */
     public int getHorizontalRange() {
         return this.hRangeSlot.get();
     }
 
+    /**
+     * Used by @link{FloowerPotScreen} to update the displayed value of the pot's vertical range
+     */
     public int getVerticalRange() {
         return this.vRangeSlot.get();
     }
 
+    /**
+     * Used by @link{FloowerPotScreen} to get the pot's position
+     */
     public BlockPos getBlockPosition() {
-        return this.pos;
+        return new BlockPos(
+                pos.get(0),
+                pos.get(1),
+                pos.get(2));
     }
 }

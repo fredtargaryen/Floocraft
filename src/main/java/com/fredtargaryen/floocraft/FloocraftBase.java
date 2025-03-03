@@ -56,7 +56,6 @@ import org.slf4j.Logger;
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
  *
  * TODO Floower Pot
- *      TODO FloowerPotMenu overridden with instance with empty pos, so can't update range
  *      TODO Powder level
  *      TODO Can FloowerPotMenu properties be final?
  * TODO Peeking
