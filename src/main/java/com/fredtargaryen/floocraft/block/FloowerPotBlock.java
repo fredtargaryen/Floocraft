@@ -14,6 +14,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -67,7 +68,7 @@ public class FloowerPotBlock extends BaseEntityBlock {
         if (blockEntity == null || blockEntity.getType() != FloocraftBlockEntityTypes.FLOOWER_POT.get()) {
             return InteractionResult.FAIL;
         }
-        player.openMenu(state.getMenuProvider(level, pos));
+        player.openMenu((MenuProvider) blockEntity);
         return InteractionResult.CONSUME;
     }
 

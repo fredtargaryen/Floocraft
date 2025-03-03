@@ -7,7 +7,6 @@ import com.fredtargaryen.floocraft.network.messages.FloowerPotSettingsUpdateMess
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -53,11 +52,11 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
         int ySize = this.getYSize();
         this.decrementHorizontalRangeButton = this.addRenderableWidget(
                 Button.builder(MINUS, button -> {
-                    if (this.hRangeCache > DataReference.POT_MIN_H_RANGE) {
-                        this.hRangeCache--;
-                        FloowerPotScreen.this.sendPotRangeMessage(HORIZONTAL, -1);
-                    }
-                })
+                            if (this.hRangeCache > DataReference.POT_MIN_H_RANGE) {
+                                this.hRangeCache--;
+                                FloowerPotScreen.this.sendPotRangeMessage(HORIZONTAL, -1);
+                            }
+                        })
                         .bounds(left + 8,
                                 top + ySize - 96 - 30,
                                 10,
@@ -66,11 +65,11 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
 
         this.incrementHorizontalRangeButton = this.addRenderableWidget(
                 Button.builder(PLUS, button -> {
-                    if (this.hRangeCache < DataReference.POT_MAX_H_RANGE) {
-                        this.hRangeCache++;
-                        FloowerPotScreen.this.sendPotRangeMessage(HORIZONTAL, 1);
-                    }
-                })
+                            if (this.hRangeCache < DataReference.POT_MAX_H_RANGE) {
+                                this.hRangeCache++;
+                                FloowerPotScreen.this.sendPotRangeMessage(HORIZONTAL, 1);
+                            }
+                        })
                         .bounds(left + 28,
                                 top + ySize - 96 - 30,
                                 10,
@@ -79,11 +78,11 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
 
         this.decrementVerticalRangeButton = this.addRenderableWidget(
                 Button.builder(MINUS, button -> {
-                    if (this.vRangeCache > DataReference.POT_MIN_V_RANGE) {
-                        this.vRangeCache--;
-                        FloowerPotScreen.this.sendPotRangeMessage(VERTICAL, -1);
-                    }
-                })
+                            if (this.vRangeCache > DataReference.POT_MIN_V_RANGE) {
+                                this.vRangeCache--;
+                                FloowerPotScreen.this.sendPotRangeMessage(VERTICAL, -1);
+                            }
+                        })
                         .bounds(left + 8,
                                 top + ySize - 96 - 10,
                                 10,
@@ -92,11 +91,11 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
 
         this.incrementVerticalRangeButton = this.addRenderableWidget(
                 Button.builder(PLUS, button -> {
-                    if (this.vRangeCache < DataReference.POT_MAX_V_RANGE) {
-                        this.vRangeCache++;
-                        FloowerPotScreen.this.sendPotRangeMessage(VERTICAL, 1);
-                    }
-                })
+                            if (this.vRangeCache < DataReference.POT_MAX_V_RANGE) {
+                                this.vRangeCache++;
+                                FloowerPotScreen.this.sendPotRangeMessage(VERTICAL, 1);
+                            }
+                        })
                         .bounds(left + 28,
                                 top + ySize - 96 - 10,
                                 10,
@@ -111,6 +110,8 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
 //            this.vRangeCache = this.fpbe.getVRange();
 //            this.fpbe.justUpdated = false;
 //        }
+        this.hRangeCache = this.menu.getHorizontalRange();
+        this.vRangeCache = this.menu.getVerticalRange();
         this.decrementHorizontalRangeButton.active = this.hRangeCache > DataReference.POT_MIN_H_RANGE;
         this.incrementHorizontalRangeButton.active = this.hRangeCache < DataReference.POT_MAX_H_RANGE;
         this.decrementVerticalRangeButton.active = this.vRangeCache > DataReference.POT_MIN_V_RANGE;
@@ -121,9 +122,9 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
     /**
      * Renders the graphical user interface (GUI) element.
      *
-     * @param graphics the GuiGraphics object used for rendering.
-     * @param x      the x-coordinate of the mouse cursor.
-     * @param y      the y-coordinate of the mouse cursor.
+     * @param graphics     the GuiGraphics object used for rendering.
+     * @param x            the x-coordinate of the mouse cursor.
+     * @param y            the y-coordinate of the mouse cursor.
      * @param partialTicks the partial tick time.
      */
     @Override
@@ -155,6 +156,6 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
                 new FloowerPotSettingsUpdateMessage(
                         rangeToChange,
                         amount,
-                        new BlockPos(0, 0, 0)));
+                        this.menu.getBlockPosition()));
     }
 }

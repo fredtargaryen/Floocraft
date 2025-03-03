@@ -3,31 +3,33 @@ package com.fredtargaryen.floocraft.inventory;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftMenuTypes;
 import com.fredtargaryen.floocraft.item.FlooPowderItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class FloowerPotMenu extends AbstractContainerMenu {
-    //private final Container pot;
+    // Need to save any objects from the constructor that have to be exposed to other code;
+    // in this case, Screen and Message code
+    private DataSlot hRangeSlot;
+    private DataSlot vRangeSlot;
+    private BlockPos pos;
 
     /**
-     * Client-side constructor
+     * Client-side constructor, which calls the other one with placeholder args
      */
     public FloowerPotMenu(int containerId, Inventory playerInventory) {
-        this(containerId, playerInventory, new ItemStackHandler(1), DataSlot.standalone(), DataSlot.standalone());
+        this(containerId, playerInventory, new ItemStackHandler(1), DataSlot.standalone(), DataSlot.standalone(), new SimpleContainerData(3));
     }
 
     /**
      * Server-side constructor
      */
-    public FloowerPotMenu(int containerId, Inventory playerInventory, IItemHandler dataInventory, DataSlot hRangeSlot, DataSlot vRangeSlot) {
+    public FloowerPotMenu(int containerId, Inventory playerInventory, IItemHandler dataInventory, DataSlot hRangeSlot, DataSlot vRangeSlot, SimpleContainerData pos) {
         super(FloocraftMenuTypes.FLOOWER_POT.get(), containerId);
 
         // Slot for Floo Powder to go into
@@ -45,11 +47,20 @@ public class FloowerPotMenu extends AbstractContainerMenu {
         }
 
         // Data slots for pot update range info
+        this.hRangeSlot = hRangeSlot;
         this.addDataSlot(hRangeSlot);
+        this.vRangeSlot = vRangeSlot;
         this.addDataSlot(vRangeSlot);
+
+        // Position of pot block entity, for updating range info
+        this.pos = new BlockPos(
+                pos.get(0),
+                pos.get(1),
+                pos.get(2));
     }
 
     // AbstractContainerMenu overrides
+
     /**
      * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player inventory and the other inventory(s).
      */
@@ -103,5 +114,17 @@ public class FloowerPotMenu extends AbstractContainerMenu {
         public boolean mayPlace(ItemStack stack) {
             return stack.isEmpty() || stack.getItem() instanceof FlooPowderItem;
         }
+    }
+
+    public int getHorizontalRange() {
+        return this.hRangeSlot.get();
+    }
+
+    public int getVerticalRange() {
+        return this.vRangeSlot.get();
+    }
+
+    public BlockPos getBlockPosition() {
+        return this.pos;
     }
 }
