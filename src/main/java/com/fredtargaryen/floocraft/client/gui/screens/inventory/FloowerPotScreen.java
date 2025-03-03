@@ -105,11 +105,6 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
 
     @Override
     public void containerTick() {
-//        if (this.fpbe.justUpdated) {
-//            this.hRangeCache = this.fpbe.getHRange();
-//            this.vRangeCache = this.fpbe.getVRange();
-//            this.fpbe.justUpdated = false;
-//        }
         this.hRangeCache = this.menu.getHorizontalRange();
         this.vRangeCache = this.menu.getVerticalRange();
         this.decrementHorizontalRangeButton.active = this.hRangeCache > DataReference.POT_MIN_H_RANGE;

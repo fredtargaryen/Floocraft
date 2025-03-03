@@ -3,7 +3,6 @@ package com.fredtargaryen.floocraft.blockentity;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlockEntityTypes;
 import com.fredtargaryen.floocraft.inventory.FloowerPotMenu;
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -17,35 +16,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
 
 public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     private NonNullList<ItemStack> powderStack;
 
     private ItemStackHandler powderStackHandler;
 
     public FloowerPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FloocraftBlockEntityTypes.FLOOWER_POT.get(), pPos, pBlockState);
-        this.inv = new ItemStack[1];
-        this.inv[0] = ItemStack.EMPTY;
         this.powderStack = NonNullList.withSize(1, ItemStack.EMPTY);
         this.powderStackHandler = new ItemStackHandler(1);
-        this.hRange = DataReference.POT_MAX_H_RANGE;
-        this.vRange = DataReference.POT_MAX_V_RANGE;
         this.hRangeSlot = DataSlot.standalone();
         this.hRangeSlot.set(DataReference.POT_MAX_H_RANGE);
         this.vRangeSlot = DataSlot.standalone();
         this.vRangeSlot.set(DataReference.POT_MAX_V_RANGE);
     }
-
-    //    public boolean justUpdated;
-    private ItemStack[] inv;
-    private int hRange;
-    private int vRange;
 
     private DataSlot hRangeSlot;
     private DataSlot vRangeSlot;
@@ -246,9 +233,9 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
 
     public void adjustPotRange(boolean useVerticalRange, int amount) {
         if (useVerticalRange) {
-            this.vRangeSlot.set(Math.clamp(this.vRange + amount, DataReference.POT_MIN_V_RANGE, DataReference.POT_MAX_V_RANGE));
+            this.vRangeSlot.set(Math.clamp(this.vRangeSlot.get() + amount, DataReference.POT_MIN_V_RANGE, DataReference.POT_MAX_V_RANGE));
         } else {
-            this.hRangeSlot.set(Math.clamp(this.hRange + amount, DataReference.POT_MIN_H_RANGE, DataReference.POT_MAX_H_RANGE));
+            this.hRangeSlot.set(Math.clamp(this.hRangeSlot.get() + amount, DataReference.POT_MIN_H_RANGE, DataReference.POT_MAX_H_RANGE));
         }
         this.setChanged();
     }
