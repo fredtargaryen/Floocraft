@@ -8,6 +8,7 @@ import com.fredtargaryen.floocraft.client.gui.screens.inventory.FloowerPotScreen
 import com.fredtargaryen.floocraft.client.gui.screens.teleport.TeleportScreen;
 import com.fredtargaryen.floocraft.client.particle.FlooTorchFlameParticle;
 import com.fredtargaryen.floocraft.client.renderer.blockentity.FlooSignRenderer;
+import com.fredtargaryen.floocraft.client.renderer.blockentity.FloowerPotRenderer;
 import com.fredtargaryen.floocraft.command.CommandsBase;
 import com.fredtargaryen.floocraft.config.ClientConfig;
 import com.fredtargaryen.floocraft.config.CommonConfig;
@@ -57,10 +58,12 @@ import org.slf4j.Logger;
  * * Change Floower Pot minimum fire conversion range to 0 (essentially disabled)
  *
  * TODO Floower Pot
- *      TODO Powder level
+ *      TODO Can't shift-click out of pot
+ * TODO Infinity powder says 0 tp/p for some reason
  * TODO Peeking
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen
+ * TODO Green glint on powder in pot?
  */
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
@@ -172,6 +175,7 @@ public class FloocraftBase {
         @SubscribeEvent
         public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOO_SIGN.get(), FlooSignRenderer::new);
+            event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOOWER_POT.get(), FloowerPotRenderer::new);
         }
 
         @SubscribeEvent

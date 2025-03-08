@@ -89,52 +89,6 @@ public class FloowerPotBlock extends BaseEntityBlock {
             FloowerPotBlockEntity pot = (FloowerPotBlockEntity) level.getBlockEntity(pos);
             int hRange = pot.getHRange();
             int vRange = pot.getVRange();
-            ItemStack stack = ItemStack.EMPTY; //pot.getStackInSlot(0);
-            if (stack != null && stack.getCount() > 0) {
-                int par2 = pos.getX();
-                int par3 = pos.getY();
-                int par4 = pos.getZ();
-                BlockPos currentPos;
-                BlockState currentState;
-                Block currentBlock;
-                FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
-                SoundEvent greened = FloocraftSounds.GREENED.get();
-                for (int x = par2 - hRange; x <= par2 + hRange; x++) {
-                    for (int y = par3 - vRange; y <= par3 + vRange; y++) {
-                        for (int z = par4 - hRange; z <= par4 + hRange; z++) {
-                            if (stack != null && stack.getCount() > 0) {
-                                currentPos = new BlockPos(x, y, z);
-                                currentState = level.getBlockState(currentPos);
-                                currentBlock = currentState.getBlock();
-                                if (currentBlock == Blocks.CAMPFIRE && currentState.getValue(BlockStateProperties.LIT)) {
-                                    Item i = stack.getItem();
-                                    level.setBlockAndUpdate(currentPos, FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
-                                            .setValue(FlooMainTeleporterBase.TPS_REMAINING, (int) ((FlooPowderItem) i).getConcentration())
-                                            .setValue(BlockStateProperties.HORIZONTAL_FACING, currentState.getValue(BlockStateProperties.HORIZONTAL_FACING)));
-                                    level.playSound(null, currentPos, greened, SoundSource.BLOCKS, 1.0F, 1.0F);
-                                    stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
-                                } else if (currentBlock == Blocks.SOUL_CAMPFIRE && currentState.getValue(BlockStateProperties.LIT)) {
-                                    Item i = stack.getItem();
-                                    level.setBlockAndUpdate(currentPos, FloocraftBlocks.FLOO_SOUL_CAMPFIRE.get().defaultBlockState()
-                                            .setValue(FlooMainTeleporterBase.TPS_REMAINING, (int) ((FlooPowderItem) i).getConcentration())
-                                            .setValue(BlockStateProperties.HORIZONTAL_FACING, currentState.getValue(BlockStateProperties.HORIZONTAL_FACING)));
-                                    level.playSound(null, currentPos, greened, SoundSource.BLOCKS, 1.0F, 1.0F);
-                                    stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
-                                } else if (currentState.is(BlockTags.FIRE)) {
-                                    if (flooFlames.isInFireplace(level, currentPos) != null) {
-                                        Item i = stack.getItem();
-                                        boolean soul = SoulFireBlock.canSurviveOnBlock(level.getBlockState(currentPos.below()));
-                                        level.setBlockAndUpdate(currentPos, flooFlames.defaultBlockState()
-                                                .setValue(FlooFlamesBlock.TPS_REMAINING, (int) ((FlooPowderItem) i).getConcentration())
-                                                .setValue(FlooFlamesBlock.COLOUR, soul)
-                                                .setValue(FlooFlamesBlock.BEHAVIOUR, BUSY));
-                                        level.playSound(null, currentPos, greened, SoundSource.BLOCKS, 1.0F, 1.0F);
-                                        stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
-                                    }
-                                }
-                            }
-                        }
-                    }
             if (hRange > DataReference.POT_MIN_H_RANGE || vRange > DataReference.POT_MIN_V_RANGE) {
                 ItemStack stack = pot.getItem(0);
                 if (stack != null && !stack.isEmpty()) {

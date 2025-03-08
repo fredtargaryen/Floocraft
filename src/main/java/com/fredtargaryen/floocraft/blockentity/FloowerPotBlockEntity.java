@@ -39,6 +39,11 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
      */
     private final DataSlot vRangeSlot;
 
+    /**
+     * For FloowerPotRenderer to display the level of powder in the pot on the client
+     */
+    private int powderLevel;
+
     public FloowerPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FloocraftBlockEntityTypes.FLOOWER_POT.get(), pPos, pBlockState);
         this.powderStackHandler = new ItemStackHandler(NonNullList.withSize(1, ItemStack.EMPTY));
@@ -46,12 +51,7 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
         this.hRangeSlot.set(DataReference.POT_MAX_H_RANGE);
         this.vRangeSlot = DataSlot.standalone();
         this.vRangeSlot.set(DataReference.POT_MAX_V_RANGE);
-    }
-
-    // BaseContainerBlockEntity overrides
-    @Override
-    protected Component getDefaultName() {
-        return Component.translatable("block.floocraftft.floower_pot");
+        this.powderLevel = 0;
     }
 
     @Override
