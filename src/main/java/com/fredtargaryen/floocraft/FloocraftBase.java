@@ -58,7 +58,6 @@ import org.slf4j.Logger;
  * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
  * * Exclusive creative menu tab for Floocraft items
  *
- * TODO Infinity powder says 0 tp/p for some reason
  * TODO Peeking
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen

@@ -116,7 +116,7 @@ public class FlooPowderItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, context, components, flag);
-        if (this.concentration == 9) {
+        if (this.concentration == INFINITE_TPS) {
             components.add(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
             components.add(Component.translatable(("item.floocraftft.creative_only")));
         } else {
