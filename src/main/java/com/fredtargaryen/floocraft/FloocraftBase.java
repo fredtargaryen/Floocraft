@@ -56,6 +56,7 @@ import org.slf4j.Logger;
  * * Small tweaks to teleport flash speed and dizziness effect
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
  * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
+ * * Exclusive creative menu tab for Floocraft items
  *
  * TODO Infinity powder says 0 tp/p for some reason
  * TODO Peeking
