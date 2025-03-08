@@ -24,9 +24,9 @@ public class DataReference {
 
     public static final int FLOO_FIRE_DETECTION_RANGE = 8;
 
-    public static final int POT_MIN_H_RANGE = 2;
+    public static final int POT_MIN_H_RANGE = 0;
     public static final int POT_MAX_H_RANGE = 5;
-    public static final int POT_MIN_V_RANGE = 2;
+    public static final int POT_MIN_V_RANGE = 0;
     public static final int POT_MAX_V_RANGE = 5;
 
     public static final ResourceLocation VALID_ARRIVAL_BLOCKS = getResourceLocation("valid_arrival_blocks");

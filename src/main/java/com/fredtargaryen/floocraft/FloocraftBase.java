@@ -54,6 +54,7 @@ import org.slf4j.Logger;
  * * Drawing colour to screen rather than using textures for teleport flash
  * * Small tweaks to teleport flash speed and dizziness effect
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
+ * * Change Floower Pot minimum fire conversion range to 0 (essentially disabled)
  *
  * TODO Floower Pot
  *      TODO Powder level
