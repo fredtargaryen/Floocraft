@@ -55,10 +55,8 @@ import org.slf4j.Logger;
  * * Drawing colour to screen rather than using textures for teleport flash
  * * Small tweaks to teleport flash speed and dizziness effect
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
- * * Change Floower Pot minimum fire conversion range to 0 (essentially disabled)
+ * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
  *
- * TODO Floower Pot
- *      TODO Can't shift-click out of pot
  * TODO Infinity powder says 0 tp/p for some reason
  * TODO Peeking
  * TODO Fireplace design reqs change

@@ -70,7 +70,7 @@ public class FloowerPotMenu extends AbstractContainerMenu {
             ItemStack stackInSlot = slot.getItem();
             itemstack = stackInSlot.copy();
             if (index < 1) {
-                if (!this.moveItemStackTo(stackInSlot, 1, 1, true)) {
+                if (!this.moveItemStackTo(stackInSlot, 1, 37, true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (!this.moveItemStackTo(stackInSlot, 0, 1, false)) {
