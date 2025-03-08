@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlockEntityTypes;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftSounds;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.ticks.TickPriority;
 
 import javax.annotation.Nonnull;
 
@@ -34,6 +36,8 @@ import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BUSY;
 
 public class FloowerPotBlock extends BaseEntityBlock {
     private static final VoxelShape POTBOX = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
+
+    private static final int UPDATE_TICK_INTERVAL = 40;
 
     public FloowerPotBlock() {
         this(Block.Properties.of()
@@ -131,19 +135,66 @@ public class FloowerPotBlock extends BaseEntityBlock {
                             }
                         }
                     }
+            if (hRange > DataReference.POT_MIN_H_RANGE || vRange > DataReference.POT_MIN_V_RANGE) {
+                ItemStack stack = pot.getItem(0);
+                if (stack != null && !stack.isEmpty()) {
+                    int par2 = pos.getX();
+                    int par3 = pos.getY();
+                    int par4 = pos.getZ();
+                    BlockPos currentPos;
+                    BlockState currentState;
+                    Block currentBlock;
+                    FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
+                    SoundEvent greened = FloocraftSounds.GREENED.get();
+                    for (int x = par2 - hRange; x <= par2 + hRange; x++) {
+                        for (int y = par3 - vRange; y <= par3 + vRange; y++) {
+                            for (int z = par4 - hRange; z <= par4 + hRange; z++) {
+                                if (stack != null && !stack.isEmpty()) {
+                                    currentPos = new BlockPos(x, y, z);
+                                    currentState = level.getBlockState(currentPos);
+                                    currentBlock = currentState.getBlock();
+                                    if (currentBlock == Blocks.CAMPFIRE && currentState.getValue(BlockStateProperties.LIT)) {
+                                        Item i = stack.getItem();
+                                        level.setBlockAndUpdate(currentPos, FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
+                                                .setValue(FlooMainTeleporterBase.TPS_REMAINING, (int) ((FlooPowderItem) i).getConcentration())
+                                                .setValue(BlockStateProperties.HORIZONTAL_FACING, currentState.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+                                        level.playSound(null, currentPos, greened, SoundSource.BLOCKS, 1.0F, 1.0F);
+                                        stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
+                                    } else if (currentBlock == Blocks.SOUL_CAMPFIRE && currentState.getValue(BlockStateProperties.LIT)) {
+                                        Item i = stack.getItem();
+                                        level.setBlockAndUpdate(currentPos, FloocraftBlocks.FLOO_SOUL_CAMPFIRE.get().defaultBlockState()
+                                                .setValue(FlooMainTeleporterBase.TPS_REMAINING, (int) ((FlooPowderItem) i).getConcentration())
+                                                .setValue(BlockStateProperties.HORIZONTAL_FACING, currentState.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+                                        level.playSound(null, currentPos, greened, SoundSource.BLOCKS, 1.0F, 1.0F);
+                                        stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
+                                    } else if (currentState.is(BlockTags.FIRE)) {
+                                        if (flooFlames.isInFireplace(level, currentPos) != null) {
+                                            Item i = stack.getItem();
+                                            boolean soul = SoulFireBlock.canSurviveOnBlock(level.getBlockState(currentPos.below()));
+                                            level.setBlockAndUpdate(currentPos, flooFlames.defaultBlockState()
+                                                    .setValue(FlooFlamesBlock.TPS_REMAINING, (int) ((FlooPowderItem) i).getConcentration())
+                                                    .setValue(FlooFlamesBlock.COLOUR, soul)
+                                                    .setValue(FlooFlamesBlock.BEHAVIOUR, BUSY));
+                                            level.playSound(null, currentPos, greened, SoundSource.BLOCKS, 1.0F, 1.0F);
+                                            stack = stack.getCount() == 1 ? ItemStack.EMPTY : stack.split(stack.getCount() - 1);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    pot.setItem(0, stack);
                 }
             }
-//            pot.setInventorySlotContents(0, stack);
-//            level.notifyBlockUpdate(pos, state, state, 3);
-//            level.notifyNeighborsOfStateChange(pos, this);
-//            level.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 40, TickPriority.EXTREMELY_LOW);
+            level.sendBlockUpdated(pos, state, state, Block.UPDATE_CLIENTS);
+            level.scheduleTick(pos, state.getBlock(), UPDATE_TICK_INTERVAL, TickPriority.EXTREMELY_LOW);
         }
     }
 
-//    @Override
-//    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean b) {
-//        worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 40, TickPriority.EXTREMELY_LOW);
-//    }
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        level.scheduleTick(pos, state.getBlock(), UPDATE_TICK_INTERVAL, TickPriority.EXTREMELY_LOW);
+    }
 
     /**
      * BaseEntityBlock doesn't render the block model by default, so this is needed
@@ -152,14 +203,6 @@ public class FloowerPotBlock extends BaseEntityBlock {
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
-
-    /**
-     * Checks to see if its valid to put this block at the specified coordinates. Args: world, pos
-     */
-//    @Override
-//    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-//        return super.isValidPosition(state, worldIn, pos);
-//    }
 
     /**
      * Called when a neighboring block changes.

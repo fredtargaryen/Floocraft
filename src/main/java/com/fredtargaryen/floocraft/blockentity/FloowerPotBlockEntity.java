@@ -7,7 +7,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.DataSlot;
@@ -20,11 +24,6 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 
 public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
-    /**
-     * Internal powder stack, interfaced with via @code{powderStackHandler}
-     */
-    private NonNullList<ItemStack> powderStack;
-
     /**
      * For syncing the powder type and amount via @link{FloowerPotMenu}
      */
@@ -42,8 +41,7 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
 
     public FloowerPotBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(FloocraftBlockEntityTypes.FLOOWER_POT.get(), pPos, pBlockState);
-        this.powderStack = NonNullList.withSize(1, ItemStack.EMPTY);
-        this.powderStackHandler = new ItemStackHandler(1);
+        this.powderStackHandler = new ItemStackHandler(NonNullList.withSize(1, ItemStack.EMPTY));
         this.hRangeSlot = DataSlot.standalone();
         this.hRangeSlot.set(DataReference.POT_MAX_H_RANGE);
         this.vRangeSlot = DataSlot.standalone();
@@ -72,21 +70,36 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
                 posData);
     }
 
+    /**
+     * Why oh why don't ItemStackHandlers have a getAllItems method
+     *
+     * @return a copy of the list in powderStackHandler
+     */
     @Override
     protected NonNullList<ItemStack> getItems() {
-        return this.powderStack;
+        return NonNullList.withSize(1, this.powderStackHandler.getStackInSlot(0).copy());
     }
 
     @Override
     protected void setItems(NonNullList<ItemStack> items) {
-        this.powderStack = items;
+        this.powderStackHandler.setStackInSlot(0, items.getFirst());
         this.setChanged();
     }
 
     @Override
+    public void setItem(int slot, ItemStack stack) {
+        this.powderStackHandler.setStackInSlot(0, stack);
+        super.setItem(slot, stack);
+    }
 
+    @Override
     public int getContainerSize() {
         return 1;
+    }
+
+    @Override
+    protected Component getDefaultName() {
+        return Component.translatable("block.floocraftft.floower_pot");
     }
 
     @Override
@@ -95,6 +108,7 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
         this.powderStackHandler.deserializeNBT(provider, tag.getCompound("stack"));
         this.hRangeSlot.set(Math.clamp(tag.getInt("hRange"), DataReference.POT_MIN_H_RANGE, DataReference.POT_MAX_H_RANGE));
         this.vRangeSlot.set(Math.clamp(tag.getInt("vRange"), DataReference.POT_MIN_V_RANGE, DataReference.POT_MAX_V_RANGE));
+        this.setChanged();
     }
 
     @Override
@@ -120,6 +134,30 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
 
     public int getVRange() {
         return this.vRangeSlot.get();
+    }
+
+    public int getPowderLevel() {
+        return this.powderLevel;
+    }
+
+    // For syncing powder level to client
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+        tag.putByte("level", (byte) this.powderStackHandler.getStackInSlot(0).getCount());
+        return tag;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        // The packet uses the CompoundTag returned by #getUpdateTag
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
+        super.onDataPacket(connection, packet, registries);
+        this.powderLevel = Math.clamp(packet.getTag().getByte("level"), 0, 64);
     }
 //
 //    @Override
