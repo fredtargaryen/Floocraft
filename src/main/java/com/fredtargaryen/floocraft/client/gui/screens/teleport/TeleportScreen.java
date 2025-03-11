@@ -36,8 +36,6 @@ public class TeleportScreen extends Screen {
 
     private List<Boolean> enabledList;
 
-    private boolean receivedLists;
-
     private final BlockPos initPos;
 
     private List<String> placeList;
@@ -212,7 +210,6 @@ public class TeleportScreen extends Screen {
     private void getPlaceList() {
         this.placeList.clear();
         this.enabledList.clear();
-        this.receivedLists = false;
         this.status = LOADING;
         MessageHandler.sendToServer(new FireplaceListRequestMessage(this.initPos));
     }
@@ -221,7 +218,6 @@ public class TeleportScreen extends Screen {
         try {
             this.placeList = flrm.places();
             this.enabledList = flrm.enabledList();
-            this.receivedLists = true;
             this.fireplaces.receiveFireplaceList(flrm);
             this.status = this.placeList.isEmpty() ?
                     PLACE_LIST_EMPTY :
