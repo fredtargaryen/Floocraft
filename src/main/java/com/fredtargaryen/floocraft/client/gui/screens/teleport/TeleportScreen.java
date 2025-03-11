@@ -1,12 +1,11 @@
 package com.fredtargaryen.floocraft.client.gui.screens.teleport;
 
-import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.FireplaceListRequestMessage;
 import com.fredtargaryen.floocraft.network.messages.FireplaceListResponseMessage;
+import com.fredtargaryen.floocraft.network.messages.StartPeekRequestMessage;
 import com.fredtargaryen.floocraft.network.messages.TeleportMessage;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
@@ -16,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -95,12 +93,9 @@ public class TeleportScreen extends Screen {
                 Button.builder(PEEK, button -> {
                             this.fireplaces.getSelectedOpt().ifPresent(entry -> {
                                 try {
-//                                    PeekStartMessage psm = new PeekStartMessage();
-//                                    psm.initX = TeleportScreen.this.initX;
-//                                    psm.initY = TeleportScreen.this.initY;
-//                                    psm.initZ = TeleportScreen.this.initZ;
-//                                    psm.dest = entry.placeName;
-//                                    MessageHandler.sendToServer(psm);
+                                    StartPeekRequestMessage message = new StartPeekRequestMessage(
+                                            TeleportScreen.this.initPos, entry.placeName);
+                                    MessageHandler.sendToServer(message);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
