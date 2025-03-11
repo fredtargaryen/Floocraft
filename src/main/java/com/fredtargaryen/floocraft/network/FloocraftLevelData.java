@@ -81,14 +81,16 @@ public class FloocraftLevelData extends SavedData {
     }
 
     public FireplaceListResponseMessage assembleNewFireplaceList(Level level, BlockPos playerLocation) {
-        List<Boolean> l = new ArrayList<>();
+        List<Boolean> canTpList = new ArrayList<>();
+        List<Boolean> canPeekList = new ArrayList<>();
         int playerPlaceIndex = -1;
         int index = -1;
         FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
         for (String nextName : this.placeList.keySet()) {
             ++index;
             int[] coords = this.placeList.get(nextName);
-            boolean ok = false;
+            boolean canTp = false;
+            boolean canPeek = false;
             if (playerLocation.getX() == coords[0]
                     && playerLocation.getY() == coords[1]
                     && playerLocation.getZ() == coords[2]) {
@@ -98,16 +100,20 @@ public class FloocraftLevelData extends SavedData {
                 BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
                 BlockState destBlockState = level.getBlockState(dest);
                 if (destBlockState.is(BlockTags.FIRE)) {
-                    ok = flooFlames.isInFireplace(level, dest) != null;
+                    canTp = flooFlames.isInFireplace(level, dest) != null;
+                    canPeek = level.isLoaded(dest);
                 } else {
-                    ok = destBlockState.getBlock() instanceof FlooFlamesBlock;
+                    canTp = destBlockState.getBlock() instanceof FlooFlamesBlock;
+                    canPeek = level.isLoaded(dest);
                 }
             }
-            l.add(ok);
+            canTpList.add(canTp);
+            canPeekList.add(canPeek);
         }
         return new FireplaceListResponseMessage(
                 this.placeList.keySet().stream().toList(),
-                l,
+                canTpList,
+                canPeekList,
                 playerPlaceIndex
         );
     }

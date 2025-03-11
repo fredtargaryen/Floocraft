@@ -59,7 +59,6 @@ import org.slf4j.Logger;
  * * Exclusive creative menu tab for Floocraft items
  *
  * TODO Peeking
- *      TODO Unloaded chunks???????????????
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen
  * TODO Green glint on powder in pot?
