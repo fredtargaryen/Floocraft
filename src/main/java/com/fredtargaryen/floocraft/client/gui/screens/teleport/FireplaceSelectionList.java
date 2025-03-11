@@ -7,7 +7,6 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -31,9 +30,16 @@ public class FireplaceSelectionList extends ObjectSelectionList<FireplaceSelecti
         this.clearEntries();
         List<String> places = flrm.places();
         List<Boolean> enabledList = flrm.enabledList();
+        List<Boolean> canPeekList = flrm.canPeekList();
         int playerPlaceIndex = flrm.playerPlaceIndex();
         for (int i = 0; i < flrm.places().size(); i++) {
-            this.addEntry(new FireplaceListEntry(this.minecraft, this, places.get(i), enabledList.get(i), i == playerPlaceIndex));
+            this.addEntry(new FireplaceListEntry(
+                    this.minecraft,
+                    this,
+                    places.get(i),
+                    enabledList.get(i),
+                    canPeekList.get(i),
+                    i == playerPlaceIndex));
         }
         this.notifyListUpdated();
     }
@@ -54,8 +60,8 @@ public class FireplaceSelectionList extends ObjectSelectionList<FireplaceSelecti
     public void setSelected(@Nullable Entry entry) {
         super.setSelected(entry);
         if (entry instanceof FireplaceListEntry) {
-            boolean enabled = ((FireplaceListEntry) entry).enabled;
-            this.parent.setButtonActivity(enabled);
+            FireplaceListEntry fle = (FireplaceListEntry) entry;
+            this.parent.setButtonActivity(fle.enabled, fle.canPeek);
         }
     }
 

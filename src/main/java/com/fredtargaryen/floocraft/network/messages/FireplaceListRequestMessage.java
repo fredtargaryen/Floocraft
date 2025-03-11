@@ -12,12 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-import java.util.Optional;
-
 /**
  * Requests a list of the fireplaces in the current Level.
  * Direction: client to server
+ *
  * @param blockPos The position of the teleporter block. Not necessarily the same as the player position
  */
 public record FireplaceListRequestMessage(BlockPos blockPos) implements CustomPacketPayload {

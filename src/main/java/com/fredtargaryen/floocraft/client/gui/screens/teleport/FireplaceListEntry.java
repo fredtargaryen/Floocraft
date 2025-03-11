@@ -22,11 +22,12 @@ public final class FireplaceListEntry extends FireplaceSelectionList.Entry {
 
     public final String placeName;
     public final boolean enabled;
+    public final boolean canPeek;
     public final boolean playerIsHere;
 
     private long lastClickTime;
 
-    public FireplaceListEntry(Minecraft minecraft, final FireplaceSelectionList list, String placeName, boolean enabled, boolean playerIsHere) {
+    public FireplaceListEntry(Minecraft minecraft, final FireplaceSelectionList list, String placeName, boolean enabled, boolean canPeek, boolean playerIsHere) {
         this.minecraft = minecraft;
         this.list = list;
         this.screen = list.getScreen();
@@ -36,6 +37,7 @@ public final class FireplaceListEntry extends FireplaceSelectionList.Entry {
                 Component.translatable("gui.teleport.player_is_here", placeName).getString()
                 : placeName;
         this.enabled = enabled;
+        this.canPeek = canPeek;
     }
 
     public @Nonnull Component getNarration() {

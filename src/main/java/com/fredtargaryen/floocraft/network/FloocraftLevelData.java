@@ -102,8 +102,8 @@ public class FloocraftLevelData extends SavedData {
                 if (destBlockState.is(BlockTags.FIRE)) {
                     canTp = flooFlames.isInFireplace(level, dest) != null;
                     canPeek = level.isLoaded(dest);
-                } else {
-                    canTp = destBlockState.getBlock() instanceof FlooFlamesBlock;
+                } else if(destBlockState.getBlock() instanceof FlooFlamesBlock) {
+                    canTp = true;
                     canPeek = level.isLoaded(dest);
                 }
             }

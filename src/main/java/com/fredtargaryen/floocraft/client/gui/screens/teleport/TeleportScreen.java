@@ -34,6 +34,8 @@ public class TeleportScreen extends Screen {
 
     private List<Boolean> enabledList;
 
+    private List<Boolean> canPeekList;
+
     private final BlockPos initPos;
 
     private List<String> placeList;
@@ -62,6 +64,7 @@ public class TeleportScreen extends Screen {
         this.initPos = pos.immutable();
         this.placeList = new ArrayList<>();
         this.enabledList = new ArrayList<>();
+        this.canPeekList = new ArrayList<>();
         this.peekAttemptTimer = 0;
         this.status = LOADING;
     }
@@ -197,14 +200,15 @@ public class TeleportScreen extends Screen {
                 13158600);
     }
 
-    public void setButtonActivity(boolean enabled) {
+    public void setButtonActivity(boolean enabled, boolean canPeek) {
         this.goButton.active = enabled;
-        this.peekButton.active = enabled;
+        this.peekButton.active = canPeek;
     }
 
     private void getPlaceList() {
         this.placeList.clear();
         this.enabledList.clear();
+        this.canPeekList.clear();
         this.status = LOADING;
         MessageHandler.sendToServer(new FireplaceListRequestMessage(this.initPos));
     }
@@ -213,6 +217,7 @@ public class TeleportScreen extends Screen {
         try {
             this.placeList = flrm.places();
             this.enabledList = flrm.enabledList();
+            this.canPeekList = flrm.canPeekList();
             this.fireplaces.receiveFireplaceList(flrm);
             this.status = this.placeList.isEmpty() ?
                     PLACE_LIST_EMPTY :
