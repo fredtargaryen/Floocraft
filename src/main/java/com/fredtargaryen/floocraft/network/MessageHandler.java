@@ -48,13 +48,6 @@ public class MessageHandler {
                 FloowerPotSettingsUpdateMessage::handle
         );
 
-        // TODO: Understand the difference between this and PeekStartMessage
-//        registrar.playToServer(
-//                MessageStartPeek.TYPE,
-//                MessageStartPeek.STREAM_CODEC,
-//                MessageStartPeek::handle
-//        );
-
         registrar.playToClient(
                 OpenFlooSignEditScreenMessage.TYPE,
                 OpenFlooSignEditScreenMessage.STREAM_CODEC,
@@ -79,11 +72,17 @@ public class MessageHandler {
 //                PeekerInfoResponseMessage::handle
 //        );
 
-//        registrar.playToServer(
-//                PeekStartMessage.TYPE,
-//                PeekStartMessage.STREAM_CODEC,
-//                PeekStartMessage::handle
-//        );
+        registrar.playToClient(
+                StartPeekResponseMessage.TYPE,
+                StartPeekResponseMessage.STREAM_CODEC,
+                StartPeekResponseMessage::handle
+        );
+
+        registrar.playToServer(
+                StartPeekRequestMessage.TYPE,
+                StartPeekRequestMessage.STREAM_CODEC,
+                StartPeekRequestMessage::handle
+        );
 
         registrar.playToServer(
                 TeleportByTorchMessage.TYPE,
