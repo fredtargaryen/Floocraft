@@ -95,7 +95,7 @@ public abstract class FlooMainTeleporterBase extends Block {
                 if (teleport) {
                     //Get list of locations and whether they are available
                     FloocraftLevelData levelData = FloocraftLevelData.getForLevel((ServerLevel) level);
-                    FireplaceListResponseMessage flrm = levelData.assembleNewFireplaceList(level, Optional.empty());
+                    FireplaceListResponseMessage flrm = levelData.assembleNewFireplaceList(level, pos);
                     List<String> places = flrm.places();
                     List<Boolean> enabledList = flrm.enabledList();
                     ArrayList<String> possibleLocations = new ArrayList<>();

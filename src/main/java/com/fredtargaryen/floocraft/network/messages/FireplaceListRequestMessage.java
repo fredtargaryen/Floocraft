@@ -39,8 +39,8 @@ public record FireplaceListRequestMessage(BlockPos blockPos) implements CustomPa
         ServerPlayer sender = (ServerPlayer) context.player();
         ServerLevel level = sender.serverLevel();
         context.enqueueWork(() -> {
-            FireplaceListResponseMessage mfl = FloocraftLevelData.getForLevel(level).assembleNewFireplaceList(level, Optional.of(message.blockPos()));
-            context.reply(mfl);
+            FireplaceListResponseMessage reply = FloocraftLevelData.getForLevel(level).assembleNewFireplaceList(level, message.blockPos());
+            context.reply(reply);
         }).exceptionally(e -> {
             context.disconnect(Component.literal(e.getMessage()));
             return null;

@@ -80,7 +80,7 @@ public class FloocraftLevelData extends SavedData {
         }
     }
 
-    public FireplaceListResponseMessage assembleNewFireplaceList(Level level, Optional<BlockPos> playerLocation) {
+    public FireplaceListResponseMessage assembleNewFireplaceList(Level level, BlockPos playerLocation) {
         List<Boolean> l = new ArrayList<>();
         int playerPlaceIndex = -1;
         int index = -1;
@@ -89,13 +89,10 @@ public class FloocraftLevelData extends SavedData {
             ++index;
             int[] coords = this.placeList.get(nextName);
             boolean ok = false;
-            if (playerLocation.isPresent()) {
-                BlockPos pos = playerLocation.get();
-                if (pos.getX() == coords[0]
-                        && pos.getY() == coords[1]
-                        && pos.getZ() == coords[2]) {
-                    playerPlaceIndex = index;
-                }
+            if (playerLocation.getX() == coords[0]
+                    && playerLocation.getY() == coords[1]
+                    && playerLocation.getZ() == coords[2]) {
+                playerPlaceIndex = index;
             }
             if (playerPlaceIndex != index) {
                 BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
