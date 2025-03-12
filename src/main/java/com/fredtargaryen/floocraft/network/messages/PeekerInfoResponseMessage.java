@@ -1,36 +1,33 @@
-//package com.fredtargaryen.floocraft.network.messages;
-//
-//import net.minecraft.network.FriendlyByteBuf;
-//import net.minecraftforge.event.network.CustomPayloadEvent;
-//
-//import java.util.UUID;
-//
-//public class PeekerInfoResponseMessage {
-//    public UUID peekerUUID;
-//    public UUID playerUUID;
-//
-//    public void handle(CustomPayloadEvent.Context context) {
-//        //context.enqueueWork(() -> FloocraftBase.proxy.setUUIDs(this));
-//        context.setPacketHandled(true);
-//    }
-//
-//    public PeekerInfoResponseMessage(UUID peekerUUID, UUID playerUUID) {
-//        this.peekerUUID = peekerUUID;
-//        this.playerUUID = playerUUID;
-//    }
-//
-//    /**
-//     * Effectively fromBytes from 1.12.2
-//     */
-//    public PeekerInfoResponseMessage(FriendlyByteBuf buf) {
-//        this.peekerUUID = new UUID(buf.readLong(), buf.readLong());
-//        this.playerUUID = new UUID(buf.readLong(), buf.readLong());
-//    }
-//
-//    public void encode(FriendlyByteBuf buf) {
-//        buf.writeLong(this.peekerUUID.getMostSignificantBits());
-//        buf.writeLong(this.peekerUUID.getLeastSignificantBits());
-//        buf.writeLong(this.playerUUID.getMostSignificantBits());
-//        buf.writeLong(this.playerUUID.getLeastSignificantBits());
-//    }
-//}
+package com.fredtargaryen.floocraft.network.messages;
+
+import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+public record PeekerInfoResponseMessage(Long peekerMsb, Long peekerLsb,
+                                        Long playerMsb, Long playerLsb) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<PeekerInfoResponseMessage> TYPE =
+            new CustomPacketPayload.Type<>(DataReference.getResourceLocation("peeker_info_response"));
+
+    @Override
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+
+    public static final StreamCodec<FriendlyByteBuf, PeekerInfoResponseMessage> STREAM_CODEC =
+            StreamCodec.composite(
+                    ByteBufCodecs.VAR_LONG, PeekerInfoResponseMessage::peekerMsb,
+                    ByteBufCodecs.VAR_LONG, PeekerInfoResponseMessage::peekerLsb,
+                    ByteBufCodecs.VAR_LONG, PeekerInfoResponseMessage::playerMsb,
+                    ByteBufCodecs.VAR_LONG, PeekerInfoResponseMessage::playerLsb,
+                    PeekerInfoResponseMessage::new
+            );
+
+    public static void handle(final PeekerInfoResponseMessage message, final IPayloadContext context) {
+        FloocraftBase.ClientModEvents.handleMessage(message);
+    }
+}

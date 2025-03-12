@@ -2,7 +2,9 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
+import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooMainTeleporterBase;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.fredtargaryen.floocraft.network.FloocraftLevelData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,13 +54,13 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
             BlockPos destPos = new BlockPos(destX, destY, destZ);
             BlockState destState = level.getBlockState(destPos);
             //Checks whether the destination is fire
-            if (destState.is(BlockTags.FIRE)) {
+            if (destState.is(BlockTags.FIRE) || destState.getBlock() instanceof FlooFlamesBlock) {
                 Direction direction = FloocraftBlocks.FLOO_FLAMES.get().isInFireplace(level, destPos);
                 if (direction != null) {
                     Direction.Axis axis = direction.getAxis();
-                    if (axis == Direction.Axis.X || axis == Direction.Axis.Z) {
+                    if (axis.isHorizontal()) {
                         //Create peeker
-//                        PeekerEntity peeker = new PeekerEntity(level);
+                        PeekerEntity peeker = new PeekerEntity(level);
 //                        peeker.setPeekerData(player, destPos, direction);
 //                        level.addEntity(peeker);
                         //Create message

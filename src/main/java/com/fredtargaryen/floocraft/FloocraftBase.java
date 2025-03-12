@@ -12,15 +12,14 @@ import com.fredtargaryen.floocraft.client.renderer.blockentity.FloowerPotRendere
 import com.fredtargaryen.floocraft.command.CommandsBase;
 import com.fredtargaryen.floocraft.config.ClientConfig;
 import com.fredtargaryen.floocraft.config.CommonConfig;
-import com.fredtargaryen.floocraft.network.messages.FireplaceListResponseMessage;
-import com.fredtargaryen.floocraft.network.messages.FlooSignNameResponseMessage;
-import com.fredtargaryen.floocraft.network.messages.OpenFlooSignEditScreenMessage;
-import com.fredtargaryen.floocraft.network.messages.TeleportFlashMessage;
+import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import com.fredtargaryen.floocraft.network.messages.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -39,6 +38,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
+
+import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * Other updates aside from porting the mod:
@@ -78,6 +80,7 @@ public class FloocraftBase {
         FloocraftItems.register(eventBus);
         FloocraftBlockEntityTypes.register(eventBus);
         FloocraftCreativeTabs.register(eventBus);
+        FloocraftEntityTypes.register(eventBus);
         FloocraftMenuTypes.register(eventBus);
         FloocraftParticleTypes.register(eventBus);
         FloocraftSounds.register(eventBus);
@@ -149,8 +152,28 @@ public class FloocraftBase {
             }
         }
 
+        public static void handleMessage(PeekerInfoResponseMessage message) {
+            Minecraft minecraft = Minecraft.getInstance();
+            Level level = minecraft.level;
+            if (level == null) return;
+            PeekerEntity peeker = (PeekerEntity) getEntityWithUUID(level, new UUID(message.peekerMsb(), message.peekerLsb()));
+            if (peeker == null) return;
+            peeker.setPlayerUUID(new UUID(message.playerMsb(), message.playerLsb()));
+        }
+
         public static void handleMessage(TeleportFlashMessage message) {
             teleportEffects.start(message.soul());
+        }
+
+        public static Entity getEntityWithUUID(Level level, UUID uuid) {
+            if (level != null && uuid != null) {
+                Iterator<Entity> iterator = level.getEntities(null, null).iterator();
+                while (iterator.hasNext()) {
+                    Entity next = iterator.next();
+                    if (next.getUUID().equals(uuid)) return next;
+                }
+            }
+            return null;
         }
 
         @SubscribeEvent
