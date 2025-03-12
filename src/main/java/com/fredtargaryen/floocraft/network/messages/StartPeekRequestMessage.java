@@ -2,6 +2,7 @@ package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
+import com.fredtargaryen.floocraft.FloocraftEntityTypes;
 import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooMainTeleporterBase;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
@@ -18,6 +19,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+import java.util.UUID;
 
 public record StartPeekRequestMessage(BlockPos initPos, String dest) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<StartPeekRequestMessage> TYPE =
@@ -60,12 +63,15 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
                     Direction.Axis axis = direction.getAxis();
                     if (axis.isHorizontal()) {
                         //Create peeker
-                        PeekerEntity peeker = new PeekerEntity(level);
-//                        peeker.setPeekerData(player, destPos, direction);
-//                        level.addEntity(peeker);
-                        //Create message
-                        //StartPeekResponseMessage message = new StartPeekResponseMessage(peeker.getUniqueID());
-                        //context.reply(message);
+                        PeekerEntity peeker = new PeekerEntity(FloocraftEntityTypes.PEEKER.get(), level);
+                        peeker.setPeekerData(sender, destPos, direction);
+                        level.addFreshEntity(peeker);
+                        //Create response
+                        UUID peekerUUID = peeker.getUUID();
+                        StartPeekResponseMessage reply = new StartPeekResponseMessage(
+                                peekerUUID.getMostSignificantBits(),
+                                peekerUUID.getLeastSignificantBits());
+                        context.reply(reply);
                     }
                 }
             }

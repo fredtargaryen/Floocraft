@@ -1,14 +1,14 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBase;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.UUID;
-
-public record StartPeekResponseMessage(UUID uuid) implements CustomPacketPayload {
+public record StartPeekResponseMessage(Long peekerMsb, Long peekerLsb) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<StartPeekResponseMessage> TYPE =
             new CustomPacketPayload.Type<>(DataReference.getResourceLocation("start_peek_response"));
 
@@ -18,12 +18,12 @@ public record StartPeekResponseMessage(UUID uuid) implements CustomPacketPayload
     }
 
     public static final StreamCodec<FriendlyByteBuf, StartPeekResponseMessage> STREAM_CODEC =
-            StreamCodec.unit(new StartPeekResponseMessage(UUID.randomUUID()));
-    //StreamCodec.composite(
-    //ByteBufCodecs.UUID, StartPeekResponseMessage::uuid,
-    //StartPeekResponseMessage::new);
+            StreamCodec.composite(
+                    ByteBufCodecs.VAR_LONG, StartPeekResponseMessage::peekerMsb,
+                    ByteBufCodecs.VAR_LONG, StartPeekResponseMessage::peekerLsb,
+                    StartPeekResponseMessage::new);
 
     public static void handle(final StartPeekResponseMessage message, final IPayloadContext context) {
-        //context.enqueueWork(() -> FloocraftBase.proxy.onMessage(this));
+        FloocraftBase.ClientModEvents.handleMessage(message);
     }
 }

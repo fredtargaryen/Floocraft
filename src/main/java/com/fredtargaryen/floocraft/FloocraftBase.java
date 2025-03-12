@@ -60,7 +60,7 @@ import java.util.UUID;
  * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
  * * Exclusive creative menu tab for Floocraft items
  *
- * TODO Peeking
+ * TODO Peeking (check)
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen
  * TODO Green glint on powder in pot?
@@ -159,6 +159,13 @@ public class FloocraftBase {
             PeekerEntity peeker = (PeekerEntity) getEntityWithUUID(level, new UUID(message.peekerMsb(), message.peekerLsb()));
             if (peeker == null) return;
             peeker.setPlayerUUID(new UUID(message.playerMsb(), message.playerLsb()));
+        }
+
+        public static void handleMessage(StartPeekResponseMessage message) {
+            Screen s = Minecraft.getInstance().screen;
+            if(s instanceof TeleportScreen) {
+                ((TeleportScreen) s).onStartPeek(message);
+            }
         }
 
         public static void handleMessage(TeleportFlashMessage message) {

@@ -54,34 +54,34 @@ public class MessageHandler {
                 OpenFlooSignEditScreenMessage::handle
         );
 
-//        registrar.playToServer(
-//                PeekEndMessage.TYPE,
-//                PeekEndMessage.STREAM_CODEC,
-//                PeekEndMessage::handle
-//        );
+        registrar.playToServer(
+                PeekEndMessage.TYPE,
+                PeekEndMessage.STREAM_CODEC,
+                PeekEndMessage::handle
+        );
 
-//        registrar.playToServer(
-//                PeekerInfoRequestMessage.TYPE,
-//                PeekerInfoRequestMessage.STREAM_CODEC,
-//                PeekerInfoRequestMessage::handle
-//        );
+        registrar.playToServer(
+                PeekerInfoRequestMessage.TYPE,
+                PeekerInfoRequestMessage.STREAM_CODEC,
+                PeekerInfoRequestMessage::handle
+        );
 
-//        registrar.playToServer(
-//                PeekerInfoResponseMessage.TYPE,
-//                PeekerInfoResponseMessage.STREAM_CODEC,
-//                PeekerInfoResponseMessage::handle
-//        );
-
-        registrar.playToClient(
-                StartPeekResponseMessage.TYPE,
-                StartPeekResponseMessage.STREAM_CODEC,
-                StartPeekResponseMessage::handle
+        registrar.playToServer(
+                PeekerInfoResponseMessage.TYPE,
+                PeekerInfoResponseMessage.STREAM_CODEC,
+                PeekerInfoResponseMessage::handle
         );
 
         registrar.playToServer(
                 StartPeekRequestMessage.TYPE,
                 StartPeekRequestMessage.STREAM_CODEC,
                 StartPeekRequestMessage::handle
+        );
+
+        registrar.playToClient(
+                StartPeekResponseMessage.TYPE,
+                StartPeekResponseMessage.STREAM_CODEC,
+                StartPeekResponseMessage::handle
         );
 
         registrar.playToServer(

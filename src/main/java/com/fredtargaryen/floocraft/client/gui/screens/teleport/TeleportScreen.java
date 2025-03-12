@@ -1,11 +1,9 @@
 package com.fredtargaryen.floocraft.client.gui.screens.teleport;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
+import com.fredtargaryen.floocraft.client.gui.screens.PeekScreen;
 import com.fredtargaryen.floocraft.network.MessageHandler;
-import com.fredtargaryen.floocraft.network.messages.FireplaceListRequestMessage;
-import com.fredtargaryen.floocraft.network.messages.FireplaceListResponseMessage;
-import com.fredtargaryen.floocraft.network.messages.StartPeekRequestMessage;
-import com.fredtargaryen.floocraft.network.messages.TeleportMessage;
+import com.fredtargaryen.floocraft.network.messages.*;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
@@ -19,6 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
 public class TeleportScreen extends Screen {
@@ -227,12 +226,21 @@ public class TeleportScreen extends Screen {
             ex.printStackTrace();
         }
     }
-//
-//    public void onStartPeek(MessageStartPeek msp) {
-////        this.minecraft.setScreen(
-////                new PeekScreen(
-////                        (String)this.placeList[this.scrollWindow.getSelected().id], msp.peekerUUID));
-//    }
+
+    public void onStartPeek(StartPeekResponseMessage message) {
+        this.fireplaces.getSelectedOpt().ifPresent(entry ->
+                this.minecraft.setScreen(
+                        new PeekScreen(
+                                //this.placeList[this.scrollWindow.getSelected().id],
+                                entry.placeName,
+                                new UUID(
+                                    message.peekerMsb(),
+                                    message.peekerLsb()
+                                )
+                        )
+                )
+        );
+    }
 
     @Override
     public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
