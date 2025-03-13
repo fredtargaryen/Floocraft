@@ -13,6 +13,7 @@ import com.fredtargaryen.floocraft.command.CommandsBase;
 import com.fredtargaryen.floocraft.config.ClientConfig;
 import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import com.fredtargaryen.floocraft.client.renderer.entity.PeekerRenderer;
 import com.fredtargaryen.floocraft.network.messages.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -204,6 +205,7 @@ public class FloocraftBase {
         public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOO_SIGN.get(), FlooSignRenderer::new);
             event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOOWER_POT.get(), FloowerPotRenderer::new);
+            event.registerEntityRenderer(FloocraftEntityTypes.PEEKER.get(), PeekerRenderer::new);
         }
 
         @SubscribeEvent
