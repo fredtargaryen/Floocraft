@@ -202,7 +202,7 @@ public class FloocraftBase {
         }
 
         @SubscribeEvent
-        public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOO_SIGN.get(), FlooSignRenderer::new);
             event.registerBlockEntityRenderer(FloocraftBlockEntityTypes.FLOOWER_POT.get(), FloowerPotRenderer::new);
             event.registerEntityRenderer(FloocraftEntityTypes.PEEKER.get(), PeekerRenderer::new);
