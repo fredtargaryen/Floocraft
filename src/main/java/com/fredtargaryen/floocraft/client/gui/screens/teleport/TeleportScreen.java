@@ -17,6 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
@@ -228,18 +229,12 @@ public class TeleportScreen extends Screen {
     }
 
     public void onStartPeek(StartPeekResponseMessage message) {
-        this.fireplaces.getSelectedOpt().ifPresent(entry ->
-                this.minecraft.setScreen(
-                        new PeekScreen(
-                                //this.placeList[this.scrollWindow.getSelected().id],
-                                entry.placeName,
-                                new UUID(
-                                    message.peekerMsb(),
-                                    message.peekerLsb()
-                                )
-                        )
-                )
-        );
+        Optional<FireplaceListEntry> opt = this.fireplaces.getSelectedOpt();
+        if (opt.isPresent()) {
+            this.minecraft.setScreen(new PeekScreen(
+                    opt.get().placeName,
+                    new UUID(message.peekerMsb(), message.peekerLsb())));
+        }
     }
 
     @Override
