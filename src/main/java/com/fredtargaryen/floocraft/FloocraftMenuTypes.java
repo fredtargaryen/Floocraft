@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class FloocraftMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(BuiltInRegistries.MENU, DataReference.MODID);
 
-    // Declare all particle types
+    // Declare all menu types
     public static final DeferredHolder<MenuType<?>, MenuType<FloowerPotMenu>> FLOOWER_POT = MENU_TYPES.register("floower_pot", () -> new MenuType<>(FloowerPotMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
     public static void register(IEventBus eventBus) {

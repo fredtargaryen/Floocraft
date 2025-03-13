@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class FloocraftEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, DataReference.MODID);
 
-    // Declare all blocks
+    // Declare all entity types
     public static final DeferredHolder<EntityType<?>, EntityType<PeekerEntity>> PEEKER = ENTITY_TYPES.register("peeker", () -> EntityType.Builder.of(PeekerEntity::new, MobCategory.MISC)
             .build(DataReference.MODID + ":peeker"));
 
