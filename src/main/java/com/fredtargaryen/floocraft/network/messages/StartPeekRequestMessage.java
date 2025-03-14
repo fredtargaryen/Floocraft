@@ -22,6 +22,13 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.UUID;
 
+/**
+ * Sent to the server when the player presses the "Peek..." button.
+ * Direction: client to server
+ *
+ * @param initPos The position of the block the player entered to open the teleport screen
+ * @param dest The string name of the location the player is attempting to peek into
+ */
 public record StartPeekRequestMessage(BlockPos initPos, String dest) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<StartPeekRequestMessage> TYPE =
             new CustomPacketPayload.Type<>(DataReference.getResourceLocation("start_peek_request"));

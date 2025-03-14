@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * ===DESCRIPTION OF MESSAGE CHANNELS===
  * MessageEndPeek: sent when the "Mischief managed" button is pressed to stop the peek
- * MessagePeekRequest: sent to the server when the player presses the "Peek..." button
  * MessagePlayerID: sends the unique IDs of a Peeker and a player, so that the Peeker can have the texture of the player's head
  * MessagePlayerIDRequest: sent by the client to retrieve the ID of a Peeker's corresponding player
  * MessageStartPeek: sent by the client when initiating a peek
