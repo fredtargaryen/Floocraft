@@ -119,6 +119,7 @@ public class TeleportScreen extends Screen {
                                             this.initPos,
                                             entry.placeName);
                                     MessageHandler.sendToServer(tm);
+                                    this.goButton.active = false;
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
