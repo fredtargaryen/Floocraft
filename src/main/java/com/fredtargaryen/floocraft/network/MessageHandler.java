@@ -91,9 +91,9 @@ public class MessageHandler {
         );
 
         registrar.playToClient(
-                TeleportFlashMessage.TYPE,
-                TeleportFlashMessage.STREAM_CODEC,
-                TeleportFlashMessage::handle
+                TeleportResponseMessage.TYPE,
+                TeleportResponseMessage.STREAM_CODEC,
+                TeleportResponseMessage::handle
         );
 
         registrar.playToServer(

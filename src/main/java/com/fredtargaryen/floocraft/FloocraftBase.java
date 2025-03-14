@@ -169,8 +169,8 @@ public class FloocraftBase {
             }
         }
 
-        public static void handleMessage(TeleportFlashMessage message) {
-            teleportEffects.start(message.soul());
+        public static void handleMessage(TeleportResponseMessage message) {
+            if (message.accepted()) teleportEffects.start(message.soul());
         }
 
         public static Entity getEntityWithUUID(Level level, UUID uuid) {

@@ -64,8 +64,10 @@ public record TeleportRequestMessage(BlockPos initPos, String dest) implements C
             int initZ = initBlockPos.getZ();
 
             //Stop everything if the destination has the same coordinates as where the player is
-            if (destCoords[0] == initX && destCoords[1] == initY && destCoords[2] == initZ)
+            if (destCoords[0] == initX && destCoords[1] == initY && destCoords[2] == initZ) {
+                context.reply(new TeleportResponseMessage(false, false));
                 return;
+            }
             //Checks whether the destination has a block that can be arrived in, and is in a valid fireplace
             BlockPos destBlockPos = new BlockPos(destCoords[0], destCoords[1], destCoords[2]);
             BlockState destBlockState = level.getBlockState(destBlockPos);
@@ -74,13 +76,22 @@ public record TeleportRequestMessage(BlockPos initPos, String dest) implements C
             if (destBlockState.is(FloocraftBlocks.ARRIVAL_BLOCKS)) {
                 validDest = flooFlames.isInFireplace(level, destBlockPos) != null;
             }
-            if (!validDest) return;
+            if (!validDest) {
+                context.reply(new TeleportResponseMessage(false, false));
+                return;
+            }
 
             // Determine whether block to depart from is valid
             BlockState initBlockState = level.getBlockState(initBlockPos);
             Block initBlock = initBlockState.getBlock();
-            if (!(initBlock instanceof FlooMainTeleporterBase)) return;
-            if (!((FlooMainTeleporterBase) initBlock).canDepartFromBlock(initBlockState)) return;
+            if (!(initBlock instanceof FlooMainTeleporterBase)) {
+                context.reply(new TeleportResponseMessage(false, false));
+                return;
+            }
+            if (!((FlooMainTeleporterBase) initBlock).canDepartFromBlock(initBlockState)) {
+                context.reply(new TeleportResponseMessage(false, false));
+                return;
+            }
 
             // Check if the player is teleporting from or to soul blocks
             boolean initSoul = initBlockState.getValue(COLOUR);
