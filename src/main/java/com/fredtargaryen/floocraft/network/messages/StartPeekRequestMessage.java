@@ -51,8 +51,14 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
             int destZ = destCoords[2];
 
             // Determine whether block to depart from is valid
-            if (!(initBlock instanceof FlooMainTeleporterBase)) return;
-            if (!((FlooMainTeleporterBase) initBlock).canDepartFromBlock(initState)) return;
+            if (!(initBlock instanceof FlooMainTeleporterBase)) {
+                context.reply(new StartPeekResponseMessage(false, 0L, 0L));
+                return;
+            }
+            if (!((FlooMainTeleporterBase) initBlock).canDepartFromBlock(initState)) {
+                context.reply(new StartPeekResponseMessage(false, 0L, 0L));
+                return;
+            }
 
             BlockPos destPos = new BlockPos(destX, destY, destZ);
             BlockState destState = level.getBlockState(destPos);
@@ -69,6 +75,7 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
                         //Create response
                         UUID peekerUUID = peeker.getUUID();
                         StartPeekResponseMessage reply = new StartPeekResponseMessage(
+                                true,
                                 peekerUUID.getMostSignificantBits(),
                                 peekerUUID.getLeastSignificantBits());
                         context.reply(reply);

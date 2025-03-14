@@ -8,7 +8,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record StartPeekResponseMessage(Long peekerMsb, Long peekerLsb) implements CustomPacketPayload {
+public record StartPeekResponseMessage(Boolean accepted, Long peekerMsb, Long peekerLsb) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<StartPeekResponseMessage> TYPE =
             new CustomPacketPayload.Type<>(DataReference.getResourceLocation("start_peek_response"));
 
@@ -19,6 +19,7 @@ public record StartPeekResponseMessage(Long peekerMsb, Long peekerLsb) implement
 
     public static final StreamCodec<FriendlyByteBuf, StartPeekResponseMessage> STREAM_CODEC =
             StreamCodec.composite(
+                    ByteBufCodecs.BOOL, StartPeekResponseMessage::accepted,
                     ByteBufCodecs.VAR_LONG, StartPeekResponseMessage::peekerMsb,
                     ByteBufCodecs.VAR_LONG, StartPeekResponseMessage::peekerLsb,
                     StartPeekResponseMessage::new);
