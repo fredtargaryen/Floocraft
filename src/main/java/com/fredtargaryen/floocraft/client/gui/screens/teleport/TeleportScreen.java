@@ -99,6 +99,7 @@ public class TeleportScreen extends Screen {
                                     StartPeekRequestMessage message = new StartPeekRequestMessage(
                                             TeleportScreen.this.initPos, entry.placeName);
                                     MessageHandler.sendToServer(message);
+                                    this.peekButton.active = false;
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
