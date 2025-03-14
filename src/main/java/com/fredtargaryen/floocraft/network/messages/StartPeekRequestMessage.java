@@ -52,7 +52,10 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
             Block initBlock = initState.getBlock();
             int[] destCoords = FloocraftLevelData.getForLevel(level).placeList.get(message.dest);
             //Stop everything if the destination has the same coordinates as where the player is
-            if (destCoords[0] == message.initPos.getX() && destCoords[1] == message.initPos.getY() && destCoords[2] == message.initPos.getZ()) return;
+            if (destCoords[0] == message.initPos.getX() && destCoords[1] == message.initPos.getY() && destCoords[2] == message.initPos.getZ()) {
+                context.reply(new StartPeekResponseMessage(false, 0L, 0L));
+                return;
+            }
             int destX = destCoords[0];
             int destY = destCoords[1];
             int destZ = destCoords[2];
