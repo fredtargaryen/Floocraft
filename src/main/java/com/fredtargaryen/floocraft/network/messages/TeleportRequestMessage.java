@@ -36,8 +36,8 @@ import static net.minecraft.world.level.block.CampfireBlock.WATERLOGGED;
  * @param initPos Position of the block the player has stepped into
  * @param dest    The name of the fireplace the player wants to go to
  */
-public record TeleportMessage(BlockPos initPos, String dest) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<TeleportMessage> TYPE =
+public record TeleportRequestMessage(BlockPos initPos, String dest) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<TeleportRequestMessage> TYPE =
             new CustomPacketPayload.Type<>(DataReference.getResourceLocation("tp"));
 
     @Override
@@ -45,13 +45,13 @@ public record TeleportMessage(BlockPos initPos, String dest) implements CustomPa
         return TYPE;
     }
 
-    public static final StreamCodec<FriendlyByteBuf, TeleportMessage> STREAM_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, TeleportRequestMessage> STREAM_CODEC =
             StreamCodec.composite(
-                    BlockPos.STREAM_CODEC, TeleportMessage::initPos,
-                    ByteBufCodecs.STRING_UTF8, TeleportMessage::dest,
-                    TeleportMessage::new);
+                    BlockPos.STREAM_CODEC, TeleportRequestMessage::initPos,
+                    ByteBufCodecs.STRING_UTF8, TeleportRequestMessage::dest,
+                    TeleportRequestMessage::new);
 
-    public static void handle(final TeleportMessage message, final IPayloadContext context) {
+    public static void handle(final TeleportRequestMessage message, final IPayloadContext context) {
         ServerPlayer sender = (ServerPlayer) context.player();
         ServerLevel level = sender.serverLevel();
         context.enqueueWork(() -> {
@@ -94,7 +94,7 @@ public record TeleportMessage(BlockPos initPos, String dest) implements CustomPa
             }
 
             // Then do the teleport
-            MessageHandler.sendToPlayer(new TeleportFlashMessage(initSoul), sender);
+            context.reply(new TeleportResponseMessage(true, initSoul));
             if (sender.getVehicle() != null) {
                 sender.stopRiding();
             }

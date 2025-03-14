@@ -115,7 +115,7 @@ public class TeleportScreen extends Screen {
                 Button.builder(TELEPORT, button -> {
                             this.fireplaces.getSelectedOpt().ifPresent(entry -> {
                                 try {
-                                    TeleportMessage tm = new TeleportMessage(
+                                    TeleportRequestMessage tm = new TeleportRequestMessage(
                                             this.initPos,
                                             entry.placeName);
                                     MessageHandler.sendToServer(tm);

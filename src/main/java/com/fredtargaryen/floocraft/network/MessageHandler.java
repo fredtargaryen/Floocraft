@@ -97,9 +97,9 @@ public class MessageHandler {
         );
 
         registrar.playToServer(
-                TeleportMessage.TYPE,
-                TeleportMessage.STREAM_CODEC,
-                TeleportMessage::handle
+                TeleportRequestMessage.TYPE,
+                TeleportRequestMessage.STREAM_CODEC,
+                TeleportRequestMessage::handle
         );
     }
 
