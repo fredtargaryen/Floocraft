@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
  * ===DESCRIPTION OF MESSAGE CHANNELS===
  * MessageEndPeek: sent when the "Mischief managed" button is pressed to stop the peek
  * MessageStartPeek: sent by the client when initiating a peek
- * When changing version number, change in: build.gradle, mods.toml
+ * Version number located in gradle.properties
  */
 public class DataReference {
     public static final String MODID = "floocraftft";
