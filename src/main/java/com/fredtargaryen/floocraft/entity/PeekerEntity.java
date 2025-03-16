@@ -112,20 +112,18 @@ public class PeekerEntity extends Entity {
 
     @SubscribeEvent
     public void onHurt(LivingHurtEvent lhe) {
-        if (this.level() != null && this.level().isClientSide && this.getPlayerUUID().isPresent()) {
+        if (this.level() != null && !this.level().isClientSide && this.getPlayerUUID().isPresent()) {
             UUID hurtEntityUUID = lhe.getEntity().getUUID();
             if (hurtEntityUUID.equals(this.getPlayerUUID().get())) {
-                PeekEndMessage message = new PeekEndMessage(this.uuid.getMostSignificantBits(), this.uuid.getLeastSignificantBits());
-                MessageHandler.sendToServer(message);
+                this.remove(RemovalReason.DISCARDED);
             }
         }
     }
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent lde) {
-        if (this.level() != null && this.level().isClientSide && this.getPlayerUUID().isPresent() && lde.getEntity().getUUID().equals(this.getPlayerUUID().get())) {
-            PeekEndMessage message = new PeekEndMessage(this.uuid.getMostSignificantBits(), this.uuid.getLeastSignificantBits());
-            MessageHandler.sendToServer(message);
+        if (this.level() != null && !this.level().isClientSide && this.getPlayerUUID().isPresent() && lde.getEntity().getUUID().equals(this.getPlayerUUID().get())) {
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 
