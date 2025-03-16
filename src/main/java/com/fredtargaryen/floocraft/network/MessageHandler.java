@@ -55,9 +55,9 @@ public class MessageHandler {
         );
 
         registrar.playToServer(
-                PeekEndMessage.TYPE,
-                PeekEndMessage.STREAM_CODEC,
-                PeekEndMessage::handle
+                EndPeekMessage.TYPE,
+                EndPeekMessage.STREAM_CODEC,
+                EndPeekMessage::handle
         );
 
         registrar.playToServer(

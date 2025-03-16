@@ -11,10 +11,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.UUID;
-
-public record PeekEndMessage(Long peekerMsb, Long peekerLsb) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<PeekEndMessage> TYPE =
+public record EndPeekMessage(Integer peekerNetworkId) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<EndPeekMessage> TYPE =
             new CustomPacketPayload.Type<>(DataReference.getResourceLocation("peek_end"));
 
     @Override
@@ -22,17 +20,15 @@ public record PeekEndMessage(Long peekerMsb, Long peekerLsb) implements CustomPa
         return TYPE;
     }
 
-    public static final StreamCodec<FriendlyByteBuf, PeekEndMessage> STREAM_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, EndPeekMessage> STREAM_CODEC =
             StreamCodec.composite(
-                    ByteBufCodecs.VAR_LONG, PeekEndMessage::peekerMsb,
-                    ByteBufCodecs.VAR_LONG, PeekEndMessage::peekerLsb,
-                    PeekEndMessage::new
+                    ByteBufCodecs.INT, EndPeekMessage::peekerNetworkId,
+                    EndPeekMessage::new
             );
 
-    public static void handle(final PeekEndMessage message, final IPayloadContext context) {
+    public static void handle(final EndPeekMessage message, final IPayloadContext context) {
         ServerLevel level = ((ServerPlayer) context.player()).serverLevel();
-        UUID peekerUUID = new UUID(message.peekerMsb(), message.peekerLsb());
-        PeekerEntity pe = (PeekerEntity) level.getEntity(peekerUUID);
+        PeekerEntity pe = (PeekerEntity) level.getEntity(message.peekerNetworkId());
         if (pe != null) pe.remove(Entity.RemovalReason.DISCARDED);
     }
 }

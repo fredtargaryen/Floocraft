@@ -1,7 +1,8 @@
 package com.fredtargaryen.floocraft.client.gui.screens;
 
-import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
+import com.fredtargaryen.floocraft.network.MessageHandler;
+import com.fredtargaryen.floocraft.network.messages.EndPeekMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -65,11 +66,8 @@ public class PeekScreen extends Screen {
         NeoForge.EVENT_BUS.unregister(this);
         FloocraftBase.ClientModEvents.flashTicker.start();
         this.minecraft.setCameraEntity(this.player);
-//        PeekEndMessage message = new PeekEndMessage(
-//                this.peekerID.getMostSignificantBits(),
-//                this.peekerID.getLeastSignificantBits()
-//        );
-//        MessageHandler.sendToServer(message);
+        EndPeekMessage message = new EndPeekMessage(this.peekerNetworkID);
+        MessageHandler.sendToServer(message);
         super.onClose();
     }
 

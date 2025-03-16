@@ -234,7 +234,7 @@ public class TeleportScreen extends Screen {
         if (opt.isPresent()) {
             this.minecraft.setScreen(new PeekScreen(
                     opt.get().placeName,
-                    new UUID(message.peekerMsb(), message.peekerLsb())));
+                    message.peekerNetworkId()));
         }
     }
 

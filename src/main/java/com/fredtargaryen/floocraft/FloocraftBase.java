@@ -39,9 +39,6 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-import java.util.Iterator;
-import java.util.UUID;
-
 /**
  * Other updates aside from porting the mod:
  * * Added a 1-second cooldown between uses of Floo Torches

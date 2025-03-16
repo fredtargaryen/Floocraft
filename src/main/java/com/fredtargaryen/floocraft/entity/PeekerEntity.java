@@ -1,7 +1,5 @@
 package com.fredtargaryen.floocraft.entity;
 
-import com.fredtargaryen.floocraft.network.MessageHandler;
-import com.fredtargaryen.floocraft.network.messages.PeekEndMessage;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
