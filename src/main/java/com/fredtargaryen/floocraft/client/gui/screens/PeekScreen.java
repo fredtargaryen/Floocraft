@@ -48,7 +48,6 @@ public class PeekScreen extends Screen {
         this.doneBtn = this.addRenderableWidget(
                 Button.builder(PEEK_DONE, button -> {
                             PeekScreen.this.onClose();
-                            Minecraft.getInstance().setScreen(null);
                         })
                         .bounds(this.width / 2 - 100,
                                 this.height - 40,
