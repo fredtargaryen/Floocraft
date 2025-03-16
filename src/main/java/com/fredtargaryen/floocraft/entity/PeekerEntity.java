@@ -32,7 +32,6 @@ public class PeekerEntity extends Entity {
     public PeekerEntity(EntityType<? extends PeekerEntity> entityType, Level level) {
         super(entityType, level);
         this.texture = Optional.empty();
-        NeoForge.EVENT_BUS.register(this);
     }
 
     public Optional<UUID> getPeekerUUID() {
@@ -77,11 +76,16 @@ public class PeekerEntity extends Entity {
             default -> 90.0F;
         };
     }
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+        if (!this.level().isClientSide) NeoForge.EVENT_BUS.register(this);
+    }
 
     @Override
-    public void remove(RemovalReason reason) {
-        NeoForge.EVENT_BUS.unregister(this);
-        super.remove(reason);
+    public void onRemovedFromWorld() {
+        super.onRemovedFromWorld();
+        if (!this.level().isClientSide) NeoForge.EVENT_BUS.unregister(this);
     }
 
     /**
