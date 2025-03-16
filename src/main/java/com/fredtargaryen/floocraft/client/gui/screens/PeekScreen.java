@@ -63,7 +63,6 @@ public class PeekScreen extends Screen {
     @Override
     public void onClose() {
         NeoForge.EVENT_BUS.unregister(this);
-        FloocraftBase.ClientModEvents.flashTicker.start();
         this.minecraft.setCameraEntity(this.player);
         EndPeekMessage message = new EndPeekMessage(this.peekerNetworkID);
         MessageHandler.sendToServer(message);
