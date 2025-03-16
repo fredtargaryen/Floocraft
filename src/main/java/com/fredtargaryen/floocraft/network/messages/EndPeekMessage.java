@@ -11,6 +11,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+/**
+ * Sent when the PeekScreen is closed.
+ * Direction: client to server
+ */
 public record EndPeekMessage(Integer peekerNetworkId) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<EndPeekMessage> TYPE =
             new CustomPacketPayload.Type<>(DataReference.getResourceLocation("peek_end"));
