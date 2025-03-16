@@ -2,11 +2,12 @@ package com.fredtargaryen.floocraft.entity;
 
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.PeekEndMessage;
-import com.fredtargaryen.floocraft.network.messages.PeekerInfoRequestMessage;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -19,26 +20,35 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class PeekerEntity extends Entity {
-    private UUID playerUUID;
-    //For the client side
-    private ResourceLocation texture;
-    private boolean sentRequest;
+    // Synced data
+    private static final EntityDataAccessor<Optional<UUID>> PEEKER_ID = SynchedEntityData.defineId(PeekerEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Optional<UUID>> PLAYER_ID = SynchedEntityData.defineId(PeekerEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+
+    // Only used on the client side
+    private Optional<ResourceLocation> texture;
 
     public PeekerEntity(EntityType<? extends PeekerEntity> entityType, Level level) {
         super(entityType, level);
+        this.texture = Optional.empty();
         NeoForge.EVENT_BUS.register(this);
-        this.texture = null;
-        this.sentRequest = false;
     }
 
-    public UUID getPlayerUUID() {
-        return this.playerUUID;
+    public Optional<UUID> getPeekerUUID() {
+        return this.entityData.get(PEEKER_ID);
+    }
+
+    public Optional<UUID> getPlayerUUID() {
+        return this.entityData.get(PLAYER_ID);
     }
 
     public void setPeekerData(Player player, BlockPos spawnPos, Direction direction) {
+        this.entityData.set(PEEKER_ID, Optional.of(this.uuid));
+        this.entityData.set(PLAYER_ID, Optional.of(player.getUUID()));
+
         BlockPos landPos = spawnPos.relative(direction);
         float x = landPos.getX() + 0.5F;
         float y = landPos.getY();
@@ -57,14 +67,8 @@ public class PeekerEntity extends Entity {
                 x += 0.5;
                 break;
         }
-        this.playerUUID = player.getUUID();
-
         this.setPos(x, y, z);
         this.setRot(this.getYawFromDirection(direction), 0.0F);
-    }
-
-    public void setPlayerUUID(UUID uuid) {
-        this.playerUUID = uuid;
     }
 
     private float getYawFromDirection(Direction ef) {
@@ -90,37 +94,29 @@ public class PeekerEntity extends Entity {
     public void tick() {
         Level level = this.level();
         if (level != null && !level.isClientSide) {
-            Player player = (Player) ((ServerLevel) level).getEntity(this.playerUUID);
-            if (player == null || !player.isAlive()) {
-                this.remove(RemovalReason.UNLOADED_WITH_PLAYER);
-            }
+            this.getPlayerUUID().ifPresent(playerUUID -> {
+                Player player = (Player) ((ServerLevel) level).getEntity(playerUUID);
+                if (player == null || !player.isAlive()) this.remove(RemovalReason.UNLOADED_WITH_PLAYER);
+            });
         }
     }
 
-    public ResourceLocation getTexture() {
-        if (this.playerUUID == null) {
-            if (this.level().isClientSide) {
-                //Client; needs to send one request message. PlayerUUID will be set by MessagePlayerID
-                if (!this.sentRequest) {
-                    PeekerInfoRequestMessage message = new PeekerInfoRequestMessage(this.uuid.getMostSignificantBits(), this.uuid.getLeastSignificantBits());
-                    MessageHandler.sendToServer(message);
-                }
-            }
-            return null;
-        }
-        if (this.texture == null && this.level().isClientSide) {
-            AbstractClientPlayer acp = (AbstractClientPlayer) this.level().getPlayerByUUID(this.playerUUID);
-            // If we can't find the player with this UUID they probably don't exist now, so we shouldn't render their peeker
-            this.texture = acp == null ? null : acp.getSkin().texture();
+    public Optional<ResourceLocation> getTexture() {
+        if (this.level().isClientSide && this.texture.isEmpty()) {
+            this.getPlayerUUID().ifPresent(playerUUID -> {
+                AbstractClientPlayer acp = (AbstractClientPlayer) this.level().getPlayerByUUID(playerUUID);
+                // If we can't find the player with this UUID they probably don't exist now, so we shouldn't render their peeker
+                this.texture = acp == null ? Optional.empty() : Optional.of(acp.getSkin().texture());
+            });
         }
         return this.texture;
     }
 
     @SubscribeEvent
     public void onHurt(LivingHurtEvent lhe) {
-        if (this.level() != null && this.level().isClientSide && this.playerUUID != null) {
+        if (this.level() != null && this.level().isClientSide && this.getPlayerUUID().isPresent()) {
             UUID hurtEntityUUID = lhe.getEntity().getUUID();
-            if (hurtEntityUUID.equals(this.playerUUID)) {
+            if (hurtEntityUUID.equals(this.getPlayerUUID().get())) {
                 PeekEndMessage message = new PeekEndMessage(this.uuid.getMostSignificantBits(), this.uuid.getLeastSignificantBits());
                 MessageHandler.sendToServer(message);
             }
@@ -129,27 +125,23 @@ public class PeekerEntity extends Entity {
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent lde) {
-        if (this.level() != null && this.level().isClientSide && this.playerUUID != null && lde.getEntity().getUUID().equals(this.playerUUID)) {
+        if (this.level() != null && this.level().isClientSide && this.getPlayerUUID().isPresent() && lde.getEntity().getUUID().equals(this.getPlayerUUID().get())) {
             PeekEndMessage message = new PeekEndMessage(this.uuid.getMostSignificantBits(), this.uuid.getLeastSignificantBits());
             MessageHandler.sendToServer(message);
         }
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(PEEKER_ID, Optional.of(this.uuid));
+        builder.define(PLAYER_ID, Optional.empty());
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
-        this.playerUUID = new UUID(compound.getLong("playerMsb"), compound.getLong("playerLsb"));
-        this.setRot(compound.getFloat("yaw"), 0.0F);
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
-        compound.putLong("playerMsb", this.playerUUID.getMostSignificantBits());
-        compound.putLong("playerLsb", this.playerUUID.getLeastSignificantBits());
-        compound.putFloat("yaw", this.getYRot());
     }
 }

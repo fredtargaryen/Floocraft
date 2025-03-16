@@ -2,8 +2,6 @@ package com.fredtargaryen.floocraft.client.gui.screens;
 
 import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
-import com.fredtargaryen.floocraft.network.MessageHandler;
-import com.fredtargaryen.floocraft.network.messages.PeekEndMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -18,25 +16,25 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
+@OnlyIn(Dist.CLIENT)
 public class PeekScreen extends Screen {
     private boolean peekerSpawned;
-    private String fireplaceName;
     private Button doneBtn;
     private Entity player;
-    private UUID peekerID;
+    private int peekerNetworkID;
     private boolean peekFailedOutOfRange;
 
     private static Component TITLE;
     private static final Component PEEK_DONE = Component.translatable("gui.peek.done");
 
-    public PeekScreen(String name, UUID peekerID) {
+    public PeekScreen(String name, int peekerNetworkID) {
         super(Component.translatable("gui.peek.peeking", name));
+        this.minecraft = Minecraft.getInstance();
+        this.font = this.minecraft.font;
         TITLE = Component.translatable("gui.peek.peeking", name);
         this.peekerSpawned = false;
-        this.fireplaceName = name;
-        this.peekerID = peekerID;
+        this.peekerNetworkID = peekerNetworkID;
         NeoForge.EVENT_BUS.register(this);
         this.peekFailedOutOfRange = false;
     }
@@ -46,24 +44,11 @@ public class PeekScreen extends Screen {
      */
     @Override
     protected void init() {
-        if(!this.peekerSpawned) {
-            PeekerEntity peeker = (PeekerEntity) FloocraftBase.ClientModEvents.getEntityWithUUID(this.minecraft.level, this.peekerID);
-            if(peeker == null) {
-                //Give up. TODO Maybe one day someone can add peeking into chunks outside the view distance?
-                this.peekFailedOutOfRange = true;
-            }
-            else {
-                this.peekerSpawned = true;
-                this.player = this.minecraft.getCameraEntity();
-                this.minecraft.setCameraEntity(peeker);
-            }
-        }
-
         this.doneBtn = this.addRenderableWidget(
                 Button.builder(PEEK_DONE, button -> {
-                    PeekScreen.this.onClose();
-                    Minecraft.getInstance().setScreen(null);
-                })
+                            PeekScreen.this.onClose();
+                            Minecraft.getInstance().setScreen(null);
+                        })
                         .bounds(this.width / 2 - 100,
                                 this.height - 40,
                                 200,
@@ -80,11 +65,11 @@ public class PeekScreen extends Screen {
         NeoForge.EVENT_BUS.unregister(this);
         FloocraftBase.ClientModEvents.flashTicker.start();
         this.minecraft.setCameraEntity(this.player);
-        PeekEndMessage message = new PeekEndMessage(
-                this.peekerID.getMostSignificantBits(),
-                this.peekerID.getLeastSignificantBits()
-        );
-        MessageHandler.sendToServer(message);
+//        PeekEndMessage message = new PeekEndMessage(
+//                this.peekerID.getMostSignificantBits(),
+//                this.peekerID.getLeastSignificantBits()
+//        );
+//        MessageHandler.sendToServer(message);
         super.onClose();
     }
 
@@ -97,6 +82,22 @@ public class PeekScreen extends Screen {
             Minecraft.getInstance().setScreen(null);
         }
         return true;
+    }
+
+    @Override
+    public void tick() {
+        if (!this.peekerSpawned && this.minecraft.level != null) {
+            Entity peekerCandidate = this.minecraft.level.getEntity(this.peekerNetworkID);
+            if (peekerCandidate == null) {
+                this.peekFailedOutOfRange = true;
+                return;
+            }
+            if (peekerCandidate instanceof PeekerEntity) {
+                this.peekerSpawned = true;
+                this.player = this.minecraft.getCameraEntity();
+                this.minecraft.setCameraEntity(peekerCandidate);
+            }
+        }
     }
 
     /**
@@ -127,14 +128,14 @@ public class PeekScreen extends Screen {
 
     @SubscribeEvent
     public void onHurt(LivingHurtEvent lhe) {
-        if(lhe.getEntity() == this.player) {
+        if (lhe.getEntity() == this.player) {
             Minecraft.getInstance().setScreen(null);
         }
     }
 
     @SubscribeEvent
     public void onDeath(LivingDeathEvent lde) {
-        if(lde.getEntity() == this.player) {
+        if (lde.getEntity() == this.player) {
             Minecraft.getInstance().setScreen(null);
         }
     }

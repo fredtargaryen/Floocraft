@@ -15,7 +15,7 @@ import org.joml.Matrix4f;
 import javax.annotation.Nonnull;
 
 public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
-    private static ResourceLocation NULL = new ResourceLocation("textures/entity/steve.png");
+    private static final ResourceLocation PLACEHOLDER = new ResourceLocation("textures/entity/player/wide/steve.png");
 
     private static final float minx = -0.25F;
     private static final float maxx = 0.25F;
@@ -41,29 +41,30 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
         PoseStack.Pose normalPose = poseStack.last();
         Matrix4f pos = normalPose.pose();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(peeker), true));
+        float alpha = 0.275f;
         consumer.vertex(pos, minx, miny, minz)
-                .color(1f, 1f, 1f, 1f)
+                .color(1f, 1f, 1f, alpha)
                 .uv(maxu, maxv)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(packedLight)
-                .normal(normalPose, 0f, 1f, 0f)
+                .normal(normalPose, 0f, 1f, alpha)
                 .endVertex();
         consumer.vertex(pos, minx, maxy, maxz)
-                .color(1f, 1f, 1f, 1f)
+                .color(1f, 1f, 1f, alpha)
                 .uv(maxu, minv)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(packedLight)
-                .normal(normalPose, 0f, 1f, 0f)
+                .normal(normalPose, 0f, 1f, alpha)
                 .endVertex();
         consumer.vertex(pos, maxx, maxy, maxz)
-                .color(1f, 1f, 1f, 1f)
+                .color(1f, 1f, 1f, alpha)
                 .uv(minu, minv)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(packedLight)
                 .normal(normalPose, 0f, 1f, 0f)
                 .endVertex();
         consumer.vertex(pos, maxx, miny, minz)
-                .color(1f, 1f, 1f, 1f)
+                .color(1f, 1f, 1f, alpha)
                 .uv(minu, maxv)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(packedLight)
@@ -74,8 +75,7 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
 
     @Override
     @Nonnull
-    public ResourceLocation getTextureLocation(PeekerEntity entity) {
-        ResourceLocation rl = entity.getTexture();
-        return rl == null ? NULL : rl;
+    public ResourceLocation getTextureLocation(PeekerEntity peeker) {
+        return peeker.getTexture().orElse(PLACEHOLDER);
     }
 }

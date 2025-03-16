@@ -53,7 +53,7 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
             int[] destCoords = FloocraftLevelData.getForLevel(level).placeList.get(message.dest);
             //Stop everything if the destination has the same coordinates as where the player is
             if (destCoords[0] == message.initPos.getX() && destCoords[1] == message.initPos.getY() && destCoords[2] == message.initPos.getZ()) {
-                context.reply(new StartPeekResponseMessage(false, 0L, 0L));
+                context.reply(new StartPeekResponseMessage(false, 0));
                 return;
             }
             int destX = destCoords[0];
@@ -62,11 +62,11 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
 
             // Determine whether block to depart from is valid
             if (!(initBlock instanceof FlooMainTeleporterBase)) {
-                context.reply(new StartPeekResponseMessage(false, 0L, 0L));
+                context.reply(new StartPeekResponseMessage(false, 0));
                 return;
             }
             if (!((FlooMainTeleporterBase) initBlock).canDepartFromBlock(initState)) {
-                context.reply(new StartPeekResponseMessage(false, 0L, 0L));
+                context.reply(new StartPeekResponseMessage(false, 0));
                 return;
             }
 
@@ -86,8 +86,7 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
                         UUID peekerUUID = peeker.getUUID();
                         StartPeekResponseMessage reply = new StartPeekResponseMessage(
                                 true,
-                                peekerUUID.getMostSignificantBits(),
-                                peekerUUID.getLeastSignificantBits());
+                                peeker.getId());
                         context.reply(reply);
                     }
                 }

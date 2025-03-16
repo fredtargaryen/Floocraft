@@ -9,21 +9,20 @@ import com.fredtargaryen.floocraft.client.gui.screens.teleport.TeleportScreen;
 import com.fredtargaryen.floocraft.client.particle.FlooTorchFlameParticle;
 import com.fredtargaryen.floocraft.client.renderer.blockentity.FlooSignRenderer;
 import com.fredtargaryen.floocraft.client.renderer.blockentity.FloowerPotRenderer;
+import com.fredtargaryen.floocraft.client.renderer.entity.PeekerRenderer;
 import com.fredtargaryen.floocraft.command.CommandsBase;
 import com.fredtargaryen.floocraft.config.ClientConfig;
 import com.fredtargaryen.floocraft.config.CommonConfig;
-import com.fredtargaryen.floocraft.entity.PeekerEntity;
-import com.fredtargaryen.floocraft.client.renderer.entity.PeekerRenderer;
 import com.fredtargaryen.floocraft.network.messages.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -60,8 +59,10 @@ import java.util.UUID;
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
  * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
  * * Exclusive creative menu tab for Floocraft items
- *
- * TODO Peeking (check)
+ * <p>
+ * TODO Peeking
+ *      TODO Peekers don't die...
+ * TODO README update
  * TODO Fireplace design reqs change
  * TODO Sign text filtering when sign text is on screen
  * TODO Green glint on powder in pot?
@@ -114,6 +115,7 @@ public class FloocraftBase {
         CommandsBase.registerCommands(event.getDispatcher());
     }
 
+    @OnlyIn(Dist.CLIENT)
     @EventBusSubscriber(modid = DataReference.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         /**
@@ -157,31 +159,22 @@ public class FloocraftBase {
             Minecraft minecraft = Minecraft.getInstance();
             Level level = minecraft.level;
             if (level == null) return;
-            PeekerEntity peeker = (PeekerEntity) getEntityWithUUID(level, new UUID(message.peekerMsb(), message.peekerLsb()));
-            if (peeker == null) return;
-            peeker.setPlayerUUID(new UUID(message.playerMsb(), message.playerLsb()));
+            //PeekerEntity peeker = (PeekerEntity) getEntityWithUUID(level, new UUID(message.peekerMsb(), message.peekerLsb()));
+            //if (peeker == null) return;
+            //peeker.setPlayerUUID(new UUID(message.playerMsb(), message.playerLsb()));
         }
 
         public static void handleMessage(StartPeekResponseMessage message) {
-            Screen s = Minecraft.getInstance().screen;
-            if(s instanceof TeleportScreen) {
-                ((TeleportScreen) s).onStartPeek(message);
+            if (message.accepted()) {
+                Screen s = Minecraft.getInstance().screen;
+                if (s instanceof TeleportScreen) {
+                    ((TeleportScreen) s).onStartPeek(message);
+                }
             }
         }
 
         public static void handleMessage(TeleportResponseMessage message) {
             if (message.accepted()) teleportEffects.start(message.soul());
-        }
-
-        public static Entity getEntityWithUUID(Level level, UUID uuid) {
-            if (level != null && uuid != null) {
-                Iterator<Entity> iterator = level.getEntities(null, null).iterator();
-                while (iterator.hasNext()) {
-                    Entity next = iterator.next();
-                    if (next.getUUID().equals(uuid)) return next;
-                }
-            }
-            return null;
         }
 
         @SubscribeEvent
