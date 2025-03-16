@@ -23,7 +23,6 @@ import java.util.UUID;
 
 public class PeekerEntity extends Entity {
     // Synced data
-    private static final EntityDataAccessor<Optional<UUID>> PEEKER_ID = SynchedEntityData.defineId(PeekerEntity.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Optional<UUID>> PLAYER_ID = SynchedEntityData.defineId(PeekerEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     // Only used on the client side
@@ -34,16 +33,11 @@ public class PeekerEntity extends Entity {
         this.texture = Optional.empty();
     }
 
-    public Optional<UUID> getPeekerUUID() {
-        return this.entityData.get(PEEKER_ID);
-    }
-
     public Optional<UUID> getPlayerUUID() {
         return this.entityData.get(PLAYER_ID);
     }
 
     public void setPeekerData(Player player, BlockPos spawnPos, Direction direction) {
-        this.entityData.set(PEEKER_ID, Optional.of(this.uuid));
         this.entityData.set(PLAYER_ID, Optional.of(player.getUUID()));
 
         BlockPos landPos = spawnPos.relative(direction);
@@ -133,7 +127,6 @@ public class PeekerEntity extends Entity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(PEEKER_ID, Optional.of(this.uuid));
         builder.define(PLAYER_ID, Optional.empty());
     }
 
