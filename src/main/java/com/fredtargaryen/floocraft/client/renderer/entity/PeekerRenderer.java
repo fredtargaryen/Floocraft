@@ -41,7 +41,7 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
         PoseStack.Pose normalPose = poseStack.last();
         Matrix4f pos = normalPose.pose();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(peeker), true));
-        float alpha = 0.275f;
+        float alpha = 0.375f;
         consumer.vertex(pos, minx, miny, minz)
                 .color(1f, 1f, 1f, alpha)
                 .uv(maxu, maxv)
