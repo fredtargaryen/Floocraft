@@ -150,15 +150,6 @@ public class FloocraftBase {
             }
         }
 
-        public static void handleMessage(PeekerInfoResponseMessage message) {
-            Minecraft minecraft = Minecraft.getInstance();
-            Level level = minecraft.level;
-            if (level == null) return;
-            //PeekerEntity peeker = (PeekerEntity) getEntityWithUUID(level, new UUID(message.peekerMsb(), message.peekerLsb()));
-            //if (peeker == null) return;
-            //peeker.setPlayerUUID(new UUID(message.playerMsb(), message.playerLsb()));
-        }
-
         public static void handleMessage(StartPeekResponseMessage message) {
             if (message.accepted()) {
                 Screen s = Minecraft.getInstance().screen;

@@ -61,18 +61,6 @@ public class MessageHandler {
         );
 
         registrar.playToServer(
-                PeekerInfoRequestMessage.TYPE,
-                PeekerInfoRequestMessage.STREAM_CODEC,
-                PeekerInfoRequestMessage::handle
-        );
-
-        registrar.playToServer(
-                PeekerInfoResponseMessage.TYPE,
-                PeekerInfoResponseMessage.STREAM_CODEC,
-                PeekerInfoResponseMessage::handle
-        );
-
-        registrar.playToServer(
                 StartPeekRequestMessage.TYPE,
                 StartPeekRequestMessage.STREAM_CODEC,
                 StartPeekRequestMessage::handle
