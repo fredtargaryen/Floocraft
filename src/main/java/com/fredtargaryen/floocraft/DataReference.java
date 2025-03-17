@@ -25,8 +25,6 @@ public class DataReference {
 
     public static final ResourceLocation VALID_ARRIVAL_BLOCKS = getResourceLocation("valid_arrival_blocks");
 
-    public static final ResourceLocation FLOO_TORCH_PARTICLE_RL = getResourceLocation("floo_torch_flame");
-
     public static final ResourceLocation GREENED_RL = getResourceLocation("greened");
     public static final ResourceLocation TP_RL = getResourceLocation("tp");
     public static final ResourceLocation FLICK_RL = getResourceLocation("flick");
