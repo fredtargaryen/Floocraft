@@ -18,4 +18,10 @@ public class HelperFunctions {
                 array.get(2),
                 array.get(3));
     }
+
+    public static float getElapsedPartialTicks(float oldPt, float newPt) {
+        if (newPt > oldPt) return newPt - oldPt;
+        if (newPt == oldPt) return 0f;
+        return (1f - oldPt) + newPt;
+    }
 }
