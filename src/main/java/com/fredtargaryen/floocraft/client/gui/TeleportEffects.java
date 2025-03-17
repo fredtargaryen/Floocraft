@@ -15,6 +15,8 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
+import static com.fredtargaryen.floocraft.HelperFunctions.getElapsedPartialTicks;
+
 @OnlyIn(Dist.CLIENT)
 public class TeleportEffects {
     private Minecraft minecraft;
@@ -111,11 +113,5 @@ public class TeleportEffects {
         if (this.time >= DIZZY_DURATION) {
             this.stopAndUnregister();
         }
-    }
-
-    private float getElapsedPartialTicks(float oldPt, float newPt) {
-        if (newPt > oldPt) return newPt - oldPt;
-        if (newPt == oldPt) return 0f;
-        return (1f - oldPt) + newPt;
     }
 }
