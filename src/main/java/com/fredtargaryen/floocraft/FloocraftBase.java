@@ -68,7 +68,7 @@ public class FloocraftBase {
     public FloocraftBase(IEventBus eventBus, ModContainer modContainer) {
 
         // Register the commonSetup method for modloading
-        eventBus.addListener(this::commonSetup);
+        // eventBus.addListener(this::commonSetup);
 
         FloocraftBlocks.register(eventBus);
         FloocraftItems.register(eventBus);
@@ -87,17 +87,17 @@ public class FloocraftBase {
         modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
+//    @SubscribeEvent
+//    private void commonSetup(final FMLCommonSetupEvent event) {
+//        // Some common setup code
+//        LOGGER.info("HELLO FROM COMMON SETUP");
+//    }
+//
+//    @SubscribeEvent
+//    public void onServerStarting(ServerStartingEvent event) {
+//        // Do something when the server starts
+//        LOGGER.info("HELLO from server starting");
+//    }
 
     /**
      * Register the mod's commands.
