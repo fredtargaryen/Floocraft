@@ -1,5 +1,5 @@
 # Floocraft
-Floocraft is a Minecraft Forge mod which adds content themed around Floo Powder, from the Harry Potter franchise:
+Floocraft is a Minecraft NeoForge mod which adds content themed around Floo Powder, from the Harry Potter franchise:
 * Players build fireplaces to teleport to and from, which are connected to the Floo Network using Floo Signs.
 * Floo Powder, when thrown into fire, turns it green and allows the user to walk in and teleport, or peek into another fire to see what's on the other side.
 * Floo Torches emit green light and cause random short-range teleportation on contact.
