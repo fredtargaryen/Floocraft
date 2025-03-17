@@ -28,12 +28,13 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
 import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.TEMP;
@@ -130,6 +131,7 @@ public abstract class FlooMainTeleporterBase extends Block {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     private void openTeleportGui(BlockPos pos) {
         Minecraft instance = Minecraft.getInstance();
         if (instance.screen == null && !FloocraftBase.ClientModEvents.flashTicker.isRunning()) {
