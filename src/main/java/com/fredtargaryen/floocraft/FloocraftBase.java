@@ -55,8 +55,6 @@ import org.slf4j.Logger;
  * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
  * * Exclusive creative menu tab for Floocraft items
  * * Updated Floo Powder textures, of item and in pot
- * TODO Test on server
- *      TODO how to make Dev op?
  */
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
