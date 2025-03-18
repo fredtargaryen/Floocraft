@@ -30,13 +30,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
 /**
@@ -56,8 +54,9 @@ import org.slf4j.Logger;
  * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
  * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
  * * Exclusive creative menu tab for Floocraft items
- * <p>
- * TODO Green glint on powder in pot?
+ * * Updated Floo Powder textures, of item and in pot
+ * TODO Test on server
+ *      TODO how to make Dev op?
  */
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
