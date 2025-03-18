@@ -37,25 +37,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
 
-/**
- * Other updates aside from porting the mod:
- * * Added a 1-second cooldown between uses of Floo Torches
- * * Sped up Floo Torch teleporting
- * * Restores the ability to transform flames using dropped Floo Powder
- * * Reduced amount of memory used by Floo flames
- * * Generally prettified the code base - faster more elegant algorithms; more cohesive classes
- * * Removed the valid departure blocks tag - don't think anyone would have used it so a small price to pay for better code
- * * If you can teleport into a fireplace, write its name in "Floo green" instead of ordinary green
- * * Teleport screen now shows which fireplace you are in (if any)
- * * Remove some empty spaces from sign text
- * * Players nearby hear when you arrive in a Floo fire
- * * Drawing colour to screen rather than using textures for teleport flash
- * * Small tweaks to teleport flash speed and dizziness effect
- * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
- * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
- * * Exclusive creative menu tab for Floocraft items
- * * Updated Floo Powder textures, of item and in pot
- */
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
 public class FloocraftBase {
