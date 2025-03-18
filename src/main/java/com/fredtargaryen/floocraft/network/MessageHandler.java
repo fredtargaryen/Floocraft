@@ -2,115 +2,100 @@ package com.fredtargaryen.floocraft.network;
 
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.network.messages.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.ChannelBuilder;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.SimpleChannel;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.HandlerThread;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+@EventBusSubscriber(modid = DataReference.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class MessageHandler {
-	private static final int PROTOCOL_VERSION = 1;
+    @SubscribeEvent
+    public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar("1")
+                .executesOn(HandlerThread.NETWORK);
 
-	public static final SimpleChannel INSTANCE = ChannelBuilder
-			.named(new ResourceLocation(DataReference.MODID, "main"))
-			.clientAcceptedVersions((status, version) -> version == PROTOCOL_VERSION)
-			.serverAcceptedVersions((status, version) -> version == PROTOCOL_VERSION)
-			.networkProtocolVersion(PROTOCOL_VERSION)
-			.simpleChannel();
+        registrar.playToServer(
+                FireplaceListRequestMessage.TYPE,
+                FireplaceListRequestMessage.STREAM_CODEC,
+                FireplaceListRequestMessage::handle
+        );
 
-	public static void init() {
-		INSTANCE.messageBuilder(FireplaceListRequestMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(FireplaceListRequestMessage::encode)
-				.decoder(FireplaceListRequestMessage::new)
-				.consumerMainThread(FireplaceListRequestMessage::handle)
-				.add();
+        registrar.playToClient(
+                FireplaceListResponseMessage.TYPE,
+                FireplaceListResponseMessage.STREAM_CODEC,
+                FireplaceListResponseMessage::handle
+        );
 
-		INSTANCE.messageBuilder(FireplaceListResponseMessage.class, NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(FireplaceListResponseMessage::encode)
-				.decoder(FireplaceListResponseMessage::new)
-				.consumerMainThread(FireplaceListResponseMessage::handle)
-				.add();
+        registrar.playToServer(
+                FlooSignNameRequestMessage.TYPE,
+                FlooSignNameRequestMessage.STREAM_CODEC,
+                FlooSignNameRequestMessage::handle
+        );
 
-		INSTANCE.messageBuilder(FlooSignNameRequestMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(FlooSignNameRequestMessage::encode)
-				.decoder(FlooSignNameRequestMessage::new)
-				.consumerMainThread(FlooSignNameRequestMessage::handle)
-				.add();
+        registrar.playToClient(
+                FlooSignNameResponseMessage.TYPE,
+                FlooSignNameResponseMessage.STREAM_CODEC,
+                FlooSignNameResponseMessage::handle
+        );
 
-		INSTANCE.messageBuilder(FlooSignNameResponseMessage.class, NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(FlooSignNameResponseMessage::encode)
-				.decoder(FlooSignNameResponseMessage::new)
-				.consumerMainThread(FlooSignNameResponseMessage::handle)
-				.add();
+        registrar.playToServer(
+                FloowerPotSettingsUpdateMessage.TYPE,
+                FloowerPotSettingsUpdateMessage.STREAM_CODEC,
+                FloowerPotSettingsUpdateMessage::handle
+        );
 
-		INSTANCE.messageBuilder(FloowerPotSettingsUpdateMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(FloowerPotSettingsUpdateMessage::encode)
-				.decoder(FloowerPotSettingsUpdateMessage::new)
-				.consumerMainThread(FloowerPotSettingsUpdateMessage::handle)
-				.add();
+        registrar.playToClient(
+                OpenFlooSignEditScreenMessage.TYPE,
+                OpenFlooSignEditScreenMessage.STREAM_CODEC,
+                OpenFlooSignEditScreenMessage::handle
+        );
 
-		// TODO: Understand the difference between this and PeekStartMessage
-		INSTANCE.messageBuilder(MessageStartPeek.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(MessageStartPeek::encode)
-				.decoder(MessageStartPeek::new)
-				.consumerMainThread(MessageStartPeek::handle)
-				.add();
+        registrar.playToServer(
+                EndPeekMessage.TYPE,
+                EndPeekMessage.STREAM_CODEC,
+                EndPeekMessage::handle
+        );
 
-		INSTANCE.messageBuilder(OpenFlooSignEditScreenMessage.class, NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(OpenFlooSignEditScreenMessage::encode)
-				.decoder(OpenFlooSignEditScreenMessage::new)
-				.consumerMainThread(OpenFlooSignEditScreenMessage::handle)
-				.add();
+        registrar.playToServer(
+                StartPeekRequestMessage.TYPE,
+                StartPeekRequestMessage.STREAM_CODEC,
+                StartPeekRequestMessage::handle
+        );
 
-		INSTANCE.messageBuilder(PeekEndMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(PeekEndMessage::encode)
-				.decoder(PeekEndMessage::new)
-				.consumerMainThread(PeekEndMessage::handle)
-				.add();
+        registrar.playToClient(
+                StartPeekResponseMessage.TYPE,
+                StartPeekResponseMessage.STREAM_CODEC,
+                StartPeekResponseMessage::handle
+        );
 
-		INSTANCE.messageBuilder(PeekerInfoRequestMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(PeekerInfoRequestMessage::encode)
-				.decoder(PeekerInfoRequestMessage::new)
-				.consumerMainThread(PeekerInfoRequestMessage::handle)
-				.add();
+        registrar.playToServer(
+                TeleportByTorchMessage.TYPE,
+                TeleportByTorchMessage.STREAM_CODEC,
+                TeleportByTorchMessage::handle
+        );
 
-		INSTANCE.messageBuilder(PeekerInfoResponseMessage.class, NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(PeekerInfoResponseMessage::encode)
-				.decoder(PeekerInfoResponseMessage::new)
-				.consumerMainThread(PeekerInfoResponseMessage::handle)
-				.add();
+        registrar.playToClient(
+                TeleportResponseMessage.TYPE,
+                TeleportResponseMessage.STREAM_CODEC,
+                TeleportResponseMessage::handle
+        );
 
-		INSTANCE.messageBuilder(PeekStartMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(PeekStartMessage::encode)
-				.decoder(PeekStartMessage::new)
-				.consumerMainThread(PeekStartMessage::handle)
-				.add();
+        registrar.playToServer(
+                TeleportRequestMessage.TYPE,
+                TeleportRequestMessage.STREAM_CODEC,
+                TeleportRequestMessage::handle
+        );
+    }
 
-		INSTANCE.messageBuilder(TeleportByTorchMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(TeleportByTorchMessage::encode)
-				.decoder(TeleportByTorchMessage::new)
-				.consumerMainThread(TeleportByTorchMessage::handle)
-				.add();
+    public static void sendToServer(CustomPacketPayload message) {
+        PacketDistributor.sendToServer(message);
+    }
 
-		INSTANCE.messageBuilder(TeleportFlashMessage.class, NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(TeleportFlashMessage::encode)
-				.decoder(TeleportFlashMessage::new)
-				.consumerMainThread(TeleportFlashMessage::handle)
-				.add();
-
-		INSTANCE.messageBuilder(TeleportMessage.class, NetworkDirection.PLAY_TO_SERVER)
-				.encoder(TeleportMessage::encode)
-				.decoder(TeleportMessage::new)
-				.consumerMainThread(TeleportMessage::handle)
-				.add();
-	}
-
-	public static void sendToServer(Object message) {
-		INSTANCE.send(message, PacketDistributor.SERVER.noArg());
-	}
-
-	public static void sendToPlayer(Object message, ServerPlayer player) {
-		INSTANCE.send(message, PacketDistributor.PLAYER.with(player));
-	}
+    public static void sendToPlayer(CustomPacketPayload message, ServerPlayer player) {
+        PacketDistributor.sendToPlayer(player, message);
+    }
 }

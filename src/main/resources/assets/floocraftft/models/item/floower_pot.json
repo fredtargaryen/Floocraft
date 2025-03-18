@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "floocraftft:items/floowerpot"
+        "layer0": "floocraftft:item/floower_pot"
     },
     "display": {
         "thirdperson": {

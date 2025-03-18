@@ -28,16 +28,15 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static com.fredtargaryen.floocraft.block.FlooFlames.BEHAVIOUR;
-import static com.fredtargaryen.floocraft.block.FlooFlames.TEMP;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.TEMP;
 
 public abstract class FlooMainTeleporterBase extends Block {
     /**
@@ -96,11 +95,13 @@ public abstract class FlooMainTeleporterBase extends Block {
                 if (teleport) {
                     //Get list of locations and whether they are available
                     FloocraftLevelData levelData = FloocraftLevelData.getForLevel((ServerLevel) level);
-                    FireplaceListResponseMessage mfl = levelData.assembleNewFireplaceList(level, Optional.empty());
+                    FireplaceListResponseMessage flrm = levelData.assembleNewFireplaceList(level, pos);
+                    List<String> places = flrm.places();
+                    List<Boolean> enabledList = flrm.enabledList();
                     ArrayList<String> possibleLocations = new ArrayList<>();
                     //Add the enabled locations to possibleLocations
-                    for (int i = 0; i < mfl.places.length; ++i) {
-                        if (mfl.enabledList[i]) possibleLocations.add((String) mfl.places[i]);
+                    for (int i = 0; i < places.size(); ++i) {
+                        if (enabledList.get(i)) possibleLocations.add(places.get(i));
                     }
                     if (!possibleLocations.isEmpty()) {
                         //Pick a random location from possibleLocations
@@ -118,7 +119,7 @@ public abstract class FlooMainTeleporterBase extends Block {
                                     .setValue(BEHAVIOUR, TEMP));
                         }
                         if (landOutside) {
-                            dest = dest.relative(((FlooFlames) FloocraftBlocks.FLOO_FLAMES.get()).isInFireplace(level, dest));
+                            dest = dest.relative(((FlooFlamesBlock) FloocraftBlocks.FLOO_FLAMES.get()).isInFireplace(level, dest));
                             entity.moveTo(dest.getX(), coords[1], dest.getZ(), entity.getYRot(), entity.getXRot());
                         } else {
                             entity.moveTo(coords[0], coords[1], coords[2], entity.getYRot(), entity.getXRot());
@@ -129,11 +130,10 @@ public abstract class FlooMainTeleporterBase extends Block {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void openTeleportGui(BlockPos pos) {
         Minecraft instance = Minecraft.getInstance();
         if (instance.screen == null && !FloocraftBase.ClientModEvents.flashTicker.isRunning()) {
-            instance.setScreen(new TeleportScreen(instance.screen, pos.getX(), pos.getY(), pos.getZ()));
+            instance.setScreen(new TeleportScreen(instance.screen, pos));
             FloocraftBase.ClientModEvents.flashTicker.start();
         }
     }

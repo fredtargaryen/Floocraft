@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.blockentity;
 
 import com.fredtargaryen.floocraft.FloocraftBlockEntityTypes;
 import com.fredtargaryen.floocraft.HelperFunctions;
-import com.fredtargaryen.floocraft.block.FlooFlames;
+import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooSignBlock;
 import com.fredtargaryen.floocraft.block.entity.FlooSignText;
 import com.fredtargaryen.floocraft.network.FloocraftLevelData;
@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -130,7 +131,7 @@ public class FlooSignBlockEntity extends BlockEntity {
     private boolean isConnected;
     private int y;
 
-    public void addLocation(String[] rawLocationName) {
+    public void addLocation(List<String> rawLocationName) {
         assert this.level != null;
         if (!this.level.isClientSide) {
             // We are on the server side.
@@ -144,9 +145,9 @@ public class FlooSignBlockEntity extends BlockEntity {
         }
     }
 
-    public void setNameOnSign(String[] name) {
+    public void setNameOnSign(List<String> name) {
         for (int i = 0; i < 4; i++) {
-            this.signText = this.signText.setMessage(i, Component.literal(name[i]));
+            this.signText = this.signText.setMessage(i, Component.literal(name.get(i)));
         }
     }
 
@@ -162,7 +163,7 @@ public class FlooSignBlockEntity extends BlockEntity {
 
     /**
      * Get what should be the base position of the fire in the fireplace.
-     * Uses similar rules to getTopBlockY in {@link FlooFlames}.
+     * Uses similar rules to getTopBlockY in {@link FlooFlamesBlock}.
      *
      * @param level The level this Floo sign is in
      * @param pos   The position of this Floo sign

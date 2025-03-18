@@ -1,66 +1,44 @@
 package com.fredtargaryen.floocraft.network.messages;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBase;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.event.network.CustomPayloadEvent;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.jetbrains.annotations.NotNull;
 
-import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Sends a list of all fireplaces in the current Level to the requesting player.
  * Direction: server to client
+ *
+ * @param places            The list of place names in the Level
+ * @param enabledList       Whether the place with the corresponding index in places can be teleported to
+ * @param canPeekList       Whether the player can peek into this fire (i.e. the chunk is loaded for entity simulation)
+ * @param playerPlaceIndex  The index of the fireplace the player is trying to teleport from. -1 if not teleporting from a fireplace connected to the Floo Network
  */
-public class FireplaceListResponseMessage {
-    /**
-     * The list of place names in the Level
-     */
-    public Object[] places;
+public record FireplaceListResponseMessage(List<String> places, List<Boolean> enabledList,
+                                           List<Boolean> canPeekList, int playerPlaceIndex) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<FireplaceListResponseMessage> TYPE =
+            new CustomPacketPayload.Type<>(DataReference.getResourceLocation("fireplace_list_response"));
 
-    /**
-     * Whether the place with the corresponding index in places can be teleported to
-     */
-    public boolean[] enabledList;
-
-    /**
-     * The index of the fireplace the player is trying to teleport from.
-     * -1 if not teleporting from a fireplace connected to the Floo Network
-     */
-    public int playerPlaceIndex;
-    private static final Charset defaultCharset = Charset.defaultCharset();
-
-    public FireplaceListResponseMessage() {}
-
-    public void encode(FriendlyByteBuf buf) {
-        int y = this.places.length;
-        buf.writeInt(y);
-        int keyCount = 0;
-        for (Object o : this.places) {
-            String s = (String) o;
-            buf.writeInt(s.length());
-            buf.writeBytes(s.getBytes());
-            buf.writeBoolean(this.enabledList[keyCount]);
-            ++keyCount;
-        }
-        buf.writeInt(this.playerPlaceIndex);
+    @Override
+    public CustomPacketPayload.@NotNull Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public FireplaceListResponseMessage(FriendlyByteBuf buf) {
-        this.places = new Object[]{};
-        this.enabledList = new boolean[]{};
-        int y = buf.readInt();
-        if (y > 0) {
-            this.places = new Object[y];
-            this.enabledList = new boolean[y];
-            for (int x = 0; x < y; ++x) {
-                this.places[x] = buf.readBytes(buf.readInt()).toString(defaultCharset);
-                this.enabledList[x] = buf.readBoolean();
-            }
-        }
-        this.playerPlaceIndex = buf.readInt();
-    }
+    public static final StreamCodec<ByteBuf, FireplaceListResponseMessage> STREAM_CODEC =
+            StreamCodec.composite(
+                    ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list()), FireplaceListResponseMessage::places,
+                    ByteBufCodecs.BOOL.apply(ByteBufCodecs.list()), FireplaceListResponseMessage::enabledList,
+                    ByteBufCodecs.BOOL.apply(ByteBufCodecs.list()), FireplaceListResponseMessage::canPeekList,
+                    ByteBufCodecs.INT, FireplaceListResponseMessage::playerPlaceIndex,
+                    FireplaceListResponseMessage::new);
 
-    public void handle(CustomPayloadEvent.Context context) {
-        context.enqueueWork(() -> FloocraftBase.ClientModEvents.handleMessage(this));
-        context.setPacketHandled(true);
+    public static void handle(final FireplaceListResponseMessage message, IPayloadContext context) {
+        context.enqueueWork(() -> FloocraftBase.ClientModEvents.handleMessage(message));
     }
 }

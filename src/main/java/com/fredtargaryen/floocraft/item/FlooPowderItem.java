@@ -2,7 +2,7 @@ package com.fredtargaryen.floocraft.item;
 
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftSounds;
-import com.fredtargaryen.floocraft.block.FlooFlames;
+import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.entity.DroppedFlooPowderEntity;
 import net.minecraft.ChatFormatting;
@@ -27,8 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-import static com.fredtargaryen.floocraft.block.FlooFlames.BEHAVIOUR;
-import static com.fredtargaryen.floocraft.block.FlooFlames.BUSY;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
+import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BUSY;
 import static com.fredtargaryen.floocraft.block.FlooMainTeleporterBase.*;
 
 /**
@@ -57,7 +57,7 @@ public class FlooPowderItem extends Item {
             BlockState state = level.getBlockState(pos);
             Block b = state.getBlock();
             if (state.is(BlockTags.FIRE)) {
-                FlooFlames flooFlames = (FlooFlames) FloocraftBlocks.FLOO_FLAMES.get();
+                FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
                 if (flooFlames.isInFireplace(level, pos) != null) {
                     level.setBlockAndUpdate(pos, flooFlames.defaultBlockState()
                             .setValue(TPS_REMAINING, (int) this.concentration)
@@ -116,14 +116,14 @@ public class FlooPowderItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, context, components, flag);
-        if (this.concentration == 9) {
-            components.add(Component.translatable("item.floocraftft.concentration", '\u221E').withStyle(ChatFormatting.GREEN));
+        if (this.concentration == INFINITE_TPS) {
+            components.add(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
             components.add(Component.translatable(("item.floocraftft.creative_only")));
         } else {
             if (CommonConfig.DEPLETE_FLOO) {
                 components.add(Component.translatable("item.floocraftft.concentration", this.concentration).withStyle(ChatFormatting.GREEN));
             } else {
-                components.add(Component.translatable("item.floocraftft.concentration", '\u221E').withStyle(ChatFormatting.GREEN));
+                components.add(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
             }
             if (this.concentration == 1) {
                 components.add(Component.translatable(("item.floocraftft.craftable")));

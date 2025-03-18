@@ -31,8 +31,8 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +44,7 @@ public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity
     private static final Vec3 TEXT_OFFSET = new Vec3(0.0, 0.3333333432674408, 0.046666666865348816);
     private final Font font;
     public static final ModelLayerLocation FLOO_SIGN_MODEL_LOCATION = new ModelLayerLocation(
-            new ResourceLocation(DataReference.MODID, "sign/floo_sign"),
+            DataReference.getResourceLocation("sign/floo_sign"),
             "main");
     private SignModel signModel;
 

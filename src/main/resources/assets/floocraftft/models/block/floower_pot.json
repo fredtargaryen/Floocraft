@@ -1,7 +1,9 @@
 {
+    "ambientocclusion": false,
+    "render_type": "cutout",
     "textures": {
-        "particle": "floocraftft:blocks/floowerpottex",
-        "floowerpot": "floocraftft:blocks/floowerpottex"
+        "particle": "floocraftft:block/floower_pot_tex",
+        "floowerpot": "floocraftft:block/floower_pot_tex"
     },
     "elements": [
         {   "from": [ 5, 0, 5 ],

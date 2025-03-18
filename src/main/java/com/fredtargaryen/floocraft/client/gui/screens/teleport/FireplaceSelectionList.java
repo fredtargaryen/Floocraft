@@ -5,10 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
@@ -27,8 +28,18 @@ public class FireplaceSelectionList extends ObjectSelectionList<FireplaceSelecti
 
     public void receiveFireplaceList(FireplaceListResponseMessage flrm) {
         this.clearEntries();
-        for (int i = 0; i < flrm.places.length; i++) {
-            this.addEntry(new FireplaceListEntry(this.minecraft, this, (String) flrm.places[i], flrm.enabledList[i], i == flrm.playerPlaceIndex));
+        List<String> places = flrm.places();
+        List<Boolean> enabledList = flrm.enabledList();
+        List<Boolean> canPeekList = flrm.canPeekList();
+        int playerPlaceIndex = flrm.playerPlaceIndex();
+        for (int i = 0; i < flrm.places().size(); i++) {
+            this.addEntry(new FireplaceListEntry(
+                    this.minecraft,
+                    this,
+                    places.get(i),
+                    enabledList.get(i),
+                    canPeekList.get(i),
+                    i == playerPlaceIndex));
         }
         this.notifyListUpdated();
     }
@@ -49,8 +60,8 @@ public class FireplaceSelectionList extends ObjectSelectionList<FireplaceSelecti
     public void setSelected(@Nullable Entry entry) {
         super.setSelected(entry);
         if (entry instanceof FireplaceListEntry) {
-            boolean enabled = ((FireplaceListEntry) entry).enabled;
-            this.parent.setButtonActivity(enabled);
+            FireplaceListEntry fle = (FireplaceListEntry) entry;
+            this.parent.setButtonActivity(fle.enabled, fle.canPeek);
         }
     }
 
