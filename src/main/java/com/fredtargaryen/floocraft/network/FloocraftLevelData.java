@@ -36,7 +36,7 @@ public class FloocraftLevelData extends SavedData {
 
     public static FloocraftLevelData load(CompoundTag data, HolderLookup.Provider provider) {
         FloocraftLevelData floocraftLevelData = new FloocraftLevelData();
-        ListTag places = data.getList(DataReference.MODID, 10); // TODO: 9 now?
+        ListTag places = data.getList(DataReference.MODID, 10);
         for (int i = 0; i < places.size(); ++i) {
             CompoundTag place = places.getCompound(i);
             int[] coords = new int[]{place.getInt("X"), place.getInt("Y"), place.getInt("Z")};

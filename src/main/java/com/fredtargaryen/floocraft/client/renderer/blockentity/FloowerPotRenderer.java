@@ -33,9 +33,10 @@ public class FloowerPotRenderer implements BlockEntityRenderer<FloowerPotBlockEn
     private float previousPartialTicks;
 
     /**
-     * Controls how long the animation takes to do one loop of the 32 textures
+     * Controls how long the animation takes to do one loop of the 32 textures.
+     * By default textures are animated at 1 frame per client tick
      */
-    private static final double intervalLengthSeconds = 1.5;
+    private static final double intervalLengthSeconds = 1.6; // 32 client ticks
 
     /**
      * The top V coordinate to sample the pot powder texture with on this frame

@@ -30,35 +30,13 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-/**
- * Other updates aside from porting the mod:
- * * Added a 1-second cooldown between uses of Floo Torches
- * * Sped up Floo Torch teleporting
- * * Restores the ability to transform flames using dropped Floo Powder
- * * Reduced amount of memory used by Floo flames
- * * Generally prettified the code base - faster more elegant algorithms; more cohesive classes
- * * Removed the valid departure blocks tag - don't think anyone would have used it so a small price to pay for better code
- * * If you can teleport into a fireplace, write its name in "Floo green" instead of ordinary green
- * * Teleport screen now shows which fireplace you are in (if any)
- * * Remove some empty spaces from sign text
- * * Players nearby hear when you arrive in a Floo fire
- * * Drawing colour to screen rather than using textures for teleport flash
- * * Small tweaks to teleport flash speed and dizziness effect
- * * Allow a little longer to exit a Floo fire on arrival; increase config maximum time
- * * Change Floower Pot minimum fire conversion range to 0 so you can use it manually if you prefer
- * * Exclusive creative menu tab for Floocraft items
- * <p>
- * TODO Green glint on powder in pot?
- */
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
 public class FloocraftBase {
@@ -68,7 +46,7 @@ public class FloocraftBase {
     public FloocraftBase(IEventBus eventBus, ModContainer modContainer) {
 
         // Register the commonSetup method for modloading
-        eventBus.addListener(this::commonSetup);
+        // eventBus.addListener(this::commonSetup);
 
         FloocraftBlocks.register(eventBus);
         FloocraftItems.register(eventBus);
@@ -87,17 +65,17 @@ public class FloocraftBase {
         modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
+//    @SubscribeEvent
+//    private void commonSetup(final FMLCommonSetupEvent event) {
+//        // Some common setup code
+//        LOGGER.info("HELLO FROM COMMON SETUP");
+//    }
+//
+//    @SubscribeEvent
+//    public void onServerStarting(ServerStartingEvent event) {
+//        // Do something when the server starts
+//        LOGGER.info("HELLO from server starting");
+//    }
 
     /**
      * Register the mod's commands.
