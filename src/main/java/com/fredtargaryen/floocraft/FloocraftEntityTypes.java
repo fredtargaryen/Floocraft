@@ -12,8 +12,10 @@ public class FloocraftEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, DataReference.MODID);
 
     // Declare all entity types
-    public static final DeferredHolder<EntityType<?>, EntityType<PeekerEntity>> PEEKER = ENTITY_TYPES.register("peeker", () -> EntityType.Builder.of(PeekerEntity::new, MobCategory.MISC)
-            .build(DataReference.MODID + ":peeker"));
+    public static final DeferredHolder<EntityType<?>, EntityType<PeekerEntity>> PEEKER = ENTITY_TYPES.register("peeker",
+            () -> EntityType.Builder.of(PeekerEntity::new, MobCategory.MISC)
+                    .sized(1f, 0.6f)
+                    .build(DataReference.MODID + ":peeker"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
