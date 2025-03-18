@@ -16,14 +16,11 @@ out
 # gradle
 build
 .gradle
-gradle/wrapper/gradle-wrapper.jar
-gradlew*
 
 # other
 eclipse
 run
-
-# Files from Forge MDK
-forge*changelog.txt
+runs
+run-data
 
 logs*

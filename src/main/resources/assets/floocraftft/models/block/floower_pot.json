@@ -1,0 +1,57 @@
+{
+    "ambientocclusion": false,
+    "render_type": "cutout",
+    "textures": {
+        "particle": "floocraftft:block/floower_pot_tex",
+        "floowerpot": "floocraftft:block/floower_pot_tex"
+    },
+    "elements": [
+        {   "from": [ 5, 0, 5 ],
+            "to": [ 6, 6, 11 ],
+            "faces": {
+                "down":  { "uv": [ 5, 5, 6, 11 ], "texture": "#floowerpot", "cullface": "down" },
+                "up":    { "uv": [ 5, 5, 6, 11 ], "texture": "#floowerpot" },
+                "north": { "uv": [ 10, 10, 11, 16 ], "texture": "#floowerpot" },
+                "south": { "uv": [ 5, 10, 6, 16 ], "texture": "#floowerpot" },
+                "west":  { "uv": [ 5, 10, 11, 16 ], "texture": "#floowerpot" },
+                "east":  { "uv": [ 5, 10, 11, 16 ], "texture": "#floowerpot" }
+            }
+        },
+        {   "from": [ 10, 0, 5 ],
+            "to": [ 11, 6, 11 ],
+            "faces": {
+                "down":  { "uv": [ 10, 5, 11, 11 ], "texture": "#floowerpot", "cullface": "down" },
+                "up":    { "uv": [ 10, 5, 11, 11 ], "texture": "#floowerpot" },
+                "north": { "uv": [ 5, 10, 6, 16 ], "texture": "#floowerpot" },
+                "south": { "uv": [ 10, 10, 11, 16 ], "texture": "#floowerpot" },
+                "west":  { "uv": [ 5, 10, 11, 16 ], "texture": "#floowerpot" },
+                "east":  { "uv": [ 5, 10, 11, 16 ], "texture": "#floowerpot" }
+            }
+        },
+        {   "from": [ 6, 0, 5 ],
+            "to": [ 10, 6, 6 ],
+            "faces": {
+                "down":  { "uv": [ 6, 10, 10, 11 ], "texture": "#floowerpot", "cullface": "down" },
+                "up":    { "uv": [ 6, 5, 10, 6 ], "texture": "#floowerpot" },
+                "north": { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" },
+                "south": { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" }
+            }
+        },
+        {   "from": [ 6, 0, 10 ],
+            "to": [ 10, 6, 11 ],
+            "faces": {
+                "down":  { "uv": [ 6, 5, 10, 6 ], "texture": "#floowerpot", "cullface": "down" },
+                "up":    { "uv": [ 6, 10, 10, 11 ], "texture": "#floowerpot" },
+                "north": { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" },
+                "south": { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" }
+            }
+        },
+        {   "from": [ 6, 0, 6 ],
+            "to": [ 10, 1, 10 ],
+            "faces": {
+                "down":   { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot", "cullface": "down" },
+                "up":   { "uv": [ 6, 10, 10, 16 ], "texture": "#floowerpot" }
+            }
+        }
+    ]
+}

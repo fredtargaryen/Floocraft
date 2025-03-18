@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "#minecraft:fire",
-    "#floocraftft:valid_departure_blocks"
+    "floocraftft:floo_flames",
+    "floocraftft:floo_campfire",
+    "floocraftft:floo_soul_campfire"
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients":
+  [
+    {"item": "minecraft:ender_pearl"},
+    {"item": "minecraft:gunpowder"}
+  ],
+  "result":
+  {
+    "id": "floocraftft:floo_powder_one",
+    "count": 8
+  }
+}

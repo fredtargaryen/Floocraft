@@ -1,0 +1,6 @@
+{
+    "parent": "floocraftft:block/template_tall",
+    "textures": {
+        "fire": "floocraftft:block/green_flames"
+    }
+}

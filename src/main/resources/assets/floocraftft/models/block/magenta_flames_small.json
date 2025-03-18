@@ -1,0 +1,6 @@
+{
+    "parent": "floocraftft:block/template_small",
+    "textures": {
+        "fire": "floocraftft:block/magenta_flames"
+    }
+}
