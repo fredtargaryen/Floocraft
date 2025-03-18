@@ -9,13 +9,12 @@ Floocraft is a Minecraft NeoForge mod which adds content themed around Floo Powd
 Floocraft has no world generation.
 
 ### Helpful Links
-For the Minecraft Forum page [click here](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2225329-floocraft-teleport-like-harry-potter-last-update-8).
+For the mod's CurseForge page [click here](https://www.curseforge.com/minecraft/mc-mods/floocraft).
 
-To download a .jar file [click here](https://minecraft.curseforge.com/projects/floocraft/files).
 ### Issues
 Please report any issues on [the Issues page](https://github.com/fredtargaryen/Floocraft/issues).
 
 ### Pull Requests
 Any pull requests are very welcome. There are currently no standards for pull requests but clean code which
-follows the existing patterns is appreciated. If you are making a new feature, message me first to see
+follows the existing patterns is appreciated. If you want to make a new feature, message me first to see
 if I will accept it!
