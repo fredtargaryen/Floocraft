@@ -45,7 +45,9 @@ public class FlooPowderItem extends Item {
     }
 
     public FlooPowderItem(byte conc) {
-        super(new Item.Properties().stacksTo(64));
+        super(new Item.Properties()
+                .stacksTo(64)
+                .fireResistant());
         this.concentration = conc;
     }
 
@@ -105,7 +107,6 @@ public class FlooPowderItem extends Item {
     public Entity createEntity(Level level, Entity location, ItemStack stack) {
         if (!level.isClientSide) {
             DroppedFlooPowderEntity flp = new DroppedFlooPowderEntity(level, location.getX(), location.getEyeY() - 0.3, location.getZ(), stack, this.concentration);
-            //Set immune to fire in type;
             flp.setPickUpDelay(40);
             flp.setDeltaMovement(location.getDeltaMovement());
             return flp;
