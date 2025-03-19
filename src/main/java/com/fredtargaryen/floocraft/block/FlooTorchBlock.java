@@ -40,7 +40,6 @@ public class FlooTorchBlock extends TorchBlock {
         if (level.isClientSide) {
             if (!FloocraftBase.ClientModEvents.torchTicker.isRunning()) {
                 if (entity instanceof Player) {
-                    FloocraftBase.info("Sending tp message");
                     MessageHandler.sendToServer(new TeleportByTorchMessage(pos));
                     FloocraftBase.ClientModEvents.torchTicker.start();
                 }

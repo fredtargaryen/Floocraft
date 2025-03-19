@@ -45,7 +45,9 @@ public class FlooPowderItem extends Item {
     }
 
     public FlooPowderItem(byte conc) {
-        super(new Item.Properties().stacksTo(64));
+        super(new Item.Properties()
+                .stacksTo(64)
+                .fireResistant());
         this.concentration = conc;
     }
 
@@ -64,8 +66,9 @@ public class FlooPowderItem extends Item {
                             .setValue(COLOUR, SoulFireBlock.canSurviveOnBlock(level.getBlockState(pos.below())))
                             .setValue(BEHAVIOUR, BUSY));
                     level.playSound(null, pos, FloocraftSounds.GREENED.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                    context.getItemInHand().shrink(1);
+                    return InteractionResult.sidedSuccess(false);
                 }
-                context.getItemInHand().grow(-1);
                 return InteractionResult.SUCCESS;
             } else if (b == Blocks.CAMPFIRE && state.getValue(BlockStateProperties.LIT)) {
                 level.setBlockAndUpdate(pos, FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
@@ -73,19 +76,19 @@ public class FlooPowderItem extends Item {
                         .setValue(COLOUR, STANDARD)
                         .setValue(TPS_REMAINING, (int) this.concentration));
                 level.playSound(null, pos, FloocraftSounds.GREENED.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                context.getItemInHand().grow(-1);
-                return InteractionResult.SUCCESS;
+                context.getItemInHand().shrink(1);
+                return InteractionResult.sidedSuccess(false);
             } else if (b == Blocks.SOUL_CAMPFIRE && state.getValue(BlockStateProperties.LIT)) {
                 level.setBlockAndUpdate(pos, FloocraftBlocks.FLOO_SOUL_CAMPFIRE.get().defaultBlockState()
                         .setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
                         .setValue(COLOUR, SOUL)
                         .setValue(TPS_REMAINING, (int) this.concentration));
                 level.playSound(null, pos, FloocraftSounds.GREENED.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                context.getItemInHand().grow(-1);
-                return InteractionResult.SUCCESS;
+                context.getItemInHand().shrink(1);
+                return InteractionResult.sidedSuccess(false);
             }
         }
-        return InteractionResult.FAIL;
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -105,7 +108,6 @@ public class FlooPowderItem extends Item {
     public Entity createEntity(Level level, Entity location, ItemStack stack) {
         if (!level.isClientSide) {
             DroppedFlooPowderEntity flp = new DroppedFlooPowderEntity(level, location.getX(), location.getEyeY() - 0.3, location.getZ(), stack, this.concentration);
-            //Set immune to fire in type;
             flp.setPickUpDelay(40);
             flp.setDeltaMovement(location.getDeltaMovement());
             return flp;

@@ -51,8 +51,8 @@ public class DroppedFlooPowderEntity extends ItemEntity {
                         .setValue(COLOUR, this.level().getBlockState(location.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS))
                         .setValue(BEHAVIOUR, BUSY));
                 this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+                this.kill();
             }
-            this.kill();
         } else {
             Block b = bs.getBlock();
             if (b == Blocks.CAMPFIRE) {
