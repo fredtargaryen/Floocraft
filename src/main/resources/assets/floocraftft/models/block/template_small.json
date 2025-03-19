@@ -1,5 +1,4 @@
 {
-    "ambientocclusion": false,
     "textures": {
             "particle": "#fire",
             "fire": "#fire"
