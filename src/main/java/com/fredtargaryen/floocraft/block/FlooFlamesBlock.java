@@ -25,9 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlooFlamesBlock extends FlooMainTeleporterBase {
-    private static final Direction[] HORIZONTALS = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST };
-    private static final VoxelShape SMALLBOX = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D);
-    private static final VoxelShape TALLBOX = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 32.0D, 16.0D);
+    private static final Direction[] HORIZONTALS = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+    private static final VoxelShape BOX = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     /**
      * The fire "behaviour". 0 for temporary; 1 for idle; 2 for busy
@@ -66,11 +65,7 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
 
     @Override
     protected @Nonnull VoxelShape getShape(BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-        if (state.getValue(BEHAVIOUR) == IDLE)
-        {
-            return SMALLBOX;
-        }
-        return TALLBOX;
+        return BOX;
     }
 
     @Override
