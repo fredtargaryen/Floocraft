@@ -132,8 +132,7 @@ public class FlooSignBlockEntity extends BlockEntity {
     private int y;
 
     public void addLocation(List<String> rawLocationName) {
-        assert this.level != null;
-        if (!this.level.isClientSide) {
+        if (this.level != null && !this.level.isClientSide) {
             // We are on the server side.
             this.setNameOnSign(rawLocationName);
             Optional<BlockPos> locationPos = getFireplaceFirePos(this.level, this.getBlockPos());

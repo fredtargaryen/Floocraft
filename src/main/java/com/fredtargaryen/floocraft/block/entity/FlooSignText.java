@@ -106,10 +106,10 @@ public class FlooSignText {
         return false;
     }
 
-    public String[] getTextAsArray() {
+    public List<String> getTextAsArray() {
         return Arrays.stream(this.messages)
                 .map(Component::getString)
-                .toArray(String[]::new);
+                .toList();
     }
 
     static {

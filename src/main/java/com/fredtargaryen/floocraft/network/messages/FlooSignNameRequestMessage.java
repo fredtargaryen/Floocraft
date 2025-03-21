@@ -51,8 +51,9 @@ public record FlooSignNameRequestMessage(BlockPos signPos, Boolean attemptingToC
             FlooSignBlockEntity fsbe = (FlooSignBlockEntity) (level.getBlockEntity(message.signPos));
             if (fsbe != null && !fsbe.getConnected()) {
                 if (message.attemptingToConnect) {
-                    boolean approved = !FloocraftLevelData.getForLevel(level).placeList
-                            .containsKey(HelperFunctions.convertArrayToLocationName(message.name));
+                    String locationName = HelperFunctions.convertArrayToLocationName(message.name);
+                    boolean approved = !locationName.isEmpty()
+                            && !FloocraftLevelData.getForLevel(level).placeList.containsKey(locationName);
                     FlooSignNameResponseMessage fsnrm = new FlooSignNameResponseMessage(approved);
                     context.reply(fsnrm);
                     if (approved) {
