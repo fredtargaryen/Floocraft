@@ -46,7 +46,7 @@
     "gui.teleport.cancel": "취소",
     "gui.teleport.loading": "로딩 중...",
     "gui.teleport.empty": "위치를 찾을 수 없습니다.",
-    "gui.teleport.player_is_here": "%s (you are here)",
+    "gui.teleport.player_is_here": "%s (여기)",
 
     "config.client.dizzy": "If true, there is a disorienting camera-wobbling effect when you teleport with Floo Powder.",
     "config.client.flash": "If true, there is a green or magenta flash when you teleport with Floo Powder.",

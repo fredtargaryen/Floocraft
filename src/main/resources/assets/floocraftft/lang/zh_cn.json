@@ -46,7 +46,7 @@
     "gui.teleport.cancel": "取消",
     "gui.teleport.loading": "载入中...",
     "gui.teleport.empty": "找不到地点",
-    "gui.teleport.player_is_here": "%s (you are here)",
+    "gui.teleport.player_is_here": "%s (这里)",
 
     "config.client.dizzy": "If true, there is a disorienting camera-wobbling effect when you teleport with Floo Powder.",
     "config.client.flash": "If true, there is a green or magenta flash when you teleport with Floo Powder.",
