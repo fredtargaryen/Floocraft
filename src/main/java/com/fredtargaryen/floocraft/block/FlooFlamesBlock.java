@@ -84,6 +84,15 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
     }
 
     @Override
+    protected BlockState updateShape(
+            BlockState myState, Direction direction, BlockState neighbouringState, LevelAccessor accessor, BlockPos pos, BlockPos neighbourPos
+    ) {
+        return direction == Direction.DOWN && !this.canSurvive(myState, accessor, pos)
+                ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(myState, direction, myState, accessor, pos, neighbourPos);
+    }
+
+    @Override
     protected void tick(@Nonnull BlockState state, @Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nonnull RandomSource rand) {
         switch (state.getValue(BEHAVIOUR)) {
             case BUSY:
@@ -118,6 +127,12 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
                 level.scheduleTick(pos, this, 30 + rand.nextInt(10));
             }
         }
+    }
+
+    @Override
+    protected boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+        BlockPos blockpos = pPos.below();
+        return pLevel.getBlockState(blockpos).isFaceSturdy(pLevel, blockpos, Direction.UP);
     }
 
     @Override
