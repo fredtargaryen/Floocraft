@@ -13,8 +13,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
 import javax.annotation.Nonnull;
 
@@ -127,8 +127,8 @@ public class PeekScreen extends Screen {
     }
 
     @SubscribeEvent
-    public void onHurt(LivingHurtEvent lhe) {
-        if (lhe.getEntity() == this.player) {
+    public void onHurt(LivingDamageEvent.Pre lde) {
+        if (lde.getEntity() == this.player) {
             Minecraft.getInstance().setScreen(null);
         }
     }

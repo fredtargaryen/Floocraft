@@ -25,7 +25,7 @@ public class FlooWallTorchBlock extends WallTorchBlock {
                 .instabreak()
                 .lightLevel(state -> 14)
                 .sound(SoundType.WOOD)
-                .dropsLike(FloocraftBlocks.FLOO_TORCH.get())
+                .lootFrom(FloocraftBlocks.FLOO_TORCH)
                 .pushReaction(PushReaction.DESTROY));
     }
 

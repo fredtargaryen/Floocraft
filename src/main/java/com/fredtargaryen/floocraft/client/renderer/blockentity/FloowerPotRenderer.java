@@ -71,7 +71,7 @@ public class FloowerPotRenderer implements BlockEntityRenderer<FloowerPotBlockEn
      */
     @SubscribeEvent
     public void onClientTick(RenderFrameEvent.Pre event) {
-        float partialTicks = event.getPartialTick();
+        float partialTicks = event.getPartialTick().getGameTimeDeltaTicks();
         this.time += getElapsedPartialTicks(this.previousPartialTicks, partialTicks) / 20.0 / intervalLengthSeconds;
         this.previousPartialTicks = partialTicks;
         this.minV = ((int) ((this.time - (int) this.time) * 32)) // Get the frame number
@@ -79,12 +79,11 @@ public class FloowerPotRenderer implements BlockEntityRenderer<FloowerPotBlockEn
     }
 
     private void doAVertex(VertexConsumer builder, PoseStack.Pose pose, float x, float y, float z, float u, float v, int combinedLightLevel, int combinedOverlayLevel) {
-        builder.vertex(pose, x, y, z)
-                .color(1f, 1f, 1f, 1f)
-                .uv(u, v)
-                .overlayCoords(combinedOverlayLevel)
-                .uv2(combinedLightLevel)
-                .normal(pose, 0f, 1f, 0f)
-                .endVertex();
+        builder.addVertex(pose, x, y, z)
+                .setColor(1f, 1f, 1f, 1f)
+                .setUv(u, v)
+                .setOverlay(combinedOverlayLevel)
+                .setLight(combinedLightLevel)
+                .setNormal(pose, 0f, 1f, 0f);
     }
 }

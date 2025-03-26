@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.SignBlock;
@@ -108,7 +107,7 @@ public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity
         int $$9 = 4 * unknown2 / 2;
         FormattedCharSequence[] $$10 = signText.getRenderMessages(Minecraft.getInstance().isTextFilteringEnabled(), (p_277227_) -> {
             List<FormattedCharSequence> $$2 = this.font.split(p_277227_, p_279357_);
-            return $$2.isEmpty() ? FormattedCharSequence.EMPTY : (FormattedCharSequence)$$2.get(0);
+            return $$2.isEmpty() ? FormattedCharSequence.EMPTY : (FormattedCharSequence) $$2.get(0);
         });
         int $$14;
         boolean $$15;
@@ -160,8 +159,9 @@ public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity
             this.root = modelPart;
         }
 
-        public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int p_112512_, int p_112513_, float p_112514_, float p_112515_, float p_112516_, float p_112517_) {
-            this.root.render(poseStack, consumer, p_112512_, p_112513_, p_112514_, p_112515_, p_112516_, p_112517_);
+        @Override
+        public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int light, int overlay, int colour) {
+            this.root.render(poseStack, consumer, light, overlay, colour);
         }
     }
 }

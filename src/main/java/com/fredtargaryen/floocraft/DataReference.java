@@ -10,7 +10,7 @@ public class DataReference {
     public static final String MODID = "floocraftft";
 
     public static ResourceLocation getResourceLocation(String path) {
-        return new ResourceLocation(MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     // Set in client setup event by ClientModEvents

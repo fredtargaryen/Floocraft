@@ -15,8 +15,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -70,15 +70,16 @@ public class PeekerEntity extends Entity {
             default -> 90.0F;
         };
     }
+
     @Override
-    public void onAddedToWorld() {
-        super.onAddedToWorld();
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         if (!this.level().isClientSide) NeoForge.EVENT_BUS.register(this);
     }
 
     @Override
-    public void onRemovedFromWorld() {
-        super.onRemovedFromWorld();
+    public void onRemovedFromLevel() {
+        super.onRemovedFromLevel();
         if (!this.level().isClientSide) NeoForge.EVENT_BUS.unregister(this);
     }
 
@@ -109,9 +110,9 @@ public class PeekerEntity extends Entity {
     }
 
     @SubscribeEvent
-    public void onHurt(LivingHurtEvent lhe) {
+    public void onHurt(LivingDamageEvent.Pre lde) {
         if (this.level() != null && !this.level().isClientSide && this.getPlayerUUID().isPresent()) {
-            UUID hurtEntityUUID = lhe.getEntity().getUUID();
+            UUID hurtEntityUUID = lde.getEntity().getUUID();
             if (hurtEntityUUID.equals(this.getPlayerUUID().get())) {
                 this.remove(RemovalReason.DISCARDED);
             }
