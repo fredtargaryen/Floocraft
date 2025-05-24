@@ -9,8 +9,11 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,7 +26,7 @@ import java.util.UUID;
 
 public class PeekerEntity extends Entity {
     // Synced data
-    private static final EntityDataAccessor<Optional<UUID>> PLAYER_ID = SynchedEntityData.defineId(PeekerEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> PLAYER_REF = SynchedEntityData.defineId(PeekerEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE);
 
     // Only used on the client side
     private Optional<ResourceLocation> texture;
@@ -34,11 +37,12 @@ public class PeekerEntity extends Entity {
     }
 
     public Optional<UUID> getPlayerUUID() {
-        return this.entityData.get(PLAYER_ID);
+        Optional<EntityReference<LivingEntity>> ref = this.entityData.get(PLAYER_REF);
+        return ref.map(EntityReference::getUUID);
     }
 
     public void setPeekerData(Player player, BlockPos spawnPos, Direction direction) {
-        this.entityData.set(PLAYER_ID, Optional.of(player.getUUID()));
+        this.entityData.set(PLAYER_REF, Optional.of(new EntityReference<>(player)));
 
         BlockPos landPos = spawnPos.relative(direction);
         float x = landPos.getX() + 0.5F;
@@ -109,6 +113,11 @@ public class PeekerEntity extends Entity {
         return this.texture;
     }
 
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
+        return false;
+    }
+
     @SubscribeEvent
     public void onHurt(LivingDamageEvent.Pre lde) {
         if (this.level() != null && !this.level().isClientSide && this.getPlayerUUID().isPresent()) {
@@ -128,7 +137,7 @@ public class PeekerEntity extends Entity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(PLAYER_ID, Optional.empty());
+        builder.define(PLAYER_REF, Optional.empty());
     }
 
     @Override
