@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
@@ -35,10 +36,15 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderSta
     }
 
     @Override
-    public void render(PeekerRenderState peeker, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        super.render(peeker, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    public PeekerRenderState createRenderState() {
+        return null;
+    }
+
+    @Override
+    public void render(PeekerRenderState peeker, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        super.render(peeker, poseStack, buffer, packedLight);
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(180f - peeker.getYRot()));
+        poseStack.mulPose(Axis.YP.rotationDegrees(180f - peeker.yRot));
         PoseStack.Pose normalPose = poseStack.last();
         Matrix4f pos = normalPose.pose();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(peeker), true));
@@ -58,9 +64,8 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderSta
                 .setNormal(normalPose, 0f, 1f, 0f);
     }
 
-    @Override
     @Nonnull
-    public ResourceLocation getTextureLocation(PeekerEntity peeker) {
-        return peeker.getTexture().orElse(PLACEHOLDER);
+    public ResourceLocation getTextureLocation(PeekerRenderState peeker) {
+        return peeker.skin.map(PlayerSkin::texture).orElse(PLACEHOLDER);
     }
 }
