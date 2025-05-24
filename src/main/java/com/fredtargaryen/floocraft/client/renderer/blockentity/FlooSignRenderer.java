@@ -34,7 +34,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
-import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity> {
@@ -53,7 +52,7 @@ public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity
     }
 
     @Override
-    public void render(FlooSignBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, int combinedOverlay) {
+    public void render(FlooSignBlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource multiBufferSource, int combinedLight, int combinedOverlay, Vec3 cameraPos) {
         BlockState state = blockEntity.getBlockState();
         FlooSignBlock signBlock = (FlooSignBlock) state.getBlock();
         WoodType woodType = SignBlock.getWoodType(signBlock);
@@ -85,19 +84,13 @@ public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity
         }
     }
 
-    void renderSign(PoseStack poseStack, MultiBufferSource multiBufferSource, int p_279494_, int p_279344_, Model model) {
+    void renderSign(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, int packedOverlay, Model model) {
         poseStack.pushPose();
         float renderScale = this.getSignModelRenderScale();
         poseStack.scale(renderScale, -renderScale, -renderScale);
-        Objects.requireNonNull(model);
         VertexConsumer consumer = DataReference.SIGN_MATERIAL.buffer(multiBufferSource, model::renderType);
-        this.renderSignModel(poseStack, p_279494_, p_279344_, model, consumer);
+        model.renderToBuffer(poseStack, consumer, packedLight, packedOverlay);
         poseStack.popPose();
-    }
-
-    void renderSignModel(PoseStack poseStack, int p_249399_, int p_249042_, Model model, VertexConsumer consumer) {
-        SignModel signModel = (SignModel) model;
-        signModel.root.render(poseStack, consumer, p_249399_, p_249042_);
     }
 
     void renderSignText(BlockPos blockPos, FlooSignText signText, PoseStack poseStack, MultiBufferSource multiBufferSource, int p_279300_, int unknown2, int p_279357_, boolean frontOrBack) {
@@ -152,16 +145,8 @@ public class FlooSignRenderer implements BlockEntityRenderer<FlooSignBlockEntity
 
     @OnlyIn(Dist.CLIENT)
     public static final class SignModel extends Model {
-        public final ModelPart root;
-
-        public SignModel(ModelPart modelPart) {
-            super(RenderType::entityCutoutNoCull);
-            this.root = modelPart;
-        }
-
-        @Override
-        public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int light, int overlay, int colour) {
-            this.root.render(poseStack, consumer, light, overlay, colour);
+        public SignModel(ModelPart root) {
+            super(root, RenderType::entityCutoutNoCull);
         }
     }
 }
