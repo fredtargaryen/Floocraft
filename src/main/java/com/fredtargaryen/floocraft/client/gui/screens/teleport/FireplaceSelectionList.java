@@ -49,7 +49,7 @@ public class FireplaceSelectionList extends ObjectSelectionList<FireplaceSelecti
     }
 
     private void notifyListUpdated() {
-        this.setScrollAmount(this.getScrollAmount());
+        this.setScrollAmount(this.scrollAmount());
         this.parent.triggerImmediateNarration(true);
     }
 

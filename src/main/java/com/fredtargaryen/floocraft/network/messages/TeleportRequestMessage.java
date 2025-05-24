@@ -6,8 +6,7 @@ import com.fredtargaryen.floocraft.FloocraftSounds;
 import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooMainTeleporterBase;
 import com.fredtargaryen.floocraft.config.CommonConfig;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
-import com.fredtargaryen.floocraft.network.MessageHandler;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -57,19 +56,19 @@ public record TeleportRequestMessage(BlockPos initPos, String dest) implements C
         context.enqueueWork(() -> {
             //Determine whether the destination is valid
             //The coordinates of the destination: [x, y, z]
-            int[] destCoords = FloocraftLevelData.getForLevel(level).placeList.get(message.dest);
+            BlockPos destCoords = FloocraftSavedData.getForLevel(level).placeList.get(message.dest);
             BlockPos initBlockPos = message.initPos;
             int initX = initBlockPos.getX();
             int initY = initBlockPos.getY();
             int initZ = initBlockPos.getZ();
 
             //Stop everything if the destination has the same coordinates as where the player is
-            if (destCoords[0] == initX && destCoords[1] == initY && destCoords[2] == initZ) {
+            if (destCoords.getX() == initX && destCoords.getY() == initY && destCoords.getZ() == initZ) {
                 context.reply(new TeleportResponseMessage(false, false));
                 return;
             }
             //Checks whether the destination has a block that can be arrived in, and is in a valid fireplace
-            BlockPos destBlockPos = new BlockPos(destCoords[0], destCoords[1], destCoords[2]);
+            BlockPos destBlockPos = new BlockPos(destCoords.getX(), destCoords.getY(), destCoords.getZ());
             BlockState destBlockState = level.getBlockState(destBlockPos);
             boolean validDest = false;
             FlooFlamesBlock flooFlames = FloocraftBlocks.FLOO_FLAMES.get();
@@ -109,7 +108,7 @@ public record TeleportRequestMessage(BlockPos initPos, String dest) implements C
             if (sender.getVehicle() != null) {
                 sender.stopRiding();
             }
-            sender.connection.teleport(destCoords[0] + 0.5D, destCoords[1], destCoords[2] + 0.5D, sender.getRandom().nextFloat() * 360, sender.getXRot());
+            sender.connection.teleport(destCoords.getX() + 0.5D, destCoords.getY(), destCoords.getZ() + 0.5D, sender.getRandom().nextFloat() * 360, sender.getXRot());
             sender.fallDistance = 0.0F;
             level.playSound(null, destBlockPos, FloocraftSounds.TP.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
 

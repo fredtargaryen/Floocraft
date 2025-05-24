@@ -5,7 +5,7 @@ import com.fredtargaryen.floocraft.HelperFunctions;
 import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooSignBlock;
 import com.fredtargaryen.floocraft.block.entity.FlooSignText;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DataResult;
@@ -62,12 +62,12 @@ public class FlooSignBlockEntity extends BlockEntity {
     @Override
     public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        this.isConnected = tag.getBoolean("connected");
-        this.y = tag.getInt("y");
+        this.isConnected = tag.getBoolean("connected").orElse(false);
+        this.y = tag.getInt("y").orElse(1);
         DynamicOps<Tag> dynamicops = provider.createSerializationContext(NbtOps.INSTANCE);
         DataResult<FlooSignText> result;
         if (tag.contains("text")) {
-            result = FlooSignText.DIRECT_CODEC.parse(dynamicops, tag.getCompound("text"));
+            result = FlooSignText.DIRECT_CODEC.parse(dynamicops, tag.getCompound("text").orElse(new CompoundTag()));
             result.resultOrPartial(LOGGER::error).ifPresent(text -> this.signText = this.loadLines(text));
         }
     }
@@ -125,6 +125,17 @@ public class FlooSignBlockEntity extends BlockEntity {
         this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
+    @Override
+    public void preRemoveSideEffects(@Nonnull BlockPos pos, @Nonnull BlockState state) {
+        if (!this.level.isClientSide) {
+            FlooSignBlockEntity fsbe = (FlooSignBlockEntity) level.getBlockEntity(pos);
+            if (fsbe != null && fsbe.getConnected()) {
+                FloocraftSavedData.getForLevel((ServerLevel) level).removeLocation(fsbe.getLocationName());
+            }
+        }
+        super.preRemoveSideEffects(pos, state);
+    }
+
     //////////////////
     //FIREPLACE INFO//
     //////////////////
@@ -139,7 +150,7 @@ public class FlooSignBlockEntity extends BlockEntity {
             locationPos.ifPresent(
                     pos -> {
                         this.y = pos.getY();
-                        FloocraftLevelData.getForLevel((ServerLevel) this.level).addLocation(HelperFunctions.convertArrayToLocationName(rawLocationName), pos);
+                        FloocraftSavedData.getForLevel((ServerLevel) this.level).addLocation(HelperFunctions.convertArrayToLocationName(rawLocationName), pos);
                     });
         }
     }
@@ -171,7 +182,7 @@ public class FlooSignBlockEntity extends BlockEntity {
      * without finding a solid block
      */
     private static Optional<BlockPos> getFireplaceFirePos(Level level, BlockPos pos) {
-        int minY = level.getMinBuildHeight();
+        int minY = level.getMinY();
         //The block below the block at the top of the fireplace
         BlockPos nextPos = pos.relative(level.getBlockState(pos).getValue(FlooSignBlock.FACING).getOpposite())
                 .below();

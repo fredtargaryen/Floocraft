@@ -10,10 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoulFireBlock;
@@ -86,11 +83,18 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
 
     @Override
     protected BlockState updateShape(
-            BlockState myState, Direction direction, BlockState neighbouringState, LevelAccessor accessor, BlockPos pos, BlockPos neighbourPos
+            BlockState myState,
+            LevelReader reader,
+            ScheduledTickAccess tickAccess,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighbourPos,
+            BlockState neighbouringState,
+            RandomSource source
     ) {
-        return direction == Direction.DOWN && !this.canSurvive(myState, accessor, pos)
+        return direction == Direction.DOWN && !this.canSurvive(myState, reader, pos)
                 ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(myState, direction, myState, accessor, pos, neighbourPos);
+                : super.updateShape(myState, reader, tickAccess, pos, direction, neighbourPos, neighbouringState, source);
     }
 
     @Override
@@ -193,7 +197,7 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
      * finding a solid block
      */
     private int getTopBlockY(Level level, BlockPos pos) {
-        int maxY = level.getMaxBuildHeight();
+        int maxY = level.getMaxY();
         BlockPos nextPos = pos.above();
         int y = nextPos.getY();
         BlockState bs;
@@ -303,7 +307,7 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
      * is in a valid fireplace but not a corner; null if the fireplace is invalid
      */
     public Direction isInFireplace(Level level, BlockPos pos) {
-        int topY = level.getMaxBuildHeight();
+        int topY = level.getMaxY();
         // Above max build height - 2, you can't build a fireplace so it can't be in one
         if (pos.getY() >= topY - 1) return null;
         int t = this.getTopBlockY(level, pos);

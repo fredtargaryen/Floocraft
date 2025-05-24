@@ -5,6 +5,7 @@ import com.fredtargaryen.floocraft.FloocraftSounds;
 import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -36,47 +37,50 @@ public class DroppedFlooPowderEntity extends ItemEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.concentration = tag.getByte("Concentration");
+        this.concentration = tag.getByte("Concentration").orElse((byte) 1);
     }
 
     @Override
     public void tick() {
-        BlockPos location = this.blockPosition();
-        BlockState bs = this.level().getBlockState(location);
-        if (bs.is(BlockTags.FIRE)) {
-            FlooFlamesBlock flames = FloocraftBlocks.FLOO_FLAMES.get();
-            if (flames.isInFireplace(this.level(), location) != null) {
-                this.level().setBlockAndUpdate(location, flames.defaultBlockState()
-                        .setValue(TPS_REMAINING, (int) this.concentration)
-                        .setValue(COLOUR, this.level().getBlockState(location.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS))
-                        .setValue(BEHAVIOUR, BUSY));
-                this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
-                this.kill();
+        Level level = this.level();
+        if (!level.isClientSide) {
+            BlockPos location = this.blockPosition();
+            BlockState bs = level.getBlockState(location);
+            if (bs.is(BlockTags.FIRE)) {
+                FlooFlamesBlock flames = FloocraftBlocks.FLOO_FLAMES.get();
+                if (flames.isInFireplace(level, location) != null) {
+                    level.setBlockAndUpdate(location, flames.defaultBlockState()
+                            .setValue(TPS_REMAINING, (int) this.concentration)
+                            .setValue(COLOUR, level.getBlockState(location.below()).is(BlockTags.SOUL_FIRE_BASE_BLOCKS))
+                            .setValue(BEHAVIOUR, BUSY));
+                    this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+                    this.kill((ServerLevel) level);
+                }
+            } else {
+                Block b = bs.getBlock();
+                if (b == Blocks.CAMPFIRE) {
+                    level.setBlockAndUpdate(location,
+                            FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
+                                    .setValue(FACING, bs.getValue(FACING))
+                                    .setValue(WATERLOGGED, bs.getValue(WATERLOGGED))
+                                    .setValue(TPS_REMAINING, (int) this.concentration)
+                                    .setValue(COLOUR, STANDARD)
+                                    .setValue(BEHAVIOUR, BUSY));
+                    this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+                    this.kill((ServerLevel) level);
+                } else if (b == Blocks.SOUL_CAMPFIRE) {
+                    level.setBlockAndUpdate(location,
+                            FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
+                                    .setValue(FACING, bs.getValue(FACING))
+                                    .setValue(WATERLOGGED, bs.getValue(WATERLOGGED))
+                                    .setValue(TPS_REMAINING, (int) this.concentration)
+                                    .setValue(COLOUR, SOUL)
+                                    .setValue(BEHAVIOUR, BUSY));
+                    this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
+                    this.kill((ServerLevel) level);
+                }
             }
-        } else {
-            Block b = bs.getBlock();
-            if (b == Blocks.CAMPFIRE) {
-                this.level().setBlockAndUpdate(location,
-                        FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
-                                .setValue(FACING, bs.getValue(FACING))
-                                .setValue(WATERLOGGED, bs.getValue(WATERLOGGED))
-                                .setValue(TPS_REMAINING, (int) this.concentration)
-                                .setValue(COLOUR, STANDARD)
-                                .setValue(BEHAVIOUR, BUSY));
-                this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
-                this.kill();
-            } else if (b == Blocks.SOUL_CAMPFIRE) {
-                this.level().setBlockAndUpdate(location,
-                        FloocraftBlocks.FLOO_CAMPFIRE.get().defaultBlockState()
-                                .setValue(FACING, bs.getValue(FACING))
-                                .setValue(WATERLOGGED, bs.getValue(WATERLOGGED))
-                                .setValue(TPS_REMAINING, (int) this.concentration)
-                                .setValue(COLOUR, SOUL)
-                                .setValue(BEHAVIOUR, BUSY));
-                this.playSound(FloocraftSounds.GREENED.get(), 1.0F, 1.0F);
-                this.kill();
-            }
+            super.tick();
         }
-        super.tick();
     }
 }

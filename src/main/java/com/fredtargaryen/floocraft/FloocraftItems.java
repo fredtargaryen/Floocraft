@@ -21,7 +21,7 @@ public class FloocraftItems {
     public static final DeferredHolder<Item, FlooPowderItem> FLOO_POWDER_8 = ITEMS.register("floo_powder_eight", () -> new FlooPowderItem((byte) 8));
     public static final DeferredHolder<Item, FlooPowderItem> FLOO_POWDER_INFINITE = ITEMS.register("floo_powder_infinite", () -> new FlooPowderItem((byte) 0));
     public static final DeferredHolder<Item, FlooSignItem> FLOO_SIGN = ITEMS.register("floo_sign", () -> new FlooSignItem((new Item.Properties()).stacksTo(16)));
-    public static final DeferredHolder<Item, Item> FLOO_TORCH = ITEMS.register("floo_torch", () -> new StandingAndWallBlockItem(FloocraftBlocks.FLOO_TORCH.get(), FloocraftBlocks.FLOO_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
+    public static final DeferredHolder<Item, Item> FLOO_TORCH = ITEMS.register("floo_torch", () -> new StandingAndWallBlockItem(FloocraftBlocks.FLOO_TORCH.get(), FloocraftBlocks.FLOO_WALL_TORCH.get(), Direction.DOWN, new Item.Properties()));
     public static final DeferredHolder<Item, Item> FLOOWER_POT = ITEMS.register("floower_pot", () -> new BlockItem(FloocraftBlocks.FLOOWER_POT.get(), new Item.Properties()));
 
     public static void register(IEventBus eventBus) {

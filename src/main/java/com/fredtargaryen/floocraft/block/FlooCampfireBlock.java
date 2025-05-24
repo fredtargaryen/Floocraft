@@ -19,14 +19,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +35,7 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleWaterloggedBlock {
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D);
     protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    public static final DirectionProperty FACING = HORIZONTAL_FACING;
+    public static final Property<Direction> FACING = HORIZONTAL_FACING;
 
     public FlooCampfireBlock(int lightLevel) {
         super(BlockBehaviour.Properties.of()
@@ -63,7 +62,7 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
      * of whether the block can receive random update ticks
      */
     @Override
-    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, RandomSource rand) {
+    public void animateTick(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, RandomSource rand) {
         int randomInt = rand.nextInt(10);
         if (randomInt < 2) {
             spawnSmokeParticles(level, pos);
@@ -85,7 +84,7 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
     }
 
     @Override
-    public boolean placeLiquid(@NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockState state, FluidState fluidState) {
+    public boolean placeLiquid(@Nonnull LevelAccessor levelAccessor, @Nonnull BlockPos pos, @Nonnull BlockState state, FluidState fluidState) {
         if (fluidState.getType() == Fluids.WATER) {
             if (!levelAccessor.isClientSide()) {
                 levelAccessor.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -123,7 +122,7 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
      */
     @Deprecated
     @Override
-    protected @NotNull BlockState rotate(BlockState state, Rotation rot) {
+    protected @Nonnull BlockState rotate(BlockState state, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
@@ -135,7 +134,7 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
      */
     @Deprecated
     @Override
-    public @NotNull BlockState mirror(BlockState state, Mirror mirrorIn) {
+    public @Nonnull BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
     }
 
@@ -147,7 +146,7 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
 
     @Override
     @Nonnull
-    protected VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @NotNull CollisionContext context) {
+    protected VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter blockGetter, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return SHAPE;
     }
 }

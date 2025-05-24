@@ -8,6 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class FlooWallTorchBlock extends WallTorchBlock {
     private SimpleParticleType flooFlameParticle;
@@ -25,12 +28,12 @@ public class FlooWallTorchBlock extends WallTorchBlock {
                 .instabreak()
                 .lightLevel(state -> 14)
                 .sound(SoundType.WOOD)
-                .lootFrom(FloocraftBlocks.FLOO_TORCH)
+                .overrideLootTable(Optional.of(FloocraftBlocks.FLOO_TORCH.get().getLootTable().get()))
                 .pushReaction(PushReaction.DESTROY));
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity, InsideBlockEffectApplier effectApplier) {
         FlooTorchBlock.attemptFlooTorchTeleport(state, level, pos, entity);
     }
 

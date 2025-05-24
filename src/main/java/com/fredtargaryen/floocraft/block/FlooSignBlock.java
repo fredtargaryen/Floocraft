@@ -1,14 +1,9 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.blockentity.FlooSignBlockEntity;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
@@ -48,25 +43,6 @@ public class FlooSignBlock extends WallSignBlock {
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, @Nonnull Level level, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if (!level.isClientSide) {
-            FlooSignBlockEntity fsbe = (FlooSignBlockEntity) level.getBlockEntity(pos);
-            if (fsbe != null && fsbe.getConnected()) {
-                FloocraftLevelData.getForLevel((ServerLevel) level).removeLocation(fsbe.getLocationName());
-            }
-        }
-        super.onRemove(state, level, pos, newState, isMoving);
-    }
-
-    @Override
     public void openTextEdit(Player player, SignBlockEntity sbe, boolean ignored) {
-    }
-
-    @Override
-    public String getDescriptionId() {
-        if (this.descriptionIdCopy == null) {
-            this.descriptionIdCopy = Util.makeDescriptionId("block", BuiltInRegistries.BLOCK.getKey(this));
-        }
-        return this.descriptionIdCopy;
     }
 }

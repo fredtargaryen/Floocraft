@@ -77,12 +77,6 @@ public class FloowerPotBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        Containers.dropContentsOnDestroy(pState, pNewState, pLevel, pPos);
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }
-
-    @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
         super.tick(state, level, pos, rand);
         if (!level.isClientSide) {

@@ -7,6 +7,7 @@ import com.fredtargaryen.floocraft.network.messages.FloowerPotSettingsUpdateMess
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -143,7 +144,7 @@ public class FloowerPotScreen extends AbstractContainerScreen<FloowerPotMenu> {
     protected void renderBg(GuiGraphics graphics, float par1, int par2, int par3) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        graphics.blit(FLOOWER_POT_GUI_BACKGROUND_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(RenderType::guiTextured, FLOOWER_POT_GUI_BACKGROUND_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
     }
 
     private void sendPotRangeMessage(boolean rangeToChange, int amount) {

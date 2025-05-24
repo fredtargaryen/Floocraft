@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.client.renderer.entity;
 
+import com.fredtargaryen.floocraft.client.renderer.entity.state.PeekerRenderState;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -14,7 +15,7 @@ import org.joml.Matrix4f;
 
 import javax.annotation.Nonnull;
 
-public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
+public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderState> {
     private static final ResourceLocation PLACEHOLDER = ResourceLocation.withDefaultNamespace("textures/entity/player/wide/steve.png");
 
     private static final float minx = -0.25F;
@@ -34,7 +35,7 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
     }
 
     @Override
-    public void render(PeekerEntity peeker, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(PeekerRenderState peeker, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(peeker, entityYaw, partialTicks, poseStack, buffer, packedLight);
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(180f - peeker.getYRot()));

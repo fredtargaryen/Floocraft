@@ -15,6 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.function.Consumer;
 
 import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
 import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BUSY;
@@ -67,7 +68,7 @@ public class FlooPowderItem extends Item {
                             .setValue(BEHAVIOUR, BUSY));
                     level.playSound(null, pos, FloocraftSounds.GREENED.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                     context.getItemInHand().shrink(1);
-                    return InteractionResult.sidedSuccess(false);
+                    return InteractionResult.SUCCESS_SERVER;
                 }
                 return InteractionResult.SUCCESS;
             } else if (b == Blocks.CAMPFIRE && state.getValue(BlockStateProperties.LIT)) {
@@ -77,7 +78,7 @@ public class FlooPowderItem extends Item {
                         .setValue(TPS_REMAINING, (int) this.concentration));
                 level.playSound(null, pos, FloocraftSounds.GREENED.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 context.getItemInHand().shrink(1);
-                return InteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS_SERVER;
             } else if (b == Blocks.SOUL_CAMPFIRE && state.getValue(BlockStateProperties.LIT)) {
                 level.setBlockAndUpdate(pos, FloocraftBlocks.FLOO_SOUL_CAMPFIRE.get().defaultBlockState()
                         .setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(BlockStateProperties.HORIZONTAL_FACING))
@@ -85,7 +86,7 @@ public class FlooPowderItem extends Item {
                         .setValue(TPS_REMAINING, (int) this.concentration));
                 level.playSound(null, pos, FloocraftSounds.GREENED.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 context.getItemInHand().shrink(1);
-                return InteractionResult.sidedSuccess(false);
+                return InteractionResult.SUCCESS_SERVER;
             }
         }
         return InteractionResult.PASS;
@@ -116,19 +117,19 @@ public class FlooPowderItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-        super.appendHoverText(stack, context, components, flag);
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull TooltipDisplay tooltipDisplay, @NotNull Consumer<Component> components, @NotNull TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltipDisplay, components, flag);
         if (this.concentration == INFINITE_TPS) {
-            components.add(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
-            components.add(Component.translatable(("item.floocraftft.creative_only")));
+            components.accept(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
+            components.accept(Component.translatable(("item.floocraftft.creative_only")));
         } else {
             if (CommonConfig.DEPLETE_FLOO) {
-                components.add(Component.translatable("item.floocraftft.concentration", this.concentration).withStyle(ChatFormatting.GREEN));
+                components.accept(Component.translatable("item.floocraftft.concentration", this.concentration).withStyle(ChatFormatting.GREEN));
             } else {
-                components.add(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
+                components.accept(Component.translatable("item.floocraftft.concentration", "∞").withStyle(ChatFormatting.GREEN));
             }
             if (this.concentration == 1) {
-                components.add(Component.translatable(("item.floocraftft.craftable")));
+                components.accept(Component.translatable(("item.floocraftft.craftable")));
             }
         }
     }

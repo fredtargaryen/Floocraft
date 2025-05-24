@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 
 public class FlooSignItem extends SignItem {
     public FlooSignItem(Properties p) {
-        super(p, FloocraftBlocks.FLOO_SIGN.get(), FloocraftBlocks.FLOO_SIGN.get());
+        super(FloocraftBlocks.FLOO_SIGN.get(), FloocraftBlocks.FLOO_SIGN.get(), p);
     }
 
     protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack itemStack, BlockState state) {
