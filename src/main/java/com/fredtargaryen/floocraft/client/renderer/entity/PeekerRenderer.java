@@ -36,11 +36,6 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderSta
     }
 
     @Override
-    public PeekerRenderState createRenderState() {
-        return null;
-    }
-
-    @Override
     public void render(PeekerRenderState peeker, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         super.render(peeker, poseStack, buffer, packedLight);
         poseStack.pushPose();
@@ -55,6 +50,20 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderSta
         poseStack.popPose();
     }
 
+    @Override
+    public PeekerRenderState createRenderState() {
+        return new PeekerRenderState();
+    }
+
+    @Override
+    public void extractRenderState(PeekerEntity entity, PeekerRenderState state, float partialTick) {
+        // Sets the living entity and entity render state info
+        super.extractRenderState(entity, state, partialTick);
+        // Set our own variables
+        state.textureLocation = entity.getTexture();
+        state.yRot = entity.getYRot();
+    }
+
     private void doAVertex(VertexConsumer consumer, Matrix4f pos, float x, float y, float z, float u, float v, int overlay, int light, PoseStack.Pose normalPose) {
         consumer.addVertex(pos, x, y, z)
                 .setColor(1f, 1f, 1f, 0.375f)
@@ -66,6 +75,6 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderSta
 
     @Nonnull
     public ResourceLocation getTextureLocation(PeekerRenderState peeker) {
-        return peeker.skin.map(PlayerSkin::texture).orElse(PLACEHOLDER);
+        return peeker.textureLocation.orElse(PLACEHOLDER);
     }
 }
