@@ -83,7 +83,6 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
                         peeker.setPeekerData(sender, destPos, direction);
                         level.addFreshEntity(peeker);
                         //Create response
-                        UUID peekerUUID = peeker.getUUID();
                         StartPeekResponseMessage reply = new StartPeekResponseMessage(
                                 true,
                                 peeker.getId());
