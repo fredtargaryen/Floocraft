@@ -1,10 +1,13 @@
 package com.fredtargaryen.floocraft.block;
 
 import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -46,6 +49,7 @@ public class FlooFlamesBlock extends FlooMainTeleporterBase {
 
     public FlooFlamesBlock() {
         super(Block.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, DataReference.getResourceLocation(FloocraftBlocks.FLOO_FLAMES_RL)))
                 .lightLevel(state -> {
                     if (state.getValue(COLOUR) == STANDARD) {
                         if (state.getValue(BEHAVIOUR) == IDLE) return 12;

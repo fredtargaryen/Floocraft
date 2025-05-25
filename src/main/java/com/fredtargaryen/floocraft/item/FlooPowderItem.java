@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.item;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftSounds;
 import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
@@ -7,7 +8,9 @@ import com.fredtargaryen.floocraft.config.CommonConfig;
 import com.fredtargaryen.floocraft.entity.DroppedFlooPowderEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import javax.xml.crypto.Data;
 import java.util.function.Consumer;
 
 import static com.fredtargaryen.floocraft.block.FlooFlamesBlock.BEHAVIOUR;
@@ -45,8 +49,9 @@ public class FlooPowderItem extends Item {
         return this.concentration;
     }
 
-    public FlooPowderItem(byte conc) {
+    public FlooPowderItem(byte conc, String resourceLocation) {
         super(new Item.Properties()
+                .setId(ResourceKey.create(Registries.ITEM, DataReference.getResourceLocation(resourceLocation)))
                 .stacksTo(64)
                 .fireResistant());
         this.concentration = conc;

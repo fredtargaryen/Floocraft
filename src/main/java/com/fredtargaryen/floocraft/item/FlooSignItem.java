@@ -1,10 +1,14 @@
 package com.fredtargaryen.floocraft.item;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlockEntityTypes;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
+import com.fredtargaryen.floocraft.FloocraftItems;
 import com.fredtargaryen.floocraft.network.MessageHandler;
 import com.fredtargaryen.floocraft.network.messages.OpenFlooSignEditScreenMessage;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +25,9 @@ import javax.annotation.Nullable;
 
 public class FlooSignItem extends SignItem {
     public FlooSignItem(Properties p) {
-        super(FloocraftBlocks.FLOO_SIGN.get(), FloocraftBlocks.FLOO_SIGN.get(), p);
+        super(FloocraftBlocks.FLOO_SIGN.get(),
+                FloocraftBlocks.FLOO_SIGN.get(),
+                p.setId(ResourceKey.create(Registries.ITEM, DataReference.getResourceLocation(FloocraftItems.FLOO_SIGN_RL))));
     }
 
     protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack itemStack, BlockState state) {

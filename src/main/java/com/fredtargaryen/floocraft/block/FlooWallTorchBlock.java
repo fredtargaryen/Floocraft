@@ -1,11 +1,14 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
@@ -24,6 +27,7 @@ public class FlooWallTorchBlock extends WallTorchBlock {
 
     public FlooWallTorchBlock() {
         super(ParticleTypes.FLAME, Block.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, DataReference.getResourceLocation(FloocraftBlocks.FLOO_WALL_TORCH_RL)))
                 .noCollission()
                 .instabreak()
                 .lightLevel(state -> 14)

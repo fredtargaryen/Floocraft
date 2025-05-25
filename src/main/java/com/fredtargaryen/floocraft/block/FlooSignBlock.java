@@ -1,8 +1,12 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
+import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.blockentity.FlooSignBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,6 +26,7 @@ public class FlooSignBlock extends WallSignBlock {
 
     public FlooSignBlock() {
         super(WoodType.OAK, Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, DataReference.getResourceLocation(FloocraftBlocks.FLOO_SIGN_RL)))
                 .mapColor(MapColor.COLOR_GREEN)
                 .forceSolidOn()
                 .instrument(NoteBlockInstrument.BASS)

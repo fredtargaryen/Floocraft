@@ -1,10 +1,13 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -37,8 +40,9 @@ public class FlooCampfireBlock extends FlooMainTeleporterBase implements SimpleW
     protected static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final Property<Direction> FACING = HORIZONTAL_FACING;
 
-    public FlooCampfireBlock(int lightLevel) {
+    public FlooCampfireBlock(int lightLevel, String resourceLocation) {
         super(BlockBehaviour.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, DataReference.getResourceLocation(resourceLocation)))
                 .mapColor(MapColor.PODZOL)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F)
