@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients":
-  [
-    {"item": "minecraft:flower_pot"},
-    {"item": "floocraftft:floo_powder_one"}
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:flower_pot",
+    "floocraftft:floo_powder_one"
   ],
-  "result":
-  {
+  "result": {
+    "count": 1,
     "id": "floocraftft:floower_pot"
   }
 }
