@@ -1,5 +1,6 @@
 package com.fredtargaryen.floocraft.client.renderer.entity;
 
+import com.fredtargaryen.floocraft.client.renderer.entity.state.PeekerRenderState;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -9,12 +10,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
 import javax.annotation.Nonnull;
 
-public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
+public class PeekerRenderer extends EntityRenderer<PeekerEntity, PeekerRenderState> {
     private static final ResourceLocation PLACEHOLDER = ResourceLocation.withDefaultNamespace("textures/entity/player/wide/steve.png");
 
     private static final float minx = -0.25F;
@@ -34,10 +36,10 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
     }
 
     @Override
-    public void render(PeekerEntity peeker, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        super.render(peeker, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    public void render(PeekerRenderState peeker, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        super.render(peeker, poseStack, buffer, packedLight);
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(180f - peeker.getYRot()));
+        poseStack.mulPose(Axis.YP.rotationDegrees(180f - peeker.yRot));
         PoseStack.Pose normalPose = poseStack.last();
         Matrix4f pos = normalPose.pose();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(peeker), true));
@@ -46,6 +48,20 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
         this.doAVertex(consumer, pos, maxx, maxy, maxz, minu, minv, OverlayTexture.NO_OVERLAY, packedLight, normalPose);
         this.doAVertex(consumer, pos, maxx, miny, minz, minu, maxv, OverlayTexture.NO_OVERLAY, packedLight, normalPose);
         poseStack.popPose();
+    }
+
+    @Override
+    public PeekerRenderState createRenderState() {
+        return new PeekerRenderState();
+    }
+
+    @Override
+    public void extractRenderState(PeekerEntity entity, PeekerRenderState state, float partialTick) {
+        // Sets the living entity and entity render state info
+        super.extractRenderState(entity, state, partialTick);
+        // Set our own variables
+        state.textureLocation = entity.getTexture();
+        state.yRot = entity.getYRot();
     }
 
     private void doAVertex(VertexConsumer consumer, Matrix4f pos, float x, float y, float z, float u, float v, int overlay, int light, PoseStack.Pose normalPose) {
@@ -57,9 +73,8 @@ public class PeekerRenderer extends EntityRenderer<PeekerEntity> {
                 .setNormal(normalPose, 0f, 1f, 0f);
     }
 
-    @Override
     @Nonnull
-    public ResourceLocation getTextureLocation(PeekerEntity peeker) {
-        return peeker.getTexture().orElse(PLACEHOLDER);
+    public ResourceLocation getTextureLocation(PeekerRenderState peeker) {
+        return peeker.textureLocation.orElse(PLACEHOLDER);
     }
 }

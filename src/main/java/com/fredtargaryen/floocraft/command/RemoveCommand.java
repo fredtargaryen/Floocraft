@@ -1,11 +1,12 @@
 package com.fredtargaryen.floocraft.command;
 
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.DimensionArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 
@@ -25,16 +26,16 @@ public class RemoveCommand {
     }
 
     private static int execute(CommandSourceStack source, ServerLevel level, String query) {
-        FloocraftLevelData fld = FloocraftLevelData.getForLevel(level);
-        ConcurrentHashMap<String, int[]> placeList = fld.placeList;
+        FloocraftSavedData fld = FloocraftSavedData.getForLevel(level);
+        ConcurrentHashMap<String, BlockPos> placeList = fld.placeList;
         Iterator<String> keyIterator = placeList.keySet().iterator();
         boolean placesFound = false;
         while (keyIterator.hasNext()) {
             String s = keyIterator.next();
             if (s.startsWith(query)) {
                 placesFound = true;
-                int[] coords = placeList.get(s);
-                source.sendSuccess(() -> Component.literal(String.format("DELETED \"%s\", which was at (%d, %d, %d)", s, coords[0], coords[1], coords[2])), true);
+                BlockPos coords = placeList.get(s);
+                source.sendSuccess(() -> Component.literal(String.format("DELETED \"%s\", which was at %s", s, coords)), true);
                 placeList.remove(s);
             }
         }

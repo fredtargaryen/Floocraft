@@ -1,7 +1,7 @@
 package com.fredtargaryen.floocraft.network.messages;
 
 import com.fredtargaryen.floocraft.DataReference;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -37,7 +37,7 @@ public record FireplaceListRequestMessage(BlockPos blockPos) implements CustomPa
         ServerPlayer sender = (ServerPlayer) context.player();
         ServerLevel level = sender.serverLevel();
         context.enqueueWork(() -> {
-            FireplaceListResponseMessage reply = FloocraftLevelData.getForLevel(level).assembleNewFireplaceList(level, message.blockPos());
+            FireplaceListResponseMessage reply = FloocraftSavedData.getForLevel(level).assembleNewFireplaceList(level, message.blockPos());
             context.reply(reply);
         }).exceptionally(e -> {
             context.disconnect(Component.literal(e.getMessage()));

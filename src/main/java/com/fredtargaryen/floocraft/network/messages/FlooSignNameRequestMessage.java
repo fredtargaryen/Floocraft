@@ -3,7 +3,7 @@ package com.fredtargaryen.floocraft.network.messages;
 import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.HelperFunctions;
 import com.fredtargaryen.floocraft.blockentity.FlooSignBlockEntity;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -53,7 +53,7 @@ public record FlooSignNameRequestMessage(BlockPos signPos, Boolean attemptingToC
                 if (message.attemptingToConnect) {
                     String locationName = HelperFunctions.convertArrayToLocationName(message.name);
                     boolean approved = !locationName.isEmpty()
-                            && !FloocraftLevelData.getForLevel(level).placeList.containsKey(locationName);
+                            && !FloocraftSavedData.getForLevel(level).placeList.containsKey(locationName);
                     FlooSignNameResponseMessage fsnrm = new FlooSignNameResponseMessage(approved);
                     context.reply(fsnrm);
                     if (approved) {

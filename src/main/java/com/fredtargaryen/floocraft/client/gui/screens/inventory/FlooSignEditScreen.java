@@ -12,7 +12,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.font.TextFieldHelper;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * GUI for setting the text on a Floo Sign.
@@ -39,7 +38,7 @@ public class FlooSignEditScreen extends Screen {
     private static final Vector3f TEXT_SCALE = new Vector3f(0.9765628F, 0.9765628F, 0.9765628F);
 
     @Nullable
-    private SignRenderer.SignModel signModel;
+    private Model signModel;
     private int frame;
     private int line;
     @Nullable
@@ -67,7 +66,7 @@ public class FlooSignEditScreen extends Screen {
         this.minecraft = Minecraft.getInstance();
         this.font = this.minecraft.font;
         this.sign = blockEntity;
-        this.signModel = SignRenderer.createSignModel(this.minecraft.getEntityModels(), WoodType.OAK);
+        this.signModel = SignRenderer.createSignModel(this.minecraft.getEntityModels(), WoodType.OAK, false);
         this.signCandidateName = new ArrayList<>(Arrays.asList("", "", "", ""));
     }
 
@@ -110,8 +109,6 @@ public class FlooSignEditScreen extends Screen {
                 TextFieldHelper.createClipboardSetter(this.minecraft),
                 stringToLimit -> this.font.width(stringToLimit) <= 90
         );
-
-        this.signModel = SignRenderer.createSignModel(this.minecraft.getEntityModels(), WoodType.OAK);
     }
 
     @Override
@@ -204,11 +201,10 @@ public class FlooSignEditScreen extends Screen {
         if (this.signModel != null) {
             graphics.pose().translate(0.0F, 31.0F, 0.0F);
             graphics.pose().scale(62.500004F, 62.500004F, -62.500004F);
-            MultiBufferSource.BufferSource bufferSource = graphics.bufferSource();
-            Objects.requireNonNull(this.signModel);
-            VertexConsumer vertexConsumer = DataReference.SIGN_MATERIAL.buffer(bufferSource, this.signModel::renderType);
-            this.signModel.stick.visible = false;
-            this.signModel.root.render(graphics.pose(), vertexConsumer, 15728880, OverlayTexture.NO_OVERLAY);
+            graphics.drawSpecial(multiBufferSource -> {
+                VertexConsumer consumer = DataReference.SIGN_MATERIAL.buffer(multiBufferSource, this.signModel::renderType);
+                this.signModel.renderToBuffer(graphics.pose(), consumer, 15728880, OverlayTexture.NO_OVERLAY);
+            });
         }
     }
 

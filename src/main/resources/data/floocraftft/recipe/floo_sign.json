@@ -1,12 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients":
-  [
-    {"tag": "minecraft:signs"},
-    {"item": "floocraftft:floo_powder_one"}
+  "category": "equipment",
+  "ingredients": [
+    "#minecraft:signs",
+    "floocraftft:floo_powder_one"
   ],
   "result":
   {
+    "count": 1,
     "id": "floocraftft:floo_sign"
   }
 }

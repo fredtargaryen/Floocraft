@@ -105,9 +105,9 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
     @Override
     public void loadAdditional(@Nonnull CompoundTag tag, @Nonnull HolderLookup.Provider provider) {
         super.loadAdditional(tag, provider);
-        this.powderStackHandler.deserializeNBT(provider, tag.getCompound("stack"));
-        this.hRangeSlot.set(Math.clamp(tag.getInt("hRange"), DataReference.POT_MIN_H_RANGE, DataReference.POT_MAX_H_RANGE));
-        this.vRangeSlot.set(Math.clamp(tag.getInt("vRange"), DataReference.POT_MIN_V_RANGE, DataReference.POT_MAX_V_RANGE));
+        this.powderStackHandler.deserializeNBT(provider, tag.getCompound("stack").orElse(new CompoundTag()));
+        this.hRangeSlot.set(Math.clamp(tag.getInt("hRange").orElse(0), DataReference.POT_MIN_H_RANGE, DataReference.POT_MAX_H_RANGE));
+        this.vRangeSlot.set(Math.clamp(tag.getInt("vRange").orElse(0), DataReference.POT_MIN_V_RANGE, DataReference.POT_MAX_V_RANGE));
         this.setChanged();
     }
 
@@ -157,7 +157,7 @@ public class FloowerPotBlockEntity extends BaseContainerBlockEntity {
     @Override
     public void onDataPacket(Connection connection, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
         super.onDataPacket(connection, packet, registries);
-        this.powderLevel = Math.clamp(packet.getTag().getByte("level"), 0, 64);
+        this.powderLevel = Math.clamp(packet.getTag().getByte("level").orElse((byte) 0), 0, 64);
     }
 //
 //    @Override

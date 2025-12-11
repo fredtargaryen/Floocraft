@@ -8,12 +8,13 @@ import com.fredtargaryen.floocraft.blockentity.FloowerPotBlockEntity;
 import com.fredtargaryen.floocraft.item.FlooPowderItem;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -41,6 +42,7 @@ public class FloowerPotBlock extends BaseEntityBlock {
 
     public FloowerPotBlock() {
         this(Block.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, DataReference.getResourceLocation(FloocraftBlocks.FLOOWER_POT_RL)))
                 .strength(0F));
     }
 
@@ -74,12 +76,6 @@ public class FloowerPotBlock extends BaseEntityBlock {
         }
         player.openMenu((MenuProvider) blockEntity);
         return InteractionResult.CONSUME;
-    }
-
-    @Override
-    protected void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        Containers.dropContentsOnDestroy(pState, pNewState, pLevel, pPos);
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Override

@@ -4,13 +4,14 @@ import com.fredtargaryen.floocraft.FloocraftBase;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.client.gui.screens.teleport.TeleportScreen;
 import com.fredtargaryen.floocraft.config.CommonConfig;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import com.fredtargaryen.floocraft.network.messages.FireplaceListResponseMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Villager;
@@ -25,12 +26,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public abstract class FlooMainTeleporterBase extends Block {
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+    public void entityInside(@Nonnull BlockState state, Level level, @Nonnull BlockPos pos, @Nonnull Entity entity, InsideBlockEffectApplier effectApplier) {
         if (level.isClientSide) {
             if (entity == Minecraft.getInstance().player) {
                 openTeleportGui(pos);
@@ -95,7 +96,7 @@ public abstract class FlooMainTeleporterBase extends Block {
                 }
                 if (teleport) {
                     //Get list of locations and whether they are available
-                    FloocraftLevelData levelData = FloocraftLevelData.getForLevel((ServerLevel) level);
+                    FloocraftSavedData levelData = FloocraftSavedData.getForLevel((ServerLevel) level);
                     FireplaceListResponseMessage flrm = levelData.assembleNewFireplaceList(level, pos);
                     List<String> places = flrm.places();
                     List<Boolean> enabledList = flrm.enabledList();
@@ -110,8 +111,8 @@ public abstract class FlooMainTeleporterBase extends Block {
                         //Teleport to that location
                         String destName = possibleLocations.get(destNo);
                         //Get location coords
-                        int[] coords = levelData.placeList.get(destName);
-                        BlockPos dest = new BlockPos(coords[0], coords[1], coords[2]);
+                        BlockPos coords = levelData.placeList.get(destName);
+                        BlockPos dest = new BlockPos(coords.getX(), coords.getY(), coords.getZ());
                         //Set a temporary Floo fire here
                         if (level.getBlockState(dest).is(BlockTags.FIRE)) {
                             boolean fireColour = SoulFireBlock.canSurviveOnBlock(level.getBlockState(dest.below())) ? SOUL : STANDARD;
@@ -120,10 +121,10 @@ public abstract class FlooMainTeleporterBase extends Block {
                                     .setValue(BEHAVIOUR, TEMP));
                         }
                         if (landOutside) {
-                            dest = dest.relative(((FlooFlamesBlock) FloocraftBlocks.FLOO_FLAMES.get()).isInFireplace(level, dest));
-                            entity.moveTo(dest.getX(), coords[1], dest.getZ(), entity.getYRot(), entity.getXRot());
+                            dest = dest.relative(FloocraftBlocks.FLOO_FLAMES.get().isInFireplace(level, dest));
+                            entity.moveOrInterpolateTo(new Vec3(dest.getX(), coords.getY(), dest.getZ()), entity.getYRot(), entity.getXRot());
                         } else {
-                            entity.moveTo(coords[0], coords[1], coords[2], entity.getYRot(), entity.getXRot());
+                            entity.moveOrInterpolateTo(new Vec3(coords.getX(), coords.getY(), coords.getZ()), entity.getYRot(), entity.getXRot());
                         }
                     }
                 }
@@ -143,7 +144,7 @@ public abstract class FlooMainTeleporterBase extends Block {
     //FOR ALLOWING COLLISIONS TO HAPPEN
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(@Nonnull BlockState state, @NotNull BlockGetter level, @Nonnull BlockPos pos, @NotNull CollisionContext context) {
+    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter level, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
         return Shapes.empty();
     }
 }

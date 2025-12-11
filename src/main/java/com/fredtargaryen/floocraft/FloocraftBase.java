@@ -37,6 +37,12 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
 
+// TO TEST:
+// Floo Campfire block
+// Floo Sign edit screen
+// Description in mods screen
+// Peeker rendering
+// Wall Floo torch dropping
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(value = DataReference.MODID)
 public class FloocraftBase {
@@ -140,9 +146,8 @@ public class FloocraftBase {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            //LOGGER.info("HELLO FROM CLIENT SETUP");
+            //LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
             flashTicker = new Ticker((byte) 90);
             torchTicker = new Ticker((byte) 20);

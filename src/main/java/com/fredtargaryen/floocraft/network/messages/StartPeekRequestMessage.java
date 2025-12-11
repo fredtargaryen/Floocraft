@@ -6,7 +6,7 @@ import com.fredtargaryen.floocraft.FloocraftEntityTypes;
 import com.fredtargaryen.floocraft.block.FlooFlamesBlock;
 import com.fredtargaryen.floocraft.block.FlooMainTeleporterBase;
 import com.fredtargaryen.floocraft.entity.PeekerEntity;
-import com.fredtargaryen.floocraft.network.FloocraftLevelData;
+import com.fredtargaryen.floocraft.network.FloocraftSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -50,15 +50,15 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
         context.enqueueWork(() -> {
             BlockState initState = level.getBlockState(message.initPos);
             Block initBlock = initState.getBlock();
-            int[] destCoords = FloocraftLevelData.getForLevel(level).placeList.get(message.dest);
+            BlockPos destCoords = FloocraftSavedData.getForLevel(level).placeList.get(message.dest);
             //Stop everything if the destination has the same coordinates as where the player is
-            if (destCoords[0] == message.initPos.getX() && destCoords[1] == message.initPos.getY() && destCoords[2] == message.initPos.getZ()) {
+            if (destCoords.getX() == message.initPos.getX() && destCoords.getY() == message.initPos.getY() && destCoords.getZ() == message.initPos.getZ()) {
                 context.reply(new StartPeekResponseMessage(false, 0));
                 return;
             }
-            int destX = destCoords[0];
-            int destY = destCoords[1];
-            int destZ = destCoords[2];
+            int destX = destCoords.getX();
+            int destY = destCoords.getY();
+            int destZ = destCoords.getZ();
 
             // Determine whether block to depart from is valid
             if (!(initBlock instanceof FlooMainTeleporterBase)) {
@@ -83,7 +83,6 @@ public record StartPeekRequestMessage(BlockPos initPos, String dest) implements 
                         peeker.setPeekerData(sender, destPos, direction);
                         level.addFreshEntity(peeker);
                         //Create response
-                        UUID peekerUUID = peeker.getUUID();
                         StartPeekResponseMessage reply = new StartPeekResponseMessage(
                                 true,
                                 peeker.getId());

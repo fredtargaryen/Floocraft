@@ -1,13 +1,17 @@
 package com.fredtargaryen.floocraft.block;
 
+import com.fredtargaryen.floocraft.DataReference;
 import com.fredtargaryen.floocraft.FloocraftBlocks;
 import com.fredtargaryen.floocraft.FloocraftParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -16,21 +20,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.PushReaction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class FlooWallTorchBlock extends WallTorchBlock {
     private SimpleParticleType flooFlameParticle;
 
     public FlooWallTorchBlock() {
         super(ParticleTypes.FLAME, Block.Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, DataReference.getResourceLocation(FloocraftBlocks.FLOO_WALL_TORCH_RL)))
                 .noCollission()
                 .instabreak()
                 .lightLevel(state -> 14)
                 .sound(SoundType.WOOD)
-                .lootFrom(FloocraftBlocks.FLOO_TORCH)
+                .overrideLootTable(Optional.of(FloocraftBlocks.FLOO_TORCH.get().getLootTable().get()))
                 .pushReaction(PushReaction.DESTROY));
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity, InsideBlockEffectApplier effectApplier) {
         FlooTorchBlock.attemptFlooTorchTeleport(state, level, pos, entity);
     }
 

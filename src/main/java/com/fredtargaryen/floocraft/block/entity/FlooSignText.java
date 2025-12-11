@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.Util;
 import net.minecraft.network.chat.*;
-import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 
@@ -15,8 +14,21 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class FlooSignText {
-    private static final Codec<Component[]> LINES_CODEC;
-    public static final Codec<FlooSignText> DIRECT_CODEC;
+    private static final Codec<Component[]> LINES_CODEC = ComponentSerialization.CODEC
+            .listOf()
+            .comapFlatMap(
+                    p_337999_ -> Util.fixedSize((List<Component>) p_337999_, 4)
+                            .map(p_277881_ -> new Component[]{p_277881_.get(0), p_277881_.get(1), p_277881_.get(2), p_277881_.get(3)}),
+                    p_277460_ -> List.of(p_277460_[0], p_277460_[1], p_277460_[2], p_277460_[3])
+            );
+    public static final Codec<FlooSignText> DIRECT_CODEC = RecordCodecBuilder.create(
+            p_338000_ -> p_338000_.group(
+                            LINES_CODEC.fieldOf("messages").forGetter(p_277822_ -> p_277822_.messages),
+                            LINES_CODEC.lenientOptionalFieldOf("filtered_messages").forGetter(FlooSignText::filteredMessages)
+                    )
+                    .apply(p_338000_, FlooSignText::load)
+    );
+
     public static final int LINES = 4;
     private final Component[] messages;
     private final Component[] filteredMessages;
@@ -90,15 +102,11 @@ public class FlooSignText {
         return Optional.empty();
     }
 
-    public boolean hasAnyClickCommands(Player p_277865_) {
-        Component[] var2 = this.getMessages(p_277865_.isTextFilteringEnabled());
-        int var3 = var2.length;
-
-        for (int var4 = 0; var4 < var3; ++var4) {
-            Component $$1 = var2[var4];
-            Style $$2 = $$1.getStyle();
-            ClickEvent $$3 = $$2.getClickEvent();
-            if ($$3 != null && $$3.getAction() == Action.RUN_COMMAND) {
+    public boolean hasAnyClickCommands(Player player) {
+        for (Component component : this.getMessages(player.isTextFilteringEnabled())) {
+            Style style = component.getStyle();
+            ClickEvent clickevent = style.getClickEvent();
+            if (clickevent != null && clickevent.action() == ClickEvent.Action.RUN_COMMAND) {
                 return true;
             }
         }
@@ -110,21 +118,5 @@ public class FlooSignText {
         return Arrays.stream(this.messages)
                 .map(Component::getString)
                 .toList();
-    }
-
-    static {
-        LINES_CODEC = ComponentSerialization.FLAT_CODEC.listOf().comapFlatMap((p_327312_) -> {
-            return Util.fixedSize(p_327312_, 4).map((p_277881_) -> {
-                return new Component[]{(Component) p_277881_.get(0), (Component) p_277881_.get(1), (Component) p_277881_.get(2), (Component) p_277881_.get(3)};
-            });
-        }, (p_277460_) -> {
-            return List.of(p_277460_[0], p_277460_[1], p_277460_[2], p_277460_[3]);
-        });
-        DIRECT_CODEC = RecordCodecBuilder.create((builder) -> builder
-                .group(LINES_CODEC.fieldOf("messages")
-                                .forGetter(flooSignText -> flooSignText.messages),
-                        LINES_CODEC.lenientOptionalFieldOf("filtered_messages")
-                                .forGetter(FlooSignText::filteredMessages)
-                ).apply(builder, FlooSignText::load));
     }
 }
